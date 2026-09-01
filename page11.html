@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -179,6 +179,38 @@
     }
 
 
+    .back-btn {
+      display: block;
+      width: 100%;
+
+      margin-top: 12px;
+
+      padding: 13px;
+
+      border: 1px solid #d8dde3;
+      border-radius: 8px;
+
+      background: #ffffff;
+      color: #333;
+
+      font-size: 15px;
+      font-weight: 600;
+
+      text-align: center;
+      text-decoration: none;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+
+    .back-btn:hover {
+      background: #f4f6f8;
+      border-color: #bfc6ce;
+    }
+
+
     .message {
       margin-top: 18px;
 
@@ -214,27 +246,6 @@
       font-size: 12px;
 
       line-height: 1.6;
-    }
-
-
-    .back-link {
-      margin-top: 18px;
-
-      text-align: center;
-    }
-
-
-    .back-link a {
-      color: #666;
-
-      font-size: 13px;
-
-      text-decoration: none;
-    }
-
-
-    .back-link a:hover {
-      color: #1f6feb;
     }
 
 
@@ -338,6 +349,14 @@
     </button>
 
 
+    <a
+      href="index.html"
+      class="back-btn"
+    >
+      返回首页
+    </a>
+
+
     <div
       id="message"
       class="message"
@@ -351,13 +370,6 @@
     本页面仅供硕丰科技授权代理商使用。
     代理商账号由公司统一创建并分配权限，
     未经授权的账号无法进入系统。
-  </div>
-
-
-  <div class="back-link">
-    <a href="index.html">
-      返回网站首页
-    </a>
   </div>
 
 
@@ -590,5 +602,4 @@
 
 </body>
 </html>
-```
 
