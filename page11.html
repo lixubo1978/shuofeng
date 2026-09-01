@@ -1,1 +1,594 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>代理商登录｜硕丰科技</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Microsoft YaHei", Arial, sans-serif;
+
+      background: #f4f6f8;
+
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+
+      background: #ffffff;
+
+      padding: 42px 36px;
+
+      border-radius: 14px;
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+
+    .logo {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+
+    .logo-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0b1220;
+    }
+
+
+    .logo-subtitle {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #777;
+    }
+
+
+    h2 {
+      text-align: center;
+
+      margin-top: 30px;
+      margin-bottom: 30px;
+
+      font-size: 21px;
+
+      color: #222;
+    }
+
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+
+    label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      color: #333;
+    }
+
+
+    input {
+      width: 100%;
+
+      padding: 13px 14px;
+
+      border: 1px solid #d8dde3;
+      border-radius: 8px;
+
+      font-size: 15px;
+
+      outline: none;
+
+      transition: 0.2s;
+    }
+
+
+    input:focus {
+      border-color: #1f6feb;
+
+      box-shadow:
+        0 0 0 3px rgba(31, 111, 235, 0.10);
+    }
+
+
+    .password-wrapper {
+      position: relative;
+    }
+
+
+    .password-wrapper input {
+      padding-right: 65px;
+    }
+
+
+    .show-password {
+      position: absolute;
+
+      right: 12px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      border: none;
+      background: none;
+
+      cursor: pointer;
+
+      color: #555;
+
+      font-size: 13px;
+    }
+
+
+    .login-btn {
+      width: 100%;
+
+      margin-top: 8px;
+
+      padding: 14px;
+
+      border: none;
+      border-radius: 8px;
+
+      background: #0b1220;
+      color: white;
+
+      font-size: 16px;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+
+    .login-btn:hover {
+      background: #1d2a3d;
+    }
+
+
+    .login-btn:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+
+    .message {
+      margin-top: 18px;
+
+      text-align: center;
+
+      font-size: 14px;
+
+      min-height: 20px;
+    }
+
+
+    .error {
+      color: #d93025;
+    }
+
+
+    .success {
+      color: #188038;
+    }
+
+
+    .security-note {
+      margin-top: 20px;
+
+      padding: 12px;
+
+      background: #f7f8fa;
+
+      border-radius: 8px;
+
+      color: #666;
+
+      font-size: 12px;
+
+      line-height: 1.6;
+    }
+
+
+    .back-link {
+      margin-top: 18px;
+
+      text-align: center;
+    }
+
+
+    .back-link a {
+      color: #666;
+
+      font-size: 13px;
+
+      text-decoration: none;
+    }
+
+
+    .back-link a:hover {
+      color: #1f6feb;
+    }
+
+
+    .footer {
+      margin-top: 28px;
+
+      text-align: center;
+
+      font-size: 12px;
+
+      color: #999;
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+
+  <div class="logo">
+
+    <div class="logo-title">
+      硕丰科技
+    </div>
+
+    <div class="logo-subtitle">
+      企业管理系统
+    </div>
+
+  </div>
+
+
+  <h2>
+    代理商登录
+  </h2>
+
+
+  <form id="loginForm">
+
+
+    <div class="form-group">
+
+      <label for="username">
+        代理商账号 / 邮箱
+      </label>
+
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="请输入代理商账号或邮箱"
+        autocomplete="username"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label for="password">
+        密码
+      </label>
+
+
+      <div class="password-wrapper">
+
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="请输入密码"
+          autocomplete="current-password"
+          required
+        >
+
+
+        <button
+          type="button"
+          class="show-password"
+          onclick="togglePassword()"
+        >
+          显示
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button
+      type="submit"
+      class="login-btn"
+      id="loginBtn"
+    >
+      登录代理商系统
+    </button>
+
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+
+  </form>
+
+
+  <div class="security-note">
+    本页面仅供硕丰科技授权代理商使用。
+    代理商账号由公司统一创建并分配权限，
+    未经授权的账号无法进入系统。
+  </div>
+
+
+  <div class="back-link">
+    <a href="index.html">
+      返回网站首页
+    </a>
+  </div>
+
+
+  <div class="footer">
+    © 2026 硕丰科技
+  </div>
+
+
+</div>
+
+
+<script>
+
+  const loginForm =
+    document.getElementById("loginForm");
+
+
+  const loginBtn =
+    document.getElementById("loginBtn");
+
+
+  const message =
+    document.getElementById("message");
+
+
+  loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const username =
+        document
+          .getElementById("username")
+          .value
+          .trim();
+
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+
+      if (!username || !password) {
+
+        showMessage(
+          "请输入代理商账号和密码",
+          "error"
+        );
+
+        return;
+      }
+
+
+      loginBtn.disabled = true;
+
+      loginBtn.innerText =
+        "正在登录...";
+
+
+      try {
+
+
+        const response =
+          await fetch(
+            "/api/agent/login",
+            {
+
+              method: "POST",
+
+
+              headers: {
+
+                "Content-Type":
+                  "application/json"
+
+              },
+
+
+              credentials:
+                "include",
+
+
+              body:
+                JSON.stringify({
+
+                  username: username,
+
+                  password: password
+
+                })
+
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (
+          response.ok &&
+          data.success
+        ) {
+
+
+          showMessage(
+            "登录成功，正在进入代理商系统……",
+            "success"
+          );
+
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                data.redirect ||
+                "page12.html";
+
+            },
+            500
+          );
+
+
+        } else {
+
+
+          showMessage(
+            data.message ||
+            "代理商账号或密码错误",
+            "error"
+          );
+
+
+        }
+
+
+      } catch (error) {
+
+
+        console.error(error);
+
+
+        showMessage(
+          "服务器连接失败，请稍后重试",
+          "error"
+        );
+
+
+      } finally {
+
+
+        loginBtn.disabled = false;
+
+
+        loginBtn.innerText =
+          "登录代理商系统";
+
+
+      }
+
+    }
+  );
+
+
+  function togglePassword() {
+
+
+    const passwordInput =
+      document.getElementById("password");
+
+
+    const button =
+      document.querySelector(
+        ".show-password"
+      );
+
+
+    if (
+      passwordInput.type ===
+      "password"
+    ) {
+
+
+      passwordInput.type =
+        "text";
+
+
+      button.innerText =
+        "隐藏";
+
+
+    } else {
+
+
+      passwordInput.type =
+        "password";
+
+
+      button.innerText =
+        "显示";
+
+
+    }
+
+  }
+
+
+  function showMessage(
+    text,
+    type
+  ) {
+
+
+    message.innerText =
+      text;
+
+
+    message.className =
+      "message " + type;
+
+
+  }
+
+
+</script>
+
+
+</body>
+</html>
+```
 
