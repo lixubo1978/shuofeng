@@ -1,1059 +1,4416 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>公司管理后台｜硕丰科技</title>
 
-  <title>管理人员登录｜硕丰科技</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+* {
+  box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "Microsoft YaHei", Arial, sans-serif;
+  background: #f4f6f8;
+  color: #111827;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Microsoft YaHei",
-        Arial,
-        sans-serif;
+button {
+  cursor: pointer;
+}
 
-      background: #f4f6f8;
+/* =========================
+   顶部
+========================= */
 
-      min-height: 100vh;
+header {
+  height: 66px;
+  background: #071124;
+  color: white;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    .login-container {
-      width: 100%;
-      max-width: 420px;
+  padding: 0 26px;
 
-      background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
 
-      padding: 42px 36px;
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+}
 
-      border-radius: 14px;
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
 
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.08);
-    }
+.user-info {
+  font-size: 13px;
+  color: #cbd5e1;
+}
 
-    .logo {
-      text-align: center;
-      margin-bottom: 6px;
-    }
+.logout-btn {
+  padding: 8px 16px;
 
-    .logo-title {
-      margin: 0;
+  background: transparent;
+  color: white;
 
-      color: #0b1220;
+  border: 1px solid #94a3b8;
+  border-radius: 7px;
+}
 
-      font-size: 26px;
-      font-weight: 700;
+/* =========================
+   主结构
+========================= */
 
-      letter-spacing: 1px;
-    }
+.layout {
+  display: flex;
+  min-height: calc(100vh - 66px);
+}
 
-    .system-name {
-      margin-top: 6px;
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
 
-      color: #888;
+  background: white;
 
-      font-size: 14px;
-    }
+  border-right: 1px solid #e5e7eb;
 
-    .login-title {
-      margin-top: 32px;
-      margin-bottom: 28px;
+  padding: 20px 14px;
+}
 
-      text-align: center;
+.menu-title {
+  padding: 12px 12px 7px;
 
-      color: #222;
+  font-size: 12px;
+  font-weight: 700;
 
-      font-size: 20px;
-      font-weight: 700;
-    }
+  color: #9ca3af;
+}
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+.menu-btn {
+  width: 100%;
 
-    .form-label {
-      display: block;
+  margin-bottom: 4px;
 
-      margin-bottom: 8px;
+  padding: 12px 14px;
 
-      color: #333;
+  border: none;
+  border-radius: 8px;
 
-      font-size: 14px;
-      font-weight: 600;
-    }
+  background: transparent;
 
-    .input-wrap {
-      position: relative;
-    }
+  text-align: left;
 
-    .form-input {
-      width: 100%;
-      height: 46px;
+  color: #374151;
+}
 
-      padding: 0 14px;
+.menu-btn:hover {
+  background: #f3f4f6;
+}
 
-      border: 1px solid #d8dee8;
-      border-radius: 8px;
+.menu-btn.active {
+  background: #071124;
+  color: white;
+}
 
-      background: #eef4ff;
+.founder-only {
+  display: none;
+}
 
-      color: #222;
+main {
+  flex: 1;
 
-      font-size: 14px;
+  padding: 28px;
 
-      outline: none;
+  min-width: 0;
+}
 
-      transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
-    }
+/* =========================
+   页面
+========================= */
 
-    .form-input:focus {
-      border-color: #7da2d6;
+.page {
+  display: none;
+}
 
-      box-shadow:
-        0 0 0 3px rgba(64, 115, 180, 0.12);
-    }
+.page.active {
+  display: block;
+}
 
-    .password-input {
-      padding-right: 64px;
-    }
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    .show-password {
-      position: absolute;
+  gap: 20px;
 
-      top: 50%;
-      right: 14px;
+  margin-bottom: 20px;
+}
 
-      transform: translateY(-50%);
+.page-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
 
-      border: none;
-      background: transparent;
+.subtext {
+  margin-top: 6px;
 
-      color: #666;
+  font-size: 13px;
+  color: #6b7280;
+}
 
-      font-size: 13px;
+/* =========================
+   按钮
+========================= */
 
-      cursor: pointer;
-    }
+.primary-btn {
+  padding: 10px 18px;
 
-    .login-button {
-      width: 100%;
-      height: 48px;
+  border: none;
+  border-radius: 8px;
 
-      margin-top: 2px;
+  background: #071124;
+  color: white;
 
-      border: none;
-      border-radius: 8px;
+  font-weight: 600;
+}
 
-      background: #071124;
+.secondary-btn {
+  padding: 8px 13px;
 
-      color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
 
-      font-size: 15px;
-      font-weight: 700;
+  background: white;
+  color: #374151;
+}
 
-      cursor: pointer;
+.warning-btn {
+  padding: 8px 13px;
 
-      transition:
-        opacity 0.2s,
-        transform 0.1s;
-    }
+  border: none;
+  border-radius: 7px;
 
-    .login-button:hover {
-      opacity: 0.94;
-    }
+  background: #fff7ed;
+  color: #c2410c;
+}
 
-    .login-button:active {
-      transform: translateY(1px);
-    }
+/* =========================
+   卡片
+========================= */
 
-    .login-button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
+.card {
+  background: white;
 
-    .back-button {
-      width: 100%;
-      height: 46px;
+  border-radius: 12px;
 
-      margin-top: 12px;
+  padding: 20px;
 
-      border: 1px solid #d8dee8;
-      border-radius: 8px;
+  margin-bottom: 20px;
 
-      background: #ffffff;
+  box-shadow: 0 3px 12px rgba(0,0,0,.04);
 
-      color: #333;
+  overflow-x: auto;
+}
 
-      font-size: 14px;
-      font-weight: 500;
+.stats {
+  display: grid;
 
-      cursor: pointer;
-    }
+  grid-template-columns:
+    repeat(4, minmax(160px,1fr));
 
-    .message {
-      display: none;
+  gap: 16px;
+}
 
-      margin-top: 16px;
+.stat {
+  padding: 22px;
 
-      padding: 10px 12px;
+  background: white;
 
-      border-radius: 7px;
+  border-radius: 12px;
 
-      font-size: 13px;
-      line-height: 1.6;
+  box-shadow: 0 3px 12px rgba(0,0,0,.04);
+}
 
-      text-align: center;
-    }
+.stat-label {
+  color: #6b7280;
+  font-size: 13px;
+}
 
-    .message.error {
-      display: block;
+.stat-number {
+  margin-top: 8px;
 
-      background: #fff1f1;
+  font-size: 28px;
+  font-weight: 700;
+}
 
-      color: #d93025;
+/* =========================
+   表格
+========================= */
 
-      border: 1px solid #ffd5d5;
-    }
+table {
+  width: 100%;
 
-    .message.success {
-      display: block;
+  border-collapse: collapse;
 
-      background: #effaf2;
+  min-width: 700px;
+}
 
-      color: #1f7a3f;
+th {
+  padding: 12px;
 
-      border: 1px solid #cfeeda;
-    }
+  text-align: left;
 
-    .security-note {
-      margin-top: 18px;
+  background: #f8fafc;
 
-      padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
 
-      border-radius: 8px;
+  color: #475569;
 
-      background: #f7f8fa;
+  font-size: 13px;
+}
 
-      color: #777;
+td {
+  padding: 12px;
 
-      font-size: 12px;
-      line-height: 1.7;
-    }
+  border-bottom: 1px solid #eef2f7;
 
-    .copyright {
-      margin-top: 26px;
+  font-size: 13px;
 
-      text-align: center;
+  vertical-align: middle;
+}
 
-      color: #aaa;
+.status-active {
+  color: #15803d;
+  font-weight: 600;
+}
 
-      font-size: 12px;
-    }
+.status-inactive {
+  color: #b91c1c;
+}
 
-    @media (max-width: 520px) {
+.empty {
+  padding: 40px;
 
-      body {
-        align-items: flex-start;
+  text-align: center;
 
-        padding: 30px 16px;
-      }
+  color: #9ca3af;
+}
 
-      .login-container {
-        margin-top: 30px;
+.loading {
+  padding: 30px;
 
-        padding: 34px 24px;
-      }
+  text-align: center;
 
-    }
-  </style>
+  color: #6b7280;
+}
+
+/* =========================
+   说明框
+========================= */
+
+.info-box {
+  padding: 14px 16px;
+
+  border: 1px solid #dbeafe;
+  border-radius: 9px;
+
+  background: #eff6ff;
+
+  color: #1e3a8a;
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* =========================
+   Modal
+========================= */
+
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(0,0,0,.45);
+
+  z-index: 100;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 720px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  padding: 24px;
+
+  border-radius: 14px;
+
+  background: white;
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.modal-title h3 {
+  margin: 0;
+}
+
+.close-btn {
+  border: none;
+  background: none;
+
+  font-size: 25px;
+}
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+
+  padding: 10px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  background: white;
+}
+
+textarea {
+  min-height: 80px;
+
+  resize: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+/* =========================
+   消息
+========================= */
+
+.message {
+  position: fixed;
+
+  right: 22px;
+  bottom: 22px;
+
+  display: none;
+
+  padding: 12px 18px;
+
+  border-radius: 8px;
+
+  background: #111827;
+  color: white;
+
+  z-index: 200;
+}
+
+.message.show {
+  display: block;
+}
+
+.message.error {
+  background: #b91c1c;
+}
+
+/* =========================
+   手机
+========================= */
+
+@media(max-width:900px) {
+
+  .sidebar {
+    width: 185px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width:700px) {
+
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+
+    display: flex;
+
+    overflow-x: auto;
+
+    padding: 8px;
+  }
+
+  .menu-title {
+    display: none;
+  }
+
+  .menu-btn {
+    width: auto;
+
+    white-space: nowrap;
+  }
+
+  main {
+    padding: 18px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+</style>
 </head>
-
 
 <body>
 
-  <div class="login-container">
 
-    <!-- =====================================================
-         标题
-    ====================================================== -->
+<header>
 
-    <div class="logo">
+  <div class="brand">
+    硕丰科技｜公司管理后台
+  </div>
 
-      <h1 class="logo-title">
-        硕丰科技
-      </h1>
+  <div class="header-right">
 
-      <div class="system-name">
-        企业管理系统
-      </div>
-
+    <div id="headerUser" class="user-info">
+      正在读取用户...
     </div>
 
+    <button id="logoutBtn" class="logout-btn">
+      退出登录
+    </button>
 
-    <div class="login-title">
-      管理人员登录
+  </div>
+
+</header>
+
+
+<div class="layout">
+
+
+  <!-- =========================
+       左侧菜单
+  ========================== -->
+
+  <aside class="sidebar">
+
+
+    <div class="menu-title">
+      系统
     </div>
+
+    <button class="menu-btn active"
+            data-page="dashboard">
+      管理总览
+    </button>
+
+
+    <div class="menu-title">
+      公司资料
+    </div>
+
+    <button class="menu-btn"
+            data-page="staff">
+      工作人员
+    </button>
+
+    <button class="menu-btn"
+            data-page="agents">
+      代理商名录
+    </button>
+
+
+    <div class="menu-title">
+      销售业务
+    </div>
+
+    <button class="menu-btn"
+            data-page="products">
+      产品目录
+    </button>
+
+    <button class="menu-btn"
+            data-page="prices">
+      销售价格
+    </button>
+
+    <button class="menu-btn"
+            data-page="orders">
+      订单名录
+    </button>
+
+    <button class="menu-btn"
+            data-page="rewards">
+      年终奖励
+    </button>
+
+
+    <div class="menu-title founder-only">
+      创始人专用
+    </div>
+
+    <button class="menu-btn founder-only"
+            data-page="suppliers">
+      供应商名录
+    </button>
+
+    <button class="menu-btn founder-only"
+            data-page="purchases">
+      采购 / 进货
+    </button>
+
+
+  </aside>
+
+
+  <main>
 
 
     <!-- =====================================================
-         登录表单
+         总览
     ====================================================== -->
 
-    <form id="loginForm">
+    <section id="dashboard"
+             class="page active">
 
+      <div class="page-header">
 
-      <!-- 邮箱 -->
+        <div>
 
-      <div class="form-group">
+          <h2>
+            管理总览
+          </h2>
 
-        <label
-          class="form-label"
-          for="email"
-        >
-          邮箱
-        </label>
-
-        <input
-          id="email"
-          class="form-input"
-          type="email"
-          autocomplete="username"
-          placeholder="请输入邮箱"
-          required
-        >
-
-      </div>
-
-
-      <!-- 密码 -->
-
-      <div class="form-group">
-
-        <label
-          class="form-label"
-          for="password"
-        >
-          密码
-        </label>
-
-        <div class="input-wrap">
-
-          <input
-            id="password"
-            class="form-input password-input"
-            type="password"
-            autocomplete="current-password"
-            placeholder="请输入密码"
-            required
-          >
-
-          <button
-            id="togglePassword"
-            class="show-password"
-            type="button"
-          >
-            显示
-          </button>
+          <div class="subtext">
+            公司业务资料全部来自 Supabase 数据库
+          </div>
 
         </div>
 
       </div>
 
 
-      <!-- 登录 -->
+      <div class="stats">
 
-      <button
-        id="loginButton"
-        class="login-button"
-        type="submit"
-      >
-        登录系统
-      </button>
+        <div class="stat">
 
+          <div class="stat-label">
+            有效代理商
+          </div>
 
-      <!-- 返回首页 -->
+          <div id="statAgents"
+               class="stat-number">
+            -
+          </div>
 
-      <button
-        class="back-button"
-        type="button"
-        onclick="window.location.href='/'"
-      >
-        返回首页
-      </button>
+        </div>
 
 
-      <!-- 信息提示 -->
+        <div class="stat">
 
-      <div
-        id="message"
-        class="message"
-      ></div>
+          <div class="stat-label">
+            有效产品
+          </div>
+
+          <div id="statProducts"
+               class="stat-number">
+            -
+          </div>
+
+        </div>
 
 
-      <!-- 安全说明 -->
+        <div class="stat">
 
-      <div class="security-note">
+          <div class="stat-label">
+            销售订单
+          </div>
 
-        本页面仅供公司授权管理人员使用。
-        用户身份由 Supabase Auth 验证，
-        系统权限由数据库统一验证。
+          <div id="statOrders"
+               class="stat-number">
+            -
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div class="stat-label">
+            当前有效价格
+          </div>
+
+          <div id="statPrices"
+               class="stat-number">
+            -
+          </div>
+
+        </div>
 
       </div>
 
-    </form>
+
+      <div class="card"
+           style="margin-top:20px;">
+
+        <h3>
+          V1.0 数据管理原则
+        </h3>
+
+        <p>
+          代理商、产品、销售价格等历史业务数据原则上不物理删除。
+          停止使用后设置为“无效”。
+        </p>
+
+        <p>
+          所有代理商统一使用公司当前有效销售价格。
+        </p>
+
+        <p>
+          销售订单创建以后保存产品名称、型号、单位和价格快照，
+          后续修改产品或价格不会改变历史订单。
+        </p>
+
+        <p>
+          公司管理人员登录账号统一在 Supabase Authentication 后台建立。
+        </p>
+
+      </div>
+
+    </section>
 
 
-    <div class="copyright">
-      © 2026 硕丰科技
+
+    <!-- =====================================================
+         工作人员
+    ====================================================== -->
+
+    <section id="staff"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            工作人员
+          </h2>
+
+          <div class="subtext">
+            公司内部系统用户
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="info-box">
+
+          公司工作人员登录账号不在本页面创建。
+
+          请由系统负责人进入 Supabase：
+
+          Authentication → Users
+
+          创建账号以后，再在 profiles 表中设置
+          founder 或 admin 权限。
+
+          本页面只负责读取和显示工作人员资料。
+
+        </div>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="staffTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         代理商
+    ====================================================== -->
+
+    <section id="agents"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            代理商名录
+          </h2>
+
+          <div class="subtext">
+            公司所有代理商业务资料
+          </div>
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="openAgentModal()">
+          + 新增代理商
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="agentsTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         产品
+    ====================================================== -->
+
+    <section id="products"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            产品目录
+          </h2>
+
+          <div class="subtext">
+            产品名称、编号、型号、规格、单位
+          </div>
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="openProductModal()">
+          + 新增产品
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="productsTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         销售价格
+    ====================================================== -->
+
+    <section id="prices"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            销售价格
+          </h2>
+
+          <div class="subtext">
+            全部代理商统一使用
+          </div>
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="openPriceModal()">
+          + 创建销售价格
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="pricesTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         订单
+    ====================================================== -->
+
+    <section id="orders"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            订单名录
+          </h2>
+
+          <div class="subtext">
+            公司所有代理商销售订单
+          </div>
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="openOrderModal()">
+          + 创建订单
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="ordersTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         奖励
+    ====================================================== -->
+
+    <section id="rewards"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            年终奖励
+          </h2>
+
+          <div class="subtext">
+            每家代理商每个年度一条记录
+          </div>
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="openRewardModal()">
+          + 填写奖励
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="rewardsTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         供应商
+    ====================================================== -->
+
+    <section id="suppliers"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            供应商名录
+          </h2>
+
+          <div class="subtext">
+            创始人专用采购管理模块
+          </div>
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="openSupplierModal()">
+          + 新增供应商
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="suppliersTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         采购
+    ====================================================== -->
+
+    <section id="purchases"
+             class="page">
+
+
+      <div class="page-header">
+
+        <div>
+
+          <h2>
+            采购 / 进货
+          </h2>
+
+          <div class="subtext">
+            创始人专用采购订单
+          </div>
+
+        </div>
+
+
+        <button class="primary-btn"
+                onclick="openPurchaseModal()">
+          + 创建采购单
+        </button>
+
+      </div>
+
+
+      <div class="card">
+
+        <div id="purchasesTable"></div>
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     Modal
+========================================================= -->
+
+<div id="modal"
+     class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+
+      <h3 id="modalTitle"></h3>
+
+      <button class="close-btn"
+              onclick="closeModal()">
+        ×
+      </button>
+
     </div>
+
+    <div id="modalContent"></div>
 
   </div>
 
+</div>
 
 
-  <script>
-
-    // =========================================================
-    // 1. Supabase 配置
-    //
-    // 把下面两个值换成你原来项目正在使用的：
-    //
-    // Project URL
-    // anon public key
-    //
-    // 千万不要填写 service_role key
-    // =========================================================
-
-    const SUPABASE_URL =
-      'https://icmifhjjhgjrhkunjbmu.supabase.co';
-
-
-    const SUPABASE_ANON_KEY =
-      'sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4';
+<div id="message"
+     class="message"></div>
 
 
 
-    // =========================================================
-    // 2. 创建 Supabase 客户端
-    // =========================================================
+<script>
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
+/* ============================================================
+   Supabase
+============================================================ */
+
+const SUPABASE_URL =
+  'https://icmifhjjhgjrhkunjbmu.supabase.co';
+
+
+const SUPABASE_ANON_KEY =
+  '把page10里面已经使用成功的sb_publishable_key粘贴在这里';
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+let currentUser = null;
+let currentProfile = null;
+
+let agentsCache = [];
+let productsCache = [];
+let pricesCache = [];
+let suppliersCache = [];
+
+
+/* ============================================================
+   工具
+============================================================ */
+
+function escapeHtml(value) {
+
+  return String(value ?? '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+
+}
+
+
+function money(value) {
+
+  return Number(value || 0)
+    .toLocaleString(
+      'zh-CN',
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+function showMessage(text,error=false) {
+
+  const box =
+    document.getElementById('message');
+
+  box.textContent = text;
+
+  box.className =
+    'message show' +
+    (error ? ' error' : '');
+
+  setTimeout(
+    () => {
+      box.className = 'message';
+    },
+    3000
+  );
+
+}
+
+
+function openModal(title,html) {
+
+  document.getElementById(
+    'modalTitle'
+  ).textContent =
+    title;
+
+  document.getElementById(
+    'modalContent'
+  ).innerHTML =
+    html;
+
+  document.getElementById(
+    'modal'
+  ).classList.add('open');
+
+}
+
+
+function closeModal() {
+
+  document.getElementById(
+    'modal'
+  ).classList.remove('open');
+
+}
+
+
+/* ============================================================
+   登录
+============================================================ */
+
+async function verifyLogin() {
+
+  const {
+    data:{session}
+  } =
+    await supabaseClient.auth
+      .getSession();
+
+
+  if(!session) {
+
+    window.location.href =
+      'page10.html';
+
+    return false;
+
+  }
+
+
+  currentUser =
+    session.user;
+
+
+  const {
+    data:profile,
+    error
+  } =
+    await supabaseClient
+      .from('profiles')
+      .select(
+        'id,display_name,role,is_active'
+      )
+      .eq(
+        'id',
+        currentUser.id
+      )
+      .single();
+
+
+  if(
+    error ||
+    !profile ||
+    profile.is_active !== true ||
+    !['founder','admin']
+      .includes(profile.role)
+  ) {
+
+    await supabaseClient.auth
+      .signOut();
+
+
+    window.location.href =
+      'page10.html';
+
+
+    return false;
+
+  }
+
+
+  currentProfile =
+    profile;
+
+
+  document.getElementById(
+    'headerUser'
+  ).textContent =
+    `${profile.display_name || '管理人员'} ｜ ${
+      profile.role === 'founder'
+        ? '创始人'
+        : '管理人员'
+    }`;
+
+
+  if(
+    profile.role === 'founder'
+  ) {
+
+    document
+      .querySelectorAll(
+        '.founder-only'
+      )
+      .forEach(
+        element => {
+
+          element.style.display =
+            'block';
+
+        }
+      );
+
+  }
+
+
+  return true;
+
+}
+
+
+/* ============================================================
+   菜单
+============================================================ */
+
+document
+  .querySelectorAll(
+    '.menu-btn'
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        'click',
+        async function() {
+
+          document
+            .querySelectorAll(
+              '.menu-btn'
+            )
+            .forEach(
+              x =>
+                x.classList.remove(
+                  'active'
+                )
+            );
+
+
+          this.classList.add(
+            'active'
+          );
+
+
+          document
+            .querySelectorAll(
+              '.page'
+            )
+            .forEach(
+              x =>
+                x.classList.remove(
+                  'active'
+                )
+            );
+
+
+          const page =
+            this.dataset.page;
+
+
+          document
+            .getElementById(page)
+            .classList.add(
+              'active'
+            );
+
+
+          await loadPage(page);
+
+        }
+      );
+
+    }
+  );
+
+
+document.getElementById(
+  'logoutBtn'
+).addEventListener(
+  'click',
+  async function() {
+
+    await supabaseClient.auth
+      .signOut();
+
+    sessionStorage.clear();
+
+    window.location.href =
+      'page10.html';
+
+  }
+);
+
+
+/* ============================================================
+   总览
+============================================================ */
+
+async function loadDashboard() {
+
+  const [
+    agents,
+    products,
+    orders,
+    prices
+  ] =
+    await Promise.all([
+
+      supabaseClient
+        .from('agents')
+        .select(
+          '*',
+          {
+            count:'exact',
+            head:true
+          }
+        )
+        .eq(
+          'is_active',
+          true
+        ),
+
+      supabaseClient
+        .from('products')
+        .select(
+          '*',
+          {
+            count:'exact',
+            head:true
+          }
+        )
+        .eq(
+          'is_active',
+          true
+        ),
+
+      supabaseClient
+        .from('orders')
+        .select(
+          '*',
+          {
+            count:'exact',
+            head:true
+          }
+        ),
+
+      supabaseClient
+        .from('sales_prices')
+        .select(
+          '*',
+          {
+            count:'exact',
+            head:true
+          }
+        )
+        .eq(
+          'is_active',
+          true
+        )
+
+    ]);
+
+
+  document.getElementById(
+    'statAgents'
+  ).textContent =
+    agents.count ?? 0;
+
+
+  document.getElementById(
+    'statProducts'
+  ).textContent =
+    products.count ?? 0;
+
+
+  document.getElementById(
+    'statOrders'
+  ).textContent =
+    orders.count ?? 0;
+
+
+  document.getElementById(
+    'statPrices'
+  ).textContent =
+    prices.count ?? 0;
+
+}
+
+
+/* ============================================================
+   工作人员：只读取
+============================================================ */
+
+async function loadStaff() {
+
+  const box =
+    document.getElementById(
+      'staffTable'
+    );
+
+
+  box.innerHTML =
+    '<div class="loading">正在读取...</div>';
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('profiles')
+      .select(
+        'id,display_name,role,is_active,created_at'
+      )
+      .in(
+        'role',
+        ['founder','admin']
+      )
+      .order(
+        'created_at',
+        {ascending:true}
       );
 
 
+  if(error) {
 
-    // =========================================================
-    // 3. 页面元素
-    // =========================================================
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
 
-    const loginForm =
-      document.getElementById('loginForm');
+    return;
 
-
-    const emailInput =
-      document.getElementById('email');
-
-
-    const passwordInput =
-      document.getElementById('password');
+  }
 
 
-    const togglePassword =
-      document.getElementById('togglePassword');
+  if(!data?.length) {
+
+    box.innerHTML =
+      '<div class="empty">暂无工作人员</div>';
+
+    return;
+
+  }
 
 
-    const loginButton =
-      document.getElementById('loginButton');
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>姓名</th>
+
+          <th>身份</th>
+
+          <th>状态</th>
+
+          <th>建立时间</th>
+
+        </tr>
+
+      </thead>
 
 
-    const messageBox =
-      document.getElementById('message');
+      <tbody>
 
+        ${
+          data.map(
+            user => `
 
+              <tr>
 
-    // =========================================================
-    // 4. 显示提示
-    // =========================================================
+                <td>
+                  ${escapeHtml(
+                    user.display_name
+                  )}
+                </td>
 
-    function showMessage(
-      text,
-      type = 'error'
-    ) {
+                <td>
+                  ${
+                    user.role ===
+                    'founder'
+                      ? '创始人'
+                      : '管理人员'
+                  }
+                </td>
 
-      messageBox.textContent =
-        text;
+                <td class="${
+                  user.is_active
+                    ? 'status-active'
+                    : 'status-inactive'
+                }">
 
-      messageBox.className =
-        'message ' + type;
+                  ${
+                    user.is_active
+                      ? '有效'
+                      : '无效'
+                  }
 
-    }
+                </td>
 
+                <td>
+                  ${
+                    new Date(
+                      user.created_at
+                    ).toLocaleString()
+                  }
+                </td>
 
+              </tr>
 
-    function clearMessage() {
-
-      messageBox.textContent =
-        '';
-
-      messageBox.className =
-        'message';
-
-    }
-
-
-
-    // =========================================================
-    // 5. 显示 / 隐藏密码
-    // =========================================================
-
-    togglePassword.addEventListener(
-      'click',
-      function () {
-
-        const isPassword =
-          passwordInput.type ===
-          'password';
-
-
-        if (isPassword) {
-
-          passwordInput.type =
-            'text';
-
-          togglePassword.textContent =
-            '隐藏';
-
-        } else {
-
-          passwordInput.type =
-            'password';
-
-          togglePassword.textContent =
-            '显示';
-
+            `
+          ).join('')
         }
 
-      }
+      </tbody>
+
+    </table>
+
+  `;
+
+}
+
+
+/* ============================================================
+   代理商
+============================================================ */
+
+async function loadAgents() {
+
+  const box =
+    document.getElementById(
+      'agentsTable'
     );
 
 
-
-    // =========================================================
-    // 6. 登录处理
-    // =========================================================
-
-    loginForm.addEventListener(
-      'submit',
-
-      async function (event) {
-
-        event.preventDefault();
+  box.innerHTML =
+    '<div class="loading">正在读取...</div>';
 
 
-        clearMessage();
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('agents')
+      .select('*')
+      .order(
+        'id',
+        {ascending:true}
+      );
 
 
-        const email =
-          emailInput.value.trim();
+  if(error) {
+
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
+
+    return;
+
+  }
 
 
-        const password =
-          passwordInput.value;
+  agentsCache =
+    data || [];
 
 
+  if(!agentsCache.length) {
 
-        // -----------------------------------------------------
-        // 基础检查
-        // -----------------------------------------------------
+    box.innerHTML =
+      '<div class="empty">暂无代理商，请点击“新增代理商”。</div>';
 
-        if (
-          !email ||
-          !password
-        ) {
+    return;
 
-          showMessage(
-            '请输入邮箱和密码。'
-          );
+  }
 
-          return;
 
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>编号</th>
+
+          <th>代理商名称</th>
+
+          <th>联系人</th>
+
+          <th>电话</th>
+
+          <th>邮箱</th>
+
+          <th>地址</th>
+
+          <th>状态</th>
+
+          <th>操作</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          agentsCache.map(
+            agent => `
+
+              <tr>
+
+                <td>
+                  ${escapeHtml(
+                    agent.agent_code
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    agent.agent_name
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    agent.contact_person
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    agent.phone
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    agent.email
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    agent.address
+                  )}
+                </td>
+
+                <td class="${
+                  agent.is_active
+                    ? 'status-active'
+                    : 'status-inactive'
+                }">
+
+                  ${
+                    agent.is_active
+                      ? '有效'
+                      : '无效'
+                  }
+
+                </td>
+
+                <td>
+
+                  <button
+                    class="secondary-btn"
+                    onclick="editAgent(${agent.id})"
+                  >
+                    编辑
+                  </button>
+
+                </td>
+
+              </tr>
+
+            `
+          ).join('')
         }
 
+      </tbody>
 
+    </table>
 
-        loginButton.disabled =
-          true;
+  `;
 
+}
 
-        loginButton.textContent =
-          '正在登录...';
 
+function agentForm(agent={}) {
 
+  return `
 
-        try {
+    <div class="form-grid">
 
+      <div class="form-group">
 
-          // ===================================================
-          // 第一步：
-          // Supabase Auth 验证邮箱和密码
-          // ===================================================
+        <label>
+          代理商编号 *
+        </label>
 
-          const {
-            data: authData,
-            error: authError
-          } =
-            await supabaseClient.auth
-              .signInWithPassword({
+        <input
+          id="agentCode"
+          value="${escapeHtml(
+            agent.agent_code || ''
+          )}"
+        >
 
-                email: email,
+      </div>
 
-                password: password
 
-              });
+      <div class="form-group">
 
+        <label>
+          代理商名称 *
+        </label>
 
+        <input
+          id="agentName"
+          value="${escapeHtml(
+            agent.agent_name || ''
+          )}"
+        >
 
-          // ---------------------------------------------------
-          // Auth 登录失败
-          // ---------------------------------------------------
+      </div>
 
-          if (authError) {
 
-            console.error(
-              'Supabase Auth 登录失败：',
-              authError
-            );
+      <div class="form-group">
 
+        <label>
+          联系人
+        </label>
 
-            showMessage(
-              '登录失败，请检查邮箱或密码。'
-            );
+        <input
+          id="agentContact"
+          value="${escapeHtml(
+            agent.contact_person || ''
+          )}"
+        >
 
+      </div>
 
-            return;
 
-          }
+      <div class="form-group">
 
+        <label>
+          联系电话
+        </label>
 
+        <input
+          id="agentPhone"
+          value="${escapeHtml(
+            agent.phone || ''
+          )}"
+        >
 
-          // ---------------------------------------------------
-          // 没有用户
-          // ---------------------------------------------------
+      </div>
 
-          if (
-            !authData ||
-            !authData.user
-          ) {
 
-            showMessage(
-              '登录失败，没有读取到用户信息。'
-            );
+      <div class="form-group">
 
+        <label>
+          邮箱
+        </label>
 
-            return;
+        <input
+          id="agentEmail"
+          value="${escapeHtml(
+            agent.email || ''
+          )}"
+        >
 
-          }
+      </div>
 
 
+      <div class="form-group">
 
-          const user =
-            authData.user;
+        <label>
+          状态
+        </label>
 
+        <select id="agentActive">
 
+          <option
+            value="true"
+            ${
+              agent.is_active !== false
+                ? 'selected'
+                : ''
+            }
+          >
+            有效
+          </option>
 
-          // ===================================================
-          // 第二步：
-          // 从 profiles 读取业务权限
-          //
-          // V1.0 正式字段：
-          //
-          // id
-          // display_name
-          // role
-          // is_active
-          // ===================================================
+          <option
+            value="false"
+            ${
+              agent.is_active === false
+                ? 'selected'
+                : ''
+            }
+          >
+            无效
+          </option>
 
-          const {
-            data: profile,
-            error: profileError
-          } =
-            await supabaseClient
-              .from('profiles')
-              .select(
-                'id, display_name, role, is_active'
-              )
-              .eq(
-                'id',
-                user.id
-              )
-              .single();
+        </select>
 
+      </div>
 
 
-          // ---------------------------------------------------
-          // profiles 读取失败
-          // ---------------------------------------------------
+      <div class="form-group full">
 
-          if (profileError) {
+        <label>
+          地址
+        </label>
 
-            console.error(
-              '读取 profiles 失败：',
-              profileError
-            );
+        <textarea id="agentAddress">${escapeHtml(
+          agent.address || ''
+        )}</textarea>
 
+      </div>
 
-            await supabaseClient.auth
-              .signOut();
 
+      <div class="form-group full">
 
-            showMessage(
-              '读取用户权限失败：'
-              + profileError.message
-            );
+        <label>
+          备注
+        </label>
 
+        <textarea id="agentNotes">${escapeHtml(
+          agent.notes || ''
+        )}</textarea>
 
-            return;
+      </div>
 
-          }
+    </div>
 
 
+    <div class="modal-actions">
 
-          // ---------------------------------------------------
-          // 没有 profile
-          // ---------------------------------------------------
+      <button
+        class="secondary-btn"
+        onclick="closeModal()"
+      >
+        取消
+      </button>
 
-          if (!profile) {
+      <button
+        class="primary-btn"
+        onclick="saveAgent(${
+          agent.id || 'null'
+        })"
+      >
+        保存
+      </button>
 
-            await supabaseClient.auth
-              .signOut();
+    </div>
 
+  `;
 
-            showMessage(
-              '该账号尚未配置系统权限。'
-            );
+}
 
 
-            return;
+function openAgentModal() {
 
-          }
+  openModal(
+    '新增代理商',
+    agentForm()
+  );
 
+}
 
 
-          // ===================================================
-          // 第三步：
-          // 检查账号是否有效
-          // ===================================================
+function editAgent(id) {
 
-          if (
-            profile.is_active !== true
-          ) {
-
-            await supabaseClient.auth
-              .signOut();
-
-
-            showMessage(
-              '该账号目前已被停用。'
-            );
-
-
-            return;
-
-          }
-
-
-
-          // ===================================================
-          // 第四步：
-          // 管理登录页面只允许
-          //
-          // founder
-          // admin
-          //
-          // agent 不能从这里进入
-          // ===================================================
-
-          if (
-            profile.role !== 'founder'
-            &&
-            profile.role !== 'admin'
-          ) {
-
-            await supabaseClient.auth
-              .signOut();
-
-
-            showMessage(
-              '该账号不是管理人员账号，无法从此入口登录。'
-            );
-
-
-            return;
-
-          }
-
-
-
-          // ===================================================
-          // 第五步：
-          // 保存显示信息
-          //
-          // 注意：
-          // sessionStorage 只用于页面显示。
-          //
-          // 真正数据库权限仍然由
-          // Supabase RLS 判断。
-          // ===================================================
-
-          sessionStorage.setItem(
-            'sf_user_id',
-            user.id
-          );
-
-
-          sessionStorage.setItem(
-            'sf_display_name',
-            profile.display_name || ''
-          );
-
-
-          sessionStorage.setItem(
-            'sf_role',
-            profile.role
-          );
-
-
-
-          // ===================================================
-          // 第六步：
-          // 登录成功
-          // ===================================================
-
-          showMessage(
-            '登录成功，正在进入管理系统...',
-            'success'
-          );
-
-
-
-          // ===================================================
-          // 第七步：
-          //
-          // 进入 wholemanagement.html
-          // ===================================================
-
-          setTimeout(
-            function () {
-
-              window.location.href =
-                'wholemanagement.html';
-
-            },
-            300
-          );
-
-
-        } catch (error) {
-
-
-          console.error(
-            '系统登录异常：',
-            error
-          );
-
-
-          showMessage(
-            '系统连接失败，请稍后重试。'
-          );
-
-
-        } finally {
-
-
-          loginButton.disabled =
-            false;
-
-
-          loginButton.textContent =
-            '登录系统';
-
-        }
-
-      }
+  const agent =
+    agentsCache.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
     );
 
 
-
-    // =========================================================
-    // 7. 检查现有登录 Session
-    //
-    // 如果用户之前已经登录，
-    // 再访问 page10.html，
-    // 系统自动验证身份。
-    // =========================================================
-
-    async function checkExistingSession() {
+  if(!agent) return;
 
 
-      try {
+  openModal(
+    '编辑代理商',
+    agentForm(agent)
+  );
+
+}
 
 
-        const {
-          data: sessionData,
-          error: sessionError
-        } =
-          await supabaseClient.auth
-            .getSession();
+async function saveAgent(id) {
+
+  const row = {
+
+    agent_code:
+      document.getElementById(
+        'agentCode'
+      ).value.trim(),
+
+    agent_name:
+      document.getElementById(
+        'agentName'
+      ).value.trim(),
+
+    contact_person:
+      document.getElementById(
+        'agentContact'
+      ).value.trim() || null,
+
+    phone:
+      document.getElementById(
+        'agentPhone'
+      ).value.trim() || null,
+
+    email:
+      document.getElementById(
+        'agentEmail'
+      ).value.trim() || null,
+
+    address:
+      document.getElementById(
+        'agentAddress'
+      ).value.trim() || null,
+
+    notes:
+      document.getElementById(
+        'agentNotes'
+      ).value.trim() || null,
+
+    is_active:
+      document.getElementById(
+        'agentActive'
+      ).value === 'true'
+
+  };
 
 
+  if(
+    !row.agent_code ||
+    !row.agent_name
+  ) {
 
-        // -----------------------------------------------------
-        // 没有 Session
-        // 正常停留在登录页面
-        // -----------------------------------------------------
+    showMessage(
+      '代理商编号和名称不能为空。',
+      true
+    );
 
-        if (
-          sessionError ||
-          !sessionData ||
-          !sessionData.session
-        ) {
+    return;
 
-          return;
+  }
 
+
+  let result;
+
+
+  if(id) {
+
+    result =
+      await supabaseClient
+        .from('agents')
+        .update(row)
+        .eq('id',id);
+
+  } else {
+
+    result =
+      await supabaseClient
+        .from('agents')
+        .insert(row);
+
+  }
+
+
+  if(result.error) {
+
+    showMessage(
+      result.error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  showMessage(
+    '代理商资料已保存'
+  );
+
+
+  await loadAgents();
+
+  await loadDashboard();
+
+}
+
+
+/* ============================================================
+   产品
+============================================================ */
+
+async function loadProducts() {
+
+  const box =
+    document.getElementById(
+      'productsTable'
+    );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('products')
+      .select('*')
+      .order(
+        'id',
+        {ascending:true}
+      );
+
+
+  if(error) {
+
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
+
+    return;
+
+  }
+
+
+  productsCache =
+    data || [];
+
+
+  if(!productsCache.length) {
+
+    box.innerHTML =
+      '<div class="empty">暂无产品，请点击“新增产品”。</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>产品编号</th>
+
+          <th>产品名称</th>
+
+          <th>型号 / 规格</th>
+
+          <th>单位</th>
+
+          <th>产品说明</th>
+
+          <th>状态</th>
+
+          <th>操作</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          productsCache.map(
+            product => `
+
+              <tr>
+
+                <td>
+                  ${escapeHtml(
+                    product.product_code
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    product.product_name
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    product.specification
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    product.unit
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    product.description
+                  )}
+                </td>
+
+                <td class="${
+                  product.is_active
+                    ? 'status-active'
+                    : 'status-inactive'
+                }">
+
+                  ${
+                    product.is_active
+                      ? '有效'
+                      : '无效'
+                  }
+
+                </td>
+
+                <td>
+
+                  <button
+                    class="secondary-btn"
+                    onclick="editProduct(${product.id})"
+                  >
+                    编辑
+                  </button>
+
+                </td>
+
+              </tr>
+
+            `
+          ).join('')
         }
 
+      </tbody>
+
+    </table>
+
+  `;
+
+}
 
 
-        const user =
-          sessionData.session.user;
+function productForm(product={}) {
+
+  return `
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>
+          产品编号 *
+        </label>
+
+        <input
+          id="productCode"
+          value="${escapeHtml(
+            product.product_code || ''
+          )}"
+        >
+
+      </div>
 
 
+      <div class="form-group">
 
-        // =====================================================
-        // 读取 profile
-        // =====================================================
+        <label>
+          产品名称 *
+        </label>
 
-        const {
-          data: profile,
-          error: profileError
-        } =
-          await supabaseClient
-            .from('profiles')
-            .select(
-              'display_name, role, is_active'
-            )
-            .eq(
-              'id',
-              user.id
-            )
-            .single();
+        <input
+          id="productName"
+          value="${escapeHtml(
+            product.product_name || ''
+          )}"
+        >
+
+      </div>
 
 
+      <div class="form-group">
 
-        if (
-          profileError ||
-          !profile
-        ) {
+        <label>
+          型号 / 规格
+        </label>
 
-          return;
+        <input
+          id="productSpec"
+          value="${escapeHtml(
+            product.specification || ''
+          )}"
+        >
 
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          单位
+        </label>
+
+        <input
+          id="productUnit"
+          value="${escapeHtml(
+            product.unit || '件'
+          )}"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          状态
+        </label>
+
+        <select id="productActive">
+
+          <option
+            value="true"
+            ${
+              product.is_active !== false
+                ? 'selected'
+                : ''
+            }
+          >
+            有效
+          </option>
+
+          <option
+            value="false"
+            ${
+              product.is_active === false
+                ? 'selected'
+                : ''
+            }
+          >
+            无效
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group full">
+
+        <label>
+          产品说明
+        </label>
+
+        <textarea id="productDescription">${escapeHtml(
+          product.description || ''
+        )}</textarea>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="secondary-btn"
+        onclick="closeModal()"
+      >
+        取消
+      </button>
+
+      <button
+        class="primary-btn"
+        onclick="saveProduct(${
+          product.id || 'null'
+        })"
+      >
+        保存
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+function openProductModal() {
+
+  openModal(
+    '新增产品',
+    productForm()
+  );
+
+}
+
+
+function editProduct(id) {
+
+  const product =
+    productsCache.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+
+  if(!product) return;
+
+
+  openModal(
+    '编辑产品',
+    productForm(product)
+  );
+
+}
+
+
+async function saveProduct(id) {
+
+  const row = {
+
+    product_code:
+      document.getElementById(
+        'productCode'
+      ).value.trim(),
+
+    product_name:
+      document.getElementById(
+        'productName'
+      ).value.trim(),
+
+    specification:
+      document.getElementById(
+        'productSpec'
+      ).value.trim() || null,
+
+    unit:
+      document.getElementById(
+        'productUnit'
+      ).value.trim() || '件',
+
+    description:
+      document.getElementById(
+        'productDescription'
+      ).value.trim() || null,
+
+    is_active:
+      document.getElementById(
+        'productActive'
+      ).value === 'true'
+
+  };
+
+
+  if(
+    !row.product_code ||
+    !row.product_name
+  ) {
+
+    showMessage(
+      '产品编号和产品名称不能为空。',
+      true
+    );
+
+    return;
+
+  }
+
+
+  let result;
+
+
+  if(id) {
+
+    result =
+      await supabaseClient
+        .from('products')
+        .update(row)
+        .eq('id',id);
+
+  } else {
+
+    result =
+      await supabaseClient
+        .from('products')
+        .insert(row);
+
+  }
+
+
+  if(result.error) {
+
+    showMessage(
+      result.error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  showMessage(
+    '产品资料已保存'
+  );
+
+
+  await loadProducts();
+
+  await loadDashboard();
+
+}
+
+
+/* ============================================================
+   销售价格
+============================================================ */
+
+async function loadPrices() {
+
+  const box =
+    document.getElementById(
+      'pricesTable'
+    );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('sales_prices')
+      .select(`
+        id,
+        product_id,
+        price,
+        currency,
+        is_active,
+        effective_from,
+        notes,
+        created_at,
+        products(
+          product_code,
+          product_name,
+          specification
+        )
+      `)
+      .order(
+        'id',
+        {ascending:false}
+      );
+
+
+  if(error) {
+
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
+
+    return;
+
+  }
+
+
+  pricesCache =
+    data || [];
+
+
+  if(!pricesCache.length) {
+
+    box.innerHTML =
+      '<div class="empty">暂无销售价格。</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>产品编号</th>
+
+          <th>产品名称</th>
+
+          <th>型号 / 规格</th>
+
+          <th>销售价格</th>
+
+          <th>币种</th>
+
+          <th>生效日期</th>
+
+          <th>状态</th>
+
+          <th>备注</th>
+
+          <th>操作</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          pricesCache.map(
+            price => `
+
+              <tr>
+
+                <td>
+                  ${escapeHtml(
+                    price.products
+                      ?.product_code
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    price.products
+                      ?.product_name
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    price.products
+                      ?.specification
+                  )}
+                </td>
+
+                <td>
+                  ${money(
+                    price.price
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    price.currency
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    price.effective_from
+                  )}
+                </td>
+
+                <td class="${
+                  price.is_active
+                    ? 'status-active'
+                    : 'status-inactive'
+                }">
+
+                  ${
+                    price.is_active
+                      ? '有效'
+                      : '无效'
+                  }
+
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    price.notes
+                  )}
+                </td>
+
+                <td>
+
+                  ${
+                    price.is_active
+
+                    ? `
+
+                      <button
+                        class="warning-btn"
+                        onclick="disablePrice(${price.id})"
+                      >
+                        设为无效
+                      </button>
+
+                    `
+
+                    : '-'
+                  }
+
+                </td>
+
+              </tr>
+
+            `
+          ).join('')
         }
 
+      </tbody>
+
+    </table>
+
+  `;
+
+}
 
 
-        // =====================================================
-        // 已经登录，并且是有效管理人员
-        // =====================================================
+async function openPriceModal() {
 
-        if (
-
-          profile.is_active === true
-
-          &&
-
-          (
-            profile.role === 'founder'
-            ||
-            profile.role === 'admin'
-          )
-
-        ) {
+  await ensureProducts();
 
 
-          sessionStorage.setItem(
-            'sf_user_id',
-            user.id
-          );
+  const activeProducts =
+    productsCache.filter(
+      product =>
+        product.is_active
+    );
 
 
-          sessionStorage.setItem(
-            'sf_display_name',
-            profile.display_name || ''
-          );
+  if(!activeProducts.length) {
+
+    showMessage(
+      '请先创建有效产品。',
+      true
+    );
+
+    return;
+
+  }
 
 
-          sessionStorage.setItem(
-            'sf_role',
-            profile.role
-          );
+  const options =
+    activeProducts.map(
+      product => `
+
+        <option value="${product.id}">
+
+          ${escapeHtml(
+            product.product_name
+          )}
+
+          ${
+            product.specification
+              ? ' - ' +
+                escapeHtml(
+                  product.specification
+                )
+              : ''
+          }
+
+        </option>
+
+      `
+    ).join('');
 
 
+  openModal(
+    '创建销售价格',
+    `
 
-          // ===================================================
-          // 已登录用户直接进入管理主页
-          // ===================================================
+      <div class="form-grid">
 
-          window.location.href =
-            'wholemanagement.html';
+        <div class="form-group full">
 
+          <label>
+            产品 *
+          </label>
+
+          <select id="priceProduct">
+            ${options}
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            销售价格 *
+          </label>
+
+          <input
+            id="priceValue"
+            type="number"
+            min="0"
+            step="0.01"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            币种
+          </label>
+
+          <select id="priceCurrency">
+
+            <option value="CNY">
+              CNY 人民币
+            </option>
+
+            <option value="EUR">
+              EUR 欧元
+            </option>
+
+            <option value="USD">
+              USD 美元
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            生效日期
+          </label>
+
+          <input
+            id="priceDate"
+            type="date"
+            value="${
+              new Date()
+                .toISOString()
+                .slice(0,10)
+            }"
+          >
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            备注
+          </label>
+
+          <textarea
+            id="priceNotes"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="info-box">
+
+        同一产品同时只允许存在一个有效销售价格。
+
+        创建新价格时，
+        原来的有效价格将自动设置为无效。
+
+        历史价格记录永久保留。
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="secondary-btn"
+          onclick="closeModal()"
+        >
+          取消
+        </button>
+
+        <button
+          class="primary-btn"
+          onclick="savePrice()"
+        >
+          创建价格
+        </button>
+
+      </div>
+
+    `
+  );
+
+}
+
+
+async function savePrice() {
+
+  const productId =
+    Number(
+      document.getElementById(
+        'priceProduct'
+      ).value
+    );
+
+
+  const priceValue =
+    Number(
+      document.getElementById(
+        'priceValue'
+      ).value
+    );
+
+
+  if(
+    !productId ||
+    !Number.isFinite(priceValue) ||
+    priceValue < 0
+  ) {
+
+    showMessage(
+      '请填写正确的销售价格。',
+      true
+    );
+
+    return;
+
+  }
+
+
+  const disableResult =
+    await supabaseClient
+      .from('sales_prices')
+      .update({
+        is_active:false
+      })
+      .eq(
+        'product_id',
+        productId
+      )
+      .eq(
+        'is_active',
+        true
+      );
+
+
+  if(disableResult.error) {
+
+    showMessage(
+      disableResult.error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  const result =
+    await supabaseClient
+      .from('sales_prices')
+      .insert({
+
+        product_id:
+          productId,
+
+        price:
+          priceValue,
+
+        currency:
+          document.getElementById(
+            'priceCurrency'
+          ).value,
+
+        effective_from:
+          document.getElementById(
+            'priceDate'
+          ).value,
+
+        notes:
+          document.getElementById(
+            'priceNotes'
+          ).value.trim() || null,
+
+        is_active:
+          true,
+
+        created_by:
+          currentUser.id
+
+      });
+
+
+  if(result.error) {
+
+    showMessage(
+      result.error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  showMessage(
+    '销售价格已创建'
+  );
+
+
+  await loadPrices();
+
+  await loadDashboard();
+
+}
+
+
+async function disablePrice(id) {
+
+  const ok =
+    confirm(
+      '确定把该价格设置为无效吗？历史记录不会删除。'
+    );
+
+
+  if(!ok) return;
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from('sales_prices')
+      .update({
+        is_active:false
+      })
+      .eq('id',id);
+
+
+  if(error) {
+
+    showMessage(
+      error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  await loadPrices();
+
+  await loadDashboard();
+
+}
+
+
+/* ============================================================
+   订单
+============================================================ */
+
+function statusText(status) {
+
+  const map = {
+
+    pending:
+      '待确认',
+
+    confirmed:
+      '已确认',
+
+    processing:
+      '处理中',
+
+    shipped:
+      '已发货',
+
+    completed:
+      '已完成',
+
+    cancelled:
+      '已取消',
+
+    received:
+      '已收货'
+
+  };
+
+
+  return (
+    map[status] ||
+    status
+  );
+
+}
+
+
+async function loadOrders() {
+
+  const box =
+    document.getElementById(
+      'ordersTable'
+    );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('orders')
+      .select(`
+        id,
+        order_no,
+        order_date,
+        status,
+        total_amount,
+        currency,
+        remarks,
+        created_at,
+        agents(
+          agent_code,
+          agent_name
+        )
+      `)
+      .order(
+        'created_at',
+        {ascending:false}
+      );
+
+
+  if(error) {
+
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
+
+    return;
+
+  }
+
+
+  if(!data?.length) {
+
+    box.innerHTML =
+      '<div class="empty">暂无销售订单。</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>订单号</th>
+
+          <th>代理商</th>
+
+          <th>订单日期</th>
+
+          <th>订单金额</th>
+
+          <th>币种</th>
+
+          <th>状态</th>
+
+          <th>备注</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          data.map(
+            order => `
+
+              <tr>
+
+                <td>
+                  ${escapeHtml(
+                    order.order_no
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    order.agents
+                      ?.agent_name
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    order.order_date
+                  )}
+                </td>
+
+                <td>
+                  ${money(
+                    order.total_amount
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    order.currency
+                  )}
+                </td>
+
+                <td>
+                  ${statusText(
+                    order.status
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    order.remarks
+                  )}
+                </td>
+
+              </tr>
+
+            `
+          ).join('')
         }
 
+      </tbody>
 
-      } catch (error) {
+    </table>
 
+  `;
 
-        console.error(
-          '检查登录状态失败：',
-          error
-        );
-
-      }
-
-    }
+}
 
 
+/*
+  订单详细创建模块下一阶段继续完善。
+  数据结构已经准备好：
+  orders
+  order_items
+*/
+function openOrderModal() {
 
-    // =========================================================
-    // 8. 页面加载后检查 Session
-    // =========================================================
+  showMessage(
+    '销售订单详细录入模块下一步继续完善。'
+  );
 
-    checkExistingSession();
+}
 
 
-  </script>
+/* ============================================================
+   年终奖励
+============================================================ */
+
+async function loadRewards() {
+
+  const box =
+    document.getElementById(
+      'rewardsTable'
+    );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('annual_rewards')
+      .select(`
+        id,
+        reward_year,
+        reward_amount,
+        currency,
+        remarks,
+        agents(
+          agent_code,
+          agent_name
+        )
+      `)
+      .order(
+        'reward_year',
+        {ascending:false}
+      );
+
+
+  if(error) {
+
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
+
+    return;
+
+  }
+
+
+  if(!data?.length) {
+
+    box.innerHTML =
+      '<div class="empty">暂无年终奖励记录。</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>年度</th>
+
+          <th>代理商</th>
+
+          <th>奖励金额</th>
+
+          <th>币种</th>
+
+          <th>备注</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          data.map(
+            reward => `
+
+              <tr>
+
+                <td>
+                  ${reward.reward_year}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    reward.agents
+                      ?.agent_name
+                  )}
+                </td>
+
+                <td>
+                  ${money(
+                    reward.reward_amount
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    reward.currency
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    reward.remarks
+                  )}
+                </td>
+
+              </tr>
+
+            `
+          ).join('')
+        }
+
+      </tbody>
+
+    </table>
+
+  `;
+
+}
+
+
+async function openRewardModal() {
+
+  await ensureAgents();
+
+
+  const activeAgents =
+    agentsCache.filter(
+      agent =>
+        agent.is_active
+    );
+
+
+  if(!activeAgents.length) {
+
+    showMessage(
+      '请先创建有效代理商。',
+      true
+    );
+
+    return;
+
+  }
+
+
+  openModal(
+    '填写年终奖励',
+    `
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label>
+            代理商
+          </label>
+
+          <select id="rewardAgent">
+
+            ${
+              activeAgents.map(
+                agent => `
+
+                  <option value="${agent.id}">
+
+                    ${escapeHtml(
+                      agent.agent_name
+                    )}
+
+                  </option>
+
+                `
+              ).join('')
+            }
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            年度
+          </label>
+
+          <input
+            id="rewardYear"
+            type="number"
+            value="${
+              new Date().getFullYear()
+            }"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            奖励金额
+          </label>
+
+          <input
+            id="rewardAmount"
+            type="number"
+            min="0"
+            step="0.01"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            币种
+          </label>
+
+          <select id="rewardCurrency">
+
+            <option value="CNY">
+              CNY
+            </option>
+
+            <option value="EUR">
+              EUR
+            </option>
+
+            <option value="USD">
+              USD
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            备注
+          </label>
+
+          <textarea
+            id="rewardNotes"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="secondary-btn"
+          onclick="closeModal()"
+        >
+          取消
+        </button>
+
+        <button
+          class="primary-btn"
+          onclick="saveReward()"
+        >
+          保存
+        </button>
+
+      </div>
+
+    `
+  );
+
+}
+
+
+async function saveReward() {
+
+  const row = {
+
+    agent_id:
+      Number(
+        document.getElementById(
+          'rewardAgent'
+        ).value
+      ),
+
+    reward_year:
+      Number(
+        document.getElementById(
+          'rewardYear'
+        ).value
+      ),
+
+    reward_amount:
+      Number(
+        document.getElementById(
+          'rewardAmount'
+        ).value
+      ),
+
+    currency:
+      document.getElementById(
+        'rewardCurrency'
+      ).value,
+
+    remarks:
+      document.getElementById(
+        'rewardNotes'
+      ).value.trim() || null,
+
+    created_by:
+      currentUser.id
+
+  };
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from('annual_rewards')
+      .upsert(
+        row,
+        {
+          onConflict:
+            'agent_id,reward_year'
+        }
+      );
+
+
+  if(error) {
+
+    showMessage(
+      error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  showMessage(
+    '年终奖励已保存'
+  );
+
+
+  await loadRewards();
+
+}
+
+
+/* ============================================================
+   供应商
+============================================================ */
+
+async function loadSuppliers() {
+
+  if(
+    currentProfile.role !==
+    'founder'
+  ) {
+    return;
+  }
+
+
+  const box =
+    document.getElementById(
+      'suppliersTable'
+    );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('suppliers')
+      .select('*')
+      .order(
+        'id',
+        {ascending:true}
+      );
+
+
+  if(error) {
+
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
+
+    return;
+
+  }
+
+
+  suppliersCache =
+    data || [];
+
+
+  if(!suppliersCache.length) {
+
+    box.innerHTML =
+      '<div class="empty">暂无供应商。</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>供应商编号</th>
+
+          <th>供应商名称</th>
+
+          <th>联系人</th>
+
+          <th>电话</th>
+
+          <th>邮箱</th>
+
+          <th>地址</th>
+
+          <th>状态</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          suppliersCache.map(
+            supplier => `
+
+              <tr>
+
+                <td>
+                  ${escapeHtml(
+                    supplier.supplier_code
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    supplier.supplier_name
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    supplier.contact_person
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    supplier.phone
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    supplier.email
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    supplier.address
+                  )}
+                </td>
+
+                <td class="${
+                  supplier.is_active
+                    ? 'status-active'
+                    : 'status-inactive'
+                }">
+
+                  ${
+                    supplier.is_active
+                      ? '有效'
+                      : '无效'
+                  }
+
+                </td>
+
+              </tr>
+
+            `
+          ).join('')
+        }
+
+      </tbody>
+
+    </table>
+
+  `;
+
+}
+
+
+function openSupplierModal() {
+
+  openModal(
+    '新增供应商',
+    `
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label>
+            供应商编号 *
+          </label>
+
+          <input id="supplierCode">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            供应商名称 *
+          </label>
+
+          <input id="supplierName">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            联系人
+          </label>
+
+          <input id="supplierContact">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            联系电话
+          </label>
+
+          <input id="supplierPhone">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            邮箱
+          </label>
+
+          <input id="supplierEmail">
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            地址
+          </label>
+
+          <textarea
+            id="supplierAddress"
+          ></textarea>
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            备注
+          </label>
+
+          <textarea
+            id="supplierNotes"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="secondary-btn"
+          onclick="closeModal()"
+        >
+          取消
+        </button>
+
+        <button
+          class="primary-btn"
+          onclick="saveSupplier()"
+        >
+          保存
+        </button>
+
+      </div>
+
+    `
+  );
+
+}
+
+
+async function saveSupplier() {
+
+  const supplierCode =
+    document.getElementById(
+      'supplierCode'
+    ).value.trim();
+
+
+  const supplierName =
+    document.getElementById(
+      'supplierName'
+    ).value.trim();
+
+
+  if(
+    !supplierCode ||
+    !supplierName
+  ) {
+
+    showMessage(
+      '供应商编号和名称不能为空。',
+      true
+    );
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from('suppliers')
+      .insert({
+
+        supplier_code:
+          supplierCode,
+
+        supplier_name:
+          supplierName,
+
+        contact_person:
+          document.getElementById(
+            'supplierContact'
+          ).value.trim() || null,
+
+        phone:
+          document.getElementById(
+            'supplierPhone'
+          ).value.trim() || null,
+
+        email:
+          document.getElementById(
+            'supplierEmail'
+          ).value.trim() || null,
+
+        address:
+          document.getElementById(
+            'supplierAddress'
+          ).value.trim() || null,
+
+        notes:
+          document.getElementById(
+            'supplierNotes'
+          ).value.trim() || null,
+
+        is_active:
+          true
+
+      });
+
+
+  if(error) {
+
+    showMessage(
+      error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  closeModal();
+
+  showMessage(
+    '供应商资料已创建'
+  );
+
+
+  await loadSuppliers();
+
+}
+
+
+/* ============================================================
+   采购
+============================================================ */
+
+async function loadPurchases() {
+
+  if(
+    currentProfile.role !==
+    'founder'
+  ) {
+    return;
+  }
+
+
+  const box =
+    document.getElementById(
+      'purchasesTable'
+    );
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from('purchase_orders')
+      .select(`
+        id,
+        purchase_no,
+        purchase_date,
+        status,
+        total_amount,
+        currency,
+        remarks,
+        suppliers(
+          supplier_name
+        )
+      `)
+      .order(
+        'created_at',
+        {ascending:false}
+      );
+
+
+  if(error) {
+
+    box.innerHTML =
+      `<div class="empty">${
+        escapeHtml(error.message)
+      }</div>`;
+
+    return;
+
+  }
+
+
+  if(!data?.length) {
+
+    box.innerHTML =
+      '<div class="empty">暂无采购订单。</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>采购单号</th>
+
+          <th>供应商</th>
+
+          <th>日期</th>
+
+          <th>金额</th>
+
+          <th>币种</th>
+
+          <th>状态</th>
+
+          <th>备注</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          data.map(
+            purchase => `
+
+              <tr>
+
+                <td>
+                  ${escapeHtml(
+                    purchase.purchase_no
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    purchase.suppliers
+                      ?.supplier_name
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    purchase.purchase_date
+                  )}
+                </td>
+
+                <td>
+                  ${money(
+                    purchase.total_amount
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    purchase.currency
+                  )}
+                </td>
+
+                <td>
+                  ${statusText(
+                    purchase.status
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    purchase.remarks
+                  )}
+                </td>
+
+              </tr>
+
+            `
+          ).join('')
+        }
+
+      </tbody>
+
+    </table>
+
+  `;
+
+}
+
+
+function openPurchaseModal() {
+
+  showMessage(
+    '采购明细录入模块下一步继续完善。'
+  );
+
+}
+
+
+/* ============================================================
+   Cache
+============================================================ */
+
+async function ensureAgents() {
+
+  const {
+    data
+  } =
+    await supabaseClient
+      .from('agents')
+      .select('*')
+      .order('id');
+
+
+  agentsCache =
+    data || [];
+
+}
+
+
+async function ensureProducts() {
+
+  const {
+    data
+  } =
+    await supabaseClient
+      .from('products')
+      .select('*')
+      .order('id');
+
+
+  productsCache =
+    data || [];
+
+}
+
+
+async function ensurePrices() {
+
+  const {
+    data
+  } =
+    await supabaseClient
+      .from('sales_prices')
+      .select('*')
+      .order('id');
+
+
+  pricesCache =
+    data || [];
+
+}
+
+
+async function ensureSuppliers() {
+
+  if(
+    currentProfile.role !==
+    'founder'
+  ) {
+    return;
+  }
+
+
+  const {
+    data
+  } =
+    await supabaseClient
+      .from('suppliers')
+      .select('*')
+      .order('id');
+
+
+  suppliersCache =
+    data || [];
+
+}
+
+
+/* ============================================================
+   页面加载
+============================================================ */
+
+async function loadPage(page) {
+
+  switch(page) {
+
+    case 'dashboard':
+      await loadDashboard();
+      break;
+
+    case 'staff':
+      await loadStaff();
+      break;
+
+    case 'agents':
+      await loadAgents();
+      break;
+
+    case 'products':
+      await loadProducts();
+      break;
+
+    case 'prices':
+      await loadPrices();
+      break;
+
+    case 'orders':
+      await loadOrders();
+      break;
+
+    case 'rewards':
+      await loadRewards();
+      break;
+
+    case 'suppliers':
+      await loadSuppliers();
+      break;
+
+    case 'purchases':
+      await loadPurchases();
+      break;
+
+  }
+
+}
+
+
+/* ============================================================
+   初始化
+============================================================ */
+
+async function init() {
+
+  const ok =
+    await verifyLogin();
+
+
+  if(!ok) {
+    return;
+  }
+
+
+  await Promise.all([
+
+    ensureAgents(),
+
+    ensureProducts(),
+
+    ensurePrices()
+
+  ]);
+
+
+  if(
+    currentProfile.role ===
+    'founder'
+  ) {
+
+    await ensureSuppliers();
+
+  }
+
+
+  await loadDashboard();
+
+}
+
+
+init();
+
+</script>
 
 </body>
 </html>
