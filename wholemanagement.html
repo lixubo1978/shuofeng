@@ -4,16 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <title>管理中心｜硕丰科技</title>
 
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
+
     * {
       box-sizing: border-box;
+    }
+
+    /*
+      默认隐藏页面。
+      Supabase 验证通过以后才显示，
+      防止未登录用户先看到管理界面。
+    */
+
+    html {
+      visibility: hidden;
+    }
+
+    html.auth-ready {
+      visibility: visible;
     }
 
     body {
       margin: 0;
       padding: 0;
+
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -24,283 +47,474 @@
 
       background: #f4f6f8;
       color: #1f2937;
+
       min-height: 100vh;
     }
+
 
     /* =========================
        顶部
     ========================= */
 
     .topbar {
+
       background: #0f172a;
       color: #ffffff;
+
       padding: 18px 30px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      box-shadow:
+        0 2px 10px
+        rgba(0,0,0,0.08);
+
     }
+
 
     .brand {
+
       display: flex;
       flex-direction: column;
+
       gap: 3px;
+
     }
+
 
     .brand-title {
+
       font-size: 20px;
       font-weight: 700;
+
       letter-spacing: 0.5px;
+
     }
+
 
     .brand-subtitle {
+
       font-size: 12px;
+
       color: #cbd5e1;
+
     }
+
 
     .top-actions {
+
       display: flex;
       align-items: center;
+
       gap: 12px;
+
     }
+
 
     .user-info {
+
       font-size: 13px;
+
       color: #cbd5e1;
+
     }
 
+
     .logout-btn {
-      border: 1px solid rgba(255,255,255,0.35);
+
+      border:
+        1px solid
+        rgba(255,255,255,0.35);
+
       background: transparent;
+
       color: #ffffff;
 
       padding: 8px 15px;
+
       border-radius: 7px;
 
       font-size: 14px;
+
       cursor: pointer;
 
       transition: 0.2s;
+
     }
 
+
     .logout-btn:hover {
-      background: rgba(255,255,255,0.10);
+
+      background:
+        rgba(255,255,255,0.10);
+
     }
+
 
     /* =========================
        主区域
     ========================= */
 
     .container {
+
       width: 100%;
+
       max-width: 1180px;
 
       margin: 0 auto;
-      padding: 38px 26px 60px;
+
+      padding:
+        38px 26px 60px;
+
     }
+
 
     .welcome {
+
       margin-bottom: 30px;
+
     }
+
 
     .welcome h1 {
-      margin: 0 0 8px;
+
+      margin:
+        0 0 8px;
+
       font-size: 28px;
+
       font-weight: 700;
+
       color: #111827;
+
     }
 
+
     .welcome p {
+
       margin: 0;
+
       font-size: 14px;
+
       color: #6b7280;
+
       line-height: 1.7;
+
     }
+
 
     /* =========================
        功能卡片
     ========================= */
 
     .grid {
+
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
       gap: 20px;
+
     }
 
+
     .card {
+
       background: #ffffff;
 
       border-radius: 12px;
-      border: 1px solid #e5e7eb;
 
-      padding: 25px 22px;
+      border:
+        1px solid
+        #e5e7eb;
+
+      padding:
+        25px 22px;
 
       min-height: 165px;
 
       text-decoration: none;
+
       color: inherit;
 
       display: flex;
+
       flex-direction: column;
 
       transition:
         transform 0.18s ease,
         box-shadow 0.18s ease,
         border-color 0.18s ease;
+
     }
+
 
     .card:hover {
-      transform: translateY(-3px);
 
-      border-color: #cbd5e1;
+      transform:
+        translateY(-3px);
+
+      border-color:
+        #cbd5e1;
 
       box-shadow:
-        0 8px 24px rgba(15, 23, 42, 0.08);
+        0 8px 24px
+        rgba(15,23,42,0.08);
+
     }
+
 
     .card-number {
+
       font-size: 12px;
+
       font-weight: 700;
+
       color: #64748b;
+
       margin-bottom: 18px;
+
     }
+
 
     .card-title {
+
       font-size: 18px;
+
       font-weight: 700;
+
       margin-bottom: 8px;
+
       color: #111827;
+
     }
+
 
     .card-desc {
+
       font-size: 13px;
+
       color: #6b7280;
+
       line-height: 1.65;
+
       flex-grow: 1;
+
     }
+
 
     .card-link {
+
       margin-top: 16px;
+
       font-size: 13px;
+
       font-weight: 600;
+
       color: #2563eb;
+
     }
+
 
     .card.sales {
-      border-top: 4px solid #2563eb;
+
+      border-top:
+        4px solid
+        #2563eb;
+
     }
+
 
     .card.finance {
-      border-top: 4px solid #7c3aed;
+
+      border-top:
+        4px solid
+        #7c3aed;
+
     }
+
 
     .card.people {
-      border-top: 4px solid #0891b2;
+
+      border-top:
+        4px solid
+        #0891b2;
+
     }
 
+
     .card.purchase {
-      border-top: 4px solid #059669;
+
+      border-top:
+        4px solid
+        #059669;
+
     }
+
 
     /* =========================
        底部
     ========================= */
 
     .footer {
+
       margin-top: 38px;
+
       padding-top: 20px;
-      border-top: 1px solid #e5e7eb;
+
+      border-top:
+        1px solid
+        #e5e7eb;
+
       font-size: 12px;
+
       color: #94a3b8;
 
       display: flex;
-      justify-content: space-between;
+
+      justify-content:
+        space-between;
+
       gap: 15px;
+
     }
+
 
     /* =========================
        自动退出提示
     ========================= */
 
     .timeout-warning {
+
       position: fixed;
+
       left: 50%;
+
       bottom: 28px;
-      transform: translateX(-50%);
+
+      transform:
+        translateX(-50%);
 
       background: #fff7ed;
+
       color: #9a3412;
 
-      border: 1px solid #fdba74;
+      border:
+        1px solid
+        #fdba74;
 
-      padding: 12px 20px;
+      padding:
+        12px 20px;
+
       border-radius: 9px;
 
       font-size: 13px;
+
       font-weight: 600;
 
       box-shadow:
-        0 6px 20px rgba(0,0,0,0.12);
+        0 6px 20px
+        rgba(0,0,0,0.12);
 
       z-index: 9999;
+
       display: none;
+
     }
+
 
     /* =========================
        手机 / 平板
     ========================= */
 
-    @media (max-width: 950px) {
+    @media
+    (max-width: 950px) {
 
       .grid {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
       }
 
     }
 
-    @media (max-width: 600px) {
+
+    @media
+    (max-width: 600px) {
 
       .topbar {
-        padding: 16px 18px;
+
+        padding:
+          16px 18px;
+
       }
+
 
       .brand-title {
+
         font-size: 17px;
+
       }
+
 
       .user-info {
+
         display: none;
+
       }
+
 
       .container {
-        padding: 26px 16px 50px;
+
+        padding:
+          26px 16px 50px;
+
       }
+
 
       .welcome h1 {
+
         font-size: 23px;
+
       }
+
 
       .grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
         gap: 14px;
+
       }
+
 
       .card {
+
         min-height: 140px;
+
       }
 
+
       .footer {
-        flex-direction: column;
+
+        flex-direction:
+          column;
+
       }
 
     }
+
   </style>
 </head>
 
 
 <body>
+
 
   <!-- =========================
        顶部导航
@@ -323,9 +537,13 @@
 
     <div class="top-actions">
 
-      <div class="user-info">
+      <div
+        id="currentUser"
+        class="user-info"
+      >
         管理人员
       </div>
+
 
       <button
         class="logout-btn"
@@ -340,11 +558,13 @@
   </header>
 
 
+
   <!-- =========================
        主界面
   ========================== -->
 
   <main class="container">
+
 
     <section class="welcome">
 
@@ -358,6 +578,7 @@
       </p>
 
     </section>
+
 
 
     <!-- =========================
@@ -394,6 +615,7 @@
       </a>
 
 
+
       <!-- 2 产品 -->
 
       <a
@@ -419,6 +641,7 @@
         </div>
 
       </a>
+
 
 
       <!-- 3 销售价格 -->
@@ -448,6 +671,7 @@
       </a>
 
 
+
       <!-- 4 销售订单 -->
 
       <a
@@ -473,6 +697,7 @@
         </div>
 
       </a>
+
 
 
       <!-- 5 年终奖励 -->
@@ -502,6 +727,7 @@
       </a>
 
 
+
       <!-- 6 管理人员 -->
 
       <a
@@ -529,6 +755,7 @@
       </a>
 
 
+
       <!-- 7 供应商 -->
 
       <a
@@ -554,6 +781,7 @@
         </div>
 
       </a>
+
 
 
       <!-- 8 采购 -->
@@ -586,6 +814,7 @@
     </section>
 
 
+
     <footer class="footer">
 
       <div>
@@ -598,10 +827,14 @@
 
     </footer>
 
+
   </main>
 
 
-  <!-- 自动退出提示 -->
+
+  <!-- =========================
+       自动退出提示
+  ========================== -->
 
   <div
     id="timeoutWarning"
@@ -611,20 +844,332 @@
   </div>
 
 
+
   <script>
 
     /* =====================================================
-       硕丰管理后台
+       Supabase 设置
+    ===================================================== */
+
+
+    const SUPABASE_URL =
+      "https://icmifhjjhgjrhkunjbmu.supabase.co";
+
+
+    const SUPABASE_KEY =
+      "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+
+    /* =====================================================
+       管理页面登录保护
+    ===================================================== */
+
+    async function verifyManagementAccess() {
+
+      try {
+
+
+        /* -----------------------------------------
+           1. 检查 Supabase Session
+        ----------------------------------------- */
+
+        const {
+          data: sessionData,
+          error: sessionError
+        } =
+          await supabaseClient
+            .auth
+            .getSession();
+
+
+
+        /*
+          没有登录
+        */
+
+        if (
+          sessionError
+          ||
+          !sessionData
+          ||
+          !sessionData.session
+          ||
+          !sessionData.session.user
+        ) {
+
+          window.location.replace(
+            "page10.html"
+          );
+
+          return false;
+
+        }
+
+
+
+        const user =
+          sessionData.session.user;
+
+
+
+        /* -----------------------------------------
+           2. 查询 profiles
+        ----------------------------------------- */
+
+        const {
+          data: profile,
+          error: profileError
+        } =
+          await supabaseClient
+            .from("profiles")
+            .select(
+              "id, display_name, role, is_active"
+            )
+            .eq(
+              "id",
+              user.id
+            )
+            .single();
+
+
+
+        /*
+          没有 profile
+        */
+
+        if (
+          profileError
+          ||
+          !profile
+        ) {
+
+          await supabaseClient
+            .auth
+            .signOut();
+
+
+          window.location.replace(
+            "page10.html"
+          );
+
+
+          return false;
+
+        }
+
+
+
+        /* -----------------------------------------
+           3. 账号必须有效
+        ----------------------------------------- */
+
+        if (
+          profile.is_active !== true
+        ) {
+
+          await supabaseClient
+            .auth
+            .signOut();
+
+
+          window.location.replace(
+            "page10.html"
+          );
+
+
+          return false;
+
+        }
+
+
+
+        /* -----------------------------------------
+           4. 只允许 founder / admin
+        ----------------------------------------- */
+
+        if (
+          profile.role !== "founder"
+          &&
+          profile.role !== "admin"
+        ) {
+
+          await supabaseClient
+            .auth
+            .signOut();
+
+
+          window.location.replace(
+            "page10.html"
+          );
+
+
+          return false;
+
+        }
+
+
+
+        /* -----------------------------------------
+           5. 显示当前登录人员
+        ----------------------------------------- */
+
+        const userInfo =
+          document.getElementById(
+            "currentUser"
+          );
+
+
+        if (userInfo) {
+
+
+          if (
+            profile.display_name
+          ) {
+
+
+            userInfo.textContent =
+              profile.display_name
+              +
+              (
+                profile.role === "founder"
+                ?
+                " · 创始人"
+                :
+                " · 管理人员"
+              );
+
+
+          }
+
+          else {
+
+
+            userInfo.textContent =
+              profile.role === "founder"
+              ?
+              "创始人"
+              :
+              "管理人员";
+
+
+          }
+
+        }
+
+
+
+        /* -----------------------------------------
+           6. 权限验证完成
+           正式显示页面
+        ----------------------------------------- */
+
+        document
+          .documentElement
+          .classList
+          .add(
+            "auth-ready"
+          );
+
+
+        return true;
+
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "管理权限验证失败：",
+          error
+        );
+
+
+        window.location.replace(
+          "page10.html"
+        );
+
+
+        return false;
+
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       页面打开立即验证
+    ===================================================== */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+
+      async function() {
+
+        await verifyManagementAccess();
+
+      }
+
+    );
+
+
+
+    /* =====================================================
+       浏览器后退缓存恢复时
+       再检查 Session
+    ===================================================== */
+
+    window.addEventListener(
+      "pageshow",
+
+      async function(event) {
+
+
+        if (
+          event.persisted
+        ) {
+
+          await verifyManagementAccess();
+
+        }
+
+
+      }
+
+    );
+
+
+
+    /* =====================================================
        10分钟无操作自动退出
     ===================================================== */
 
-    const IDLE_LIMIT = 10 * 60 * 1000;
 
-    const WARNING_TIME = 60 * 1000;
+    const IDLE_LIMIT =
+      10 * 60 * 1000;
 
-    let lastActivityTime = Date.now();
 
-    let warningShown = false;
+    const WARNING_TIME =
+      60 * 1000;
+
+
+    let lastActivityTime =
+      Date.now();
+
+
+    let warningShown =
+      false;
+
 
 
     /* =====================================================
@@ -633,18 +1178,33 @@
 
     function userActivity() {
 
-      lastActivityTime = Date.now();
 
-      warningShown = false;
+      lastActivityTime =
+        Date.now();
+
+
+      warningShown =
+        false;
+
 
       const warning =
-        document.getElementById("timeoutWarning");
+        document.getElementById(
+          "timeoutWarning"
+        );
 
-      if (warning) {
-        warning.style.display = "none";
+
+      if (
+        warning
+      ) {
+
+        warning.style.display =
+          "none";
+
       }
 
+
     }
+
 
 
     /* =====================================================
@@ -663,133 +1223,236 @@
     ];
 
 
-    activityEvents.forEach(function(eventName) {
 
-      document.addEventListener(
-        eventName,
-        userActivity,
-        true
-      );
+    activityEvents.forEach(
 
-    });
+      function(eventName) {
+
+
+        document.addEventListener(
+          eventName,
+          userActivity,
+          true
+        );
+
+
+      }
+
+    );
+
 
 
     /* =====================================================
        每秒检查一次
     ===================================================== */
 
-    setInterval(function() {
+    setInterval(
 
-      const now = Date.now();
-
-      const inactiveTime =
-        now - lastActivityTime;
+      function() {
 
 
-      /*
-        剩最后一分钟
-      */
+        const now =
+          Date.now();
 
-      if (
-        inactiveTime >=
-        IDLE_LIMIT - WARNING_TIME
-        &&
-        inactiveTime < IDLE_LIMIT
-      ) {
 
-        if (!warningShown) {
+        const inactiveTime =
+          now -
+          lastActivityTime;
 
-          const warning =
-            document.getElementById(
-              "timeoutWarning"
-            );
 
-          if (warning) {
-            warning.style.display = "block";
+
+        /*
+          剩最后一分钟
+        */
+
+        if (
+
+          inactiveTime >=
+          IDLE_LIMIT -
+          WARNING_TIME
+
+          &&
+
+          inactiveTime <
+          IDLE_LIMIT
+
+        ) {
+
+
+          if (
+            !warningShown
+          ) {
+
+
+            const warning =
+              document.getElementById(
+                "timeoutWarning"
+              );
+
+
+            if (
+              warning
+            ) {
+
+              warning.style.display =
+                "block";
+
+            }
+
+
+            warningShown =
+              true;
+
+
           }
-
-          warningShown = true;
 
         }
 
-      }
 
 
-      /*
-        达到10分钟
-      */
+        /*
+          达到10分钟
+        */
 
-      if (inactiveTime >= IDLE_LIMIT) {
+        if (
+          inactiveTime >=
+          IDLE_LIMIT
+        ) {
 
-        autoLogout();
+          autoLogout();
 
-      }
+        }
 
-    }, 1000);
+
+      },
+
+      1000
+
+    );
+
+
+
+    /* =====================================================
+       清除旧登录记录
+    ===================================================== */
+
+    function clearOldLoginData() {
+
+
+      sessionStorage.clear();
+
+
+      localStorage.removeItem(
+        "managementLogin"
+      );
+
+
+      localStorage.removeItem(
+        "managementUser"
+      );
+
+
+      localStorage.removeItem(
+        "managementRole"
+      );
+
+
+      localStorage.removeItem(
+        "loginTime"
+      );
+
+
+    }
+
 
 
     /* =====================================================
        自动退出
     ===================================================== */
 
-    function autoLogout() {
+    async function autoLogout() {
 
-      sessionStorage.clear();
 
-      localStorage.removeItem(
-        "managementLogin"
-      );
+      try {
 
-      localStorage.removeItem(
-        "managementUser"
-      );
 
-      localStorage.removeItem(
-        "managementRole"
-      );
+        await supabaseClient
+          .auth
+          .signOut();
 
-      localStorage.removeItem(
-        "loginTime"
-      );
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "Supabase退出失败：",
+          error
+        );
+
+
+      }
+
+
+
+      clearOldLoginData();
+
+
 
       window.location.replace(
         "page10.html"
       );
 
+
     }
+
 
 
     /* =====================================================
        手工退出
     ===================================================== */
 
-    function logout() {
+    async function logout() {
 
-      sessionStorage.clear();
 
-      localStorage.removeItem(
-        "managementLogin"
-      );
+      try {
 
-      localStorage.removeItem(
-        "managementUser"
-      );
 
-      localStorage.removeItem(
-        "managementRole"
-      );
+        await supabaseClient
+          .auth
+          .signOut();
 
-      localStorage.removeItem(
-        "loginTime"
-      );
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "Supabase退出失败：",
+          error
+        );
+
+
+      }
+
+
+
+      clearOldLoginData();
+
+
 
       window.location.replace(
         "page10.html"
       );
 
+
     }
 
+
   </script>
+
 
 </body>
 </html>
