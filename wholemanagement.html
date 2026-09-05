@@ -1,42 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>公司管理后台｜硕丰科技</title>
-
-
-  <!-- Supabase -->
-
-  <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-  ></script>
-
+  <title>管理中心｜硕丰科技</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
-
-      min-height: 100vh;
-
-      background: #f4f6f8;
-
-      color: #111827;
-
+      padding: 0;
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -44,1910 +21,831 @@
         "Microsoft YaHei",
         Arial,
         sans-serif;
+
+      background: #f4f6f8;
+      color: #1f2937;
+      min-height: 100vh;
     }
 
-
-    button {
-      font: inherit;
-    }
-
-
-    /* =========================================
+    /* =========================
        顶部
-    ========================================= */
+    ========================= */
 
-
-    header {
-
-      min-height: 68px;
-
-      padding: 0 28px;
+    .topbar {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 18px 30px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
 
-      gap: 20px;
-
-      background: #071124;
-
-      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     }
-
 
     .brand {
-
-      font-size: 20px;
-
-      font-weight: 700;
-
-      white-space: nowrap;
-    }
-
-
-    .header-right {
-
       display: flex;
-
-      align-items: center;
-
-      gap: 18px;
+      flex-direction: column;
+      gap: 3px;
     }
 
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
     .user-info {
-
-      color: #cbd5e1;
-
       font-size: 13px;
-
-      text-align: right;
+      color: #cbd5e1;
     }
-
 
     .logout-btn {
-
-      padding: 8px 16px;
-
-      border: 1px solid #94a3b8;
-
-      border-radius: 7px;
-
+      border: 1px solid rgba(255,255,255,0.35);
       background: transparent;
-
       color: #ffffff;
 
-      cursor: pointer;
-    }
-
-
-    .logout-btn:hover {
-
-      background:
-        rgba(255,255,255,0.08);
-    }
-
-
-
-    /* =========================================
-       主体
-    ========================================= */
-
-
-    main {
-
-      width: 100%;
-
-      max-width: 1280px;
-
-      margin: 0 auto;
-
-      padding: 34px 24px 60px;
-    }
-
-
-
-    /* =========================================
-       欢迎
-    ========================================= */
-
-
-    .welcome {
-
-      margin-bottom: 28px;
-    }
-
-
-    .welcome h1 {
-
-      margin: 0;
-
-      font-size: 26px;
-    }
-
-
-    .welcome p {
-
-      margin: 8px 0 0;
-
-      color: #6b7280;
+      padding: 8px 15px;
+      border-radius: 7px;
 
       font-size: 14px;
+      cursor: pointer;
 
+      transition: 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.10);
+    }
+
+    /* =========================
+       主区域
+    ========================= */
+
+    .container {
+      width: 100%;
+      max-width: 1180px;
+
+      margin: 0 auto;
+      padding: 38px 26px 60px;
+    }
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+    .welcome h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .welcome p {
+      margin: 0;
+      font-size: 14px;
+      color: #6b7280;
       line-height: 1.7;
     }
 
+    /* =========================
+       功能卡片
+    ========================= */
 
-
-    /* =========================================
-       数据总览
-    ========================================= */
-
-
-    .stats {
-
+    .grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(
-          4,
-          minmax(150px, 1fr)
-        );
-
-      gap: 16px;
-
-      margin-bottom: 34px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
     }
 
-
-    .stat-card {
-
-      padding: 22px;
-
+    .card {
       background: #ffffff;
 
-      border: 1px solid #edf0f3;
-
       border-radius: 12px;
-
-      box-shadow:
-        0 3px 12px
-        rgba(0,0,0,0.04);
-    }
-
-
-    .stat-label {
-
-      color: #6b7280;
-
-      font-size: 13px;
-    }
-
-
-    .stat-number {
-
-      margin-top: 8px;
-
-      color: #111827;
-
-      font-size: 30px;
-
-      font-weight: 700;
-    }
-
-
-
-    /* =========================================
-       区块
-    ========================================= */
-
-
-    .section {
-
-      margin-top: 32px;
-    }
-
-
-    .section-title {
-
-      margin-bottom: 7px;
-
-      font-size: 17px;
-
-      font-weight: 700;
-    }
-
-
-    .section-note {
-
-      margin-bottom: 15px;
-
-      color: #6b7280;
-
-      font-size: 13px;
-
-      line-height: 1.6;
-    }
-
-
-
-    /* =========================================
-       功能菜单
-    ========================================= */
-
-
-    .menu-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(220px,1fr)
-        );
-
-      gap: 18px;
-    }
-
-
-    .menu-card {
-
-      min-height: 158px;
-
-      padding: 22px;
-
       border: 1px solid #e5e7eb;
 
-      border-radius: 12px;
+      padding: 25px 22px;
 
-      background: #ffffff;
+      min-height: 165px;
 
-      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+
+      display: flex;
+      flex-direction: column;
 
       transition:
-        transform 0.15s,
-        box-shadow 0.15s,
-        border-color 0.15s;
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
     }
 
-
-    .menu-card:hover {
-
-      transform:
-        translateY(-2px);
+    .card:hover {
+      transform: translateY(-3px);
 
       border-color: #cbd5e1;
 
       box-shadow:
-        0 8px 22px
-        rgba(0,0,0,0.07);
+        0 8px 24px rgba(15, 23, 42, 0.08);
     }
 
+    .card-number {
+      font-size: 12px;
+      font-weight: 700;
 
-    .menu-icon {
+      color: #64748b;
 
-      width: 42px;
+      margin-bottom: 18px;
+    }
 
-      height: 42px;
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
 
-      margin-bottom: 15px;
+      margin-bottom: 8px;
+
+      color: #111827;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.65;
+
+      flex-grow: 1;
+    }
+
+    .card-link {
+      margin-top: 16px;
+
+      font-size: 13px;
+      font-weight: 600;
+
+      color: #2563eb;
+    }
+
+    /* 不同类型稍微区别 */
+
+    .card.sales {
+      border-top: 4px solid #2563eb;
+    }
+
+    .card.finance {
+      border-top: 4px solid #7c3aed;
+    }
+
+    .card.people {
+      border-top: 4px solid #0891b2;
+    }
+
+    .card.purchase {
+      border-top: 4px solid #059669;
+    }
+
+    /* =========================
+       底部
+    ========================= */
+
+    .footer {
+      margin-top: 38px;
+
+      padding-top: 20px;
+
+      border-top: 1px solid #e5e7eb;
+
+      font-size: 12px;
+      color: #94a3b8;
 
       display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
 
-      align-items: center;
+    /* =========================
+       自动退出提示
+    ========================= */
 
-      justify-content: center;
+    .timeout-warning {
+      position: fixed;
+
+      left: 50%;
+      bottom: 28px;
+
+      transform: translateX(-50%);
+
+      background: #fff7ed;
+      color: #9a3412;
+
+      border: 1px solid #fdba74;
+
+      padding: 12px 20px;
 
       border-radius: 9px;
 
-      background: #eef2ff;
-
-      font-size: 21px;
-    }
-
-
-    .menu-name {
-
-      margin-bottom: 7px;
-
-      font-size: 17px;
-
-      font-weight: 700;
-    }
-
-
-    .menu-description {
-
-      color: #6b7280;
-
       font-size: 13px;
+      font-weight: 600;
 
-      line-height: 1.65;
-    }
-
-
-
-    /* =========================================
-       Founder
-    ========================================= */
-
-
-    .founder-section {
-
-      display: none;
-
-      margin-top: 36px;
-
-      padding-top: 28px;
-
-      border-top: 1px solid #e5e7eb;
-    }
-
-
-    .founder-tag {
-
-      display: inline-block;
-
-      margin-left: 7px;
-
-      padding: 3px 8px;
-
-      border-radius: 20px;
-
-      background: #fff7ed;
-
-      color: #c2410c;
-
-      font-size: 11px;
-
-      vertical-align: middle;
-    }
-
-
-
-    /* =========================================
-       系统状态
-    ========================================= */
-
-
-    .system-message {
-
-      display: none;
-
-      margin-bottom: 22px;
-
-      padding: 13px 16px;
-
-      border-radius: 8px;
-
-      font-size: 13px;
-
-      line-height: 1.6;
-    }
-
-
-    .system-message.error {
-
-      display: block;
-
-      background: #fff1f1;
-
-      border: 1px solid #ffd5d5;
-
-      color: #d93025;
-    }
-
-
-
-    /* =========================================
-       Loading
-    ========================================= */
-
-
-    .loading-mask {
-
-      position: fixed;
-
-      inset: 0;
+      box-shadow:
+        0 6px 20px rgba(0,0,0,0.12);
 
       z-index: 9999;
 
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      background: #f4f6f8;
+      display: none;
     }
 
+    /* =========================
+       手机 / 平板
+    ========================= */
 
-    .loading-box {
+    @media (max-width: 950px) {
 
-      padding: 20px;
-
-      color: #6b7280;
-
-      font-size: 14px;
-
-      text-align: center;
-    }
-
-
-
-    /* =========================================
-       Footer
-    ========================================= */
-
-
-    footer {
-
-      padding: 25px;
-
-      color: #9ca3af;
-
-      font-size: 12px;
-
-      text-align: center;
-    }
-
-
-
-    /* =========================================
-       响应式
-    ========================================= */
-
-
-    @media (
-      max-width: 900px
-    ) {
-
-      .stats {
-
-        grid-template-columns:
-          repeat(2,1fr);
-      }
-
-
-      .menu-grid {
-
-        grid-template-columns:
-          repeat(2,1fr);
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
     }
 
+    @media (max-width: 600px) {
 
-    @media (
-      max-width: 620px
-    ) {
-
-      header {
-
-        padding: 14px 16px;
+      .topbar {
+        padding: 16px 18px;
       }
 
-
-      .brand {
-
-        font-size: 16px;
+      .brand-title {
+        font-size: 17px;
       }
-
 
       .user-info {
-
         display: none;
       }
 
-
-      main {
-
-        padding:
-          24px 16px 45px;
+      .container {
+        padding: 26px 16px 50px;
       }
 
-
-      .stats {
-
-        grid-template-columns:
-          repeat(2,1fr);
+      .welcome h1 {
+        font-size: 23px;
       }
 
-
-      .menu-grid {
-
-        grid-template-columns:
-          1fr;
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
       }
 
+      .card {
+        min-height: 140px;
+      }
 
-      .menu-card {
-
-        min-height: auto;
+      .footer {
+        flex-direction: column;
       }
 
     }
-
   </style>
-
 </head>
-
 
 
 <body>
 
+  <!-- =========================
+       顶部导航
+  ========================== -->
 
+  <header class="topbar">
 
-<!-- =========================================================
-     身份验证 Loading
-========================================================= -->
+    <div class="brand">
 
+      <div class="brand-title">
+        硕丰科技 · 企业管理中心
+      </div>
 
-<div
-  id="loadingMask"
-  class="loading-mask"
->
+      <div class="brand-subtitle">
+        ShuoFeng Technology Management System
+      </div>
 
-  <div class="loading-box">
-
-    正在验证管理人员身份...
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
-
-<header>
-
-
-  <div class="brand">
-
-    硕丰科技｜公司管理后台
-
-  </div>
-
-
-
-  <div class="header-right">
-
-
-    <div
-      id="headerUser"
-      class="user-info"
-    >
-      -
     </div>
 
 
-    <button
-      id="logoutBtn"
-      class="logout-btn"
-      type="button"
-    >
-      退出登录
-    </button>
+    <div class="top-actions">
 
+      <div class="user-info">
+        管理人员
+      </div>
 
-  </div>
+      <button
+        class="logout-btn"
+        type="button"
+        onclick="logout()"
+      >
+        退出登录
+      </button>
 
+    </div>
 
-</header>
-
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-
-<main>
+  </header>
 
 
 
-  <!-- =======================================================
-       欢迎
-  ======================================================== -->
+  <!-- =========================
+       主界面
+  ========================== -->
+
+  <main class="container">
+
+    <section class="welcome">
+
+      <h1>
+        管理工作台
+      </h1>
+
+      <p>
+        管理代理商、产品、销售价格、订单、年终奖励、管理人员、
+        供应商及采购业务。
+      </p>
+
+    </section>
 
 
-  <div class="welcome">
+
+    <!-- =========================
+         八大功能
+    ========================== -->
+
+    <section class="grid">
 
 
-    <h1 id="welcomeTitle">
+      <!-- 1 代理商 -->
 
-      公司管理
+      <a
+        class="card sales"
+        href="agents.html"
+      >
 
-    </h1>
+        <div class="card-number">
+          01
+        </div>
+
+        <div class="card-title">
+          代理商管理
+        </div>
+
+        <div class="card-desc">
+          查看代理商名录，创建新的代理商账号，
+          管理代理商资料及有效状态。
+        </div>
+
+        <div class="card-link">
+          进入管理 →
+        </div>
+
+      </a>
 
 
-    <p>
 
-      公司业务数据统一保存于数据库。
-      请从下方进入相应管理模块。
+      <!-- 2 产品 -->
 
-    </p>
+      <a
+        class="card sales"
+        href="products.html"
+      >
+
+        <div class="card-number">
+          02
+        </div>
+
+        <div class="card-title">
+          产品目录
+        </div>
+
+        <div class="card-desc">
+          根据商品资料建立正式产品目录，
+          管理型号、规格、单位及产品状态。
+        </div>
+
+        <div class="card-link">
+          进入管理 →
+        </div>
+
+      </a>
 
 
-  </div>
+
+      <!-- 3 价格 -->
+
+      <a
+        class="card finance"
+        href="prices.html"
+      >
+
+        <div class="card-number">
+          03
+        </div>
+
+        <div class="card-title">
+          销售价格
+        </div>
+
+        <div class="card-desc">
+          建立统一销售价格。
+          历史价格保留，只允许设置有效或无效。
+        </div>
+
+        <div class="card-link">
+          进入管理 →
+        </div>
+
+      </a>
 
 
+
+      <!-- 4 订单 -->
+
+      <a
+        class="card sales"
+        href="orders.html"
+      >
+
+        <div class="card-number">
+          04
+        </div>
+
+        <div class="card-title">
+          销售订单
+        </div>
+
+        <div class="card-desc">
+          查看代理商提交的订单，
+          管理订单金额、状态及后续处理。
+        </div>
+
+        <div class="card-link">
+          查看订单 →
+        </div>
+
+      </a>
+
+
+
+      <!-- 5 年终奖励 -->
+
+      <a
+        class="card finance"
+        href="rewards.html"
+      >
+
+        <div class="card-number">
+          05
+        </div>
+
+        <div class="card-title">
+          年终奖励
+        </div>
+
+        <div class="card-desc">
+          查看代理商年度数据，
+          由管理人员手工填写并记录年终奖励金额。
+        </div>
+
+        <div class="card-link">
+          进入管理 →
+        </div>
+
+      </a>
+
+
+
+      <!-- 6 管理人员 -->
+
+      <a
+        class="card people"
+        href="staff.html"
+      >
+
+        <div class="card-number">
+          06
+        </div>
+
+        <div class="card-title">
+          管理人员
+        </div>
+
+        <div class="card-desc">
+          查看公司管理人员名录及账号状态。
+          管理人员不从本页面创建。
+        </div>
+
+        <div class="card-link">
+          查看名录 →
+        </div>
+
+      </a>
+
+
+
+      <!-- 7 供应商 -->
+
+      <a
+        class="card purchase"
+        href="suppliers.html"
+      >
+
+        <div class="card-number">
+          07
+        </div>
+
+        <div class="card-title">
+          供应商管理
+        </div>
+
+        <div class="card-desc">
+          建立供应商资料，
+          查看供应商信息并管理供应商有效状态。
+        </div>
+
+        <div class="card-link">
+          进入管理 →
+        </div>
+
+      </a>
+
+
+
+      <!-- 8 采购 -->
+
+      <a
+        class="card purchase"
+        href="purchases.html"
+      >
+
+        <div class="card-number">
+          08
+        </div>
+
+        <div class="card-title">
+          采购管理
+        </div>
+
+        <div class="card-desc">
+          管理公司向供应商采购的业务记录、
+          采购金额及到货情况。
+        </div>
+
+        <div class="card-link">
+          进入管理 →
+        </div>
+
+      </a>
+
+
+    </section>
+
+
+
+    <footer class="footer">
+
+      <div>
+        硕丰科技企业管理系统
+      </div>
+
+      <div>
+        连续 10 分钟无操作将自动退出
+      </div>
+
+    </footer>
+
+  </main>
+
+
+
+  <!-- 自动退出提示 -->
 
   <div
-    id="systemMessage"
-    class="system-message"
-  ></div>
-
-
-
-  <!-- =======================================================
-       数据总览
-  ======================================================== -->
-
-
-  <div class="stats">
-
-
-
-    <div class="stat-card">
-
-
-      <div class="stat-label">
-
-        有效代理商
-
-      </div>
-
-
-      <div
-        id="statAgents"
-        class="stat-number"
-      >
-
-        -
-
-      </div>
-
-
-    </div>
-
-
-
-    <div class="stat-card">
-
-
-      <div class="stat-label">
-
-        有效产品
-
-      </div>
-
-
-      <div
-        id="statProducts"
-        class="stat-number"
-      >
-
-        -
-
-      </div>
-
-
-    </div>
-
-
-
-    <div class="stat-card">
-
-
-      <div class="stat-label">
-
-        销售订单
-
-      </div>
-
-
-      <div
-        id="statOrders"
-        class="stat-number"
-      >
-
-        -
-
-      </div>
-
-
-    </div>
-
-
-
-    <div class="stat-card">
-
-
-      <div class="stat-label">
-
-        当前有效销售价格
-
-      </div>
-
-
-      <div
-        id="statPrices"
-        class="stat-number"
-      >
-
-        -
-
-      </div>
-
-
-    </div>
-
-
-
+    id="timeoutWarning"
+    class="timeout-warning"
+  >
+    长时间未操作，系统即将自动退出。
   </div>
 
 
 
-  <!-- =======================================================
-       基础资料
-  ======================================================== -->
-
-
-  <section class="section">
-
-
-    <div class="section-title">
-
-      基础资料管理
-
-    </div>
-
-
-    <div class="section-note">
-
-      公司管理人员在这里建立代理商、
-      产品等基础业务资料。
-
-    </div>
-
-
-
-    <div class="menu-grid">
-
-
-
-      <!-- 代理商 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('agents.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          🏢
-
-        </div>
-
-
-        <div class="menu-name">
-
-          代理商管理
-
-        </div>
-
-
-        <div class="menu-description">
-
-          创建代理商并维护代理商名称、
-          联系人、电话、邮箱、地址以及有效状态。
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- 产品 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('products.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          📦
-
-        </div>
-
-
-        <div class="menu-name">
-
-          产品目录
-
-        </div>
-
-
-        <div class="menu-description">
-
-          创建公司的产品编号、产品名称、
-          型号、规格、单位及产品说明。
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- 工作人员 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('staff.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          👤
-
-        </div>
-
-
-        <div class="menu-name">
-
-          工作人员
-
-        </div>
-
-
-        <div class="menu-description">
-
-          查看公司创始人和管理人员资料。
-          登录账号仍由 Supabase Authentication 创建。
-
-        </div>
-
-
-      </div>
-
-
-
-    </div>
-
-
-  </section>
-
-
-
-  <!-- =======================================================
-       销售业务
-  ======================================================== -->
-
-
-  <section class="section">
-
-
-    <div class="section-title">
-
-      销售业务
-
-    </div>
-
-
-    <div class="section-note">
-
-      产品、代理商及销售价格建立以后，
-      可以进入正式销售业务。
-
-    </div>
-
-
-
-    <div class="menu-grid">
-
-
-
-      <!-- 销售价格 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('prices.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          💰
-
-        </div>
-
-
-        <div class="menu-name">
-
-          销售价格
-
-        </div>
-
-
-        <div class="menu-description">
-
-          为产品建立公司统一销售价格。
-          历史价格不删除，只允许设置有效或无效。
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- 订单 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('orders.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          🧾
-
-        </div>
-
-
-        <div class="menu-name">
-
-          销售订单
-
-        </div>
-
-
-        <div class="menu-description">
-
-          查看代理商订单并创建销售订单。
-          订单保存成交时的产品和价格历史记录。
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- 年终奖励 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('rewards.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          🎁
-
-        </div>
-
-
-        <div class="menu-name">
-
-          年终奖励
-
-        </div>
-
-
-        <div class="menu-description">
-
-          按代理商和年度手工记录年终奖励金额，
-          用于公司年度奖励结算。
-
-        </div>
-
-
-      </div>
-
-
-
-    </div>
-
-
-  </section>
-
-
-
-  <!-- =======================================================
-       Founder 专用
-  ======================================================== -->
-
-
-  <section
-    id="founderSection"
-    class="founder-section"
-  >
-
-
-    <div class="section-title">
-
-      供应链管理
-
-      <span class="founder-tag">
-
-        创始人专用
-
-      </span>
-
-    </div>
-
-
-    <div class="section-note">
-
-      该区域仅创始人账号显示。
-      普通管理人员不显示供应商及采购管理入口。
-
-    </div>
-
-
-
-    <div class="menu-grid">
-
-
-
-      <!-- 供应商 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('suppliers.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          🏭
-
-        </div>
-
-
-        <div class="menu-name">
-
-          供应商管理
-
-        </div>
-
-
-        <div class="menu-description">
-
-          建立和维护供应商资料，
-          包括供应商名称、联系人、联系方式及有效状态。
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- 采购 -->
-
-
-      <div
-        class="menu-card"
-        onclick="goPage('purchases.html')"
-      >
-
-
-        <div class="menu-icon">
-
-          🚚
-
-        </div>
-
-
-        <div class="menu-name">
-
-          采购 / 进货
-
-        </div>
-
-
-        <div class="menu-description">
-
-          管理公司向供应商采购和进货的业务记录，
-          包括产品、数量、采购价格及状态。
-
-        </div>
-
-
-      </div>
-
-
-
-    </div>
-
-
-  </section>
-
-
-
-</main>
-
-
-
-<footer>
-
-  © 2026 硕丰科技
-
-</footer>
-
-
-
-<script>
-
-
-/* ============================================================
-   1. Supabase 配置
-============================================================ */
-
-
-const SUPABASE_URL =
-  'https://icmifhjjhgjrhkunjbmu.supabase.co';
-
-
-
-/*
-  必须填写和 page10.html
-  完全相同的 Publishable Key。
-
-  格式：
-
-  sb_publishable_......
-
-  千万不要填写 sb_secret_
-*/
-
-const SUPABASE_ANON_KEY =
-  'sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4';
-
-
-
-/* ============================================================
-   2. 创建 Supabase Client
-============================================================ */
-
-
-const supabaseClient =
-  window.supabase.createClient(
-
-    SUPABASE_URL,
-
-    SUPABASE_ANON_KEY
-
-  );
-
-
-
-/* ============================================================
-   3. 当前用户
-============================================================ */
-
-
-let currentUser = null;
-
-let currentProfile = null;
-
-
-
-/* ============================================================
-   4. 页面跳转
-============================================================ */
-
-
-function goPage(page) {
-
-
-  window.location.href =
-    page;
-
-}
-
-
-
-/* ============================================================
-   5. 系统提示
-============================================================ */
-
-
-function showSystemError(text) {
-
-
-  const box =
-    document.getElementById(
-      'systemMessage'
-    );
-
-
-  box.textContent =
-    text;
-
-
-  box.className =
-    'system-message error';
-
-}
-
-
-
-/* ============================================================
-   6. 返回登录页面
-============================================================ */
-
-
-function goLogin() {
-
-
-  window.location.href =
-    'page10.html';
-
-}
-
-
-
-/* ============================================================
-   7. 验证登录状态
-============================================================ */
-
-
-async function verifyLogin() {
-
-
-  /*
-    第一步：
-    检查 Supabase Session
-  */
-
-
-  const {
-
-    data: sessionData,
-
-    error: sessionError
-
-  } =
-
-    await supabaseClient.auth
-      .getSession();
-
-
-
-  /*
-    没有 Session
-    直接回登录页面
-  */
-
-
-  if (
-
-    sessionError ||
-
-    !sessionData ||
-
-    !sessionData.session
-
-  ) {
-
-
-    goLogin();
-
-
-    return false;
-
-  }
-
-
-
-  currentUser =
-    sessionData.session.user;
-
-
-
-  /*
-    第二步：
-    根据 Auth 用户 UUID
-    查询 profiles
-  */
-
-
-  const {
-
-    data: profile,
-
-    error: profileError
-
-  } =
-
-    await supabaseClient
-
-      .from('profiles')
-
-      .select(
-        'id, display_name, role, is_active'
-      )
-
-      .eq(
-        'id',
-        currentUser.id
-      )
-
-      .single();
-
-
-
-  /*
-    profiles 不存在或者无法读取
-  */
-
-
-  if (
-    profileError ||
-    !profile
-  ) {
-
-
-    console.error(
-      'Profile error:',
-      profileError
-    );
-
-
-    await supabaseClient.auth
-      .signOut();
-
-
-    goLogin();
-
-
-    return false;
-
-  }
-
-
-
-  /*
-    第三步：
-    检查账号是否有效
-  */
-
-
-  if (
-    profile.is_active !== true
-  ) {
-
-
-    await supabaseClient.auth
-      .signOut();
-
-
-    goLogin();
-
-
-    return false;
-
-  }
-
-
-
-  /*
-    第四步：
-    只有 founder / admin
-    可以进入公司管理后台
-  */
-
-
-  if (
-
-    profile.role !== 'founder'
-
-    &&
-
-    profile.role !== 'admin'
-
-  ) {
-
-
-    await supabaseClient.auth
-      .signOut();
-
-
-    goLogin();
-
-
-    return false;
-
-  }
-
-
-
-  currentProfile =
-    profile;
-
-
-
-  /*
-    显示角色
-  */
-
-
-  const roleText =
-
-    profile.role === 'founder'
-
-      ? '创始人'
-
-      : '管理人员';
-
-
-
-  /*
-    显示姓名
-  */
-
-
-  const displayName =
-
-    profile.display_name ||
-
-    currentUser.email ||
-
-    '管理人员';
-
-
-
-  document.getElementById(
-    'headerUser'
-  ).textContent =
-
-    displayName +
-    ' ｜ ' +
-    roleText;
-
-
-
-  document.getElementById(
-    'welcomeTitle'
-  ).textContent =
-
-    '欢迎，' +
-    displayName;
-
-
-
-  /*
-    创始人显示供应链管理
-  */
-
-
-  if (
-    profile.role === 'founder'
-  ) {
-
-
-    document.getElementById(
-      'founderSection'
-    ).style.display =
-      'block';
-
-  }
-
-
-
-  return true;
-
-}
-
-
-
-/* ============================================================
-   8. 数据总览
-============================================================ */
-
-
-async function loadDashboard() {
-
-
-  /*
-    四个统计数据分别读取。
-
-    即使其中某张表因为 RLS 或表结构
-    暂时无法读取，也不影响整个后台打开。
-  */
-
-
-  const results =
-    await Promise.allSettled([
-
-
-
-      /* 有效代理商 */
-
-
-      supabaseClient
-
-        .from('agents')
-
-        .select(
-          'id',
-          {
-            count: 'exact',
-            head: true
-          }
-        )
-
-        .eq(
-          'is_active',
-          true
-        ),
-
-
-
-      /* 有效产品 */
-
-
-      supabaseClient
-
-        .from('products')
-
-        .select(
-          'id',
-          {
-            count: 'exact',
-            head: true
-          }
-        )
-
-        .eq(
-          'is_active',
-          true
-        ),
-
-
-
-      /* 销售订单 */
-
-
-      supabaseClient
-
-        .from('orders')
-
-        .select(
-          'id',
-          {
-            count: 'exact',
-            head: true
-          }
-        ),
-
-
-
-      /* 当前有效销售价格 */
-
-
-      supabaseClient
-
-        .from('sales_prices')
-
-        .select(
-          'id',
-          {
-            count: 'exact',
-            head: true
-          }
-        )
-
-        .eq(
-          'is_active',
-          true
-        )
-
-
-
-    ]);
-
-
-
-  /*
-    代理商
-  */
-
-
-  if (
-    results[0].status === 'fulfilled'
-    &&
-    !results[0].value.error
-  ) {
-
-
-    document.getElementById(
-      'statAgents'
-    ).textContent =
-
-      results[0].value.count ?? 0;
-
-
-  } else {
-
-
-    document.getElementById(
-      'statAgents'
-    ).textContent =
-      '-';
-
-
-    console.warn(
-      '读取代理商统计失败',
-      results[0]
-    );
-
-  }
-
-
-
-  /*
-    产品
-  */
-
-
-  if (
-    results[1].status === 'fulfilled'
-    &&
-    !results[1].value.error
-  ) {
-
-
-    document.getElementById(
-      'statProducts'
-    ).textContent =
-
-      results[1].value.count ?? 0;
-
-
-  } else {
-
-
-    document.getElementById(
-      'statProducts'
-    ).textContent =
-      '-';
-
-
-    console.warn(
-      '读取产品统计失败',
-      results[1]
-    );
-
-  }
-
-
-
-  /*
-    订单
-  */
-
-
-  if (
-    results[2].status === 'fulfilled'
-    &&
-    !results[2].value.error
-  ) {
-
-
-    document.getElementById(
-      'statOrders'
-    ).textContent =
-
-      results[2].value.count ?? 0;
-
-
-  } else {
-
-
-    document.getElementById(
-      'statOrders'
-    ).textContent =
-      '-';
-
-
-    console.warn(
-      '读取订单统计失败',
-      results[2]
-    );
-
-  }
-
-
-
-  /*
-    销售价格
-  */
-
-
-  if (
-    results[3].status === 'fulfilled'
-    &&
-    !results[3].value.error
-  ) {
-
-
-    document.getElementById(
-      'statPrices'
-    ).textContent =
-
-      results[3].value.count ?? 0;
-
-
-  } else {
-
-
-    document.getElementById(
-      'statPrices'
-    ).textContent =
-      '-';
-
-
-    console.warn(
-      '读取价格统计失败',
-      results[3]
-    );
-
-  }
-
-}
-
-
-
-/* ============================================================
-   9. 退出登录
-============================================================ */
-
-
-document.getElementById(
-  'logoutBtn'
-).addEventListener(
-
-  'click',
-
-  async function () {
-
-
-    await supabaseClient.auth
-      .signOut();
-
-
-    sessionStorage.clear();
-
-
-    goLogin();
-
-  }
-
-);
-
-
-
-/* ============================================================
-   10. 初始化
-============================================================ */
-
-
-async function init() {
-
-
-  try {
+  <script>
+
+    /* =====================================================
+       硕丰管理后台
+       10分钟无操作自动退出
+    ===================================================== */
 
 
     /*
-      验证管理人员
+      10分钟
+      10 × 60 × 1000
     */
 
-
-    const loginOK =
-      await verifyLogin();
+    const IDLE_LIMIT = 10 * 60 * 1000;
 
 
+    /*
+      最后60秒显示提示
+    */
 
-    if (!loginOK) {
+    const WARNING_TIME = 60 * 1000;
 
-      return;
+
+    let lastActivityTime = Date.now();
+
+    let warningShown = false;
+
+
+
+    /* =====================================================
+       记录用户活动
+    ===================================================== */
+
+    function userActivity() {
+
+      lastActivityTime = Date.now();
+
+      warningShown = false;
+
+      const warning =
+        document.getElementById("timeoutWarning");
+
+      if (warning) {
+        warning.style.display = "none";
+      }
 
     }
 
 
 
-    /*
-      身份验证完成以后
-      先显示后台。
+    /* =====================================================
+       监测事件
+    ===================================================== */
 
-      不让统计数据读取影响页面进入。
-    */
+    const activityEvents = [
 
+      "mousedown",
+      "mousemove",
+      "keydown",
+      "scroll",
+      "touchstart",
+      "click"
 
-    document.getElementById(
-      'loadingMask'
-    ).style.display =
-      'none';
-
-
-
-    /*
-      再读取统计数据
-    */
+    ];
 
 
-    await loadDashboard();
+    activityEvents.forEach(function(eventName) {
+
+      document.addEventListener(
+        eventName,
+        userActivity,
+        true
+      );
+
+    });
 
 
 
-  } catch (error) {
+    /* =====================================================
+       每秒检查一次
+    ===================================================== */
+
+    setInterval(function() {
+
+      const now = Date.now();
+
+      const inactiveTime =
+        now - lastActivityTime;
 
 
-    console.error(
-      '后台初始化失败：',
-      error
-    );
+
+      /*
+        剩最后一分钟
+      */
+
+      if (
+        inactiveTime >=
+        IDLE_LIMIT - WARNING_TIME
+        &&
+        inactiveTime < IDLE_LIMIT
+      ) {
+
+        if (!warningShown) {
+
+          const warning =
+            document.getElementById(
+              "timeoutWarning"
+            );
+
+          if (warning) {
+            warning.style.display = "block";
+          }
+
+          warningShown = true;
+
+        }
+
+      }
 
 
-    /*
-      如果身份验证过程发生异常，
-      为安全起见返回登录页面。
-    */
+
+      /*
+        达到10分钟
+      */
+
+      if (inactiveTime >= IDLE_LIMIT) {
+
+        autoLogout();
+
+      }
+
+    }, 1000);
 
 
-    try {
 
-      await supabaseClient.auth
-        .signOut();
+    /* =====================================================
+       自动退出
+    ===================================================== */
 
-    } catch (e) {
+    function autoLogout() {
 
-      console.error(e);
+      /*
+        清除本网站可能保存的登录信息
+      */
+
+      sessionStorage.clear();
+
+      localStorage.removeItem(
+        "managementLogin"
+      );
+
+      localStorage.removeItem(
+        "managementUser"
+      );
+
+      localStorage.removeItem(
+        "managementRole"
+      );
+
+      localStorage.removeItem(
+        "loginTime"
+      );
+
+
+      /*
+        返回管理人员登录页面
+      */
+
+      window.location.replace(
+        "page10.html"
+      );
 
     }
 
 
-    goLogin();
 
-  }
+    /* =====================================================
+       手工退出
+    ===================================================== */
 
-}
+    function logout() {
 
+      sessionStorage.clear();
 
+      localStorage.removeItem(
+        "managementLogin"
+      );
 
-init();
+      localStorage.removeItem(
+        "managementUser"
+      );
 
+      localStorage.removeItem(
+        "managementRole"
+      );
 
-</script>
+      localStorage.removeItem(
+        "loginTime"
+      );
 
+      window.location.replace(
+        "page10.html"
+      );
 
+    }
+
+  </script>
 
 </body>
-
 </html>
