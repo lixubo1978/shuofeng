@@ -1,553 +1,390 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>公司管理后台｜硕丰科技</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>公司管理后台｜硕丰科技</title>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               "Microsoft YaHei", Arial, sans-serif;
-  background: #f4f6f8;
-  color: #111827;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
+    body {
+      margin: 0;
 
-button {
-  cursor: pointer;
-}
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft YaHei",
+        Arial,
+        sans-serif;
 
-/* =========================
-   顶部
-========================= */
+      background: #f4f6f8;
+      color: #111827;
+    }
 
-header {
-  height: 66px;
-  background: #071124;
-  color: white;
+    button {
+      font: inherit;
+    }
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    /* =========================
+       顶部
+    ========================= */
 
-  padding: 0 26px;
+    header {
+      height: 68px;
 
-  position: sticky;
-  top: 0;
-  z-index: 30;
-}
+      background: #071124;
+      color: #ffffff;
 
-.brand {
-  font-size: 20px;
-  font-weight: 700;
-}
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
+      padding: 0 28px;
+    }
 
-.user-info {
-  font-size: 13px;
-  color: #cbd5e1;
-}
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+    }
 
-.logout-btn {
-  padding: 8px 16px;
+    .header-right {
+      display: flex;
+      align-items: center;
 
-  background: transparent;
-  color: white;
+      gap: 18px;
+    }
 
-  border: 1px solid #94a3b8;
-  border-radius: 7px;
-}
+    .user-info {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
 
-/* =========================
-   主结构
-========================= */
+    .logout-btn {
+      padding: 8px 16px;
 
-.layout {
-  display: flex;
-  min-height: calc(100vh - 66px);
-}
+      border: 1px solid #94a3b8;
+      border-radius: 7px;
 
-.sidebar {
-  width: 230px;
-  flex-shrink: 0;
+      background: transparent;
+      color: #ffffff;
 
-  background: white;
+      cursor: pointer;
+    }
 
-  border-right: 1px solid #e5e7eb;
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.08);
+    }
 
-  padding: 20px 14px;
-}
+    /* =========================
+       主体
+    ========================= */
 
-.menu-title {
-  padding: 12px 12px 7px;
+    main {
+      width: 100%;
+      max-width: 1280px;
 
-  font-size: 12px;
-  font-weight: 700;
+      margin: 0 auto;
 
-  color: #9ca3af;
-}
+      padding: 34px 24px 60px;
+    }
 
-.menu-btn {
-  width: 100%;
+    .welcome {
+      margin-bottom: 28px;
+    }
 
-  margin-bottom: 4px;
+    .welcome h1 {
+      margin: 0;
 
-  padding: 12px 14px;
+      font-size: 26px;
+    }
 
-  border: none;
-  border-radius: 8px;
+    .welcome p {
+      margin: 8px 0 0;
 
-  background: transparent;
+      color: #6b7280;
+      font-size: 14px;
+    }
 
-  text-align: left;
+    /* =========================
+       数据总览
+    ========================= */
 
-  color: #374151;
-}
+    .stats {
+      display: grid;
 
-.menu-btn:hover {
-  background: #f3f4f6;
-}
+      grid-template-columns:
+        repeat(4, minmax(150px, 1fr));
 
-.menu-btn.active {
-  background: #071124;
-  color: white;
-}
+      gap: 16px;
 
-.founder-only {
-  display: none;
-}
+      margin-bottom: 32px;
+    }
 
-main {
-  flex: 1;
+    .stat-card {
+      background: #ffffff;
 
-  padding: 28px;
+      border-radius: 12px;
 
-  min-width: 0;
-}
+      padding: 22px;
 
-/* =========================
-   页面
-========================= */
+      box-shadow:
+        0 3px 12px rgba(0,0,0,0.04);
+    }
 
-.page {
-  display: none;
-}
+    .stat-label {
+      color: #6b7280;
+      font-size: 13px;
+    }
 
-.page.active {
-  display: block;
-}
+    .stat-number {
+      margin-top: 8px;
 
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+      font-size: 30px;
+      font-weight: 700;
 
-  gap: 20px;
+      color: #111827;
+    }
 
-  margin-bottom: 20px;
-}
+    /* =========================
+       区块标题
+    ========================= */
 
-.page-header h2 {
-  margin: 0;
-  font-size: 22px;
-}
+    .section {
+      margin-top: 30px;
+    }
 
-.subtext {
-  margin-top: 6px;
+    .section-title {
+      margin-bottom: 14px;
 
-  font-size: 13px;
-  color: #6b7280;
-}
+      font-size: 16px;
+      font-weight: 700;
+    }
 
-/* =========================
-   按钮
-========================= */
+    .section-note {
+      margin-top: -5px;
+      margin-bottom: 15px;
 
-.primary-btn {
-  padding: 10px 18px;
+      color: #6b7280;
+      font-size: 13px;
+    }
 
-  border: none;
-  border-radius: 8px;
+    /* =========================
+       功能按钮
+    ========================= */
 
-  background: #071124;
-  color: white;
+    .menu-grid {
+      display: grid;
 
-  font-weight: 600;
-}
+      grid-template-columns:
+        repeat(3, minmax(220px, 1fr));
 
-.secondary-btn {
-  padding: 8px 13px;
+      gap: 18px;
+    }
 
-  border: 1px solid #d1d5db;
-  border-radius: 7px;
+    .menu-card {
+      min-height: 150px;
 
-  background: white;
-  color: #374151;
-}
+      padding: 22px;
 
-.warning-btn {
-  padding: 8px 13px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
 
-  border: none;
-  border-radius: 7px;
+      background: #ffffff;
 
-  background: #fff7ed;
-  color: #c2410c;
-}
+      cursor: pointer;
 
-/* =========================
-   卡片
-========================= */
+      transition:
+        transform 0.15s,
+        box-shadow 0.15s,
+        border-color 0.15s;
+    }
 
-.card {
-  background: white;
+    .menu-card:hover {
+      transform: translateY(-2px);
 
-  border-radius: 12px;
+      border-color: #cbd5e1;
 
-  padding: 20px;
+      box-shadow:
+        0 8px 22px rgba(0,0,0,0.07);
+    }
 
-  margin-bottom: 20px;
+    .menu-icon {
+      width: 42px;
+      height: 42px;
 
-  box-shadow: 0 3px 12px rgba(0,0,0,.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  overflow-x: auto;
-}
+      margin-bottom: 15px;
 
-.stats {
-  display: grid;
+      border-radius: 9px;
 
-  grid-template-columns:
-    repeat(4, minmax(160px,1fr));
+      background: #eef2ff;
 
-  gap: 16px;
-}
+      font-size: 21px;
+    }
 
-.stat {
-  padding: 22px;
+    .menu-name {
+      margin-bottom: 7px;
 
-  background: white;
+      font-size: 17px;
+      font-weight: 700;
+    }
 
-  border-radius: 12px;
+    .menu-description {
+      color: #6b7280;
 
-  box-shadow: 0 3px 12px rgba(0,0,0,.04);
-}
+      font-size: 13px;
+      line-height: 1.6;
+    }
 
-.stat-label {
-  color: #6b7280;
-  font-size: 13px;
-}
+    /* =========================
+       创始人区域
+    ========================= */
 
-.stat-number {
-  margin-top: 8px;
+    .founder-section {
+      display: none;
 
-  font-size: 28px;
-  font-weight: 700;
-}
+      margin-top: 34px;
 
-/* =========================
-   表格
-========================= */
+      padding-top: 25px;
 
-table {
-  width: 100%;
+      border-top: 1px solid #e5e7eb;
+    }
 
-  border-collapse: collapse;
+    .founder-tag {
+      display: inline-block;
 
-  min-width: 700px;
-}
+      margin-left: 7px;
 
-th {
-  padding: 12px;
+      padding: 3px 8px;
 
-  text-align: left;
+      border-radius: 20px;
 
-  background: #f8fafc;
+      background: #fff7ed;
+      color: #c2410c;
 
-  border-bottom: 1px solid #e5e7eb;
+      font-size: 11px;
+    }
 
-  color: #475569;
+    /* =========================
+       页脚
+    ========================= */
 
-  font-size: 13px;
-}
+    footer {
+      padding: 25px;
 
-td {
-  padding: 12px;
+      text-align: center;
 
-  border-bottom: 1px solid #eef2f7;
+      color: #9ca3af;
 
-  font-size: 13px;
+      font-size: 12px;
+    }
 
-  vertical-align: middle;
-}
+    /* =========================
+       Loading
+    ========================= */
 
-.status-active {
-  color: #15803d;
-  font-weight: 600;
-}
+    .loading-mask {
+      position: fixed;
 
-.status-inactive {
-  color: #b91c1c;
-}
+      inset: 0;
 
-.empty {
-  padding: 40px;
+      background: #f4f6f8;
 
-  text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  color: #9ca3af;
-}
+      z-index: 999;
+    }
 
-.loading {
-  padding: 30px;
+    .loading-box {
+      color: #6b7280;
 
-  text-align: center;
+      font-size: 14px;
+    }
 
-  color: #6b7280;
-}
+    /* =========================
+       手机
+    ========================= */
 
-/* =========================
-   说明框
-========================= */
+    @media (max-width: 900px) {
 
-.info-box {
-  padding: 14px 16px;
+      .stats {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
 
-  border: 1px solid #dbeafe;
-  border-radius: 9px;
+      .menu-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
 
-  background: #eff6ff;
+    }
 
-  color: #1e3a8a;
+    @media (max-width: 600px) {
 
-  font-size: 13px;
-  line-height: 1.8;
-}
+      header {
+        padding: 0 15px;
+      }
 
-/* =========================
-   Modal
-========================= */
+      .brand {
+        font-size: 16px;
+      }
 
-.modal {
-  position: fixed;
+      .user-info {
+        display: none;
+      }
 
-  inset: 0;
+      main {
+        padding: 24px 16px 45px;
+      }
 
-  display: none;
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
 
-  align-items: center;
-  justify-content: center;
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
 
-  padding: 20px;
+      .menu-card {
+        min-height: auto;
+      }
 
-  background: rgba(0,0,0,.45);
-
-  z-index: 100;
-}
-
-.modal.open {
-  display: flex;
-}
-
-.modal-box {
-  width: 100%;
-  max-width: 720px;
-
-  max-height: 90vh;
-
-  overflow-y: auto;
-
-  padding: 24px;
-
-  border-radius: 14px;
-
-  background: white;
-}
-
-.modal-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-bottom: 20px;
-}
-
-.modal-title h3 {
-  margin: 0;
-}
-
-.close-btn {
-  border: none;
-  background: none;
-
-  font-size: 25px;
-}
-
-.form-grid {
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 16px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group.full {
-  grid-column: 1 / -1;
-}
-
-label {
-  display: block;
-
-  margin-bottom: 7px;
-
-  font-size: 13px;
-  font-weight: 600;
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-
-  padding: 10px;
-
-  border: 1px solid #d1d5db;
-  border-radius: 7px;
-
-  background: white;
-}
-
-textarea {
-  min-height: 80px;
-
-  resize: vertical;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-
-  gap: 10px;
-
-  margin-top: 20px;
-}
-
-/* =========================
-   消息
-========================= */
-
-.message {
-  position: fixed;
-
-  right: 22px;
-  bottom: 22px;
-
-  display: none;
-
-  padding: 12px 18px;
-
-  border-radius: 8px;
-
-  background: #111827;
-  color: white;
-
-  z-index: 200;
-}
-
-.message.show {
-  display: block;
-}
-
-.message.error {
-  background: #b91c1c;
-}
-
-/* =========================
-   手机
-========================= */
-
-@media(max-width:900px) {
-
-  .sidebar {
-    width: 185px;
-  }
-
-  .stats {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media(max-width:700px) {
-
-  .layout {
-    display: block;
-  }
-
-  .sidebar {
-    width: 100%;
-
-    display: flex;
-
-    overflow-x: auto;
-
-    padding: 8px;
-  }
-
-  .menu-title {
-    display: none;
-  }
-
-  .menu-btn {
-    width: auto;
-
-    white-space: nowrap;
-  }
-
-  main {
-    padding: 18px;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .page-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
-</style>
+    }
+  </style>
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     页面加载
+===================================================== -->
+
+<div id="loadingMask" class="loading-mask">
+
+  <div class="loading-box">
+    正在验证管理人员身份...
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     顶部
+===================================================== -->
 
 <header>
 
@@ -555,13 +392,20 @@ textarea {
     硕丰科技｜公司管理后台
   </div>
 
+
   <div class="header-right">
 
-    <div id="headerUser" class="user-info">
-      正在读取用户...
+    <div
+      id="headerUser"
+      class="user-info"
+    >
+      -
     </div>
 
-    <button id="logoutBtn" class="logout-btn">
+    <button
+      id="logoutBtn"
+      class="logout-btn"
+    >
       退出登录
     </button>
 
@@ -570,601 +414,392 @@ textarea {
 </header>
 
 
-<div class="layout">
+<!-- =====================================================
+     主界面
+===================================================== -->
 
+<main>
 
-  <!-- =========================
-       左侧菜单
-  ========================== -->
 
-  <aside class="sidebar">
+  <!-- 欢迎 -->
 
+  <div class="welcome">
 
-    <div class="menu-title">
-      系统
-    </div>
+    <h1 id="welcomeTitle">
+      公司管理
+    </h1>
 
-    <button class="menu-btn active"
-            data-page="dashboard">
-      管理总览
-    </button>
-
-
-    <div class="menu-title">
-      公司资料
-    </div>
-
-    <button class="menu-btn"
-            data-page="staff">
-      工作人员
-    </button>
-
-    <button class="menu-btn"
-            data-page="agents">
-      代理商名录
-    </button>
-
-
-    <div class="menu-title">
-      销售业务
-    </div>
-
-    <button class="menu-btn"
-            data-page="products">
-      产品目录
-    </button>
-
-    <button class="menu-btn"
-            data-page="prices">
-      销售价格
-    </button>
-
-    <button class="menu-btn"
-            data-page="orders">
-      订单名录
-    </button>
-
-    <button class="menu-btn"
-            data-page="rewards">
-      年终奖励
-    </button>
-
-
-    <div class="menu-title founder-only">
-      创始人专用
-    </div>
-
-    <button class="menu-btn founder-only"
-            data-page="suppliers">
-      供应商名录
-    </button>
-
-    <button class="menu-btn founder-only"
-            data-page="purchases">
-      采购 / 进货
-    </button>
-
-
-  </aside>
-
-
-  <main>
-
-
-    <!-- =====================================================
-         总览
-    ====================================================== -->
-
-    <section id="dashboard"
-             class="page active">
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            管理总览
-          </h2>
-
-          <div class="subtext">
-            公司业务资料全部来自 Supabase 数据库
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="stats">
-
-        <div class="stat">
-
-          <div class="stat-label">
-            有效代理商
-          </div>
-
-          <div id="statAgents"
-               class="stat-number">
-            -
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="stat-label">
-            有效产品
-          </div>
-
-          <div id="statProducts"
-               class="stat-number">
-            -
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="stat-label">
-            销售订单
-          </div>
-
-          <div id="statOrders"
-               class="stat-number">
-            -
-          </div>
-
-        </div>
-
-
-        <div class="stat">
-
-          <div class="stat-label">
-            当前有效价格
-          </div>
-
-          <div id="statPrices"
-               class="stat-number">
-            -
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="card"
-           style="margin-top:20px;">
-
-        <h3>
-          V1.0 数据管理原则
-        </h3>
-
-        <p>
-          代理商、产品、销售价格等历史业务数据原则上不物理删除。
-          停止使用后设置为“无效”。
-        </p>
-
-        <p>
-          所有代理商统一使用公司当前有效销售价格。
-        </p>
-
-        <p>
-          销售订单创建以后保存产品名称、型号、单位和价格快照，
-          后续修改产品或价格不会改变历史订单。
-        </p>
-
-        <p>
-          公司管理人员登录账号统一在 Supabase Authentication 后台建立。
-        </p>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         工作人员
-    ====================================================== -->
-
-    <section id="staff"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            工作人员
-          </h2>
-
-          <div class="subtext">
-            公司内部系统用户
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="info-box">
-
-          公司工作人员登录账号不在本页面创建。
-
-          请由系统负责人进入 Supabase：
-
-          Authentication → Users
-
-          创建账号以后，再在 profiles 表中设置
-          founder 或 admin 权限。
-
-          本页面只负责读取和显示工作人员资料。
-
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="staffTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         代理商
-    ====================================================== -->
-
-    <section id="agents"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            代理商名录
-          </h2>
-
-          <div class="subtext">
-            公司所有代理商业务资料
-          </div>
-
-        </div>
-
-
-        <button class="primary-btn"
-                onclick="openAgentModal()">
-          + 新增代理商
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="agentsTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         产品
-    ====================================================== -->
-
-    <section id="products"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            产品目录
-          </h2>
-
-          <div class="subtext">
-            产品名称、编号、型号、规格、单位
-          </div>
-
-        </div>
-
-
-        <button class="primary-btn"
-                onclick="openProductModal()">
-          + 新增产品
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="productsTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         销售价格
-    ====================================================== -->
-
-    <section id="prices"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            销售价格
-          </h2>
-
-          <div class="subtext">
-            全部代理商统一使用
-          </div>
-
-        </div>
-
-
-        <button class="primary-btn"
-                onclick="openPriceModal()">
-          + 创建销售价格
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="pricesTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         订单
-    ====================================================== -->
-
-    <section id="orders"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            订单名录
-          </h2>
-
-          <div class="subtext">
-            公司所有代理商销售订单
-          </div>
-
-        </div>
-
-
-        <button class="primary-btn"
-                onclick="openOrderModal()">
-          + 创建订单
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="ordersTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         奖励
-    ====================================================== -->
-
-    <section id="rewards"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            年终奖励
-          </h2>
-
-          <div class="subtext">
-            每家代理商每个年度一条记录
-          </div>
-
-        </div>
-
-
-        <button class="primary-btn"
-                onclick="openRewardModal()">
-          + 填写奖励
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="rewardsTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         供应商
-    ====================================================== -->
-
-    <section id="suppliers"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            供应商名录
-          </h2>
-
-          <div class="subtext">
-            创始人专用采购管理模块
-          </div>
-
-        </div>
-
-
-        <button class="primary-btn"
-                onclick="openSupplierModal()">
-          + 新增供应商
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="suppliersTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =====================================================
-         采购
-    ====================================================== -->
-
-    <section id="purchases"
-             class="page">
-
-
-      <div class="page-header">
-
-        <div>
-
-          <h2>
-            采购 / 进货
-          </h2>
-
-          <div class="subtext">
-            创始人专用采购订单
-          </div>
-
-        </div>
-
-
-        <button class="primary-btn"
-                onclick="openPurchaseModal()">
-          + 创建采购单
-        </button>
-
-      </div>
-
-
-      <div class="card">
-
-        <div id="purchasesTable"></div>
-
-      </div>
-
-
-    </section>
-
-
-  </main>
-
-</div>
-
-
-
-<!-- =========================================================
-     Modal
-========================================================= -->
-
-<div id="modal"
-     class="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-title">
-
-      <h3 id="modalTitle"></h3>
-
-      <button class="close-btn"
-              onclick="closeModal()">
-        ×
-      </button>
-
-    </div>
-
-    <div id="modalContent"></div>
+    <p>
+      请选择需要进入的管理模块。
+      所有业务数据均由 Supabase 数据库统一保存。
+    </p>
 
   </div>
 
-</div>
+
+  <!-- ===================================================
+       数据总览
+  ==================================================== -->
+
+  <div class="stats">
 
 
-<div id="message"
-     class="message"></div>
+    <div class="stat-card">
+
+      <div class="stat-label">
+        有效代理商
+      </div>
+
+      <div
+        id="statAgents"
+        class="stat-number"
+      >
+        -
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-label">
+        有效产品
+      </div>
+
+      <div
+        id="statProducts"
+        class="stat-number"
+      >
+        -
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-label">
+        销售订单
+      </div>
+
+      <div
+        id="statOrders"
+        class="stat-number"
+      >
+        -
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-label">
+        当前有效销售价格
+      </div>
+
+      <div
+        id="statPrices"
+        class="stat-number"
+      >
+        -
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- ===================================================
+       基础资料
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-title">
+      基础资料
+    </div>
+
+    <div class="section-note">
+      公司管理人员在这里逐步建立系统基础数据。
+    </div>
+
+
+    <div class="menu-grid">
+
+
+      <!-- 工作人员 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('staff.html')"
+      >
+
+        <div class="menu-icon">
+          👤
+        </div>
+
+        <div class="menu-name">
+          工作人员
+        </div>
+
+        <div class="menu-description">
+          查看公司创始人和管理人员。
+          登录账号仍统一在 Supabase Authentication 中创建。
+        </div>
+
+      </div>
+
+
+      <!-- 代理商 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('agents.html')"
+      >
+
+        <div class="menu-icon">
+          🏢
+        </div>
+
+        <div class="menu-name">
+          代理商管理
+        </div>
+
+        <div class="menu-description">
+          创建代理商、维护联系人、电话、邮箱、地址，
+          并管理代理商有效或无效状态。
+        </div>
+
+      </div>
+
+
+      <!-- 产品 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('products.html')"
+      >
+
+        <div class="menu-icon">
+          📦
+        </div>
+
+        <div class="menu-name">
+          产品目录
+        </div>
+
+        <div class="menu-description">
+          创建公司产品编号、产品名称、型号、规格、
+          单位及产品说明。
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       销售业务
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-title">
+      销售业务
+    </div>
+
+    <div class="section-note">
+      产品和代理商建立以后，再进入销售业务模块。
+    </div>
+
+
+    <div class="menu-grid">
+
+
+      <!-- 销售价格 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('prices.html')"
+      >
+
+        <div class="menu-icon">
+          💰
+        </div>
+
+        <div class="menu-name">
+          销售价格
+        </div>
+
+        <div class="menu-description">
+          为产品创建公司统一销售价格。
+          新价格启用后，旧价格保留为历史记录。
+        </div>
+
+      </div>
+
+
+      <!-- 订单 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('orders.html')"
+      >
+
+        <div class="menu-icon">
+          🧾
+        </div>
+
+        <div class="menu-name">
+          销售订单
+        </div>
+
+        <div class="menu-description">
+          查看全部代理商订单，
+          创建订单并保存当时产品型号和销售价格快照。
+        </div>
+
+      </div>
+
+
+      <!-- 年终奖励 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('rewards.html')"
+      >
+
+        <div class="menu-icon">
+          🎁
+        </div>
+
+        <div class="menu-name">
+          年终奖励
+        </div>
+
+        <div class="menu-description">
+          按代理商和年度手工填写年终奖励金额，
+          每家代理商每年度保留一条正式记录。
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       创始人专用
+  ==================================================== -->
+
+  <section
+    id="founderSection"
+    class="founder-section"
+  >
+
+    <div class="section-title">
+
+      供应链管理
+
+      <span class="founder-tag">
+        创始人专用
+      </span>
+
+    </div>
+
+    <div class="section-note">
+      普通管理人员及代理商无法读取该模块数据。
+    </div>
+
+
+    <div class="menu-grid">
+
+
+      <!-- 供应商 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('suppliers.html')"
+      >
+
+        <div class="menu-icon">
+          🏭
+        </div>
+
+        <div class="menu-name">
+          供应商管理
+        </div>
+
+        <div class="menu-description">
+          建立供应商编号、名称、联系人、电话、
+          邮箱、地址及有效状态。
+        </div>
+
+      </div>
+
+
+      <!-- 采购 -->
+
+      <div
+        class="menu-card"
+        onclick="goPage('purchases.html')"
+      >
+
+        <div class="menu-icon">
+          🚚
+        </div>
+
+        <div class="menu-name">
+          采购 / 进货
+        </div>
+
+        <div class="menu-description">
+          创建采购订单，
+          记录供应商、产品、数量、采购价格及进货状态。
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<footer>
+  © 2026 硕丰科技
+</footer>
 
 
 
 <script>
 
 /* ============================================================
-   Supabase
+   Supabase 配置
 ============================================================ */
 
 const SUPABASE_URL =
   'https://icmifhjjhgjrhkunjbmu.supabase.co';
 
 
+/*
+  这里填 page10.html 中
+  已经使用成功的同一个 Publishable Key
+*/
 const SUPABASE_ANON_KEY =
-  '把page10里面已经使用成功的sb_publishable_key粘贴在这里';
+  '这里粘贴你的sb_publishable_key';
 
 
 const supabaseClient =
@@ -1177,105 +812,37 @@ const supabaseClient =
 let currentUser = null;
 let currentProfile = null;
 
-let agentsCache = [];
-let productsCache = [];
-let pricesCache = [];
-let suppliersCache = [];
-
 
 /* ============================================================
-   工具
+   页面跳转
 ============================================================ */
 
-function escapeHtml(value) {
+function goPage(page) {
 
-  return String(value ?? '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'","&#039;");
-
-}
-
-
-function money(value) {
-
-  return Number(value || 0)
-    .toLocaleString(
-      'zh-CN',
-      {
-        minimumFractionDigits:2,
-        maximumFractionDigits:2
-      }
-    );
-
-}
-
-
-function showMessage(text,error=false) {
-
-  const box =
-    document.getElementById('message');
-
-  box.textContent = text;
-
-  box.className =
-    'message show' +
-    (error ? ' error' : '');
-
-  setTimeout(
-    () => {
-      box.className = 'message';
-    },
-    3000
-  );
-
-}
-
-
-function openModal(title,html) {
-
-  document.getElementById(
-    'modalTitle'
-  ).textContent =
-    title;
-
-  document.getElementById(
-    'modalContent'
-  ).innerHTML =
-    html;
-
-  document.getElementById(
-    'modal'
-  ).classList.add('open');
-
-}
-
-
-function closeModal() {
-
-  document.getElementById(
-    'modal'
-  ).classList.remove('open');
+  window.location.href =
+    page;
 
 }
 
 
 /* ============================================================
-   登录
+   验证登录
 ============================================================ */
 
 async function verifyLogin() {
 
   const {
-    data:{session}
+    data: sessionData,
+    error: sessionError
   } =
     await supabaseClient.auth
       .getSession();
 
 
-  if(!session) {
+  if(
+    sessionError ||
+    !sessionData.session
+  ) {
 
     window.location.href =
       'page10.html';
@@ -1286,17 +853,17 @@ async function verifyLogin() {
 
 
   currentUser =
-    session.user;
+    sessionData.session.user;
 
 
   const {
-    data:profile,
-    error
+    data: profile,
+    error: profileError
   } =
     await supabaseClient
       .from('profiles')
       .select(
-        'id,display_name,role,is_active'
+        'id, display_name, role, is_active'
       )
       .eq(
         'id',
@@ -1306,7 +873,7 @@ async function verifyLogin() {
 
 
   if(
-    error ||
+    profileError ||
     !profile ||
     profile.is_active !== true ||
     !['founder','admin']
@@ -1330,32 +897,35 @@ async function verifyLogin() {
     profile;
 
 
+  const roleText =
+    profile.role === 'founder'
+      ? '创始人'
+      : '管理人员';
+
+
   document.getElementById(
     'headerUser'
   ).textContent =
-    `${profile.display_name || '管理人员'} ｜ ${
-      profile.role === 'founder'
-        ? '创始人'
-        : '管理人员'
-    }`;
+    `${profile.display_name || '管理人员'} ｜ ${roleText}`;
 
 
+  document.getElementById(
+    'welcomeTitle'
+  ).textContent =
+    `欢迎，${profile.display_name || '管理人员'}`;
+
+
+  /*
+    founder 才显示供应商与采购
+  */
   if(
     profile.role === 'founder'
   ) {
 
-    document
-      .querySelectorAll(
-        '.founder-only'
-      )
-      .forEach(
-        element => {
-
-          element.style.display =
-            'block';
-
-        }
-      );
+    document.getElementById(
+      'founderSection'
+    ).style.display =
+      'block';
 
   }
 
@@ -1366,100 +936,19 @@ async function verifyLogin() {
 
 
 /* ============================================================
-   菜单
-============================================================ */
-
-document
-  .querySelectorAll(
-    '.menu-btn'
-  )
-  .forEach(
-    button => {
-
-      button.addEventListener(
-        'click',
-        async function() {
-
-          document
-            .querySelectorAll(
-              '.menu-btn'
-            )
-            .forEach(
-              x =>
-                x.classList.remove(
-                  'active'
-                )
-            );
-
-
-          this.classList.add(
-            'active'
-          );
-
-
-          document
-            .querySelectorAll(
-              '.page'
-            )
-            .forEach(
-              x =>
-                x.classList.remove(
-                  'active'
-                )
-            );
-
-
-          const page =
-            this.dataset.page;
-
-
-          document
-            .getElementById(page)
-            .classList.add(
-              'active'
-            );
-
-
-          await loadPage(page);
-
-        }
-      );
-
-    }
-  );
-
-
-document.getElementById(
-  'logoutBtn'
-).addEventListener(
-  'click',
-  async function() {
-
-    await supabaseClient.auth
-      .signOut();
-
-    sessionStorage.clear();
-
-    window.location.href =
-      'page10.html';
-
-  }
-);
-
-
-/* ============================================================
-   总览
+   数据总览
 ============================================================ */
 
 async function loadDashboard() {
 
   const [
-    agents,
-    products,
-    orders,
-    prices
+    agentResult,
+    productResult,
+    orderResult,
+    priceResult
   ] =
     await Promise.all([
+
 
       supabaseClient
         .from('agents')
@@ -1475,6 +964,7 @@ async function loadDashboard() {
           true
         ),
 
+
       supabaseClient
         .from('products')
         .select(
@@ -1489,6 +979,7 @@ async function loadDashboard() {
           true
         ),
 
+
       supabaseClient
         .from('orders')
         .select(
@@ -1498,6 +989,7 @@ async function loadDashboard() {
             head:true
           }
         ),
+
 
       supabaseClient
         .from('sales_prices')
@@ -1513,2858 +1005,58 @@ async function loadDashboard() {
           true
         )
 
+
     ]);
 
 
   document.getElementById(
     'statAgents'
   ).textContent =
-    agents.count ?? 0;
+    agentResult.count ?? 0;
 
 
   document.getElementById(
     'statProducts'
   ).textContent =
-    products.count ?? 0;
+    productResult.count ?? 0;
 
 
   document.getElementById(
     'statOrders'
   ).textContent =
-    orders.count ?? 0;
+    orderResult.count ?? 0;
 
 
   document.getElementById(
     'statPrices'
   ).textContent =
-    prices.count ?? 0;
+    priceResult.count ?? 0;
 
 }
 
 
 /* ============================================================
-   工作人员：只读取
+   退出登录
 ============================================================ */
 
-async function loadStaff() {
+document.getElementById(
+  'logoutBtn'
+).addEventListener(
+  'click',
+  async function() {
 
-  const box =
-    document.getElementById(
-      'staffTable'
-    );
-
-
-  box.innerHTML =
-    '<div class="loading">正在读取...</div>';
+    await supabaseClient.auth
+      .signOut();
 
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('profiles')
-      .select(
-        'id,display_name,role,is_active,created_at'
-      )
-      .in(
-        'role',
-        ['founder','admin']
-      )
-      .order(
-        'created_at',
-        {ascending:true}
-      );
+    sessionStorage.clear();
 
 
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
+    window.location.href =
+      'page10.html';
 
   }
-
-
-  if(!data?.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无工作人员</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>姓名</th>
-
-          <th>身份</th>
-
-          <th>状态</th>
-
-          <th>建立时间</th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-        ${
-          data.map(
-            user => `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    user.display_name
-                  )}
-                </td>
-
-                <td>
-                  ${
-                    user.role ===
-                    'founder'
-                      ? '创始人'
-                      : '管理人员'
-                  }
-                </td>
-
-                <td class="${
-                  user.is_active
-                    ? 'status-active'
-                    : 'status-inactive'
-                }">
-
-                  ${
-                    user.is_active
-                      ? '有效'
-                      : '无效'
-                  }
-
-                </td>
-
-                <td>
-                  ${
-                    new Date(
-                      user.created_at
-                    ).toLocaleString()
-                  }
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-/* ============================================================
-   代理商
-============================================================ */
-
-async function loadAgents() {
-
-  const box =
-    document.getElementById(
-      'agentsTable'
-    );
-
-
-  box.innerHTML =
-    '<div class="loading">正在读取...</div>';
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('agents')
-      .select('*')
-      .order(
-        'id',
-        {ascending:true}
-      );
-
-
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
-
-  }
-
-
-  agentsCache =
-    data || [];
-
-
-  if(!agentsCache.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无代理商，请点击“新增代理商”。</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>编号</th>
-
-          <th>代理商名称</th>
-
-          <th>联系人</th>
-
-          <th>电话</th>
-
-          <th>邮箱</th>
-
-          <th>地址</th>
-
-          <th>状态</th>
-
-          <th>操作</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${
-          agentsCache.map(
-            agent => `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    agent.agent_code
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    agent.agent_name
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    agent.contact_person
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    agent.phone
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    agent.email
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    agent.address
-                  )}
-                </td>
-
-                <td class="${
-                  agent.is_active
-                    ? 'status-active'
-                    : 'status-inactive'
-                }">
-
-                  ${
-                    agent.is_active
-                      ? '有效'
-                      : '无效'
-                  }
-
-                </td>
-
-                <td>
-
-                  <button
-                    class="secondary-btn"
-                    onclick="editAgent(${agent.id})"
-                  >
-                    编辑
-                  </button>
-
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-function agentForm(agent={}) {
-
-  return `
-
-    <div class="form-grid">
-
-      <div class="form-group">
-
-        <label>
-          代理商编号 *
-        </label>
-
-        <input
-          id="agentCode"
-          value="${escapeHtml(
-            agent.agent_code || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          代理商名称 *
-        </label>
-
-        <input
-          id="agentName"
-          value="${escapeHtml(
-            agent.agent_name || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          联系人
-        </label>
-
-        <input
-          id="agentContact"
-          value="${escapeHtml(
-            agent.contact_person || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          联系电话
-        </label>
-
-        <input
-          id="agentPhone"
-          value="${escapeHtml(
-            agent.phone || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          邮箱
-        </label>
-
-        <input
-          id="agentEmail"
-          value="${escapeHtml(
-            agent.email || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          状态
-        </label>
-
-        <select id="agentActive">
-
-          <option
-            value="true"
-            ${
-              agent.is_active !== false
-                ? 'selected'
-                : ''
-            }
-          >
-            有效
-          </option>
-
-          <option
-            value="false"
-            ${
-              agent.is_active === false
-                ? 'selected'
-                : ''
-            }
-          >
-            无效
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="form-group full">
-
-        <label>
-          地址
-        </label>
-
-        <textarea id="agentAddress">${escapeHtml(
-          agent.address || ''
-        )}</textarea>
-
-      </div>
-
-
-      <div class="form-group full">
-
-        <label>
-          备注
-        </label>
-
-        <textarea id="agentNotes">${escapeHtml(
-          agent.notes || ''
-        )}</textarea>
-
-      </div>
-
-    </div>
-
-
-    <div class="modal-actions">
-
-      <button
-        class="secondary-btn"
-        onclick="closeModal()"
-      >
-        取消
-      </button>
-
-      <button
-        class="primary-btn"
-        onclick="saveAgent(${
-          agent.id || 'null'
-        })"
-      >
-        保存
-      </button>
-
-    </div>
-
-  `;
-
-}
-
-
-function openAgentModal() {
-
-  openModal(
-    '新增代理商',
-    agentForm()
-  );
-
-}
-
-
-function editAgent(id) {
-
-  const agent =
-    agentsCache.find(
-      item =>
-        Number(item.id) ===
-        Number(id)
-    );
-
-
-  if(!agent) return;
-
-
-  openModal(
-    '编辑代理商',
-    agentForm(agent)
-  );
-
-}
-
-
-async function saveAgent(id) {
-
-  const row = {
-
-    agent_code:
-      document.getElementById(
-        'agentCode'
-      ).value.trim(),
-
-    agent_name:
-      document.getElementById(
-        'agentName'
-      ).value.trim(),
-
-    contact_person:
-      document.getElementById(
-        'agentContact'
-      ).value.trim() || null,
-
-    phone:
-      document.getElementById(
-        'agentPhone'
-      ).value.trim() || null,
-
-    email:
-      document.getElementById(
-        'agentEmail'
-      ).value.trim() || null,
-
-    address:
-      document.getElementById(
-        'agentAddress'
-      ).value.trim() || null,
-
-    notes:
-      document.getElementById(
-        'agentNotes'
-      ).value.trim() || null,
-
-    is_active:
-      document.getElementById(
-        'agentActive'
-      ).value === 'true'
-
-  };
-
-
-  if(
-    !row.agent_code ||
-    !row.agent_name
-  ) {
-
-    showMessage(
-      '代理商编号和名称不能为空。',
-      true
-    );
-
-    return;
-
-  }
-
-
-  let result;
-
-
-  if(id) {
-
-    result =
-      await supabaseClient
-        .from('agents')
-        .update(row)
-        .eq('id',id);
-
-  } else {
-
-    result =
-      await supabaseClient
-        .from('agents')
-        .insert(row);
-
-  }
-
-
-  if(result.error) {
-
-    showMessage(
-      result.error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-  showMessage(
-    '代理商资料已保存'
-  );
-
-
-  await loadAgents();
-
-  await loadDashboard();
-
-}
-
-
-/* ============================================================
-   产品
-============================================================ */
-
-async function loadProducts() {
-
-  const box =
-    document.getElementById(
-      'productsTable'
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('products')
-      .select('*')
-      .order(
-        'id',
-        {ascending:true}
-      );
-
-
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
-
-  }
-
-
-  productsCache =
-    data || [];
-
-
-  if(!productsCache.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无产品，请点击“新增产品”。</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>产品编号</th>
-
-          <th>产品名称</th>
-
-          <th>型号 / 规格</th>
-
-          <th>单位</th>
-
-          <th>产品说明</th>
-
-          <th>状态</th>
-
-          <th>操作</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${
-          productsCache.map(
-            product => `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    product.product_code
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    product.product_name
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    product.specification
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    product.unit
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    product.description
-                  )}
-                </td>
-
-                <td class="${
-                  product.is_active
-                    ? 'status-active'
-                    : 'status-inactive'
-                }">
-
-                  ${
-                    product.is_active
-                      ? '有效'
-                      : '无效'
-                  }
-
-                </td>
-
-                <td>
-
-                  <button
-                    class="secondary-btn"
-                    onclick="editProduct(${product.id})"
-                  >
-                    编辑
-                  </button>
-
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-function productForm(product={}) {
-
-  return `
-
-    <div class="form-grid">
-
-      <div class="form-group">
-
-        <label>
-          产品编号 *
-        </label>
-
-        <input
-          id="productCode"
-          value="${escapeHtml(
-            product.product_code || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          产品名称 *
-        </label>
-
-        <input
-          id="productName"
-          value="${escapeHtml(
-            product.product_name || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          型号 / 规格
-        </label>
-
-        <input
-          id="productSpec"
-          value="${escapeHtml(
-            product.specification || ''
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          单位
-        </label>
-
-        <input
-          id="productUnit"
-          value="${escapeHtml(
-            product.unit || '件'
-          )}"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          状态
-        </label>
-
-        <select id="productActive">
-
-          <option
-            value="true"
-            ${
-              product.is_active !== false
-                ? 'selected'
-                : ''
-            }
-          >
-            有效
-          </option>
-
-          <option
-            value="false"
-            ${
-              product.is_active === false
-                ? 'selected'
-                : ''
-            }
-          >
-            无效
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="form-group full">
-
-        <label>
-          产品说明
-        </label>
-
-        <textarea id="productDescription">${escapeHtml(
-          product.description || ''
-        )}</textarea>
-
-      </div>
-
-    </div>
-
-
-    <div class="modal-actions">
-
-      <button
-        class="secondary-btn"
-        onclick="closeModal()"
-      >
-        取消
-      </button>
-
-      <button
-        class="primary-btn"
-        onclick="saveProduct(${
-          product.id || 'null'
-        })"
-      >
-        保存
-      </button>
-
-    </div>
-
-  `;
-
-}
-
-
-function openProductModal() {
-
-  openModal(
-    '新增产品',
-    productForm()
-  );
-
-}
-
-
-function editProduct(id) {
-
-  const product =
-    productsCache.find(
-      item =>
-        Number(item.id) ===
-        Number(id)
-    );
-
-
-  if(!product) return;
-
-
-  openModal(
-    '编辑产品',
-    productForm(product)
-  );
-
-}
-
-
-async function saveProduct(id) {
-
-  const row = {
-
-    product_code:
-      document.getElementById(
-        'productCode'
-      ).value.trim(),
-
-    product_name:
-      document.getElementById(
-        'productName'
-      ).value.trim(),
-
-    specification:
-      document.getElementById(
-        'productSpec'
-      ).value.trim() || null,
-
-    unit:
-      document.getElementById(
-        'productUnit'
-      ).value.trim() || '件',
-
-    description:
-      document.getElementById(
-        'productDescription'
-      ).value.trim() || null,
-
-    is_active:
-      document.getElementById(
-        'productActive'
-      ).value === 'true'
-
-  };
-
-
-  if(
-    !row.product_code ||
-    !row.product_name
-  ) {
-
-    showMessage(
-      '产品编号和产品名称不能为空。',
-      true
-    );
-
-    return;
-
-  }
-
-
-  let result;
-
-
-  if(id) {
-
-    result =
-      await supabaseClient
-        .from('products')
-        .update(row)
-        .eq('id',id);
-
-  } else {
-
-    result =
-      await supabaseClient
-        .from('products')
-        .insert(row);
-
-  }
-
-
-  if(result.error) {
-
-    showMessage(
-      result.error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-  showMessage(
-    '产品资料已保存'
-  );
-
-
-  await loadProducts();
-
-  await loadDashboard();
-
-}
-
-
-/* ============================================================
-   销售价格
-============================================================ */
-
-async function loadPrices() {
-
-  const box =
-    document.getElementById(
-      'pricesTable'
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('sales_prices')
-      .select(`
-        id,
-        product_id,
-        price,
-        currency,
-        is_active,
-        effective_from,
-        notes,
-        created_at,
-        products(
-          product_code,
-          product_name,
-          specification
-        )
-      `)
-      .order(
-        'id',
-        {ascending:false}
-      );
-
-
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
-
-  }
-
-
-  pricesCache =
-    data || [];
-
-
-  if(!pricesCache.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无销售价格。</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>产品编号</th>
-
-          <th>产品名称</th>
-
-          <th>型号 / 规格</th>
-
-          <th>销售价格</th>
-
-          <th>币种</th>
-
-          <th>生效日期</th>
-
-          <th>状态</th>
-
-          <th>备注</th>
-
-          <th>操作</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${
-          pricesCache.map(
-            price => `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    price.products
-                      ?.product_code
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    price.products
-                      ?.product_name
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    price.products
-                      ?.specification
-                  )}
-                </td>
-
-                <td>
-                  ${money(
-                    price.price
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    price.currency
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    price.effective_from
-                  )}
-                </td>
-
-                <td class="${
-                  price.is_active
-                    ? 'status-active'
-                    : 'status-inactive'
-                }">
-
-                  ${
-                    price.is_active
-                      ? '有效'
-                      : '无效'
-                  }
-
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    price.notes
-                  )}
-                </td>
-
-                <td>
-
-                  ${
-                    price.is_active
-
-                    ? `
-
-                      <button
-                        class="warning-btn"
-                        onclick="disablePrice(${price.id})"
-                      >
-                        设为无效
-                      </button>
-
-                    `
-
-                    : '-'
-                  }
-
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-async function openPriceModal() {
-
-  await ensureProducts();
-
-
-  const activeProducts =
-    productsCache.filter(
-      product =>
-        product.is_active
-    );
-
-
-  if(!activeProducts.length) {
-
-    showMessage(
-      '请先创建有效产品。',
-      true
-    );
-
-    return;
-
-  }
-
-
-  const options =
-    activeProducts.map(
-      product => `
-
-        <option value="${product.id}">
-
-          ${escapeHtml(
-            product.product_name
-          )}
-
-          ${
-            product.specification
-              ? ' - ' +
-                escapeHtml(
-                  product.specification
-                )
-              : ''
-          }
-
-        </option>
-
-      `
-    ).join('');
-
-
-  openModal(
-    '创建销售价格',
-    `
-
-      <div class="form-grid">
-
-        <div class="form-group full">
-
-          <label>
-            产品 *
-          </label>
-
-          <select id="priceProduct">
-            ${options}
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            销售价格 *
-          </label>
-
-          <input
-            id="priceValue"
-            type="number"
-            min="0"
-            step="0.01"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            币种
-          </label>
-
-          <select id="priceCurrency">
-
-            <option value="CNY">
-              CNY 人民币
-            </option>
-
-            <option value="EUR">
-              EUR 欧元
-            </option>
-
-            <option value="USD">
-              USD 美元
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            生效日期
-          </label>
-
-          <input
-            id="priceDate"
-            type="date"
-            value="${
-              new Date()
-                .toISOString()
-                .slice(0,10)
-            }"
-          >
-
-        </div>
-
-
-        <div class="form-group full">
-
-          <label>
-            备注
-          </label>
-
-          <textarea
-            id="priceNotes"
-          ></textarea>
-
-        </div>
-
-      </div>
-
-
-      <div class="info-box">
-
-        同一产品同时只允许存在一个有效销售价格。
-
-        创建新价格时，
-        原来的有效价格将自动设置为无效。
-
-        历史价格记录永久保留。
-
-      </div>
-
-
-      <div class="modal-actions">
-
-        <button
-          class="secondary-btn"
-          onclick="closeModal()"
-        >
-          取消
-        </button>
-
-        <button
-          class="primary-btn"
-          onclick="savePrice()"
-        >
-          创建价格
-        </button>
-
-      </div>
-
-    `
-  );
-
-}
-
-
-async function savePrice() {
-
-  const productId =
-    Number(
-      document.getElementById(
-        'priceProduct'
-      ).value
-    );
-
-
-  const priceValue =
-    Number(
-      document.getElementById(
-        'priceValue'
-      ).value
-    );
-
-
-  if(
-    !productId ||
-    !Number.isFinite(priceValue) ||
-    priceValue < 0
-  ) {
-
-    showMessage(
-      '请填写正确的销售价格。',
-      true
-    );
-
-    return;
-
-  }
-
-
-  const disableResult =
-    await supabaseClient
-      .from('sales_prices')
-      .update({
-        is_active:false
-      })
-      .eq(
-        'product_id',
-        productId
-      )
-      .eq(
-        'is_active',
-        true
-      );
-
-
-  if(disableResult.error) {
-
-    showMessage(
-      disableResult.error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  const result =
-    await supabaseClient
-      .from('sales_prices')
-      .insert({
-
-        product_id:
-          productId,
-
-        price:
-          priceValue,
-
-        currency:
-          document.getElementById(
-            'priceCurrency'
-          ).value,
-
-        effective_from:
-          document.getElementById(
-            'priceDate'
-          ).value,
-
-        notes:
-          document.getElementById(
-            'priceNotes'
-          ).value.trim() || null,
-
-        is_active:
-          true,
-
-        created_by:
-          currentUser.id
-
-      });
-
-
-  if(result.error) {
-
-    showMessage(
-      result.error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-  showMessage(
-    '销售价格已创建'
-  );
-
-
-  await loadPrices();
-
-  await loadDashboard();
-
-}
-
-
-async function disablePrice(id) {
-
-  const ok =
-    confirm(
-      '确定把该价格设置为无效吗？历史记录不会删除。'
-    );
-
-
-  if(!ok) return;
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from('sales_prices')
-      .update({
-        is_active:false
-      })
-      .eq('id',id);
-
-
-  if(error) {
-
-    showMessage(
-      error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  await loadPrices();
-
-  await loadDashboard();
-
-}
-
-
-/* ============================================================
-   订单
-============================================================ */
-
-function statusText(status) {
-
-  const map = {
-
-    pending:
-      '待确认',
-
-    confirmed:
-      '已确认',
-
-    processing:
-      '处理中',
-
-    shipped:
-      '已发货',
-
-    completed:
-      '已完成',
-
-    cancelled:
-      '已取消',
-
-    received:
-      '已收货'
-
-  };
-
-
-  return (
-    map[status] ||
-    status
-  );
-
-}
-
-
-async function loadOrders() {
-
-  const box =
-    document.getElementById(
-      'ordersTable'
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('orders')
-      .select(`
-        id,
-        order_no,
-        order_date,
-        status,
-        total_amount,
-        currency,
-        remarks,
-        created_at,
-        agents(
-          agent_code,
-          agent_name
-        )
-      `)
-      .order(
-        'created_at',
-        {ascending:false}
-      );
-
-
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
-
-  }
-
-
-  if(!data?.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无销售订单。</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>订单号</th>
-
-          <th>代理商</th>
-
-          <th>订单日期</th>
-
-          <th>订单金额</th>
-
-          <th>币种</th>
-
-          <th>状态</th>
-
-          <th>备注</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${
-          data.map(
-            order => `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    order.order_no
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    order.agents
-                      ?.agent_name
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    order.order_date
-                  )}
-                </td>
-
-                <td>
-                  ${money(
-                    order.total_amount
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    order.currency
-                  )}
-                </td>
-
-                <td>
-                  ${statusText(
-                    order.status
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    order.remarks
-                  )}
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-/*
-  订单详细创建模块下一阶段继续完善。
-  数据结构已经准备好：
-  orders
-  order_items
-*/
-function openOrderModal() {
-
-  showMessage(
-    '销售订单详细录入模块下一步继续完善。'
-  );
-
-}
-
-
-/* ============================================================
-   年终奖励
-============================================================ */
-
-async function loadRewards() {
-
-  const box =
-    document.getElementById(
-      'rewardsTable'
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('annual_rewards')
-      .select(`
-        id,
-        reward_year,
-        reward_amount,
-        currency,
-        remarks,
-        agents(
-          agent_code,
-          agent_name
-        )
-      `)
-      .order(
-        'reward_year',
-        {ascending:false}
-      );
-
-
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
-
-  }
-
-
-  if(!data?.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无年终奖励记录。</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>年度</th>
-
-          <th>代理商</th>
-
-          <th>奖励金额</th>
-
-          <th>币种</th>
-
-          <th>备注</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${
-          data.map(
-            reward => `
-
-              <tr>
-
-                <td>
-                  ${reward.reward_year}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    reward.agents
-                      ?.agent_name
-                  )}
-                </td>
-
-                <td>
-                  ${money(
-                    reward.reward_amount
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    reward.currency
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    reward.remarks
-                  )}
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-async function openRewardModal() {
-
-  await ensureAgents();
-
-
-  const activeAgents =
-    agentsCache.filter(
-      agent =>
-        agent.is_active
-    );
-
-
-  if(!activeAgents.length) {
-
-    showMessage(
-      '请先创建有效代理商。',
-      true
-    );
-
-    return;
-
-  }
-
-
-  openModal(
-    '填写年终奖励',
-    `
-
-      <div class="form-grid">
-
-        <div class="form-group">
-
-          <label>
-            代理商
-          </label>
-
-          <select id="rewardAgent">
-
-            ${
-              activeAgents.map(
-                agent => `
-
-                  <option value="${agent.id}">
-
-                    ${escapeHtml(
-                      agent.agent_name
-                    )}
-
-                  </option>
-
-                `
-              ).join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            年度
-          </label>
-
-          <input
-            id="rewardYear"
-            type="number"
-            value="${
-              new Date().getFullYear()
-            }"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            奖励金额
-          </label>
-
-          <input
-            id="rewardAmount"
-            type="number"
-            min="0"
-            step="0.01"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            币种
-          </label>
-
-          <select id="rewardCurrency">
-
-            <option value="CNY">
-              CNY
-            </option>
-
-            <option value="EUR">
-              EUR
-            </option>
-
-            <option value="USD">
-              USD
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-          <label>
-            备注
-          </label>
-
-          <textarea
-            id="rewardNotes"
-          ></textarea>
-
-        </div>
-
-      </div>
-
-
-      <div class="modal-actions">
-
-        <button
-          class="secondary-btn"
-          onclick="closeModal()"
-        >
-          取消
-        </button>
-
-        <button
-          class="primary-btn"
-          onclick="saveReward()"
-        >
-          保存
-        </button>
-
-      </div>
-
-    `
-  );
-
-}
-
-
-async function saveReward() {
-
-  const row = {
-
-    agent_id:
-      Number(
-        document.getElementById(
-          'rewardAgent'
-        ).value
-      ),
-
-    reward_year:
-      Number(
-        document.getElementById(
-          'rewardYear'
-        ).value
-      ),
-
-    reward_amount:
-      Number(
-        document.getElementById(
-          'rewardAmount'
-        ).value
-      ),
-
-    currency:
-      document.getElementById(
-        'rewardCurrency'
-      ).value,
-
-    remarks:
-      document.getElementById(
-        'rewardNotes'
-      ).value.trim() || null,
-
-    created_by:
-      currentUser.id
-
-  };
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from('annual_rewards')
-      .upsert(
-        row,
-        {
-          onConflict:
-            'agent_id,reward_year'
-        }
-      );
-
-
-  if(error) {
-
-    showMessage(
-      error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-  showMessage(
-    '年终奖励已保存'
-  );
-
-
-  await loadRewards();
-
-}
-
-
-/* ============================================================
-   供应商
-============================================================ */
-
-async function loadSuppliers() {
-
-  if(
-    currentProfile.role !==
-    'founder'
-  ) {
-    return;
-  }
-
-
-  const box =
-    document.getElementById(
-      'suppliersTable'
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('suppliers')
-      .select('*')
-      .order(
-        'id',
-        {ascending:true}
-      );
-
-
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
-
-  }
-
-
-  suppliersCache =
-    data || [];
-
-
-  if(!suppliersCache.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无供应商。</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>供应商编号</th>
-
-          <th>供应商名称</th>
-
-          <th>联系人</th>
-
-          <th>电话</th>
-
-          <th>邮箱</th>
-
-          <th>地址</th>
-
-          <th>状态</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${
-          suppliersCache.map(
-            supplier => `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    supplier.supplier_code
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    supplier.supplier_name
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    supplier.contact_person
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    supplier.phone
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    supplier.email
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    supplier.address
-                  )}
-                </td>
-
-                <td class="${
-                  supplier.is_active
-                    ? 'status-active'
-                    : 'status-inactive'
-                }">
-
-                  ${
-                    supplier.is_active
-                      ? '有效'
-                      : '无效'
-                  }
-
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-function openSupplierModal() {
-
-  openModal(
-    '新增供应商',
-    `
-
-      <div class="form-grid">
-
-        <div class="form-group">
-
-          <label>
-            供应商编号 *
-          </label>
-
-          <input id="supplierCode">
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            供应商名称 *
-          </label>
-
-          <input id="supplierName">
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            联系人
-          </label>
-
-          <input id="supplierContact">
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            联系电话
-          </label>
-
-          <input id="supplierPhone">
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            邮箱
-          </label>
-
-          <input id="supplierEmail">
-
-        </div>
-
-
-        <div class="form-group full">
-
-          <label>
-            地址
-          </label>
-
-          <textarea
-            id="supplierAddress"
-          ></textarea>
-
-        </div>
-
-
-        <div class="form-group full">
-
-          <label>
-            备注
-          </label>
-
-          <textarea
-            id="supplierNotes"
-          ></textarea>
-
-        </div>
-
-      </div>
-
-
-      <div class="modal-actions">
-
-        <button
-          class="secondary-btn"
-          onclick="closeModal()"
-        >
-          取消
-        </button>
-
-        <button
-          class="primary-btn"
-          onclick="saveSupplier()"
-        >
-          保存
-        </button>
-
-      </div>
-
-    `
-  );
-
-}
-
-
-async function saveSupplier() {
-
-  const supplierCode =
-    document.getElementById(
-      'supplierCode'
-    ).value.trim();
-
-
-  const supplierName =
-    document.getElementById(
-      'supplierName'
-    ).value.trim();
-
-
-  if(
-    !supplierCode ||
-    !supplierName
-  ) {
-
-    showMessage(
-      '供应商编号和名称不能为空。',
-      true
-    );
-
-    return;
-
-  }
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from('suppliers')
-      .insert({
-
-        supplier_code:
-          supplierCode,
-
-        supplier_name:
-          supplierName,
-
-        contact_person:
-          document.getElementById(
-            'supplierContact'
-          ).value.trim() || null,
-
-        phone:
-          document.getElementById(
-            'supplierPhone'
-          ).value.trim() || null,
-
-        email:
-          document.getElementById(
-            'supplierEmail'
-          ).value.trim() || null,
-
-        address:
-          document.getElementById(
-            'supplierAddress'
-          ).value.trim() || null,
-
-        notes:
-          document.getElementById(
-            'supplierNotes'
-          ).value.trim() || null,
-
-        is_active:
-          true
-
-      });
-
-
-  if(error) {
-
-    showMessage(
-      error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-  showMessage(
-    '供应商资料已创建'
-  );
-
-
-  await loadSuppliers();
-
-}
-
-
-/* ============================================================
-   采购
-============================================================ */
-
-async function loadPurchases() {
-
-  if(
-    currentProfile.role !==
-    'founder'
-  ) {
-    return;
-  }
-
-
-  const box =
-    document.getElementById(
-      'purchasesTable'
-    );
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from('purchase_orders')
-      .select(`
-        id,
-        purchase_no,
-        purchase_date,
-        status,
-        total_amount,
-        currency,
-        remarks,
-        suppliers(
-          supplier_name
-        )
-      `)
-      .order(
-        'created_at',
-        {ascending:false}
-      );
-
-
-  if(error) {
-
-    box.innerHTML =
-      `<div class="empty">${
-        escapeHtml(error.message)
-      }</div>`;
-
-    return;
-
-  }
-
-
-  if(!data?.length) {
-
-    box.innerHTML =
-      '<div class="empty">暂无采购订单。</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML = `
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>采购单号</th>
-
-          <th>供应商</th>
-
-          <th>日期</th>
-
-          <th>金额</th>
-
-          <th>币种</th>
-
-          <th>状态</th>
-
-          <th>备注</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        ${
-          data.map(
-            purchase => `
-
-              <tr>
-
-                <td>
-                  ${escapeHtml(
-                    purchase.purchase_no
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    purchase.suppliers
-                      ?.supplier_name
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    purchase.purchase_date
-                  )}
-                </td>
-
-                <td>
-                  ${money(
-                    purchase.total_amount
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    purchase.currency
-                  )}
-                </td>
-
-                <td>
-                  ${statusText(
-                    purchase.status
-                  )}
-                </td>
-
-                <td>
-                  ${escapeHtml(
-                    purchase.remarks
-                  )}
-                </td>
-
-              </tr>
-
-            `
-          ).join('')
-        }
-
-      </tbody>
-
-    </table>
-
-  `;
-
-}
-
-
-function openPurchaseModal() {
-
-  showMessage(
-    '采购明细录入模块下一步继续完善。'
-  );
-
-}
-
-
-/* ============================================================
-   Cache
-============================================================ */
-
-async function ensureAgents() {
-
-  const {
-    data
-  } =
-    await supabaseClient
-      .from('agents')
-      .select('*')
-      .order('id');
-
-
-  agentsCache =
-    data || [];
-
-}
-
-
-async function ensureProducts() {
-
-  const {
-    data
-  } =
-    await supabaseClient
-      .from('products')
-      .select('*')
-      .order('id');
-
-
-  productsCache =
-    data || [];
-
-}
-
-
-async function ensurePrices() {
-
-  const {
-    data
-  } =
-    await supabaseClient
-      .from('sales_prices')
-      .select('*')
-      .order('id');
-
-
-  pricesCache =
-    data || [];
-
-}
-
-
-async function ensureSuppliers() {
-
-  if(
-    currentProfile.role !==
-    'founder'
-  ) {
-    return;
-  }
-
-
-  const {
-    data
-  } =
-    await supabaseClient
-      .from('suppliers')
-      .select('*')
-      .order('id');
-
-
-  suppliersCache =
-    data || [];
-
-}
-
-
-/* ============================================================
-   页面加载
-============================================================ */
-
-async function loadPage(page) {
-
-  switch(page) {
-
-    case 'dashboard':
-      await loadDashboard();
-      break;
-
-    case 'staff':
-      await loadStaff();
-      break;
-
-    case 'agents':
-      await loadAgents();
-      break;
-
-    case 'products':
-      await loadProducts();
-      break;
-
-    case 'prices':
-      await loadPrices();
-      break;
-
-    case 'orders':
-      await loadOrders();
-      break;
-
-    case 'rewards':
-      await loadRewards();
-      break;
-
-    case 'suppliers':
-      await loadSuppliers();
-      break;
-
-    case 'purchases':
-      await loadPurchases();
-      break;
-
-  }
-
-}
+);
 
 
 /* ============================================================
@@ -4382,28 +1074,13 @@ async function init() {
   }
 
 
-  await Promise.all([
-
-    ensureAgents(),
-
-    ensureProducts(),
-
-    ensurePrices()
-
-  ]);
-
-
-  if(
-    currentProfile.role ===
-    'founder'
-  ) {
-
-    await ensureSuppliers();
-
-  }
-
-
   await loadDashboard();
+
+
+  document.getElementById(
+    'loadingMask'
+  ).style.display =
+    'none';
 
 }
 
@@ -4411,6 +1088,7 @@ async function init() {
 init();
 
 </script>
+
 
 </body>
 </html>
