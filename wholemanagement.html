@@ -1,138 +1,324 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>公司管理后台｜硕丰科技</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    公司管理后台｜硕丰科技
+  </title>
+
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                   "Microsoft YaHei", Arial, sans-serif;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft YaHei",
+        Arial,
+        sans-serif;
+
       background: #f4f6f8;
+
       color: #222;
+
     }
 
+
     header {
+
       background: #0b1220;
+
       color: white;
+
       padding: 20px 30px;
 
       display: flex;
+
       justify-content: space-between;
+
       align-items: center;
+
     }
+
 
     .title {
+
       font-size: 22px;
+
       font-weight: 700;
+
     }
+
 
     .logout-btn {
+
       padding: 9px 16px;
-      border: 1px solid #fff;
+
+      border: 1px solid #ffffff;
+
       border-radius: 6px;
+
       background: transparent;
+
       color: white;
+
       cursor: pointer;
+
+      font-size: 14px;
+
     }
+
 
     .logout-btn:hover {
-      background: rgba(255,255,255,0.1);
+
+      background:
+        rgba(255, 255, 255, 0.1);
+
     }
+
 
     main {
+
       max-width: 1000px;
+
       margin: 40px auto;
+
       padding: 0 20px;
+
     }
 
+
     .card {
+
       background: white;
+
       border-radius: 12px;
+
       padding: 25px;
 
       box-shadow:
-        0 5px 20px rgba(0,0,0,0.06);
+        0 5px 20px
+        rgba(0, 0, 0, 0.06);
+
     }
+
 
     h2 {
+
       margin-top: 0;
-      margin-bottom: 20px;
+
+      margin-bottom: 25px;
+
+      font-size: 22px;
+
     }
 
+
     table {
+
       width: 100%;
+
       border-collapse: collapse;
+
     }
+
 
     th,
     td {
+
       padding: 14px;
+
       text-align: left;
-      border-bottom: 1px solid #e5e7eb;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
     }
+
 
     th {
+
       background: #f8fafc;
+
       font-size: 14px;
+
+      color: #444;
+
     }
+
 
     td {
+
       font-size: 14px;
+
     }
+
 
     .loading {
+
       padding: 30px;
+
       text-align: center;
+
       color: #777;
+
     }
+
 
     .error {
+
       padding: 20px;
+
       color: #d93025;
+
       text-align: center;
+
+      line-height: 1.6;
+
+      word-break: break-word;
+
     }
+
+
+    .user-role {
+
+      display: inline-block;
+
+      padding: 5px 10px;
+
+      border-radius: 20px;
+
+      background: #e8f0fe;
+
+      color: #1967d2;
+
+      font-size: 12px;
+
+      font-weight: 600;
+
+    }
+
+
+    .footer {
+
+      margin-top: 30px;
+
+      text-align: center;
+
+      color: #999;
+
+      font-size: 12px;
+
+    }
+
+
+    @media (max-width: 700px) {
+
+      header {
+
+        padding: 16px 18px;
+
+      }
+
+
+      .title {
+
+        font-size: 18px;
+
+      }
+
+
+      main {
+
+        margin-top: 20px;
+
+        padding: 0 12px;
+
+      }
+
+
+      .card {
+
+        padding: 18px;
+
+        overflow-x: auto;
+
+      }
+
+
+      table {
+
+        min-width: 700px;
+
+      }
+
+    }
+
   </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
   <div class="title">
+
     硕丰科技｜公司管理后台
+
   </div>
+
 
   <button
     class="logout-btn"
     onclick="logout()"
   >
+
     退出登录
+
   </button>
 
 </header>
 
 
+
 <main>
 
+
   <div class="card">
+
 
     <h2>
       当前登录用户
     </h2>
 
+
     <div
       id="loading"
       class="loading"
     >
+
       正在从数据库读取用户信息……
+
     </div>
 
 
@@ -140,7 +326,9 @@
       id="error"
       class="error"
       style="display:none;"
-    ></div>
+    >
+    </div>
+
 
 
     <table
@@ -148,40 +336,83 @@
       style="display:none;"
     >
 
+
       <thead>
+
         <tr>
-          <th>姓名</th>
-          <th>登录邮箱</th>
-          <th>用户类型</th>
-          <th>公司名称</th>
-          <th>创建时间</th>
+
+          <th>
+            姓名
+          </th>
+
+          <th>
+            登录邮箱
+          </th>
+
+          <th>
+            用户类型
+          </th>
+
+          <th>
+            公司名称
+          </th>
+
+          <th>
+            创建时间
+          </th>
+
         </tr>
+
       </thead>
 
-      <tbody id="userTableBody">
+
+      <tbody
+        id="userTableBody"
+      >
       </tbody>
+
 
     </table>
 
+
   </div>
+
+
+  <div class="footer">
+
+    © 2026 硕丰科技
+
+  </div>
+
 
 </main>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Supabase JavaScript -->
+
+<script
+  src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
 
 <script>
 
+
   /*
-   * 这里填写与你登录页面完全相同的
-   * Supabase Project URL 和 anon key
+   * ========================================
+   * Supabase 配置
+   * ========================================
    */
 
+
   const SUPABASE_URL =
-    "你的_SUPABASE_PROJECT_URL";
+    "https://icmifhjjhgjrhkunjbmu.supabase.co";
+
 
   const SUPABASE_ANON_KEY =
-    "你的_SUPABASE_ANON_KEY";
+    "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
 
 
   const supabaseClient =
@@ -191,209 +422,464 @@
     );
 
 
+
+  /*
+   * ========================================
+   * 页面打开以后读取当前用户
+   * ========================================
+   */
+
+
   async function loadCurrentUser() {
 
+
     const loading =
-      document.getElementById("loading");
+      document.getElementById(
+        "loading"
+      );
+
 
     const errorBox =
-      document.getElementById("error");
+      document.getElementById(
+        "error"
+      );
+
 
     const table =
-      document.getElementById("userTable");
+      document.getElementById(
+        "userTable"
+      );
+
 
     const tbody =
-      document.getElementById("userTableBody");
+      document.getElementById(
+        "userTableBody"
+      );
 
 
-    /*
-     * 第一步：
-     * 从 Supabase Auth 获取当前登录用户
-     */
 
-    const {
-      data: userData,
-      error: userError
-    } =
-      await supabaseClient.auth.getUser();
+    try {
 
 
-    /*
-     * 没有登录
-     */
-
-    if (
-      userError ||
-      !userData.user
-    ) {
-
-      window.location.href =
-        "management-login.html";
-
-      return;
-    }
+      /*
+       * ========================================
+       * 第一步
+       *
+       * 检查当前有没有登录
+       * ========================================
+       */
 
 
-    const user =
-      userData.user;
+      const {
+        data: userData,
+        error: userError
+      } =
+        await supabaseClient.auth
+          .getUser();
 
 
-    /*
-     * 第二步：
-     * 根据当前登录用户 UID
-     * 去 profiles 数据库读取资料
-     */
 
-    const {
-      data: profile,
-      error: profileError
-    } =
-      await supabaseClient
-        .from("profiles")
-        .select(
-          "id, name, role, company_name, created_at"
-        )
-        .eq(
-          "id",
-          user.id
-        )
-        .single();
+      if (
+        userError ||
+        !userData ||
+        !userData.user
+      ) {
 
 
-    loading.style.display =
-      "none";
+        console.error(
+          "没有有效登录用户：",
+          userError
+        );
 
 
-    if (
-      profileError ||
-      !profile
-    ) {
+        /*
+         * 没有登录
+         * 返回登录页面
+         */
+
+
+        window.location.href =
+          "page10.html";
+
+
+        return;
+
+      }
+
+
+
+      const user =
+        userData.user;
+
+
+
+      /*
+       * ========================================
+       * 第二步
+       *
+       * 根据 Auth 用户 UID
+       * 从 profiles 数据库读取资料
+       * ========================================
+       */
+
+
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select(
+            "id, name, role, company_name, created_at"
+          )
+          .eq(
+            "id",
+            user.id
+          )
+          .single();
+
+
+
+      /*
+       * 隐藏加载提示
+       */
+
+
+      loading.style.display =
+        "none";
+
+
+
+      /*
+       * ========================================
+       * profiles 查询失败
+       * ========================================
+       */
+
+
+      if (
+        profileError ||
+        !profile
+      ) {
+
+
+        console.error(
+          "读取 profiles 失败：",
+          profileError
+        );
+
+
+        errorBox.style.display =
+          "block";
+
+
+        errorBox.innerText =
+          "读取用户资料失败：" +
+          (
+            profileError
+              ? profileError.message
+              : "数据库中找不到用户资料"
+          );
+
+
+        return;
+
+      }
+
+
+
+      /*
+       * ========================================
+       * 第三步
+       *
+       * 只允许 company 用户
+       * ========================================
+       */
+
+
+      if (
+        profile.role !==
+        "company"
+      ) {
+
+
+        await supabaseClient.auth
+          .signOut();
+
+
+        alert(
+          "当前账号不是公司管理人员账号"
+        );
+
+
+        window.location.href =
+          "page10.html";
+
+
+        return;
+
+      }
+
+
+
+      /*
+       * ========================================
+       * 第四步
+       *
+       * 将数据库中的用户资料
+       * 显示到页面
+       * ========================================
+       */
+
+
+      tbody.innerHTML = "";
+
+
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+
+      const nameTd =
+        document.createElement(
+          "td"
+        );
+
+
+      nameTd.textContent =
+        profile.name || "";
+
+
+
+      const emailTd =
+        document.createElement(
+          "td"
+        );
+
+
+      emailTd.textContent =
+        user.email || "";
+
+
+
+      const roleTd =
+        document.createElement(
+          "td"
+        );
+
+
+      const roleBadge =
+        document.createElement(
+          "span"
+        );
+
+
+      roleBadge.className =
+        "user-role";
+
+
+      roleBadge.textContent =
+        profile.role || "";
+
+
+      roleTd.appendChild(
+        roleBadge
+      );
+
+
+
+      const companyTd =
+        document.createElement(
+          "td"
+        );
+
+
+      companyTd.textContent =
+        profile.company_name || "";
+
+
+
+      const createdTd =
+        document.createElement(
+          "td"
+        );
+
+
+      createdTd.textContent =
+        formatDate(
+          profile.created_at
+        );
+
+
+
+      tr.appendChild(
+        nameTd
+      );
+
+
+      tr.appendChild(
+        emailTd
+      );
+
+
+      tr.appendChild(
+        roleTd
+      );
+
+
+      tr.appendChild(
+        companyTd
+      );
+
+
+      tr.appendChild(
+        createdTd
+      );
+
+
+
+      tbody.appendChild(
+        tr
+      );
+
+
+
+      table.style.display =
+        "table";
+
+
+    } catch (error) {
+
+
+      /*
+       * ========================================
+       * 捕获 JavaScript / 网络错误
+       * ========================================
+       */
+
 
       console.error(
-        "读取 profiles 失败：",
-        profileError
+        "系统错误：",
+        error
       );
+
+
+      loading.style.display =
+        "none";
+
 
       errorBox.style.display =
         "block";
 
-      errorBox.innerText =
-        "无法读取当前用户资料。";
 
-      return;
+      errorBox.innerText =
+        "系统错误：" +
+        (
+          error &&
+          error.message
+            ? error.message
+            : String(error)
+        );
+
     }
 
+  }
 
-    /*
-     * 第三步：
-     * 只允许 company 用户进入
-     */
 
-    if (
-      profile.role !==
-      "company"
-    ) {
+
+  /*
+   * ========================================
+   * 退出登录
+   * ========================================
+   */
+
+
+  async function logout() {
+
+
+    try {
+
 
       await supabaseClient.auth
         .signOut();
 
-      alert(
-        "当前账号不是公司人员账号"
+
+    } catch (error) {
+
+
+      console.error(
+        "退出登录错误：",
+        error
       );
 
-      window.location.href =
-        "management-login.html";
 
-      return;
+    } finally {
+
+
+      window.location.href =
+        "page10.html";
+
     }
 
-
-    /*
-     * 第四步：
-     * 把数据库数据放到表格
-     */
-
-    const tr =
-      document.createElement("tr");
-
-
-    tr.innerHTML = `
-      <td>${escapeHtml(profile.name || "")}</td>
-
-      <td>${escapeHtml(user.email || "")}</td>
-
-      <td>${escapeHtml(profile.role || "")}</td>
-
-      <td>${escapeHtml(profile.company_name || "")}</td>
-
-      <td>${formatDate(profile.created_at)}</td>
-    `;
-
-
-    tbody.innerHTML = "";
-
-    tbody.appendChild(tr);
-
-    table.style.display =
-      "table";
-
   }
 
 
-  /*
-   * 退出登录
-   */
-
-  async function logout() {
-
-    await supabaseClient.auth
-      .signOut();
-
-    window.location.href =
-      "management-login.html";
-
-  }
-
 
   /*
-   * 日期显示
+   * ========================================
+   * 日期格式
+   * ========================================
    */
+
 
   function formatDate(value) {
 
+
     if (!value) {
+
       return "";
+
     }
 
-    return new Date(value)
-      .toLocaleString("zh-CN");
+
+    try {
+
+
+      return new Date(
+        value
+      ).toLocaleString(
+        "zh-CN"
+      );
+
+
+    } catch (error) {
+
+
+      return value;
+
+    }
 
   }
 
 
-  /*
-   * 防止数据库文字被当作 HTML 执行
-   */
-
-  function escapeHtml(value) {
-
-    return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-
-  }
-
 
   /*
-   * 页面打开后自动读取
+   * ========================================
+   * 页面加载完成后
+   * 自动读取当前登录用户
+   * ========================================
    */
+
 
   loadCurrentUser();
 
+
 </script>
 
+
 </body>
+
 </html>
