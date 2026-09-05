@@ -6,6 +6,7 @@
 
   <title>管理人员登录｜硕丰科技</title>
 
+  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -270,6 +271,7 @@
     }
 
     @media (max-width: 520px) {
+
       body {
         align-items: flex-start;
 
@@ -281,24 +283,46 @@
 
         padding: 34px 24px;
       }
+
     }
   </style>
 </head>
+
 
 <body>
 
   <div class="login-container">
 
+    <!-- =====================================================
+         标题
+    ====================================================== -->
+
     <div class="logo">
-      <h1 class="logo-title">硕丰科技</h1>
-      <div class="system-name">企业管理系统</div>
+
+      <h1 class="logo-title">
+        硕丰科技
+      </h1>
+
+      <div class="system-name">
+        企业管理系统
+      </div>
+
     </div>
+
 
     <div class="login-title">
       管理人员登录
     </div>
 
+
+    <!-- =====================================================
+         登录表单
+    ====================================================== -->
+
     <form id="loginForm">
+
+
+      <!-- 邮箱 -->
 
       <div class="form-group">
 
@@ -320,6 +344,8 @@
 
       </div>
 
+
+      <!-- 密码 -->
 
       <div class="form-group">
 
@@ -354,6 +380,8 @@
       </div>
 
 
+      <!-- 登录 -->
+
       <button
         id="loginButton"
         class="login-button"
@@ -362,6 +390,8 @@
         登录系统
       </button>
 
+
+      <!-- 返回首页 -->
 
       <button
         class="back-button"
@@ -372,16 +402,22 @@
       </button>
 
 
+      <!-- 信息提示 -->
+
       <div
         id="message"
         class="message"
       ></div>
 
 
+      <!-- 安全说明 -->
+
       <div class="security-note">
+
         本页面仅供公司授权管理人员使用。
         用户身份由 Supabase Auth 验证，
         系统权限由数据库统一验证。
+
       </div>
 
     </form>
@@ -394,15 +430,32 @@
   </div>
 
 
+
   <script>
+
     // =========================================================
-    // Supabase 配置
+    // 1. Supabase 配置
+    //
+    // 把下面两个值换成你原来项目正在使用的：
+    //
+    // Project URL
+    // anon public key
+    //
+    // 千万不要填写 service_role key
     // =========================================================
 
-    const SUPABASE_URL = '你的Supabase项目URL';
+    const SUPABASE_URL =
+      '你的Supabase项目URL';
 
-    const SUPABASE_ANON_KEY = '你的Supabase anon key';
 
+    const SUPABASE_ANON_KEY =
+      '你的Supabase anon key';
+
+
+
+    // =========================================================
+    // 2. 创建 Supabase 客户端
+    // =========================================================
 
     const supabaseClient =
       window.supabase.createClient(
@@ -411,53 +464,69 @@
       );
 
 
+
     // =========================================================
-    // DOM
+    // 3. 页面元素
     // =========================================================
 
     const loginForm =
       document.getElementById('loginForm');
 
+
     const emailInput =
       document.getElementById('email');
+
 
     const passwordInput =
       document.getElementById('password');
 
+
     const togglePassword =
       document.getElementById('togglePassword');
 
+
     const loginButton =
       document.getElementById('loginButton');
+
 
     const messageBox =
       document.getElementById('message');
 
 
+
     // =========================================================
-    // 提示信息
+    // 4. 显示提示
     // =========================================================
 
-    function showMessage(text, type = 'error') {
+    function showMessage(
+      text,
+      type = 'error'
+    ) {
 
-      messageBox.textContent = text;
+      messageBox.textContent =
+        text;
 
       messageBox.className =
         'message ' + type;
+
     }
+
 
 
     function clearMessage() {
 
-      messageBox.textContent = '';
+      messageBox.textContent =
+        '';
 
       messageBox.className =
         'message';
+
     }
 
 
+
     // =========================================================
-    // 显示 / 隐藏密码
+    // 5. 显示 / 隐藏密码
     // =========================================================
 
     togglePassword.addEventListener(
@@ -465,30 +534,44 @@
       function () {
 
         const isPassword =
-          passwordInput.type === 'password';
+          passwordInput.type ===
+          'password';
 
-        passwordInput.type =
-          isPassword
-            ? 'text'
-            : 'password';
 
-        togglePassword.textContent =
-          isPassword
-            ? '隐藏'
-            : '显示';
+        if (isPassword) {
+
+          passwordInput.type =
+            'text';
+
+          togglePassword.textContent =
+            '隐藏';
+
+        } else {
+
+          passwordInput.type =
+            'password';
+
+          togglePassword.textContent =
+            '显示';
+
+        }
+
       }
     );
 
 
+
     // =========================================================
-    // 登录
+    // 6. 登录处理
     // =========================================================
 
     loginForm.addEventListener(
       'submit',
+
       async function (event) {
 
         event.preventDefault();
+
 
         clearMessage();
 
@@ -496,30 +579,46 @@
         const email =
           emailInput.value.trim();
 
+
         const password =
           passwordInput.value;
 
 
-        if (!email || !password) {
+
+        // -----------------------------------------------------
+        // 基础检查
+        // -----------------------------------------------------
+
+        if (
+          !email ||
+          !password
+        ) {
 
           showMessage(
             '请输入邮箱和密码。'
           );
 
           return;
+
         }
 
 
-        loginButton.disabled = true;
+
+        loginButton.disabled =
+          true;
+
 
         loginButton.textContent =
           '正在登录...';
 
 
+
         try {
 
+
           // ===================================================
-          // 1. Supabase Auth 登录
+          // 第一步：
+          // Supabase Auth 验证邮箱和密码
           // ===================================================
 
           const {
@@ -528,25 +627,41 @@
           } =
             await supabaseClient.auth
               .signInWithPassword({
+
                 email: email,
+
                 password: password
+
               });
 
+
+
+          // ---------------------------------------------------
+          // Auth 登录失败
+          // ---------------------------------------------------
 
           if (authError) {
 
             console.error(
-              'Auth error:',
+              'Supabase Auth 登录失败：',
               authError
             );
+
 
             showMessage(
               '登录失败，请检查邮箱或密码。'
             );
 
+
             return;
+
           }
 
+
+
+          // ---------------------------------------------------
+          // 没有用户
+          // ---------------------------------------------------
 
           if (
             !authData ||
@@ -557,20 +672,25 @@
               '登录失败，没有读取到用户信息。'
             );
 
+
             return;
+
           }
+
 
 
           const user =
             authData.user;
 
 
+
           // ===================================================
-          // 2. 读取 profiles
+          // 第二步：
+          // 从 profiles 读取业务权限
           //
-          // 注意：
-          // V1.0 正式字段是：
+          // V1.0 正式字段：
           //
+          // id
           // display_name
           // role
           // is_active
@@ -592,10 +712,15 @@
               .single();
 
 
+
+          // ---------------------------------------------------
+          // profiles 读取失败
+          // ---------------------------------------------------
+
           if (profileError) {
 
             console.error(
-              'Profile error:',
+              '读取 profiles 失败：',
               profileError
             );
 
@@ -609,9 +734,16 @@
               + profileError.message
             );
 
+
             return;
+
           }
 
+
+
+          // ---------------------------------------------------
+          // 没有 profile
+          // ---------------------------------------------------
 
           if (!profile) {
 
@@ -623,15 +755,21 @@
               '该账号尚未配置系统权限。'
             );
 
+
             return;
+
           }
 
 
+
           // ===================================================
-          // 3. 判断账号是否有效
+          // 第三步：
+          // 检查账号是否有效
           // ===================================================
 
-          if (profile.is_active !== true) {
+          if (
+            profile.is_active !== true
+          ) {
 
             await supabaseClient.auth
               .signOut();
@@ -641,15 +779,21 @@
               '该账号目前已被停用。'
             );
 
+
             return;
+
           }
 
 
+
           // ===================================================
-          // 4. 管理人员登录页只允许：
+          // 第四步：
+          // 管理登录页面只允许
           //
           // founder
           // admin
+          //
+          // agent 不能从这里进入
           // ===================================================
 
           if (
@@ -666,16 +810,22 @@
               '该账号不是管理人员账号，无法从此入口登录。'
             );
 
+
             return;
+
           }
 
 
+
           // ===================================================
-          // 5. 保存前端显示信息
+          // 第五步：
+          // 保存显示信息
           //
           // 注意：
-          // 真正权限仍然由 Supabase RLS 控制，
-          // 这里不能作为安全权限判断依据。
+          // sessionStorage 只用于页面显示。
+          //
+          // 真正数据库权限仍然由
+          // Supabase RLS 判断。
           // ===================================================
 
           sessionStorage.setItem(
@@ -683,10 +833,12 @@
             user.id
           );
 
+
           sessionStorage.setItem(
             'sf_display_name',
             profile.display_name || ''
           );
+
 
           sessionStorage.setItem(
             'sf_role',
@@ -694,21 +846,30 @@
           );
 
 
+
+          // ===================================================
+          // 第六步：
+          // 登录成功
+          // ===================================================
+
           showMessage(
             '登录成功，正在进入管理系统...',
             'success'
           );
 
 
+
           // ===================================================
-          // 6. 跳转管理主页
+          // 第七步：
+          //
+          // 进入 wholemanagement.html
           // ===================================================
 
           setTimeout(
             function () {
 
               window.location.href =
-                '/wholemanagement';
+                'wholemanagement.html';
 
             },
             300
@@ -717,8 +878,9 @@
 
         } catch (error) {
 
+
           console.error(
-            'Login exception:',
+            '系统登录异常：',
             error
           );
 
@@ -730,26 +892,34 @@
 
         } finally {
 
+
           loginButton.disabled =
             false;
 
+
           loginButton.textContent =
             '登录系统';
+
         }
 
       }
     );
 
 
+
     // =========================================================
-    // 页面加载时：
-    // 如果已有 Supabase Session，
-    // 检查是否已经是管理人员
+    // 7. 检查现有登录 Session
+    //
+    // 如果用户之前已经登录，
+    // 再访问 page10.html，
+    // 系统自动验证身份。
     // =========================================================
 
     async function checkExistingSession() {
 
+
       try {
+
 
         const {
           data: sessionData,
@@ -759,6 +929,12 @@
             .getSession();
 
 
+
+        // -----------------------------------------------------
+        // 没有 Session
+        // 正常停留在登录页面
+        // -----------------------------------------------------
+
         if (
           sessionError ||
           !sessionData ||
@@ -766,12 +942,19 @@
         ) {
 
           return;
+
         }
+
 
 
         const user =
           sessionData.session.user;
 
+
+
+        // =====================================================
+        // 读取 profile
+        // =====================================================
 
         const {
           data: profile,
@@ -789,34 +972,48 @@
             .single();
 
 
+
         if (
           profileError ||
           !profile
         ) {
 
           return;
+
         }
 
 
+
+        // =====================================================
+        // 已经登录，并且是有效管理人员
+        // =====================================================
+
         if (
+
           profile.is_active === true
+
           &&
+
           (
             profile.role === 'founder'
             ||
             profile.role === 'admin'
           )
+
         ) {
+
 
           sessionStorage.setItem(
             'sf_user_id',
             user.id
           );
 
+
           sessionStorage.setItem(
             'sf_display_name',
             profile.display_name || ''
           );
+
 
           sessionStorage.setItem(
             'sf_role',
@@ -824,15 +1021,22 @@
           );
 
 
+
+          // ===================================================
+          // 已登录用户直接进入管理主页
+          // ===================================================
+
           window.location.href =
-            '/wholemanagement';
+            'wholemanagement.html';
+
         }
 
 
       } catch (error) {
 
+
         console.error(
-          'Session check error:',
+          '检查登录状态失败：',
           error
         );
 
@@ -841,7 +1045,13 @@
     }
 
 
+
+    // =========================================================
+    // 8. 页面加载后检查 Session
+    // =========================================================
+
     checkExistingSession();
+
 
   </script>
 
