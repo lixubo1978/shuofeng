@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -29,7 +28,6 @@
     body {
       margin: 0;
       padding: 0;
-
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -37,13 +35,10 @@
         "Microsoft YaHei",
         Arial,
         sans-serif;
-
       background: #f4f6f8;
       color: #1f2937;
-
       min-height: 100vh;
     }
-
 
     /* =========================
        顶部
@@ -52,15 +47,11 @@
     .topbar {
       background: #0f172a;
       color: #ffffff;
-
       padding: 18px 30px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      box-shadow:
-        0 2px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
     .brand {
@@ -92,25 +83,17 @@
 
     .top-btn {
       padding: 8px 14px;
-
       border-radius: 7px;
-
-      border:
-        1px solid rgba(255,255,255,0.35);
-
+      border: 1px solid rgba(255,255,255,0.35);
       background: transparent;
       color: white;
-
       font-size: 14px;
-
       cursor: pointer;
     }
 
     .top-btn:hover {
-      background:
-        rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.10);
     }
-
 
     /* =========================
        页面主体
@@ -118,190 +101,112 @@
 
     .container {
       width: 100%;
-      max-width: 1300px;
-
+      max-width: 1200px;
       margin: 0 auto;
-
-      padding:
-        34px 24px 60px;
+      padding: 34px 24px 60px;
     }
 
     .page-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-
       gap: 20px;
-
       margin-bottom: 24px;
     }
 
     .page-title h1 {
-      margin:
-        0 0 8px;
-
+      margin: 0 0 8px;
       font-size: 28px;
-
       color: #111827;
     }
 
     .page-title p {
       margin: 0;
-
       color: #6b7280;
-
       font-size: 14px;
-
       line-height: 1.7;
     }
 
     .page-actions {
       display: flex;
       gap: 10px;
-
-      flex-wrap: wrap;
     }
-
-
-    /* =========================
-       按钮
-    ========================= */
 
     .btn {
       border: none;
-
-      padding:
-        10px 16px;
-
+      padding: 10px 16px;
       border-radius: 8px;
-
       font-size: 14px;
-
       cursor: pointer;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: white;
-    }
-
-    .btn-green {
-      background: #059669;
-      color: white;
     }
 
     .btn-light {
       background: white;
       color: #374151;
-
-      border:
-        1px solid #d1d5db;
-    }
-
-    .btn-red {
-      background: #dc2626;
-      color: white;
-    }
-
-    .btn-small {
-      padding:
-        7px 11px;
-
-      font-size: 12px;
+      border: 1px solid #d1d5db;
     }
 
     .btn:hover {
       opacity: 0.9;
     }
 
-
     /* =========================
-       统计卡
+       统计
     ========================= */
 
     .summary-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-
       margin-bottom: 20px;
     }
 
     .summary-card {
       background: white;
-
-      border:
-        1px solid #e5e7eb;
-
+      border: 1px solid #e5e7eb;
       border-radius: 12px;
-
       padding: 20px;
-
-      box-shadow:
-        0 2px 10px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
     }
 
     .summary-label {
       font-size: 13px;
-
       color: #6b7280;
-
       margin-bottom: 8px;
     }
 
     .summary-value {
       font-size: 28px;
       font-weight: 700;
-
       color: #111827;
     }
 
-
     /* =========================
-       搜索栏
+       搜索
     ========================= */
 
     .toolbar {
       background: white;
-
-      border:
-        1px solid #e5e7eb;
-
+      border: 1px solid #e5e7eb;
       border-radius: 12px;
-
       padding: 15px;
-
       margin-bottom: 18px;
-
       display: flex;
-      gap: 14px;
-
       justify-content: space-between;
-
-      box-shadow:
-        0 2px 10px rgba(0,0,0,0.03);
+      gap: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     }
 
     .search-box {
       flex: 1;
-
       max-width: 520px;
     }
 
     .search-box input {
       width: 100%;
-
-      padding:
-        11px 13px;
-
-      border:
-        1px solid #d1d5db;
-
+      padding: 11px 13px;
+      border: 1px solid #d1d5db;
       border-radius: 8px;
-
       font-size: 14px;
       outline: none;
     }
@@ -311,19 +216,12 @@
     }
 
     .filter-box select {
-      padding:
-        10px 12px;
-
-      border:
-        1px solid #d1d5db;
-
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
       border-radius: 8px;
-
       background: white;
-
       font-size: 14px;
     }
-
 
     /* =========================
        表格
@@ -331,16 +229,10 @@
 
     .table-card {
       background: white;
-
-      border:
-        1px solid #e5e7eb;
-
+      border: 1px solid #e5e7eb;
       border-radius: 12px;
-
       overflow: hidden;
-
-      box-shadow:
-        0 2px 12px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
     }
 
     .table-wrapper {
@@ -349,36 +241,26 @@
 
     table {
       width: 100%;
-
-      min-width: 850px;
-
+      min-width: 900px;
       border-collapse: collapse;
     }
 
     th {
       background: #f8fafc;
-
-      padding:
-        13px 14px;
-
+      padding: 13px 14px;
       text-align: left;
-
       font-size: 12px;
       font-weight: 700;
-
       color: #475569;
-
-      border-bottom:
-        1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
     }
 
     td {
       padding: 14px;
-
       font-size: 13px;
-
-      border-bottom:
-        1px solid #eef2f7;
+      border-bottom: 1px solid #eef2f7;
+      vertical-align: middle;
     }
 
     tr:hover td {
@@ -387,23 +269,17 @@
 
     .person-name {
       font-weight: 700;
-
       color: #111827;
     }
 
-
     /* =========================
-       状态
+       身份和状态
     ========================= */
 
     .status {
       display: inline-block;
-
-      padding:
-        5px 10px;
-
+      padding: 5px 10px;
       border-radius: 999px;
-
       font-size: 12px;
       font-weight: 600;
     }
@@ -428,22 +304,16 @@
       font-weight: 700;
     }
 
-
     /* =========================
        空内容
     ========================= */
 
     .empty-box {
-      padding:
-        55px 20px;
-
+      padding: 55px 20px;
       text-align: center;
-
       color: #94a3b8;
-
       font-size: 14px;
     }
-
 
     /* =========================
        提示
@@ -451,14 +321,9 @@
 
     .notice {
       display: none;
-
-      padding:
-        13px 16px;
-
+      padding: 13px 16px;
       margin-bottom: 18px;
-
       border-radius: 9px;
-
       font-size: 14px;
     }
 
@@ -466,174 +331,10 @@
       display: block;
     }
 
-    .notice-success {
-      background: #dcfce7;
-      color: #166534;
-    }
-
     .notice-error {
       background: #fee2e2;
       color: #991b1b;
     }
-
-
-    /* =========================
-       创建代理商弹窗
-    ========================= */
-
-    .modal-mask {
-      display: none;
-
-      position: fixed;
-
-      inset: 0;
-
-      background:
-        rgba(0,0,0,0.48);
-
-      z-index: 10000;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 20px;
-    }
-
-    .modal-mask.show {
-      display: flex;
-    }
-
-    .modal {
-      background: white;
-
-      width: 100%;
-      max-width: 720px;
-
-      max-height: 92vh;
-      overflow-y: auto;
-
-      border-radius: 14px;
-
-      box-shadow:
-        0 25px 70px rgba(0,0,0,0.28);
-    }
-
-    .modal-header {
-      padding:
-        20px 24px;
-
-      border-bottom:
-        1px solid #e5e7eb;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-header h2 {
-      margin: 0;
-
-      font-size: 20px;
-    }
-
-    .modal-close {
-      border: none;
-
-      background: transparent;
-
-      font-size: 26px;
-
-      color: #64748b;
-
-      cursor: pointer;
-    }
-
-    .modal-body {
-      padding: 24px;
-    }
-
-    .form-grid {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 16px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-
-      gap: 7px;
-    }
-
-    .form-group.full {
-      grid-column:
-        1 / -1;
-    }
-
-    .form-group label {
-      font-size: 13px;
-      font-weight: 600;
-
-      color: #374151;
-    }
-
-    .required {
-      color: #dc2626;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-
-      padding:
-        11px 12px;
-
-      border:
-        1px solid #d1d5db;
-
-      border-radius: 8px;
-
-      font-size: 14px;
-
-      outline: none;
-    }
-
-    .form-group textarea {
-      min-height: 90px;
-
-      resize: vertical;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: #2563eb;
-    }
-
-    .form-help {
-      font-size: 12px;
-
-      color: #6b7280;
-
-      line-height: 1.7;
-    }
-
-    .modal-footer {
-      padding:
-        18px 24px;
-
-      border-top:
-        1px solid #e5e7eb;
-
-      display: flex;
-
-      justify-content: flex-end;
-
-      gap: 10px;
-    }
-
 
     /* =========================
        Loading
@@ -641,22 +342,14 @@
 
     .loading-mask {
       display: none;
-
       position: fixed;
-
       inset: 0;
-
-      background:
-        rgba(255,255,255,0.75);
-
+      background: rgba(255,255,255,0.75);
       z-index: 20000;
-
       align-items: center;
       justify-content: center;
-
       font-size: 16px;
       font-weight: 600;
-
       color: #334155;
     }
 
@@ -664,50 +357,28 @@
       display: flex;
     }
 
-
     /* =========================
        自动退出提示
     ========================= */
 
     .timeout-warning {
       position: fixed;
-
       left: 50%;
-
       bottom: 28px;
-
-      transform:
-        translateX(-50%);
-
+      transform: translateX(-50%);
       background: #fff7ed;
       color: #9a3412;
-
-      border:
-        1px solid #fdba74;
-
-      padding:
-        12px 20px;
-
+      border: 1px solid #fdba74;
+      padding: 12px 20px;
       border-radius: 9px;
-
       font-size: 13px;
       font-weight: 600;
-
-      box-shadow:
-        0 6px 20px rgba(0,0,0,0.12);
-
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
       z-index: 30000;
-
       display: none;
     }
 
-
-    /* =========================
-       手机
-    ========================= */
-
     @media (max-width: 850px) {
-
       .page-header {
         flex-direction: column;
       }
@@ -723,22 +394,11 @@
       .search-box {
         max-width: none;
       }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-group.full {
-        grid-column: auto;
-      }
-
     }
 
     @media (max-width: 600px) {
-
       .topbar {
-        padding:
-          16px 18px;
+        padding: 16px 18px;
       }
 
       .user-info {
@@ -746,14 +406,12 @@
       }
 
       .container {
-        padding:
-          25px 15px 50px;
+        padding: 25px 15px 50px;
       }
 
       .page-title h1 {
         font-size: 23px;
       }
-
     }
   </style>
 </head>
@@ -761,14 +419,11 @@
 
 <body>
 
-
-  <!-- Loading -->
-
   <div
     id="loadingMask"
     class="loading-mask"
   >
-    正在处理，请稍候……
+    正在读取管理人员资料……
   </div>
 
 
@@ -800,7 +455,6 @@
         管理人员
       </div>
 
-
       <button
         class="top-btn"
         type="button"
@@ -808,7 +462,6 @@
       >
         返回管理中心
       </button>
-
 
       <button
         class="top-btn"
@@ -823,46 +476,35 @@
   </header>
 
 
-
   <!-- =========================
        主区域
   ========================= -->
 
   <main class="container">
 
-
     <div class="page-header">
-
 
       <div class="page-title">
 
         <h1>
-          管理人员
+          管理人员名录
         </h1>
 
         <p>
-          查看公司创始人及管理人员账号和状态。
-          管理人员账号不在本页面创建。
+          本页面仅用于查看公司创始人及管理人员账号资料和状态。
+          管理人员账号不在本页面创建或修改。
         </p>
 
       </div>
-
 
       <div class="page-actions">
 
         <button
           class="btn btn-light"
+          type="button"
           onclick="loadProfiles()"
         >
           刷新
-        </button>
-
-
-        <button
-          class="btn btn-green"
-          onclick="openAgentModal()"
-        >
-          ＋ 创建代理商
         </button>
 
       </div>
@@ -874,7 +516,6 @@
       id="notice"
       class="notice"
     ></div>
-
 
 
     <!-- =========================
@@ -933,7 +574,6 @@
     </section>
 
 
-
     <!-- =========================
          搜索
     ========================= -->
@@ -978,9 +618,8 @@
     </div>
 
 
-
     <!-- =========================
-         管理人员表
+         管理人员表格
     ========================= -->
 
     <div class="table-card">
@@ -992,31 +631,12 @@
           <thead>
 
             <tr>
-
-              <th>
-                显示名称
-              </th>
-
-              <th>
-                身份
-              </th>
-
-              <th>
-                状态
-              </th>
-
-              <th>
-                用户 ID
-              </th>
-
-              <th>
-                创建时间
-              </th>
-
-              <th>
-                最近更新
-              </th>
-
+              <th>显示名称</th>
+              <th>身份</th>
+              <th>状态</th>
+              <th>用户 ID</th>
+              <th>创建时间</th>
+              <th>最近更新</th>
             </tr>
 
           </thead>
@@ -1042,206 +662,12 @@
 
     </div>
 
-
   </main>
 
 
-
   <!-- =========================
-       创建代理商弹窗
+       自动退出提示
   ========================= -->
-
-  <div
-    id="agentModal"
-    class="modal-mask"
-  >
-
-    <div class="modal">
-
-
-      <div class="modal-header">
-
-        <h2>
-          创建代理商
-        </h2>
-
-
-        <button
-          class="modal-close"
-          type="button"
-          onclick="closeAgentModal()"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-
-      <div class="modal-body">
-
-
-        <div class="form-grid">
-
-
-          <div class="form-group">
-
-            <label>
-              代理商代码
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="agentCode"
-              type="text"
-              placeholder="例如：DE001"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              代理商名称
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="agentName"
-              type="text"
-              placeholder="代理商公司名称"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              联系人
-            </label>
-
-            <input
-              id="contactPerson"
-              type="text"
-              placeholder="联系人姓名"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              电话
-            </label>
-
-            <input
-              id="phone"
-              type="text"
-              placeholder="联系电话"
-            >
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              邮箱
-            </label>
-
-            <input
-              id="email"
-              type="email"
-              placeholder="example@company.com"
-            >
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              地址
-            </label>
-
-            <input
-              id="address"
-              type="text"
-              placeholder="代理商详细地址"
-            >
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              备注
-            </label>
-
-            <textarea
-              id="notes"
-              placeholder="其他说明"
-            ></textarea>
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <div class="form-help">
-
-              此处创建代理商业务资料。
-
-              登录密码不会写入 agents 表。
-
-              代理商的登录账号仍由 Supabase Auth 管理。
-
-            </div>
-
-          </div>
-
-
-        </div>
-
-      </div>
-
-
-
-      <div class="modal-footer">
-
-
-        <button
-          class="btn btn-light"
-          type="button"
-          onclick="closeAgentModal()"
-        >
-          取消
-        </button>
-
-
-        <button
-          class="btn btn-green"
-          type="button"
-          onclick="createAgent()"
-        >
-          创建代理商
-        </button>
-
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-
-  <!-- 自动退出提示 -->
 
   <div
     id="timeoutWarning"
@@ -1249,7 +675,6 @@
   >
     长时间未操作，系统即将自动退出。
   </div>
-
 
 
   <script>
@@ -1261,10 +686,8 @@
     const SUPABASE_URL =
       "https://icmifhjjhgjrhkunjbmu.supabase.co";
 
-
     const SUPABASE_KEY =
       "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
-
 
     const supabaseClient =
       window.supabase.createClient(
@@ -1273,25 +696,21 @@
       );
 
 
-
     /* =====================================================
        页面数据
     ===================================================== */
 
     let profiles = [];
-
     let accessVerified = false;
 
 
-
     /* =====================================================
-       登录 + 管理权限保护
+       登录 + 管理权限验证
     ===================================================== */
 
     async function verifyManagementAccess() {
 
       try {
-
 
         const {
           data: sessionData,
@@ -1359,11 +778,9 @@
             .auth
             .signOut();
 
-
           window.location.replace(
             "page10.html"
           );
-
 
           return false;
 
@@ -1376,13 +793,9 @@
           );
 
 
-        if (
-          currentUser
-        ) {
+        if (currentUser) {
 
-          if (
-            profile.display_name
-          ) {
+          if (profile.display_name) {
 
             currentUser.textContent =
               profile.display_name
@@ -1395,24 +808,21 @@
                 " · 管理人员"
               );
 
-          }
-
-          else {
+          } else {
 
             currentUser.textContent =
               profile.role === "founder"
-              ?
-              "创始人"
-              :
-              "管理人员";
+                ?
+                "创始人"
+                :
+                "管理人员";
 
           }
 
         }
 
 
-        accessVerified =
-          true;
+        accessVerified = true;
 
 
         document
@@ -1425,26 +835,22 @@
 
         return true;
 
-      }
-
-      catch (error) {
+      } catch (error) {
 
         console.error(
+          "权限验证失败：",
           error
         );
-
 
         window.location.replace(
           "page10.html"
         );
-
 
         return false;
 
       }
 
     }
-
 
 
     /* =====================================================
@@ -1459,19 +865,12 @@
         const allowed =
           await verifyManagementAccess();
 
-
-        if (
-          allowed
-        ) {
-
+        if (allowed) {
           await loadProfiles();
-
         }
 
       }
-
     );
-
 
 
     window.addEventListener(
@@ -1479,36 +878,30 @@
 
       async function(event) {
 
-        if (
-          event.persisted
-        ) {
+        if (event.persisted) {
 
           const allowed =
             await verifyManagementAccess();
 
-
-          if (
-            allowed
-          ) {
-
+          if (allowed) {
             await loadProfiles();
-
           }
 
         }
 
       }
-
     );
 
 
-
     /* =====================================================
-       读取管理人员
-       只显示 founder / admin
+       读取 founder / admin
     ===================================================== */
 
     async function loadProfiles() {
+
+      if (!accessVerified) {
+        return;
+      }
 
       showLoading(true);
 
@@ -1539,9 +932,7 @@
             );
 
 
-        if (
-          error
-        ) {
+        if (error) {
           throw error;
         }
 
@@ -1554,31 +945,26 @@
 
         renderProfiles();
 
-      }
-
-      catch (error) {
+      } catch (error) {
 
         console.error(
+          "读取管理人员失败：",
           error
         );
 
 
         showNotice(
           "读取管理人员失败：" +
-          error.message,
-          "error"
+          error.message
         );
 
-      }
-
-      finally {
+      } finally {
 
         showLoading(false);
 
       }
 
     }
-
 
 
     /* =====================================================
@@ -1594,45 +980,30 @@
       const active =
         profiles.filter(
           function(item) {
-
-            return (
-              item.is_active === true
-            );
-
+            return item.is_active === true;
           }
         ).length;
 
 
       const disabled =
-        total -
-        active;
+        total - active;
 
 
-      document
-        .getElementById(
-          "totalCount"
-        )
-        .textContent =
-          total;
+      document.getElementById(
+        "totalCount"
+      ).textContent = total;
 
 
-      document
-        .getElementById(
-          "activeCount"
-        )
-        .textContent =
-          active;
+      document.getElementById(
+        "activeCount"
+      ).textContent = active;
 
 
-      document
-        .getElementById(
-          "disabledCount"
-        )
-        .textContent =
-          disabled;
+      document.getElementById(
+        "disabledCount"
+      ).textContent = disabled;
 
     }
-
 
 
     /* =====================================================
@@ -1668,7 +1039,7 @@
               (
                 item.display_name || ""
               )
-                .toLowerCase();
+              .toLowerCase();
 
 
             const matchKeyword =
@@ -1683,23 +1054,15 @@
               true;
 
 
-            if (
-              status === "active"
-            ) {
-
+            if (status === "active") {
               matchStatus =
                 item.is_active === true;
-
             }
 
 
-            if (
-              status === "disabled"
-            ) {
-
+            if (status === "disabled") {
               matchStatus =
                 item.is_active === false;
-
             }
 
 
@@ -1726,13 +1089,10 @@
         );
 
 
-      tbody.innerHTML =
-        "";
+      tbody.innerHTML = "";
 
 
-      if (
-        filtered.length === 0
-      ) {
+      if (filtered.length === 0) {
 
         emptyBox.style.display =
           "block";
@@ -1750,7 +1110,6 @@
 
         function(item) {
 
-
           const tr =
             document.createElement(
               "tr"
@@ -1759,41 +1118,40 @@
 
           const roleHTML =
             item.role === "founder"
-            ?
-            `
-              <span class="role-founder">
-                创始人
-              </span>
-            `
-            :
-            `
-              <span class="role-admin">
-                管理人员
-              </span>
-            `;
+              ?
+              `
+                <span class="role-founder">
+                  创始人
+                </span>
+              `
+              :
+              `
+                <span class="role-admin">
+                  管理人员
+                </span>
+              `;
 
 
           const statusHTML =
             item.is_active
-            ?
-            `
-              <span class="status status-active">
-                有效
-              </span>
-            `
-            :
-            `
-              <span class="status status-disabled">
-                无效
-              </span>
-            `;
+              ?
+              `
+                <span class="status status-active">
+                  有效
+                </span>
+              `
+              :
+              `
+                <span class="status status-disabled">
+                  无效
+                </span>
+              `;
 
 
           tr.innerHTML =
             `
 
               <td class="person-name">
-
                 ${
                   escapeHTML(
                     item.display_name
@@ -1801,29 +1159,23 @@
                     "未命名"
                   )
                 }
-
               </td>
-
 
               <td>
                 ${roleHTML}
               </td>
 
-
               <td>
                 ${statusHTML}
               </td>
-
 
               <td>
                 ${escapeHTML(item.id)}
               </td>
 
-
               <td>
                 ${formatDate(item.created_at)}
               </td>
-
 
               <td>
                 ${formatDate(item.updated_at)}
@@ -1843,302 +1195,8 @@
     }
 
 
-
     /* =====================================================
-       创建代理商弹窗
-    ===================================================== */
-
-    function openAgentModal() {
-
-      clearAgentForm();
-
-
-      document
-        .getElementById(
-          "agentModal"
-        )
-        .classList
-        .add(
-          "show"
-        );
-
-    }
-
-
-
-    function closeAgentModal() {
-
-      document
-        .getElementById(
-          "agentModal"
-        )
-        .classList
-        .remove(
-          "show"
-        );
-
-    }
-
-
-
-    document
-      .getElementById(
-        "agentModal"
-      )
-      .addEventListener(
-
-        "click",
-
-        function(event) {
-
-          if (
-            event.target === this
-          ) {
-
-            closeAgentModal();
-
-          }
-
-        }
-
-      );
-
-
-
-    /* =====================================================
-       创建代理商资料
-    ===================================================== */
-
-    async function createAgent() {
-
-      const agentCode =
-        document
-          .getElementById(
-            "agentCode"
-          )
-          .value
-          .trim();
-
-
-      const agentName =
-        document
-          .getElementById(
-            "agentName"
-          )
-          .value
-          .trim();
-
-
-      const contactPerson =
-        document
-          .getElementById(
-            "contactPerson"
-          )
-          .value
-          .trim();
-
-
-      const phone =
-        document
-          .getElementById(
-            "phone"
-          )
-          .value
-          .trim();
-
-
-      const email =
-        document
-          .getElementById(
-            "email"
-          )
-          .value
-          .trim();
-
-
-      const address =
-        document
-          .getElementById(
-            "address"
-          )
-          .value
-          .trim();
-
-
-      const notes =
-        document
-          .getElementById(
-            "notes"
-          )
-          .value
-          .trim();
-
-
-      if (
-        !agentCode
-      ) {
-
-        alert(
-          "请输入代理商代码。"
-        );
-
-        return;
-
-      }
-
-
-      if (
-        !agentName
-      ) {
-
-        alert(
-          "请输入代理商名称。"
-        );
-
-        return;
-
-      }
-
-
-      showLoading(true);
-
-
-      try {
-
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("agents")
-            .insert([
-
-              {
-
-                agent_code:
-                  agentCode,
-
-                agent_name:
-                  agentName,
-
-                contact_person:
-                  contactPerson || null,
-
-                phone:
-                  phone || null,
-
-                email:
-                  email || null,
-
-                address:
-                  address || null,
-
-                is_active:
-                  true,
-
-                notes:
-                  notes || null
-
-              }
-
-            ]);
-
-
-        if (
-          error
-        ) {
-          throw error;
-        }
-
-
-        closeAgentModal();
-
-
-        showNotice(
-          "代理商资料创建成功。"
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(
-          error
-        );
-
-
-        if (
-          error.code === "23505"
-        ) {
-
-          showNotice(
-            "代理商代码已经存在。",
-            "error"
-          );
-
-        }
-
-        else {
-
-          showNotice(
-            "创建代理商失败：" +
-            error.message,
-            "error"
-          );
-
-        }
-
-      }
-
-      finally {
-
-        showLoading(false);
-
-      }
-
-    }
-
-
-
-    /* =====================================================
-       清空代理商表单
-    ===================================================== */
-
-    function clearAgentForm() {
-
-      const ids = [
-
-        "agentCode",
-        "agentName",
-        "contactPerson",
-        "phone",
-        "email",
-        "address",
-        "notes"
-
-      ];
-
-
-      ids.forEach(
-
-        function(id) {
-
-          document
-            .getElementById(
-              id
-            )
-            .value =
-              "";
-
-        }
-
-      );
-
-    }
-
-
-
-    /* =====================================================
-       工具
+       工具函数
     ===================================================== */
 
     function escapeHTML(value) {
@@ -2148,51 +1206,24 @@
         ||
         value === undefined
       ) {
-
         return "";
-
       }
 
 
       return String(value)
-
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 
     }
 
 
-
     function formatDate(value) {
 
-      if (
-        !value
-      ) {
-
+      if (!value) {
         return "-";
-
       }
 
 
@@ -2205,36 +1236,22 @@
           date.getTime()
         )
       ) {
-
         return value;
-
       }
 
 
       return date.toLocaleString(
         "zh-CN",
         {
-
-          year:
-            "numeric",
-
-          month:
-            "2-digit",
-
-          day:
-            "2-digit",
-
-          hour:
-            "2-digit",
-
-          minute:
-            "2-digit"
-
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
         }
       );
 
     }
-
 
 
     function showLoading(show) {
@@ -2245,32 +1262,16 @@
         );
 
 
-      if (
-        show
-      ) {
-
-        mask.classList.add(
-          "show"
-        );
-
-      }
-
-      else {
-
-        mask.classList.remove(
-          "show"
-        );
-
+      if (show) {
+        mask.classList.add("show");
+      } else {
+        mask.classList.remove("show");
       }
 
     }
 
 
-
-    function showNotice(
-      message,
-      type = "success"
-    ) {
+    function showNotice(message) {
 
       const notice =
         document.getElementById(
@@ -2283,33 +1284,19 @@
 
 
       notice.className =
-        "notice show "
-        +
-        (
-          type === "error"
-          ?
-          "notice-error"
-          :
-          "notice-success"
-        );
+        "notice show notice-error";
 
 
       setTimeout(
-
         function() {
-
           notice.classList.remove(
             "show"
           );
-
         },
-
         4000
-
       );
 
     }
-
 
 
     function goBack() {
@@ -2318,7 +1305,6 @@
         "wholemanagement.html";
 
     }
-
 
 
     /* =====================================================
@@ -2341,7 +1327,6 @@
       false;
 
 
-
     function userActivity() {
 
       lastActivityTime =
@@ -2358,34 +1343,25 @@
         );
 
 
-      if (
-        warning
-      ) {
-
+      if (warning) {
         warning.style.display =
           "none";
-
       }
 
     }
 
 
-
     const activityEvents = [
-
       "mousedown",
       "mousemove",
       "keydown",
       "scroll",
       "touchstart",
       "click"
-
     ];
 
 
-
     activityEvents.forEach(
-
       function(eventName) {
 
         document.addEventListener(
@@ -2395,13 +1371,10 @@
         );
 
       }
-
     );
 
 
-
     setInterval(
-
       function() {
 
         const now =
@@ -2409,24 +1382,17 @@
 
 
         const inactiveTime =
-          now -
-          lastActivityTime;
+          now - lastActivityTime;
 
 
         if (
           inactiveTime >=
-          IDLE_LIMIT -
-          WARNING_TIME
-
+          IDLE_LIMIT - WARNING_TIME
           &&
-
-          inactiveTime <
-          IDLE_LIMIT
+          inactiveTime < IDLE_LIMIT
         ) {
 
-          if (
-            !warningShown
-          ) {
+          if (!warningShown) {
 
             const warning =
               document.getElementById(
@@ -2434,18 +1400,13 @@
               );
 
 
-            if (
-              warning
-            ) {
-
+            if (warning) {
               warning.style.display =
                 "block";
-
             }
 
 
-            warningShown =
-              true;
+            warningShown = true;
 
           }
 
@@ -2462,15 +1423,12 @@
         }
 
       },
-
       1000
-
     );
 
 
-
     /* =====================================================
-       清除旧登录记录
+       清除旧登录信息
     ===================================================== */
 
     function clearOldLoginData() {
@@ -2482,23 +1440,19 @@
         "managementLogin"
       );
 
-
       localStorage.removeItem(
         "managementUser"
       );
 
-
       localStorage.removeItem(
         "managementRole"
       );
-
 
       localStorage.removeItem(
         "loginTime"
       );
 
     }
-
 
 
     /* =====================================================
@@ -2513,11 +1467,10 @@
           .auth
           .signOut();
 
-      }
-
-      catch (error) {
+      } catch (error) {
 
         console.error(
+          "自动退出失败：",
           error
         );
 
@@ -2534,7 +1487,6 @@
     }
 
 
-
     /* =====================================================
        手工退出
     ===================================================== */
@@ -2547,11 +1499,10 @@
           .auth
           .signOut();
 
-      }
-
-      catch (error) {
+      } catch (error) {
 
         console.error(
+          "退出失败：",
           error
         );
 
