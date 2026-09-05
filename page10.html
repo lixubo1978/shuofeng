@@ -6,8 +6,6 @@
 
   <title>管理人员登录｜硕丰科技</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
     * {
       box-sizing: border-box;
@@ -15,13 +13,7 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #f4f6f8;
+      padding: 0;
 
       font-family:
         -apple-system,
@@ -31,738 +23,689 @@
         Arial,
         sans-serif;
 
-      color: #111827;
+      background: #f4f6f8;
+
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .login-container {
       width: 100%;
       max-width: 420px;
 
-      padding: 42px 36px;
-
       background: #ffffff;
+
+      padding: 42px 36px;
 
       border-radius: 14px;
 
       box-shadow:
-        0 10px 30px rgba(0,0,0,0.08);
+        0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
     .logo {
       text-align: center;
+      margin-bottom: 10px;
     }
 
     .logo-title {
-      margin: 0;
-
-      font-size: 26px;
+      font-size: 25px;
       font-weight: 700;
-
-      color: #071124;
+      color: #111827;
+      letter-spacing: 1px;
     }
 
-    .system-name {
-      margin-top: 7px;
-
+    .logo-subtitle {
+      margin-top: 5px;
       font-size: 13px;
-
-      color: #888;
+      color: #6b7280;
     }
 
     .login-title {
       margin-top: 30px;
-      margin-bottom: 28px;
+      margin-bottom: 26px;
 
       text-align: center;
 
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 600;
+
+      color: #1f2937;
     }
 
     .form-group {
       margin-bottom: 20px;
     }
 
-    .form-label {
+    label {
       display: block;
 
       margin-bottom: 8px;
 
       font-size: 14px;
       font-weight: 600;
+
+      color: #374151;
     }
 
-    .input-wrap {
-      position: relative;
-    }
-
-    .form-input {
+    input {
       width: 100%;
-      height: 46px;
 
-      padding: 0 14px;
+      padding: 12px 13px;
 
-      border: 1px solid #d8dee8;
+      border: 1px solid #d1d5db;
+
       border-radius: 8px;
 
-      background: #eef4ff;
-
-      font-size: 14px;
+      font-size: 15px;
 
       outline: none;
+
+      background: #ffffff;
+
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
     }
 
-    .form-input:focus {
-      border-color: #7da2d6;
+    input:focus {
+      border-color: #2563eb;
 
       box-shadow:
-        0 0 0 3px rgba(64,115,180,0.12);
-    }
-
-    .password-input {
-      padding-right: 65px;
-    }
-
-    .show-password {
-      position: absolute;
-
-      right: 14px;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      border: none;
-      background: transparent;
-
-      color: #666;
-
-      cursor: pointer;
+        0 0 0 3px rgba(37, 99, 235, 0.10);
     }
 
     .login-button {
       width: 100%;
-      height: 48px;
+
+      margin-top: 8px;
+
+      padding: 13px;
 
       border: none;
+
       border-radius: 8px;
 
-      background: #071124;
-      color: white;
+      background: #0f172a;
+
+      color: #ffffff;
 
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
 
       cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .login-button:hover {
+      background: #1e293b;
     }
 
     .login-button:disabled {
-      opacity: 0.55;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
-    .back-button {
-      width: 100%;
-      height: 46px;
-
-      margin-top: 12px;
-
-      border: 1px solid #d8dee8;
-      border-radius: 8px;
-
-      background: white;
-
-      color: #333;
-
-      cursor: pointer;
-    }
-
     .message {
-      display: none;
+      min-height: 20px;
 
       margin-top: 16px;
-
-      padding: 10px 12px;
-
-      border-radius: 7px;
 
       text-align: center;
 
       font-size: 13px;
-      line-height: 1.6;
+      font-weight: 500;
     }
 
     .message.error {
-      display: block;
-
-      background: #fff1f1;
-      border: 1px solid #ffd5d5;
-
-      color: #d93025;
+      color: #dc2626;
     }
 
     .message.success {
-      display: block;
-
-      background: #effaf2;
-      border: 1px solid #cfeeda;
-
-      color: #1f7a3f;
+      color: #059669;
     }
 
     .security-note {
-      margin-top: 18px;
-
-      padding: 12px 14px;
-
-      border-radius: 8px;
-
-      background: #f7f8fa;
-
-      color: #777;
-
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .copyright {
       margin-top: 26px;
+
+      padding-top: 18px;
+
+      border-top: 1px solid #e5e7eb;
 
       text-align: center;
 
-      color: #aaa;
-
       font-size: 12px;
+      color: #9ca3af;
+
+      line-height: 1.6;
     }
 
     @media (max-width: 520px) {
-      body {
-        align-items: flex-start;
 
-        padding: 30px 16px;
+      body {
+        padding: 18px;
       }
 
       .login-container {
-        margin-top: 30px;
-
         padding: 34px 24px;
       }
+
     }
   </style>
 </head>
 
+
 <body>
 
-<div class="login-container">
+  <div class="login-container">
 
-  <div class="logo">
+    <div class="logo">
 
-    <h1 class="logo-title">
-      硕丰科技
-    </h1>
+      <div class="logo-title">
+        硕丰科技
+      </div>
 
-    <div class="system-name">
-      企业管理系统
-    </div>
-
-  </div>
-
-
-  <div class="login-title">
-    管理人员登录
-  </div>
-
-
-  <form id="loginForm">
-
-    <div class="form-group">
-
-      <label
-        class="form-label"
-        for="email"
-      >
-        邮箱
-      </label>
-
-      <input
-        id="email"
-        class="form-input"
-        type="email"
-        autocomplete="username"
-        placeholder="请输入邮箱"
-        required
-      >
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label
-        class="form-label"
-        for="password"
-      >
-        密码
-      </label>
-
-      <div class="input-wrap">
-
-        <input
-          id="password"
-          class="form-input password-input"
-          type="password"
-          autocomplete="current-password"
-          placeholder="请输入密码"
-          required
-        >
-
-        <button
-          id="togglePassword"
-          class="show-password"
-          type="button"
-        >
-          显示
-        </button>
-
+      <div class="logo-subtitle">
+        ShuoFeng Technology
       </div>
 
     </div>
 
 
-    <button
-      id="loginButton"
-      class="login-button"
-      type="submit"
+    <div class="login-title">
+      管理人员登录
+    </div>
+
+
+    <!--
+      autocomplete="off"
+      尽量禁止浏览器自动填充整个表单
+    -->
+
+    <form
+      id="loginForm"
+      autocomplete="off"
+      method="post"
+      onsubmit="return handleLogin(event)"
     >
-      登录系统
-    </button>
+
+      <!--
+        这两个隐藏输入框是为了降低部分浏览器
+        自动把保存过的用户名密码填入真实登录框的概率
+      -->
+
+      <input
+        type="text"
+        name="fake_username"
+        autocomplete="username"
+        style="
+          position:absolute;
+          left:-9999px;
+          width:1px;
+          height:1px;
+          opacity:0;
+        "
+        tabindex="-1"
+      >
+
+      <input
+        type="password"
+        name="fake_password"
+        autocomplete="current-password"
+        style="
+          position:absolute;
+          left:-9999px;
+          width:1px;
+          height:1px;
+          opacity:0;
+        "
+        tabindex="-1"
+      >
 
 
-    <button
-      class="back-button"
-      type="button"
-      onclick="window.location.href='/'"
-    >
-      返回首页
-    </button>
+      <div class="form-group">
+
+        <label for="username">
+          用户名
+        </label>
+
+        <input
+          id="username"
+          name="management_user_input"
+          type="text"
+
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="none"
+          spellcheck="false"
+
+          readonly
+
+          required
+        >
+
+      </div>
 
 
-    <div
-      id="message"
-      class="message"
-    ></div>
+      <div class="form-group">
+
+        <label for="password">
+          密码
+        </label>
+
+        <input
+          id="password"
+          name="management_password_input"
+          type="password"
+
+          autocomplete="new-password"
+
+          readonly
+
+          required
+        >
+
+      </div>
+
+
+      <button
+        id="loginButton"
+        class="login-button"
+        type="submit"
+      >
+        登录
+      </button>
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+    </form>
 
 
     <div class="security-note">
-
-      本页面仅供公司授权管理人员使用。
-
-      用户登录由 Supabase Authentication 验证，
-      管理权限由数据库 profiles 表及 RLS 统一控制。
-
+      为保护管理系统安全，本页面不会保留登录用户名和密码。
+      每次登录均需重新输入。
     </div>
 
-  </form>
-
-
-  <div class="copyright">
-    © 2026 硕丰科技
   </div>
 
-</div>
 
 
-<script>
+  <script>
 
-/* ============================================================
-   Supabase 正式配置
-============================================================ */
-
-const SUPABASE_URL =
-  'https://icmifhjjhgjrhkunjbmu.supabase.co';
+    /* =====================================================
+       硕丰管理人员登录页面
+       强制禁止保存 / 恢复登录信息
+    ===================================================== */
 
 
-/*
-  ↓↓↓ 这里只需要你自己粘贴完整 Publishable key ↓↓↓
+    const usernameInput =
+      document.getElementById("username");
 
-  Settings
-  → API Keys
-  → Publishable key
-  → Copy
+    const passwordInput =
+      document.getElementById("password");
 
-  格式类似：
-  sb_publishable_....................
+    const loginForm =
+      document.getElementById("loginForm");
 
-  不要使用：
-  sb_secret_
-  service_role
-*/
+    const loginButton =
+      document.getElementById("loginButton");
 
-const SUPABASE_ANON_KEY =
-  'sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4';
+    const message =
+      document.getElementById("message");
 
 
-/* ============================================================
-   Supabase Client
-============================================================ */
+    /* =====================================================
+       每次进入登录页
+       清除可能残留的登录数据
+    ===================================================== */
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+    function clearSavedLoginData() {
 
+      /*
+        清空浏览器会话数据
+      */
 
-/* ============================================================
-   页面元素
-============================================================ */
-
-const loginForm =
-  document.getElementById('loginForm');
-
-const emailInput =
-  document.getElementById('email');
-
-const passwordInput =
-  document.getElementById('password');
-
-const togglePassword =
-  document.getElementById('togglePassword');
-
-const loginButton =
-  document.getElementById('loginButton');
-
-const messageBox =
-  document.getElementById('message');
-
-
-/* ============================================================
-   信息提示
-============================================================ */
-
-function showMessage(
-  text,
-  type = 'error'
-) {
-
-  messageBox.textContent =
-    text;
-
-  messageBox.className =
-    'message ' + type;
-
-}
-
-
-function clearMessage() {
-
-  messageBox.textContent =
-    '';
-
-  messageBox.className =
-    'message';
-
-}
-
-
-/* ============================================================
-   密码显示 / 隐藏
-============================================================ */
-
-togglePassword.addEventListener(
-  'click',
-  function () {
-
-    if (
-      passwordInput.type === 'password'
-    ) {
-
-      passwordInput.type =
-        'text';
-
-      togglePassword.textContent =
-        '隐藏';
-
-    } else {
-
-      passwordInput.type =
-        'password';
-
-      togglePassword.textContent =
-        '显示';
-
-    }
-
-  }
-);
-
-
-/* ============================================================
-   登录
-============================================================ */
-
-loginForm.addEventListener(
-  'submit',
-  async function (event) {
-
-    event.preventDefault();
-
-    clearMessage();
-
-
-    const email =
-      emailInput.value.trim();
-
-    const password =
-      passwordInput.value;
-
-
-    if (
-      !email ||
-      !password
-    ) {
-
-      showMessage(
-        '请输入邮箱和密码。'
+      sessionStorage.removeItem(
+        "managementLogin"
       );
 
-      return;
+      sessionStorage.removeItem(
+        "managementUser"
+      );
+
+      sessionStorage.removeItem(
+        "managementRole"
+      );
+
+      sessionStorage.removeItem(
+        "loginTime"
+      );
+
+
+      /*
+        清空localStorage中可能存在的登录信息
+      */
+
+      localStorage.removeItem(
+        "managementLogin"
+      );
+
+      localStorage.removeItem(
+        "managementUser"
+      );
+
+      localStorage.removeItem(
+        "managementRole"
+      );
+
+      localStorage.removeItem(
+        "loginTime"
+      );
+
+      localStorage.removeItem(
+        "username"
+      );
+
+      localStorage.removeItem(
+        "password"
+      );
 
     }
 
 
-    loginButton.disabled =
-      true;
+    /* =====================================================
+       强制清空输入框
+    ===================================================== */
 
-    loginButton.textContent =
-      '正在登录...';
+    function clearLoginFields() {
 
+      usernameInput.value = "";
 
-    try {
+      passwordInput.value = "";
 
-      /* ==============================
-         1. Authentication 验证
-      ============================== */
-
-      const {
-        data: authData,
-        error: authError
-      } =
-        await supabaseClient.auth
-          .signInWithPassword({
-
-            email:
-              email,
-
-            password:
-              password
-
-          });
+    }
 
 
-      if (authError) {
+    /* =====================================================
+       页面打开时执行
+    ===================================================== */
 
-        console.error(
-          authError
+    window.addEventListener(
+      "DOMContentLoaded",
+      function() {
+
+        clearSavedLoginData();
+
+        clearLoginFields();
+
+
+        /*
+          readonly可以减少部分浏览器
+          在页面加载时自动填入账号密码。
+
+          页面加载后稍微延迟再允许用户输入。
+        */
+
+        setTimeout(
+          function() {
+
+            usernameInput.removeAttribute(
+              "readonly"
+            );
+
+            passwordInput.removeAttribute(
+              "readonly"
+            );
+
+          },
+          300
         );
 
-        showMessage(
-          '登录失败，请检查邮箱或密码。'
-        );
+      }
+    );
 
-        return;
+
+    /* =====================================================
+       防止浏览器后退缓存恢复账号密码
+    ===================================================== */
+
+    window.addEventListener(
+      "pageshow",
+      function(event) {
+
+        clearSavedLoginData();
+
+        clearLoginFields();
+
+      }
+    );
+
+
+    /* =====================================================
+       页面失去 / 恢复焦点时
+       不自动恢复任何历史账号
+    ===================================================== */
+
+    window.addEventListener(
+      "focus",
+      function() {
+
+        /*
+          这里只清除保存信息，
+          不清除正在输入的内容，
+          防止用户切换窗口回来后重新输入。
+        */
+
+        clearSavedLoginData();
+
+      }
+    );
+
+
+    /* =====================================================
+       禁止复制密码
+       可减少简单复制泄露
+    ===================================================== */
+
+    passwordInput.addEventListener(
+      "copy",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    passwordInput.addEventListener(
+      "cut",
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    /* =====================================================
+       登录函数
+    ===================================================== */
+
+    async function handleLogin(event) {
+
+      event.preventDefault();
+
+
+      const username =
+        usernameInput.value.trim();
+
+      const password =
+        passwordInput.value;
+
+
+      message.textContent = "";
+      message.className = "message";
+
+
+      if (!username) {
+
+        message.textContent =
+          "请输入用户名。";
+
+        message.className =
+          "message error";
+
+        usernameInput.focus();
+
+        return false;
 
       }
 
 
-      if (
-        !authData ||
-        !authData.user
-      ) {
+      if (!password) {
 
-        showMessage(
-          '登录失败，没有取得用户信息。'
-        );
+        message.textContent =
+          "请输入密码。";
 
-        return;
+        message.className =
+          "message error";
 
-      }
+        passwordInput.focus();
 
-
-      const user =
-        authData.user;
-
-
-      /* ==============================
-         2. 查询 profiles
-      ============================== */
-
-      const {
-        data: profile,
-        error: profileError
-      } =
-        await supabaseClient
-
-          .from('profiles')
-
-          .select(
-            'id, display_name, role, is_active'
-          )
-
-          .eq(
-            'id',
-            user.id
-          )
-
-          .single();
-
-
-      if (profileError) {
-
-        console.error(
-          profileError
-        );
-
-        await supabaseClient.auth
-          .signOut();
-
-        showMessage(
-          '读取用户权限失败：' +
-          profileError.message
-        );
-
-        return;
+        return false;
 
       }
 
 
-      if (!profile) {
-
-        await supabaseClient.auth
-          .signOut();
-
-        showMessage(
-          '该账号尚未配置管理权限。'
-        );
-
-        return;
-
-      }
-
-
-      /* ==============================
-         3. 是否有效
-      ============================== */
-
-      if (
-        profile.is_active !== true
-      ) {
-
-        await supabaseClient.auth
-          .signOut();
-
-        showMessage(
-          '该账号目前已停用。'
-        );
-
-        return;
-
-      }
-
-
-      /* ==============================
-         4. 是否管理人员
-      ============================== */
-
-      if (
-        profile.role !== 'founder'
-        &&
-        profile.role !== 'admin'
-      ) {
-
-        await supabaseClient.auth
-          .signOut();
-
-        showMessage(
-          '该账号不是公司管理人员账号。'
-        );
-
-        return;
-
-      }
-
-
-      /* ==============================
-         5. 保存页面显示资料
-      ============================== */
-
-      sessionStorage.setItem(
-        'sf_user_id',
-        user.id
-      );
-
-      sessionStorage.setItem(
-        'sf_display_name',
-        profile.display_name || ''
-      );
-
-      sessionStorage.setItem(
-        'sf_role',
-        profile.role
-      );
-
-
-      /* ==============================
-         6. 登录成功
-      ============================== */
-
-      showMessage(
-        '登录成功，正在进入公司管理后台...',
-        'success'
-      );
-
-
-      setTimeout(
-        function () {
-
-          window.location.href =
-            'wholemanagement.html';
-
-        },
-        300
-      );
-
-
-    } catch (error) {
-
-      console.error(
-        error
-      );
-
-      showMessage(
-        '系统连接失败，请稍后重新登录。'
-      );
-
-    } finally {
-
-      loginButton.disabled =
-        false;
+      loginButton.disabled = true;
 
       loginButton.textContent =
-        '登录系统';
+        "正在登录...";
+
+
+      try {
+
+        /*
+          ============================
+          后期连接Python服务器时
+          把这里替换为真实API
+          ============================
+
+          示例：
+
+          const response = await fetch(
+            "/api/management/login",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+              credentials: "include",
+              body: JSON.stringify({
+                username: username,
+                password: password
+              })
+            }
+          );
+
+          const result =
+            await response.json();
+
+          if (!response.ok) {
+            throw new Error(
+              result.message ||
+              "用户名或密码错误"
+            );
+          }
+
+          window.location.replace(
+            "wholemanagement.html"
+          );
+
+        */
+
+
+        /*
+          当前如果你的登录API已经存在，
+          请把你原来的fetch登录代码
+          放在上面的区域。
+
+          不要把用户名或密码保存到：
+          localStorage
+          sessionStorage
+          Cookie明文
+        */
+
+
+        /*
+          这里只是占位提示。
+          正式连接数据库后删除。
+        */
+
+        message.textContent =
+          "请连接后台登录接口。";
+
+        message.className =
+          "message error";
+
+
+      }
+      catch (error) {
+
+        message.textContent =
+          error.message ||
+          "登录失败，请重新输入。";
+
+        message.className =
+          "message error";
+
+      }
+      finally {
+
+        /*
+          无论成功失败，
+          都不保存密码
+        */
+
+        passwordInput.value = "";
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+          "登录";
+
+      }
+
+
+      return false;
 
     }
 
-  }
-);
 
+    /* =====================================================
+       页面关闭 / 刷新
+       不保存任何输入
+    ===================================================== */
 
-/* ============================================================
-   page10 始终显示登录页面
-============================================================ */
+    window.addEventListener(
+      "beforeunload",
+      function() {
 
-emailInput.focus();
+        passwordInput.value = "";
 
-</script>
+      }
+    );
+
+  </script>
 
 </body>
 </html>
