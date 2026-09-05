@@ -163,18 +163,14 @@
     .card-number {
       font-size: 12px;
       font-weight: 700;
-
       color: #64748b;
-
       margin-bottom: 18px;
     }
 
     .card-title {
       font-size: 18px;
       font-weight: 700;
-
       margin-bottom: 8px;
-
       color: #111827;
     }
 
@@ -182,20 +178,15 @@
       font-size: 13px;
       color: #6b7280;
       line-height: 1.65;
-
       flex-grow: 1;
     }
 
     .card-link {
       margin-top: 16px;
-
       font-size: 13px;
       font-weight: 600;
-
       color: #2563eb;
     }
-
-    /* 不同类型稍微区别 */
 
     .card.sales {
       border-top: 4px solid #2563eb;
@@ -219,11 +210,8 @@
 
     .footer {
       margin-top: 38px;
-
       padding-top: 20px;
-
       border-top: 1px solid #e5e7eb;
-
       font-size: 12px;
       color: #94a3b8;
 
@@ -238,10 +226,8 @@
 
     .timeout-warning {
       position: fixed;
-
       left: 50%;
       bottom: 28px;
-
       transform: translateX(-50%);
 
       background: #fff7ed;
@@ -250,7 +236,6 @@
       border: 1px solid #fdba74;
 
       padding: 12px 20px;
-
       border-radius: 9px;
 
       font-size: 13px;
@@ -260,7 +245,6 @@
         0 6px 20px rgba(0,0,0,0.12);
 
       z-index: 9999;
-
       display: none;
     }
 
@@ -356,7 +340,6 @@
   </header>
 
 
-
   <!-- =========================
        主界面
   ========================== -->
@@ -375,7 +358,6 @@
       </p>
 
     </section>
-
 
 
     <!-- =========================
@@ -412,7 +394,6 @@
       </a>
 
 
-
       <!-- 2 产品 -->
 
       <a
@@ -440,12 +421,11 @@
       </a>
 
 
-
-      <!-- 3 价格 -->
+      <!-- 3 销售价格 -->
 
       <a
         class="card finance"
-        href="prices.html"
+        href="sales_prices.html"
       >
 
         <div class="card-number">
@@ -468,8 +448,7 @@
       </a>
 
 
-
-      <!-- 4 订单 -->
+      <!-- 4 销售订单 -->
 
       <a
         class="card sales"
@@ -496,12 +475,11 @@
       </a>
 
 
-
       <!-- 5 年终奖励 -->
 
       <a
         class="card finance"
-        href="rewards.html"
+        href="annual_rewards.html"
       >
 
         <div class="card-number">
@@ -524,12 +502,11 @@
       </a>
 
 
-
       <!-- 6 管理人员 -->
 
       <a
         class="card people"
-        href="staff.html"
+        href="profiles.html"
       >
 
         <div class="card-number">
@@ -550,7 +527,6 @@
         </div>
 
       </a>
-
 
 
       <!-- 7 供应商 -->
@@ -580,12 +556,11 @@
       </a>
 
 
-
       <!-- 8 采购 -->
 
       <a
         class="card purchase"
-        href="purchases.html"
+        href="purchase_orders.html"
       >
 
         <div class="card-number">
@@ -611,7 +586,6 @@
     </section>
 
 
-
     <footer class="footer">
 
       <div>
@@ -627,7 +601,6 @@
   </main>
 
 
-
   <!-- 自动退出提示 -->
 
   <div
@@ -638,7 +611,6 @@
   </div>
 
 
-
   <script>
 
     /* =====================================================
@@ -646,26 +618,13 @@
        10分钟无操作自动退出
     ===================================================== */
 
-
-    /*
-      10分钟
-      10 × 60 × 1000
-    */
-
     const IDLE_LIMIT = 10 * 60 * 1000;
 
-
-    /*
-      最后60秒显示提示
-    */
-
     const WARNING_TIME = 60 * 1000;
-
 
     let lastActivityTime = Date.now();
 
     let warningShown = false;
-
 
 
     /* =====================================================
@@ -686,7 +645,6 @@
       }
 
     }
-
 
 
     /* =====================================================
@@ -716,7 +674,6 @@
     });
 
 
-
     /* =====================================================
        每秒检查一次
     ===================================================== */
@@ -727,7 +684,6 @@
 
       const inactiveTime =
         now - lastActivityTime;
-
 
 
       /*
@@ -759,7 +715,6 @@
       }
 
 
-
       /*
         达到10分钟
       */
@@ -773,16 +728,11 @@
     }, 1000);
 
 
-
     /* =====================================================
        自动退出
     ===================================================== */
 
     function autoLogout() {
-
-      /*
-        清除本网站可能保存的登录信息
-      */
 
       sessionStorage.clear();
 
@@ -802,17 +752,11 @@
         "loginTime"
       );
 
-
-      /*
-        返回管理人员登录页面
-      */
-
       window.location.replace(
         "page10.html"
       );
 
     }
-
 
 
     /* =====================================================
