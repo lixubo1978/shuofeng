@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -15,6 +14,7 @@
     body {
       margin: 0;
       padding: 0;
+
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
                    "Microsoft YaHei", Arial, sans-serif;
 
@@ -60,6 +60,7 @@
 
     h2 {
       text-align: center;
+
       margin-top: 30px;
       margin-bottom: 30px;
 
@@ -73,6 +74,7 @@
 
     label {
       display: block;
+
       margin-bottom: 8px;
 
       font-size: 14px;
@@ -161,6 +163,7 @@
 
     .back-btn {
       display: block;
+
       width: 100%;
 
       margin-top: 12px;
@@ -197,6 +200,10 @@
       font-size: 14px;
 
       min-height: 20px;
+
+      line-height: 1.5;
+
+      word-break: break-word;
     }
 
     .error {
@@ -236,6 +243,7 @@
   </style>
 </head>
 
+
 <body>
 
 <div class="login-container">
@@ -252,6 +260,7 @@
 
   </div>
 
+
   <h2>
     管理人员登录
   </h2>
@@ -261,15 +270,15 @@
 
     <div class="form-group">
 
-      <label for="username">
-        用户名 / 邮箱
+      <label for="email">
+        邮箱
       </label>
 
       <input
-        type="text"
-        id="username"
-        name="username"
-        placeholder="请输入用户名或邮箱"
+        type="email"
+        id="email"
+        name="email"
+        placeholder="请输入登录邮箱"
         autocomplete="username"
         required
       >
@@ -283,6 +292,7 @@
         密码
       </label>
 
+
       <div class="password-wrapper">
 
         <input
@@ -293,6 +303,7 @@
           autocomplete="current-password"
           required
         >
+
 
         <button
           type="button"
@@ -334,7 +345,8 @@
 
   <div class="security-note">
     本页面仅供公司授权管理人员使用。
-    用户身份及权限由服务器数据库统一验证。
+    用户身份由 Supabase Auth 验证，
+    系统权限由数据库统一验证。
   </div>
 
 
@@ -345,15 +357,27 @@
 </div>
 
 
+
+<!-- Supabase JavaScript -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
+  /*
+   * ========================================
+   * Supabase 配置
+   * ========================================
+   */
+
   const SUPABASE_URL =
-  "https://icmifhjjhgjrhkunjbmu.supabase.co";
+    "https://icmifhjjhgjrhkunjbmu.supabase.co";
+
 
   const SUPABASE_ANON_KEY =
-  "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
+    "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
+
 
   const supabaseClient =
     supabase.createClient(
@@ -362,18 +386,35 @@
     );
 
 
+
+  /*
+   * ========================================
+   * 获取页面元素
+   * ========================================
+   */
+
   const loginForm =
     document.getElementById("loginForm");
 
+
   const loginBtn =
     document.getElementById("loginBtn");
+
 
   const message =
     document.getElementById("message");
 
 
+
+  /*
+   * ========================================
+   * 登录
+   * ========================================
+   */
+
   loginForm.addEventListener(
     "submit",
+
     async function(event) {
 
       event.preventDefault();
@@ -381,7 +422,7 @@
 
       const email =
         document
-          .getElementById("username")
+          .getElementById("email")
           .value
           .trim();
 
@@ -391,6 +432,10 @@
           .getElementById("password")
           .value;
 
+
+      /*
+       * 检查输入
+       */
 
       if (!email || !password) {
 
@@ -403,13 +448,30 @@
       }
 
 
+      /*
+       * 登录按钮进入等待状态
+       */
+
       loginBtn.disabled = true;
 
       loginBtn.innerText =
         "正在登录...";
 
 
+      showMessage(
+        "",
+        ""
+      );
+
+
       try {
+
+        /*
+         * ========================================
+         * 第一步
+         * Supabase Auth 验证邮箱和密码
+         * ========================================
+         */
 
         const {
           data,
@@ -422,10 +484,21 @@
             });
 
 
+
+        /*
+         * 登录失败
+         */
+
         if (error) {
 
+          console.error(
+            "Supabase 登录错误：",
+            error
+          );
+
+
           showMessage(
-            "邮箱或密码错误",
+            "登录错误：" + error.message,
             "error"
           );
 
@@ -433,16 +506,32 @@
         }
 
 
-        if (!data.user) {
+
+        /*
+         * 没有取得用户
+         */
+
+        if (
+          !data ||
+          !data.user
+        ) {
 
           showMessage(
-            "登录失败",
+            "登录失败：没有取得用户信息",
             "error"
           );
 
           return;
         }
 
+
+
+        /*
+         * ========================================
+         * 第二步
+         * 从 profiles 表读取当前用户权限
+         * ========================================
+         */
 
         const {
           data: profile,
@@ -450,7 +539,9 @@
         } =
           await supabaseClient
             .from("profiles")
-            .select("role")
+            .select(
+              "id, name, role, company_name"
+            )
             .eq(
               "id",
               data.user.id
@@ -458,22 +549,47 @@
             .single();
 
 
+
+        /*
+         * profiles 查询失败
+         */
+
         if (
           profileError ||
           !profile
         ) {
 
+          console.error(
+            "读取 profiles 错误：",
+            profileError
+          );
+
+
           await supabaseClient.auth
             .signOut();
 
+
           showMessage(
-            "该账号没有系统权限",
+            "读取用户权限失败：" +
+            (
+              profileError
+                ? profileError.message
+                : "数据库中找不到该用户资料"
+            ),
             "error"
           );
 
           return;
         }
 
+
+
+        /*
+         * ========================================
+         * 第三步
+         * 检查是不是 company 用户
+         * ========================================
+         */
 
         if (
           profile.role !==
@@ -482,6 +598,7 @@
 
           await supabaseClient.auth
             .signOut();
+
 
           showMessage(
             "该账号不是公司管理人员账号",
@@ -492,11 +609,24 @@
         }
 
 
+
+        /*
+         * ========================================
+         * 第四步
+         * 登录成功
+         * ========================================
+         */
+
         showMessage(
           "登录成功，正在进入管理系统……",
           "success"
         );
 
+
+
+        /*
+         * 跳转到公司管理后台
+         */
 
         setTimeout(
           function() {
@@ -511,16 +641,41 @@
 
       } catch (error) {
 
-        console.error(error);
+
+        /*
+         * ========================================
+         * 捕获真正的 JavaScript / 网络错误
+         * ========================================
+         */
+
+        console.error(
+          "系统错误：",
+          error
+        );
+
 
         showMessage(
-          "连接数据库失败，请稍后重试",
+          "系统错误：" +
+          (
+            error &&
+            error.message
+              ? error.message
+              : String(error)
+          ),
           "error"
         );
 
+
       } finally {
 
-        loginBtn.disabled = false;
+
+        /*
+         * 恢复登录按钮
+         */
+
+        loginBtn.disabled =
+          false;
+
 
         loginBtn.innerText =
           "登录系统";
@@ -531,10 +686,20 @@
   );
 
 
+
+  /*
+   * ========================================
+   * 显示 / 隐藏密码
+   * ========================================
+   */
+
   function togglePassword() {
 
     const passwordInput =
-      document.getElementById("password");
+      document.getElementById(
+        "password"
+      );
+
 
     const button =
       document.querySelector(
@@ -566,6 +731,13 @@
   }
 
 
+
+  /*
+   * ========================================
+   * 页面提示信息
+   * ========================================
+   */
+
   function showMessage(
     text,
     type
@@ -574,13 +746,23 @@
     message.innerText =
       text;
 
-    message.className =
-      "message " + type;
+
+    if (type) {
+
+      message.className =
+        "message " + type;
+
+    } else {
+
+      message.className =
+        "message";
+
+    }
 
   }
 
 </script>
 
+
 </body>
 </html>
-
