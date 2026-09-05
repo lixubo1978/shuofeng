@@ -345,7 +345,19 @@
 </div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
+  const SUPABASE_URL = "你的_SUPABASE_PROJECT_URL";
+  const SUPABASE_ANON_KEY = "你的_SUPABASE_ANON_KEY";
+
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
 
   const loginForm =
     document.getElementById("loginForm");
@@ -364,7 +376,7 @@
       event.preventDefault();
 
 
-      const username =
+      const email =
         document
           .getElementById("username")
           .value
@@ -377,10 +389,10 @@
           .value;
 
 
-      if (!username || !password) {
+      if (!email || !password) {
 
         showMessage(
-          "请输入用户名和密码",
+          "请输入邮箱和密码",
           "error"
         );
 
@@ -396,71 +408,110 @@
 
       try {
 
-        const response =
-          await fetch(
-            "/api/login",
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              credentials:
-                "include",
-
-              body:
-                JSON.stringify({
-                  username: username,
-                  password: password
-                })
-            }
-          );
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth
+            .signInWithPassword({
+              email: email,
+              password: password
+            });
 
 
-        const data =
-          await response.json();
-
-
-        if (
-          response.ok &&
-          data.success
-        ) {
+        if (error) {
 
           showMessage(
-            "登录成功，正在进入管理系统……",
-            "success"
-          );
-
-
-          setTimeout(
-            function() {
-
-              window.location.href =
-                data.redirect ||
-                "page11.html";
-
-            },
-            500
-          );
-
-        } else {
-
-          showMessage(
-            data.message ||
-            "用户名或密码错误",
+            "邮箱或密码错误",
             "error"
           );
 
+          return;
         }
+
+
+        if (!data.user) {
+
+          showMessage(
+            "登录失败",
+            "error"
+          );
+
+          return;
+        }
+
+
+        const {
+          data: profile,
+          error: profileError
+        } =
+          await supabaseClient
+            .from("profiles")
+            .select("role")
+            .eq(
+              "id",
+              data.user.id
+            )
+            .single();
+
+
+        if (
+          profileError ||
+          !profile
+        ) {
+
+          await supabaseClient.auth
+            .signOut();
+
+          showMessage(
+            "该账号没有系统权限",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (
+          profile.role !==
+          "company"
+        ) {
+
+          await supabaseClient.auth
+            .signOut();
+
+          showMessage(
+            "该账号不是公司管理人员账号",
+            "error"
+          );
+
+          return;
+        }
+
+
+        showMessage(
+          "登录成功，正在进入管理系统……",
+          "success"
+        );
+
+
+        setTimeout(
+          function() {
+
+            window.location.href =
+              "page11.html";
+
+          },
+          500
+        );
+
 
       } catch (error) {
 
         console.error(error);
 
         showMessage(
-          "服务器连接失败，请稍后重试",
+          "连接数据库失败，请稍后重试",
           "error"
         );
 
