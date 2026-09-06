@@ -291,11 +291,6 @@
       background: #fafafa;
     }
 
-
-    /* =====================================================
-       无效代理商：整行灰显
-    ===================================================== */
-
     tr.agent-disabled td {
       background: #eef0f2 !important;
       color: #9ca3af !important;
@@ -313,24 +308,20 @@
       color: #9ca3af !important;
     }
 
-    /* 无效状态标签继续保持红色 */
     tr.agent-disabled .status-disabled {
       background: #fee2e2 !important;
       color: #991b1b !important;
     }
 
-    /* 查看详情按钮继续保持黑色 */
     tr.agent-disabled .btn-dark {
       background: #111827 !important;
       color: #ffffff !important;
     }
 
-    /* 恢复有效按钮继续保持绿色 */
     tr.agent-disabled .btn-green {
       background: #16a34a !important;
       color: #ffffff !important;
     }
-
 
     .agent-code {
       color: #475569;
@@ -537,6 +528,16 @@
       line-height: 1.7;
     }
 
+    .section-title {
+      grid-column: 1 / -1;
+      margin-top: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+      font-weight: 700;
+      color: #111827;
+    }
+
     .detail-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -624,7 +625,8 @@
       }
 
       .detail-item.full,
-      .form-group.full {
+      .form-group.full,
+      .section-title {
         grid-column: auto;
       }
     }
@@ -704,7 +706,7 @@
         </h1>
 
         <p>
-          查看和管理代理商资料、代理区域、账户余额、登录权限和有效状态。
+          查看和管理代理商资料、代理区域、账户余额、银行资料、登录权限和有效状态。
         </p>
 
       </div>
@@ -779,7 +781,7 @@
         <input
           id="searchInput"
           type="text"
-          placeholder="搜索代理商名称、代码、区域、联系人、电话、登录邮箱……"
+          placeholder="搜索名称、代码、区域、联系人、电话、邮箱、开户行、银行账号、税号……"
           oninput="renderAgents()"
         >
 
@@ -988,6 +990,56 @@
 
           </div>
 
+
+          <!-- 银行及税务信息 -->
+
+          <div class="section-title">
+            银行及税务信息
+          </div>
+
+          <div class="form-group full">
+
+            <label>开户行</label>
+
+            <input
+              id="newAgentBankName"
+              type="text"
+              placeholder="例如：中国银行南通分行 / OTP Bank"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label>银行账号</label>
+
+            <input
+              id="newAgentBankAccount"
+              type="text"
+              placeholder="请输入银行账号"
+              autocomplete="off"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label>税号</label>
+
+            <input
+              id="newAgentTaxNumber"
+              type="text"
+              placeholder="请输入企业税号"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div class="section-title">
+            账户信息
+          </div>
+
           <div class="form-group">
 
             <label>初始账户余额</label>
@@ -1136,6 +1188,23 @@
             <div id="detailAddress" class="detail-value">-</div>
           </div>
 
+
+          <div class="detail-item full">
+            <div class="detail-label">开户行</div>
+            <div id="detailBankName" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">银行账号</div>
+            <div id="detailBankAccount" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">税号</div>
+            <div id="detailTaxNumber" class="detail-value">-</div>
+          </div>
+
+
           <div class="detail-item full">
             <div class="detail-label">备注</div>
             <div id="detailNotes" class="detail-value">-</div>
@@ -1205,10 +1274,6 @@
   let accessVerified = false;
 
 
-  /* =====================================================
-     管理人员权限
-  ===================================================== */
-
   async function verifyManagementAccess() {
 
     try {
@@ -1217,13 +1282,10 @@
         data: sessionData,
         error: sessionError
       } =
-        await supabaseClient
-          .auth
-          .getSession();
+        await supabaseClient.auth.getSession();
 
       if (
-        sessionError
-        ||
+        sessionError ||
         !sessionData?.session?.user
       ) {
 
@@ -1243,32 +1305,21 @@
       } =
         await supabaseClient
           .from("profiles")
-          .select(
-            "id, display_name, role, is_active"
-          )
-          .eq(
-            "id",
-            user.id
-          )
+          .select("id, display_name, role, is_active")
+          .eq("id", user.id)
           .single();
 
       if (
-        profileError
-        ||
-        !profile
-        ||
-        profile.is_active !== true
-        ||
+        profileError ||
+        !profile ||
+        profile.is_active !== true ||
         (
-          profile.role !== "founder"
-          &&
+          profile.role !== "founder" &&
           profile.role !== "admin"
         )
       ) {
 
-        await supabaseClient
-          .auth
-          .signOut();
+        await supabaseClient.auth.signOut();
 
         window.location.replace(
           "page10.html"
@@ -1280,27 +1331,19 @@
       document.getElementById(
         "currentUser"
       ).textContent =
-        (
-          profile.display_name
-          ||
-          "管理人员"
-        )
+        (profile.display_name || "管理人员")
         +
         (
           profile.role === "founder"
-            ?
-            " · 创始人"
-            :
-            " · 管理人员"
+            ? " · 创始人"
+            : " · 管理人员"
         );
 
       accessVerified = true;
 
       document.documentElement
         .classList
-        .add(
-          "auth-ready"
-        );
+        .add("auth-ready");
 
       return true;
 
@@ -1324,16 +1367,12 @@
 
   document.addEventListener(
     "DOMContentLoaded",
-
     async function() {
 
       const allowed =
         await verifyManagementAccess();
 
-      if (
-        allowed
-      ) {
-
+      if (allowed) {
         await loadAgents();
       }
     }
@@ -1342,20 +1381,14 @@
 
   window.addEventListener(
     "pageshow",
-
     async function(event) {
 
-      if (
-        event.persisted
-      ) {
+      if (event.persisted) {
 
         const allowed =
           await verifyManagementAccess();
 
-        if (
-          allowed
-        ) {
-
+        if (allowed) {
           await loadAgents();
         }
       }
@@ -1363,15 +1396,9 @@
   );
 
 
-  /* =====================================================
-     读取代理商
-  ===================================================== */
-
   async function loadAgents() {
 
-    if (
-      !accessVerified
-    ) {
+    if (!accessVerified) {
       return;
     }
 
@@ -1393,9 +1420,7 @@
             }
           );
 
-      if (
-        error
-      ) {
+      if (error) {
         throw error;
       }
 
@@ -1430,45 +1455,26 @@
   }
 
 
-  /* =====================================================
-     自动生成代理商代码
-     001 - 999
-  ===================================================== */
+  function calculateNextAgentCode(rows) {
 
-  function calculateNextAgentCode(
-    rows
-  ) {
+    let maxCode = 0;
 
-    let maxCode =
-      0;
-
-    for (
-      const item
-      of
-      rows || []
-    ) {
+    for (const item of rows || []) {
 
       const raw =
         String(
           item.agent_code || ""
-        )
-        .trim();
+        ).trim();
 
       if (
-        /^\d{1,3}$/.test(
-          raw
-        )
+        /^\d{1,3}$/.test(raw)
       ) {
 
         const number =
-          parseInt(
-            raw,
-            10
-          );
+          parseInt(raw, 10);
 
         if (
-          Number.isFinite(number)
-          &&
+          Number.isFinite(number) &&
           number > maxCode
         ) {
 
@@ -1481,19 +1487,12 @@
     const next =
       maxCode + 1;
 
-    if (
-      next > 999
-    ) {
+    if (next > 999) {
       return null;
     }
 
-    return String(
-      next
-    )
-    .padStart(
-      3,
-      "0"
-    );
+    return String(next)
+      .padStart(3, "0");
   }
 
 
@@ -1505,13 +1504,9 @@
     } =
       await supabaseClient
         .from("agents")
-        .select(
-          "agent_code"
-        );
+        .select("agent_code");
 
-    if (
-      error
-    ) {
+    if (error) {
       throw error;
     }
 
@@ -1521,64 +1516,31 @@
   }
 
 
-  /* =====================================================
-     打开新增代理商
-  ===================================================== */
-
   async function openCreateAgentModal() {
 
-    document.getElementById(
-      "newAgentCode"
-    ).value = "正在生成...";
+    document.getElementById("newAgentCode").value =
+      "正在生成...";
 
-    document.getElementById(
-      "newAgentName"
-    ).value = "";
+    document.getElementById("newAgentName").value = "";
+    document.getElementById("newAgentRegion").value = "";
+    document.getElementById("newAgentEmail").value = "";
+    document.getElementById("newAgentPassword").value = "";
+    document.getElementById("newAgentContact").value = "";
+    document.getElementById("newAgentPhone").value = "";
+    document.getElementById("newAgentAddress").value = "";
 
-    document.getElementById(
-      "newAgentRegion"
-    ).value = "";
+    document.getElementById("newAgentBankName").value = "";
+    document.getElementById("newAgentBankAccount").value = "";
+    document.getElementById("newAgentTaxNumber").value = "";
 
-    document.getElementById(
-      "newAgentEmail"
-    ).value = "";
-
-    document.getElementById(
-      "newAgentPassword"
-    ).value = "";
-
-    document.getElementById(
-      "newAgentContact"
-    ).value = "";
-
-    document.getElementById(
-      "newAgentPhone"
-    ).value = "";
-
-    document.getElementById(
-      "newAgentAddress"
-    ).value = "";
-
-    document.getElementById(
-      "newAgentBalance"
-    ).value = "0";
-
-    document.getElementById(
-      "newAgentCurrency"
-    ).value = "CNY";
-
-    document.getElementById(
-      "newAgentNotes"
-    ).value = "";
+    document.getElementById("newAgentBalance").value = "0";
+    document.getElementById("newAgentCurrency").value = "CNY";
+    document.getElementById("newAgentNotes").value = "";
 
     document
-      .getElementById(
-        "createAgentModal"
-      )
+      .getElementById("createAgentModal")
       .classList
-      .add(
-        "show"
-      );
+      .add("show");
 
     const createButton =
       document.getElementById(
@@ -1593,13 +1555,12 @@
       const nextCode =
         await getNextAgentCodeFromDatabase();
 
-      if (
-        !nextCode
-      ) {
+      if (!nextCode) {
 
         document.getElementById(
           "newAgentCode"
-        ).value = "已达到999";
+        ).value =
+          "已达到999";
 
         document.getElementById(
           "agentCodeHelp"
@@ -1660,35 +1621,23 @@
   function closeCreateAgentModal() {
 
     document
-      .getElementById(
-        "createAgentModal"
-      )
+      .getElementById("createAgentModal")
       .classList
-      .remove(
-        "show"
-      );
+      .remove("show");
   }
 
-
-  /* =====================================================
-     创建代理商
-  ===================================================== */
 
   async function createAgent() {
 
     const agentName =
       document.getElementById(
         "newAgentName"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
     const region =
       document.getElementById(
         "newAgentRegion"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
     const email =
       document.getElementById(
@@ -1701,37 +1650,45 @@
     const password =
       document.getElementById(
         "newAgentPassword"
-      )
-      .value;
+      ).value;
 
     const contact =
       document.getElementById(
         "newAgentContact"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
     const phone =
       document.getElementById(
         "newAgentPhone"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
     const address =
       document.getElementById(
         "newAgentAddress"
-      )
-      .value
-      .trim();
+      ).value.trim();
+
+
+    const bankName =
+      document.getElementById(
+        "newAgentBankName"
+      ).value.trim();
+
+    const bankAccount =
+      document.getElementById(
+        "newAgentBankAccount"
+      ).value.trim();
+
+    const taxNumber =
+      document.getElementById(
+        "newAgentTaxNumber"
+      ).value.trim();
+
 
     const balance =
       Number(
         document.getElementById(
           "newAgentBalance"
-        ).value
-        ||
-        0
+        ).value || 0
       );
 
     const currency =
@@ -1745,49 +1702,55 @@
     const notes =
       document.getElementById(
         "newAgentNotes"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
-    if (
-      !agentName
-    ) {
+
+    if (!agentName) {
+
       alert(
         "请输入代理商名称。"
       );
+
       return;
     }
 
+
     if (
-      !email
-      ||
+      !email ||
       !email.includes("@")
     ) {
+
       alert(
         "请输入正确的代理商登录邮箱。"
       );
+
       return;
     }
+
 
     if (
       password.length < 8
     ) {
+
       alert(
         "登录密码至少需要8位。"
       );
+
       return;
     }
 
+
     if (
-      !Number.isFinite(
-        balance
-      )
+      !Number.isFinite(balance)
     ) {
+
       alert(
         "账户余额格式不正确。"
       );
+
       return;
     }
+
 
     const button =
       document.getElementById(
@@ -1802,14 +1765,13 @@
 
     showLoading(true);
 
+
     try {
 
       const latestCode =
         await getNextAgentCodeFromDatabase();
 
-      if (
-        !latestCode
-      ) {
+      if (!latestCode) {
 
         throw new Error(
           "代理商代码已经达到最大值999。"
@@ -1820,6 +1782,7 @@
         "newAgentCode"
       ).value =
         latestCode;
+
 
       const {
         data,
@@ -1856,6 +1819,15 @@
                 address:
                   address,
 
+                bank_name:
+                  bankName,
+
+                bank_account:
+                  bankAccount,
+
+                tax_number:
+                  taxNumber,
+
                 account_balance:
                   balance,
 
@@ -1868,20 +1840,17 @@
             }
           );
 
-      if (
-        error
-      ) {
+
+      if (error) {
 
         let errorMessage =
-          error.message
-          ||
+          error.message ||
           "创建代理商失败";
 
         try {
 
           if (
-            error.context
-            &&
+            error.context &&
             typeof error.context.json ===
             "function"
           ) {
@@ -1890,8 +1859,7 @@
               await error.context.json();
 
             if (
-              body
-              &&
+              body &&
               body.error
             ) {
 
@@ -1914,9 +1882,9 @@
         );
       }
 
+
       if (
-        data
-        &&
+        data &&
         data.error
       ) {
 
@@ -1924,6 +1892,7 @@
           data.error
         );
       }
+
 
       closeCreateAgentModal();
 
@@ -1966,10 +1935,6 @@
   }
 
 
-  /* =====================================================
-     有效 / 无效
-  ===================================================== */
-
   async function changeAgentStatus(
     agentId,
     newStatus
@@ -1980,16 +1945,13 @@
         function(item) {
 
           return (
-            String(item.id)
-            ===
+            String(item.id) ===
             String(agentId)
           );
         }
       );
 
-    if (
-      !agent
-    ) {
+    if (!agent) {
 
       showNotice(
         "没有找到代理商。",
@@ -2006,11 +1968,7 @@
         :
         "确定将该代理商设为无效吗？设置后该账号将不能进入代理商系统。";
 
-    if (
-      !confirm(
-        text
-      )
-    ) {
+    if (!confirm(text)) {
       return;
     }
 
@@ -2024,23 +1982,18 @@
         await supabaseClient
           .from("agents")
           .update({
-            is_active:
-              newStatus
+            is_active: newStatus
           })
           .eq(
             "id",
             agent.id
           );
 
-      if (
-        agentError
-      ) {
+      if (agentError) {
         throw agentError;
       }
 
-      if (
-        agent.auth_user_id
-      ) {
+      if (agent.auth_user_id) {
 
         const {
           error: profileError
@@ -2048,8 +2001,7 @@
           await supabaseClient
             .from("profiles")
             .update({
-              is_active:
-                newStatus
+              is_active: newStatus
             })
             .eq(
               "id",
@@ -2060,15 +2012,12 @@
               "agent"
             );
 
-        if (
-          profileError
-        ) {
+        if (profileError) {
 
           await supabaseClient
             .from("agents")
             .update({
-              is_active:
-                !newStatus
+              is_active: !newStatus
             })
             .eq(
               "id",
@@ -2114,10 +2063,6 @@
   }
 
 
-  /* =====================================================
-     统计
-  ===================================================== */
-
   function updateSummary() {
 
     const total =
@@ -2130,8 +2075,7 @@
       ).length;
 
     const disabled =
-      total -
-      active;
+      total - active;
 
     document.getElementById(
       "totalCount"
@@ -2155,17 +2099,13 @@
 
         const currency =
           (
-            item.balance_currency
-            ||
+            item.balance_currency ||
             "CNY"
-          )
-          .toUpperCase();
+          ).toUpperCase();
 
         const amount =
           Number(
-            item.account_balance
-            ||
-            0
+            item.account_balance || 0
           );
 
         if (
@@ -2182,9 +2122,7 @@
     );
 
     const parts =
-      Object.keys(
-        totals
-      )
+      Object.keys(totals)
       .sort()
       .map(
         function(currency) {
@@ -2228,15 +2166,12 @@
           agents.map(
             item =>
               (
-                item.balance_currency
-                ||
+                item.balance_currency ||
                 "CNY"
-              )
-              .toUpperCase()
+              ).toUpperCase()
           )
         )
-      )
-      .sort();
+      ).sort();
 
     select.innerHTML =
       `
@@ -2266,9 +2201,7 @@
     );
 
     if (
-      currencies.includes(
-        current
-      )
+      currencies.includes(current)
     ) {
 
       select.value =
@@ -2276,10 +2209,6 @@
     }
   }
 
-
-  /* =====================================================
-     显示代理商
-  ===================================================== */
 
   function renderAgents() {
 
@@ -2313,15 +2242,17 @@
               item.contact_person,
               item.phone,
               item.email,
-              item.address
+              item.address,
+              item.bank_name,
+              item.bank_account,
+              item.tax_number
             ]
             .filter(Boolean)
             .join(" ")
             .toLowerCase();
 
           const keywordMatched =
-            !keyword
-            ||
+            !keyword ||
             searchable.includes(
               keyword
             );
@@ -2347,22 +2278,17 @@
 
           const itemCurrency =
             (
-              item.balance_currency
-              ||
+              item.balance_currency ||
               "CNY"
-            )
-            .toUpperCase();
+            ).toUpperCase();
 
           const currencyMatched =
-            currency === "all"
-            ||
+            currency === "all" ||
             currency === itemCurrency;
 
           return (
-            keywordMatched
-            &&
-            statusMatched
-            &&
+            keywordMatched &&
+            statusMatched &&
             currencyMatched
           );
         }
@@ -2394,6 +2320,7 @@
     emptyBox.style.display =
       "none";
 
+
     filtered.forEach(
       function(item) {
 
@@ -2401,13 +2328,6 @@
           document.createElement(
             "tr"
           );
-
-
-        /*
-          =================================================
-          无效代理商整行灰显
-          =================================================
-        */
 
         if (
           item.is_active === false
@@ -2417,7 +2337,6 @@
             "agent-disabled"
           );
         }
-
 
         const statusHTML =
           item.is_active
@@ -2494,11 +2413,9 @@
               ${
                 escapeHTML(
                   (
-                    item.balance_currency
-                    ||
+                    item.balance_currency ||
                     "CNY"
-                  )
-                  .toUpperCase()
+                  ).toUpperCase()
                 )
               }
 
@@ -2548,23 +2465,16 @@
   }
 
 
-  /* =====================================================
-     查看详情
-  ===================================================== */
-
   function openDetailModal(id) {
 
     const agent =
       agents.find(
         item =>
-          String(item.id)
-          ===
+          String(item.id) ===
           String(id)
       );
 
-    if (
-      !agent
-    ) {
+    if (!agent) {
 
       showNotice(
         "没有找到代理商资料。",
@@ -2598,11 +2508,9 @@
       " "
       +
       (
-        agent.balance_currency
-        ||
+        agent.balance_currency ||
         "CNY"
-      )
-      .toUpperCase()
+      ).toUpperCase()
     );
 
     setText(
@@ -2634,6 +2542,23 @@
       agent.address || "-"
     );
 
+
+    setText(
+      "detailBankName",
+      agent.bank_name || "-"
+    );
+
+    setText(
+      "detailBankAccount",
+      agent.bank_account || "-"
+    );
+
+    setText(
+      "detailTaxNumber",
+      agent.tax_number || "-"
+    );
+
+
     setText(
       "detailNotes",
       agent.notes || "-"
@@ -2641,9 +2566,8 @@
 
     setText(
       "detailAuthUserId",
-      agent.auth_user_id
-        ||
-        "尚未绑定登录账号"
+      agent.auth_user_id ||
+      "尚未绑定登录账号"
     );
 
     setText(
@@ -2669,9 +2593,7 @@
       "detailModal"
     )
     .classList
-    .add(
-      "show"
-    );
+    .add("show");
   }
 
 
@@ -2681,9 +2603,7 @@
       "detailModal"
     )
     .classList
-    .remove(
-      "show"
-    );
+    .remove("show");
   }
 
 
@@ -2692,7 +2612,6 @@
   )
   .addEventListener(
     "click",
-
     function(event) {
 
       if (
@@ -2710,7 +2629,6 @@
   )
   .addEventListener(
     "click",
-
     function(event) {
 
       if (
@@ -2722,10 +2640,6 @@
     }
   );
 
-
-  /* =====================================================
-     工具
-  ===================================================== */
 
   function setText(
     id,
@@ -2757,8 +2671,7 @@
   function escapeHTML(value) {
 
     if (
-      value === null
-      ||
+      value === null ||
       value === undefined
     ) {
 
@@ -2776,10 +2689,7 @@
 
   function formatDate(value) {
 
-    if (
-      !value
-    ) {
-
+    if (!value) {
       return "-";
     }
 
@@ -2815,16 +2725,13 @@
         "loadingMask"
       );
 
-    if (
-      show
-    ) {
+    if (show) {
 
       mask.classList.add(
         "show"
       );
-    }
 
-    else {
+    } else {
 
       mask.classList.remove(
         "show"
@@ -2876,10 +2783,6 @@
   }
 
 
-  /* =====================================================
-     10分钟无操作自动退出
-  ===================================================== */
-
   const IDLE_LIMIT =
     10 * 60 * 1000;
 
@@ -2906,9 +2809,7 @@
         "timeoutWarning"
       );
 
-    if (
-      warning
-    ) {
+    if (warning) {
 
       warning.style.display =
         "none";
@@ -2942,8 +2843,7 @@
     function() {
 
       const inactiveTime =
-        Date.now()
-        -
+        Date.now() -
         lastActivityTime;
 
       if (
@@ -2955,18 +2855,14 @@
         IDLE_LIMIT
       ) {
 
-        if (
-          !warningShown
-        ) {
+        if (!warningShown) {
 
           const warning =
             document.getElementById(
               "timeoutWarning"
             );
 
-          if (
-            warning
-          ) {
+          if (warning) {
 
             warning.style.display =
               "block";
