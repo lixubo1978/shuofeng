@@ -477,6 +477,20 @@
       resize: vertical;
     }
 
+    /* 自动生成代码 */
+    .readonly-code {
+      background: #f3f4f6 !important;
+      color: #111827;
+      font-weight: 700;
+      cursor: not-allowed;
+    }
+
+    .code-help {
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
     .form-help {
       color: #6b7280;
       font-size: 12px;
@@ -811,9 +825,7 @@
   </main>
 
 
-  <!-- =========================
-       新增代理商
-  ========================= -->
+  <!-- 新增代理商 -->
 
   <div
     id="createAgentModal"
@@ -846,16 +858,26 @@
 
             <label>
               代理商代码
-              <span class="required">*</span>
             </label>
 
             <input
               id="newAgentCode"
+              class="readonly-code"
               type="text"
-              placeholder="例如：DE001"
+              readonly
+              tabindex="-1"
+              placeholder="系统自动生成"
             >
 
+            <div
+              id="agentCodeHelp"
+              class="code-help"
+            >
+              系统根据数据库自动生成，范围 001～999。
+            </div>
+
           </div>
+
 
           <div class="form-group">
 
@@ -872,6 +894,7 @@
 
           </div>
 
+
           <div class="form-group full">
 
             <label>
@@ -886,8 +909,6 @@
 
           </div>
 
-
-          <!-- 登录账号 -->
 
           <div class="form-group">
 
@@ -904,6 +925,7 @@
             >
 
           </div>
+
 
           <div class="form-group">
 
@@ -922,8 +944,6 @@
           </div>
 
 
-          <!-- 联系资料 -->
-
           <div class="form-group">
 
             <label>
@@ -938,6 +958,7 @@
 
           </div>
 
+
           <div class="form-group">
 
             <label>
@@ -951,6 +972,7 @@
             >
 
           </div>
+
 
           <div class="form-group full">
 
@@ -967,8 +989,6 @@
           </div>
 
 
-          <!-- 账户 -->
-
           <div class="form-group">
 
             <label>
@@ -983,6 +1003,7 @@
             >
 
           </div>
+
 
           <div class="form-group">
 
@@ -1012,6 +1033,7 @@
 
           </div>
 
+
           <div class="form-group full">
 
             <label>
@@ -1025,17 +1047,15 @@
 
           </div>
 
+
           <div class="form-group full">
 
             <div class="form-help">
 
-              创建成功后，系统会同时建立：
+              创建成功后，系统会同时建立 Authentication 登录账号、
+              profiles 的 agent 身份和 agents 代理商资料。
 
-              Authentication 登录账号、
-              profiles 的 agent 身份、
-              agents 代理商资料。
-
-              代理商以后从 page11.html 登录，
+              代理商从 page11.html 登录，
               不具备进入企业管理工作台的权限。
 
             </div>
@@ -1045,6 +1065,7 @@
         </div>
 
       </div>
+
 
       <div class="modal-footer">
 
@@ -1072,9 +1093,7 @@
   </div>
 
 
-  <!-- =========================
-       查看详情
-  ========================= -->
+  <!-- 查看详情 -->
 
   <div
     id="detailModal"
@@ -1194,10 +1213,6 @@
   </div>
 
 
-  <!-- =========================
-       自动退出提示
-  ========================= -->
-
   <div
     id="timeoutWarning"
     class="timeout-warning"
@@ -1206,198 +1221,187 @@
   </div>
 
 
-  <script>
+<script>
 
-    /* =====================================================
-       Supabase
-    ===================================================== */
+  const SUPABASE_URL =
+    "https://icmifhjjhgjrhkunjbmu.supabase.co";
 
-    const SUPABASE_URL =
-      "https://icmifhjjhgjrhkunjbmu.supabase.co";
+  const SUPABASE_KEY =
+    "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
 
-    const SUPABASE_KEY =
-      "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
 
-    let agents = [];
-
-    let accessVerified = false;
-
-
-    /* =====================================================
-       管理人员权限验证
-    ===================================================== */
-
-    async function verifyManagementAccess() {
-
-      try {
-
-        const {
-          data: sessionData,
-          error: sessionError
-        } =
-          await supabaseClient
-            .auth
-            .getSession();
+  let agents = [];
+  let accessVerified = false;
 
 
-        if (
-          sessionError
-          ||
-          !sessionData
-          ||
-          !sessionData.session
-          ||
-          !sessionData.session.user
-        ) {
+  /* =====================================================
+     管理人员权限
+  ===================================================== */
 
-          window.location.replace(
-            "page10.html"
-          );
+  async function verifyManagementAccess() {
 
-          return false;
+    try {
 
-        }
+      const {
+        data: sessionData,
+        error: sessionError
+      } =
+        await supabaseClient
+          .auth
+          .getSession();
 
 
-        const user =
-          sessionData.session.user;
-
-
-        const {
-          data: profile,
-          error: profileError
-        } =
-          await supabaseClient
-            .from("profiles")
-            .select(
-              "id, display_name, role, is_active"
-            )
-            .eq(
-              "id",
-              user.id
-            )
-            .single();
-
-
-        if (
-          profileError
-          ||
-          !profile
-          ||
-          profile.is_active !== true
-          ||
-          (
-            profile.role !== "founder"
-            &&
-            profile.role !== "admin"
-          )
-        ) {
-
-          await supabaseClient
-            .auth
-            .signOut();
-
-
-          window.location.replace(
-            "page10.html"
-          );
-
-
-          return false;
-
-        }
-
-
-        const currentUser =
-          document.getElementById(
-            "currentUser"
-          );
-
-
-        if (
-          profile.display_name
-        ) {
-
-          currentUser.textContent =
-            profile.display_name
-            +
-            (
-              profile.role === "founder"
-                ?
-                " · 创始人"
-                :
-                " · 管理人员"
-            );
-
-        }
-
-        else {
-
-          currentUser.textContent =
-            profile.role === "founder"
-              ?
-              "创始人"
-              :
-              "管理人员";
-
-        }
-
-
-        accessVerified =
-          true;
-
-
-        document
-          .documentElement
-          .classList
-          .add(
-            "auth-ready"
-          );
-
-
-        return true;
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "权限验证失败：",
-          error
-        );
-
+      if (
+        sessionError
+        ||
+        !sessionData?.session?.user
+      ) {
 
         window.location.replace(
           "page10.html"
         );
 
+        return false;
+
+      }
+
+
+      const user =
+        sessionData.session.user;
+
+
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select(
+            "id, display_name, role, is_active"
+          )
+          .eq(
+            "id",
+            user.id
+          )
+          .single();
+
+
+      if (
+        profileError
+        ||
+        !profile
+        ||
+        profile.is_active !== true
+        ||
+        (
+          profile.role !== "founder"
+          &&
+          profile.role !== "admin"
+        )
+      ) {
+
+        await supabaseClient
+          .auth
+          .signOut();
+
+        window.location.replace(
+          "page10.html"
+        );
 
         return false;
 
       }
 
+
+      document.getElementById(
+        "currentUser"
+      ).textContent =
+        (
+          profile.display_name
+          ||
+          "管理人员"
+        )
+        +
+        (
+          profile.role === "founder"
+            ?
+            " · 创始人"
+            :
+            " · 管理人员"
+        );
+
+
+      accessVerified = true;
+
+
+      document.documentElement
+        .classList
+        .add(
+          "auth-ready"
+        );
+
+
+      return true;
+
     }
 
+    catch (error) {
 
-    /* =====================================================
-       页面启动
-    ===================================================== */
+      console.error(
+        "权限验证失败：",
+        error
+      );
 
-    document.addEventListener(
-      "DOMContentLoaded",
 
-      async function() {
+      window.location.replace(
+        "page10.html"
+      );
+
+
+      return false;
+
+    }
+
+  }
+
+
+  document.addEventListener(
+    "DOMContentLoaded",
+
+    async function() {
+
+      const allowed =
+        await verifyManagementAccess();
+
+      if (
+        allowed
+      ) {
+
+        await loadAgents();
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "pageshow",
+
+    async function(event) {
+
+      if (
+        event.persisted
+      ) {
 
         const allowed =
           await verifyManagementAccess();
-
 
         if (
           allowed
@@ -1409,639 +1413,861 @@
 
       }
 
-    );
+    }
+  );
 
 
-    window.addEventListener(
-      "pageshow",
+  /* =====================================================
+     读取代理商
+  ===================================================== */
 
-      async function(event) {
+  async function loadAgents() {
 
-        if (
-          event.persisted
-        ) {
+    if (
+      !accessVerified
+    ) {
 
-          const allowed =
-            await verifyManagementAccess();
+      return;
 
-
-          if (
-            allowed
-          ) {
-
-            await loadAgents();
-
-          }
-
-        }
-
-      }
-
-    );
+    }
 
 
-    /* =====================================================
-       读取 agents
-    ===================================================== */
+    showLoading(true);
 
-    async function loadAgents() {
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("agents")
+          .select("*")
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
 
       if (
-        !accessVerified
+        error
       ) {
 
-        return;
+        throw error;
 
       }
 
 
-      showLoading(true);
+      agents =
+        data || [];
 
 
-      try {
+      updateSummary();
+      updateCurrencyFilter();
+      renderAgents();
 
-        const {
-          data,
-          error
-        } =
-          await supabaseClient
-            .from("agents")
-            .select("*")
-            .order(
-              "created_at",
-              {
-                ascending: false
-              }
-            );
+    }
+
+    catch (error) {
+
+      console.error(
+        "读取代理商失败：",
+        error
+      );
+
+
+      showNotice(
+        "读取代理商失败：" +
+        error.message,
+        "error"
+      );
+
+    }
+
+    finally {
+
+      showLoading(false);
+
+    }
+
+  }
+
+
+  /* =====================================================
+     自动生成代理商代码
+     001 - 999
+  ===================================================== */
+
+  function calculateNextAgentCode(
+    rows
+  ) {
+
+    let maxCode =
+      0;
+
+
+    for (
+      const item
+      of
+      rows || []
+    ) {
+
+      const raw =
+        String(
+          item.agent_code || ""
+        )
+        .trim();
+
+
+      /*
+        只统计纯数字代码
+        例如：
+        001
+        002
+        125
+      */
+
+      if (
+        /^\d{1,3}$/.test(
+          raw
+        )
+      ) {
+
+        const number =
+          parseInt(
+            raw,
+            10
+          );
 
 
         if (
-          error
+          Number.isFinite(number)
+          &&
+          number > maxCode
         ) {
 
-          throw error;
+          maxCode =
+            number;
 
         }
 
-
-        agents =
-          data || [];
-
-
-        updateSummary();
-
-        updateCurrencyFilter();
-
-        renderAgents();
-
       }
 
-      catch (error) {
+    }
 
-        console.error(
-          "读取代理商失败：",
-          error
+
+    const next =
+      maxCode + 1;
+
+
+    if (
+      next > 999
+    ) {
+
+      return null;
+
+    }
+
+
+    return String(
+      next
+    )
+    .padStart(
+      3,
+      "0"
+    );
+
+  }
+
+
+  async function getNextAgentCodeFromDatabase() {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("agents")
+        .select(
+          "agent_code"
         );
+
+
+    if (
+      error
+    ) {
+
+      throw error;
+
+    }
+
+
+    return calculateNextAgentCode(
+      data || []
+    );
+
+  }
+
+
+  /* =====================================================
+     打开新增代理商
+  ===================================================== */
+
+  async function openCreateAgentModal() {
+
+    document.getElementById(
+      "newAgentCode"
+    ).value = "正在生成...";
+
+
+    document.getElementById(
+      "newAgentName"
+    ).value = "";
+
+
+    document.getElementById(
+      "newAgentRegion"
+    ).value = "";
+
+
+    document.getElementById(
+      "newAgentEmail"
+    ).value = "";
+
+
+    document.getElementById(
+      "newAgentPassword"
+    ).value = "";
+
+
+    document.getElementById(
+      "newAgentContact"
+    ).value = "";
+
+
+    document.getElementById(
+      "newAgentPhone"
+    ).value = "";
+
+
+    document.getElementById(
+      "newAgentAddress"
+    ).value = "";
+
+
+    document.getElementById(
+      "newAgentBalance"
+    ).value = "0";
+
+
+    document.getElementById(
+      "newAgentCurrency"
+    ).value = "CNY";
+
+
+    document.getElementById(
+      "newAgentNotes"
+    ).value = "";
+
+
+    document
+      .getElementById(
+        "createAgentModal"
+      )
+      .classList
+      .add(
+        "show"
+      );
+
+
+    const createButton =
+      document.getElementById(
+        "createAgentButton"
+      );
+
+
+    createButton.disabled =
+      true;
+
+
+    try {
+
+      const nextCode =
+        await getNextAgentCodeFromDatabase();
+
+
+      if (
+        !nextCode
+      ) {
+
+        document.getElementById(
+          "newAgentCode"
+        ).value = "已达到999";
+
+
+        document.getElementById(
+          "agentCodeHelp"
+        ).textContent =
+          "代理商代码已达到最大值 999，无法继续创建。";
 
 
         showNotice(
-          "读取代理商失败：" +
-          error.message,
+          "代理商代码已经达到最大值999。",
           "error"
         );
 
-      }
 
-      finally {
-
-        showLoading(false);
+        return;
 
       }
 
-    }
-
-
-    /* =====================================================
-       新增代理商弹窗
-    ===================================================== */
-
-    function openCreateAgentModal() {
 
       document.getElementById(
         "newAgentCode"
-      ).value = "";
+      ).value =
+        nextCode;
 
 
+      document.getElementById(
+        "agentCodeHelp"
+      ).textContent =
+        "系统已根据数据库自动生成代码：" +
+        nextCode +
+        "，不可手工修改。";
+
+
+      createButton.disabled =
+        false;
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "生成代理商代码失败：",
+        error
+      );
+
+
+      document.getElementById(
+        "newAgentCode"
+      ).value =
+        "生成失败";
+
+
+      document.getElementById(
+        "agentCodeHelp"
+      ).textContent =
+        "无法读取数据库生成代码，请关闭后重新打开。";
+
+
+      showNotice(
+        "生成代理商代码失败：" +
+        error.message,
+        "error"
+      );
+
+    }
+
+  }
+
+
+  function closeCreateAgentModal() {
+
+    document
+      .getElementById(
+        "createAgentModal"
+      )
+      .classList
+      .remove(
+        "show"
+      );
+
+  }
+
+
+  /* =====================================================
+     创建代理商
+  ===================================================== */
+
+  async function createAgent() {
+
+    const agentName =
       document.getElementById(
         "newAgentName"
-      ).value = "";
+      )
+      .value
+      .trim();
 
 
+    const region =
       document.getElementById(
         "newAgentRegion"
-      ).value = "";
+      )
+      .value
+      .trim();
 
 
+    const email =
       document.getElementById(
         "newAgentEmail"
-      ).value = "";
+      )
+      .value
+      .trim()
+      .toLowerCase();
 
 
+    const password =
       document.getElementById(
         "newAgentPassword"
-      ).value = "";
+      )
+      .value;
 
 
+    const contact =
       document.getElementById(
         "newAgentContact"
-      ).value = "";
+      )
+      .value
+      .trim();
 
 
+    const phone =
       document.getElementById(
         "newAgentPhone"
-      ).value = "";
+      )
+      .value
+      .trim();
 
 
+    const address =
       document.getElementById(
         "newAgentAddress"
-      ).value = "";
+      )
+      .value
+      .trim();
 
 
-      document.getElementById(
-        "newAgentBalance"
-      ).value = "0";
+    const balance =
+      Number(
+        document.getElementById(
+          "newAgentBalance"
+        ).value
+        ||
+        0
+      );
 
 
+    const currency =
       document.getElementById(
         "newAgentCurrency"
-      ).value = "CNY";
+      )
+      .value
+      .trim()
+      .toUpperCase();
 
 
+    const notes =
       document.getElementById(
         "newAgentNotes"
-      ).value = "";
+      )
+      .value
+      .trim();
 
 
-      document
-        .getElementById(
-          "createAgentModal"
-        )
-        .classList
-        .add(
-          "show"
-        );
+    if (
+      !agentName
+    ) {
 
-    }
+      alert(
+        "请输入代理商名称。"
+      );
 
-
-    function closeCreateAgentModal() {
-
-      document
-        .getElementById(
-          "createAgentModal"
-        )
-        .classList
-        .remove(
-          "show"
-        );
+      return;
 
     }
 
 
-    /* =====================================================
-       正式创建代理商
-       调用 create-agent Edge Function
-    ===================================================== */
+    if (
+      !email
+      ||
+      !email.includes("@")
+    ) {
 
-    async function createAgent() {
+      alert(
+        "请输入正确的代理商登录邮箱。"
+      );
 
-      const agentCode =
-        document
-          .getElementById(
-            "newAgentCode"
-          )
-          .value
-          .trim();
+      return;
 
-
-      const agentName =
-        document
-          .getElementById(
-            "newAgentName"
-          )
-          .value
-          .trim();
+    }
 
 
-      const region =
-        document
-          .getElementById(
-            "newAgentRegion"
-          )
-          .value
-          .trim();
+    if (
+      password.length < 8
+    ) {
+
+      alert(
+        "登录密码至少需要8位。"
+      );
+
+      return;
+
+    }
 
 
-      const email =
-        document
-          .getElementById(
-            "newAgentEmail"
-          )
-          .value
-          .trim()
-          .toLowerCase();
+    if (
+      !Number.isFinite(
+        balance
+      )
+    ) {
+
+      alert(
+        "账户余额格式不正确。"
+      );
+
+      return;
+
+    }
 
 
-      const password =
-        document
-          .getElementById(
-            "newAgentPassword"
-          )
-          .value;
+    const button =
+      document.getElementById(
+        "createAgentButton"
+      );
 
 
-      const contact =
-        document
-          .getElementById(
-            "newAgentContact"
-          )
-          .value
-          .trim();
+    button.disabled =
+      true;
 
 
-      const phone =
-        document
-          .getElementById(
-            "newAgentPhone"
-          )
-          .value
-          .trim();
+    button.textContent =
+      "正在创建……";
 
 
-      const address =
-        document
-          .getElementById(
-            "newAgentAddress"
-          )
-          .value
-          .trim();
+    showLoading(true);
 
 
-      const balance =
-        Number(
-          document
-            .getElementById(
-              "newAgentBalance"
-            )
-            .value
-          ||
-          0
-        );
+    try {
 
+      /*
+        创建前再次直接读取数据库。
+        不使用弹窗刚打开时的旧代码。
+      */
 
-      const currency =
-        document
-          .getElementById(
-            "newAgentCurrency"
-          )
-          .value
-          .trim()
-          .toUpperCase();
-
-
-      const notes =
-        document
-          .getElementById(
-            "newAgentNotes"
-          )
-          .value
-          .trim();
+      const latestCode =
+        await getNextAgentCodeFromDatabase();
 
 
       if (
-        !agentCode
+        !latestCode
       ) {
 
-        alert(
-          "请输入代理商代码。"
+        throw new Error(
+          "代理商代码已经达到最大值999。"
         );
-
-        return;
 
       }
 
 
-      if (
-        !agentName
-      ) {
+      /*
+        同步更新画面
+      */
 
-        alert(
-          "请输入代理商名称。"
-        );
-
-        return;
-
-      }
+      document.getElementById(
+        "newAgentCode"
+      ).value =
+        latestCode;
 
 
-      if (
-        !email
-        ||
-        !email.includes("@")
-      ) {
+      /*
+        调用正式 Edge Function
+      */
 
-        alert(
-          "请输入正确的代理商登录邮箱。"
-        );
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .functions
+          .invoke(
+            "create-agent",
+            {
+              body: {
 
-        return;
+                agent_code:
+                  latestCode,
 
-      }
+                agent_name:
+                  agentName,
 
+                agent_region:
+                  region,
 
-      if (
-        password.length < 8
-      ) {
+                email:
+                  email,
 
-        alert(
-          "登录密码至少需要8位。"
-        );
+                password:
+                  password,
 
-        return;
+                contact_person:
+                  contact,
 
-      }
+                phone:
+                  phone,
 
+                address:
+                  address,
 
-      if (
-        !Number.isFinite(
-          balance
-        )
-      ) {
+                account_balance:
+                  balance,
 
-        alert(
-          "账户余额格式不正确。"
-        );
+                balance_currency:
+                  currency,
 
-        return;
+                notes:
+                  notes
 
-      }
-
-
-      const button =
-        document.getElementById(
-          "createAgentButton"
-        );
-
-
-      button.disabled =
-        true;
-
-
-      button.textContent =
-        "正在创建……";
-
-
-      showLoading(true);
-
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient
-            .functions
-            .invoke(
-              "create-agent",
-              {
-                body: {
-
-                  agent_code:
-                    agentCode,
-
-                  agent_name:
-                    agentName,
-
-                  agent_region:
-                    region,
-
-                  email:
-                    email,
-
-                  password:
-                    password,
-
-                  contact_person:
-                    contact,
-
-                  phone:
-                    phone,
-
-                  address:
-                    address,
-
-                  account_balance:
-                    balance,
-
-                  balance_currency:
-                    currency,
-
-                  notes:
-                    notes
-
-                }
               }
-            );
+            }
+          );
 
 
-        if (
-          error
-        ) {
+      if (
+        error
+      ) {
 
-          let errorMessage =
-            error.message
-            ||
-            "创建代理商失败";
+        let errorMessage =
+          error.message
+          ||
+          "创建代理商失败";
 
 
-          try {
+        try {
+
+          if (
+            error.context
+            &&
+            typeof error.context.json ===
+            "function"
+          ) {
+
+            const body =
+              await error.context.json();
+
 
             if (
-              error.context
+              body
               &&
-              typeof error.context.json ===
-              "function"
+              body.error
             ) {
 
-              const body =
-                await error.context.json();
-
-
-              if (
-                body
-                &&
-                body.error
-              ) {
-
-                errorMessage =
-                  body.error;
-
-              }
+              errorMessage =
+                body.error;
 
             }
 
           }
 
-          catch (detailError) {
+        }
 
-            console.warn(
-              detailError
-            );
+        catch (detailError) {
 
-          }
-
-
-          throw new Error(
-            errorMessage
+          console.warn(
+            detailError
           );
 
         }
 
 
-        if (
-          data
-          &&
+        throw new Error(
+          errorMessage
+        );
+
+      }
+
+
+      if (
+        data
+        &&
+        data.error
+      ) {
+
+        throw new Error(
           data.error
-        ) {
+        );
 
-          throw new Error(
-            data.error
+      }
+
+
+      closeCreateAgentModal();
+
+
+      showNotice(
+        "代理商创建成功。代理商代码：" +
+        latestCode +
+        "，登录账号已同时建立。",
+        "success"
+      );
+
+
+      await loadAgents();
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "创建代理商失败：",
+        error
+      );
+
+
+      showNotice(
+        "创建代理商失败：" +
+        error.message,
+        "error"
+      );
+
+    }
+
+    finally {
+
+      showLoading(false);
+
+
+      button.disabled =
+        false;
+
+
+      button.textContent =
+        "创建代理商";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     有效 / 无效
+  ===================================================== */
+
+  async function changeAgentStatus(
+    agentId,
+    newStatus
+  ) {
+
+    const agent =
+      agents.find(
+        function(item) {
+
+          return (
+            String(item.id)
+            ===
+            String(agentId)
           );
 
         }
+      );
 
 
-        closeCreateAgentModal();
+    if (
+      !agent
+    ) {
 
+      showNotice(
+        "没有找到代理商。",
+        "error"
+      );
 
-        showNotice(
-          "代理商创建成功，登录账号已同时建立。",
-          "success"
-        );
-
-
-        await loadAgents();
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "创建代理商失败：",
-          error
-        );
-
-
-        showNotice(
-          "创建代理商失败：" +
-          error.message,
-          "error"
-        );
-
-      }
-
-      finally {
-
-        showLoading(false);
-
-
-        button.disabled =
-          false;
-
-
-        button.textContent =
-          "创建代理商";
-
-      }
+      return;
 
     }
 
 
-    /* =====================================================
-       有效 / 无效
-       同时控制 agents + profiles
-    ===================================================== */
-
-    async function changeAgentStatus(
-      agentId,
+    const text =
       newStatus
+        ?
+        "确定恢复该代理商为有效状态吗？恢复后可重新进入代理商系统。"
+        :
+        "确定将该代理商设为无效吗？设置后该账号将不能进入代理商系统。";
+
+
+    if (
+      !confirm(
+        text
+      )
     ) {
 
-      const agent =
-        agents.find(
-          function(item) {
+      return;
 
-            return (
-              String(item.id)
-              ===
-              String(agentId)
-            );
+    }
 
-          }
-        );
+
+    showLoading(true);
+
+
+    try {
+
+      const {
+        error: agentError
+      } =
+        await supabaseClient
+          .from("agents")
+          .update({
+            is_active:
+              newStatus
+          })
+          .eq(
+            "id",
+            agent.id
+          );
 
 
       if (
-        !agent
+        agentError
       ) {
 
-        showNotice(
-          "没有找到代理商。",
-          "error"
-        );
-
-        return;
+        throw agentError;
 
       }
 
 
-      const text =
-        newStatus
-          ?
-          "确定恢复该代理商为有效状态吗？恢复后可重新进入代理商系统。"
-          :
-          "确定将该代理商设为无效吗？设置后该账号将不能进入代理商系统。";
-
-
       if (
-        !confirm(
-          text
-        )
+        agent.auth_user_id
       ) {
-
-        return;
-
-      }
-
-
-      showLoading(true);
-
-
-      try {
-
-        /*
-          先更新 agents
-        */
 
         const {
-          error: agentError
+          error: profileError
         } =
+          await supabaseClient
+            .from("profiles")
+            .update({
+              is_active:
+                newStatus
+            })
+            .eq(
+              "id",
+              agent.auth_user_id
+            )
+            .eq(
+              "role",
+              "agent"
+            );
+
+
+        if (
+          profileError
+        ) {
+
           await supabaseClient
             .from("agents")
             .update({
               is_active:
-                newStatus
+                !newStatus
             })
             .eq(
               "id",
@@ -2049,162 +2275,321 @@
             );
 
 
-        if (
-          agentError
-        ) {
-
-          throw agentError;
+          throw profileError;
 
         }
 
-
-        /*
-          如果已绑定 Authentication 用户，
-          同时更新 profiles.is_active
-        */
-
-        if (
-          agent.auth_user_id
-        ) {
-
-          const {
-            error: profileError
-          } =
-            await supabaseClient
-              .from("profiles")
-              .update({
-                is_active:
-                  newStatus
-              })
-              .eq(
-                "id",
-                agent.auth_user_id
-              )
-              .eq(
-                "role",
-                "agent"
-              );
-
-
-          if (
-            profileError
-          ) {
-
-            /*
-              profile 更新失败时，
-              把 agents 状态恢复回来
-            */
-
-            await supabaseClient
-              .from("agents")
-              .update({
-                is_active:
-                  !newStatus
-              })
-              .eq(
-                "id",
-                agent.id
-              );
-
-
-            throw profileError;
-
-          }
-
-        }
-
-
-        showNotice(
-          newStatus
-            ?
-            "代理商已恢复有效，登录权限已恢复。"
-            :
-            "代理商已设为无效，代理商系统访问权限已关闭。",
-          "success"
-        );
-
-
-        await loadAgents();
-
       }
 
-      catch (error) {
 
-        console.error(
-          "修改代理商状态失败：",
-          error
-        );
+      showNotice(
+        newStatus
+          ?
+          "代理商已恢复有效，登录权限已恢复。"
+          :
+          "代理商已设为无效，代理商系统访问权限已关闭。",
+        "success"
+      );
 
 
-        showNotice(
-          "修改代理商状态失败：" +
-          error.message,
-          "error"
-        );
-
-      }
-
-      finally {
-
-        showLoading(false);
-
-      }
+      await loadAgents();
 
     }
 
+    catch (error) {
 
-    /* =====================================================
-       统计
-    ===================================================== */
-
-    function updateSummary() {
-
-      const total =
-        agents.length;
+      console.error(
+        "修改代理商状态失败：",
+        error
+      );
 
 
-      const active =
-        agents.filter(
-          function(item) {
+      showNotice(
+        "修改代理商状态失败：" +
+        error.message,
+        "error"
+      );
 
-            return (
-              item.is_active === true
-            );
+    }
 
-          }
-        ).length;
+    finally {
 
+      showLoading(false);
 
-      const disabled =
-        total -
-        active;
+    }
+
+  }
 
 
+  /* =====================================================
+     统计
+  ===================================================== */
+
+  function updateSummary() {
+
+    const total =
+      agents.length;
+
+
+    const active =
+      agents.filter(
+        item =>
+          item.is_active === true
+      ).length;
+
+
+    const disabled =
+      total -
+      active;
+
+
+    document.getElementById(
+      "totalCount"
+    ).textContent =
+      total;
+
+
+    document.getElementById(
+      "activeCount"
+    ).textContent =
+      active;
+
+
+    document.getElementById(
+      "disabledCount"
+    ).textContent =
+      disabled;
+
+
+    const totals = {};
+
+
+    agents.forEach(
+      function(item) {
+
+        const currency =
+          (
+            item.balance_currency
+            ||
+            "CNY"
+          )
+          .toUpperCase();
+
+
+        const amount =
+          Number(
+            item.account_balance
+            ||
+            0
+          );
+
+
+        if (
+          totals[currency] === undefined
+        ) {
+
+          totals[currency] =
+            0;
+
+        }
+
+
+        totals[currency] +=
+          amount;
+
+      }
+    );
+
+
+    const parts =
+      Object.keys(
+        totals
+      )
+      .sort()
+      .map(
+        function(currency) {
+
+          return (
+            formatMoney(
+              totals[currency]
+            )
+            +
+            " "
+            +
+            currency
+          );
+
+        }
+      );
+
+
+    document.getElementById(
+      "balanceSummary"
+    ).textContent =
+      parts.length
+        ?
+        parts.join(" / ")
+        :
+        "0.00 CNY";
+
+  }
+
+
+  function updateCurrencyFilter() {
+
+    const select =
       document.getElementById(
-        "totalCount"
-      ).textContent =
-        total;
+        "currencyFilter"
+      );
 
 
+    const current =
+      select.value;
+
+
+    const currencies =
+      Array.from(
+        new Set(
+          agents.map(
+            item =>
+              (
+                item.balance_currency
+                ||
+                "CNY"
+              )
+              .toUpperCase()
+          )
+        )
+      )
+      .sort();
+
+
+    select.innerHTML =
+      `
+        <option value="all">
+          全部币种
+        </option>
+      `;
+
+
+    currencies.forEach(
+      function(currency) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          currency;
+
+
+        option.textContent =
+          currency;
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    if (
+      currencies.includes(
+        current
+      )
+    ) {
+
+      select.value =
+        current;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     显示代理商
+  ===================================================== */
+
+  function renderAgents() {
+
+    const keyword =
       document.getElementById(
-        "activeCount"
-      ).textContent =
-        active;
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
 
 
+    const status =
       document.getElementById(
-        "disabledCount"
-      ).textContent =
-        disabled;
+        "statusFilter"
+      ).value;
 
 
-      const totals = {};
+    const currency =
+      document.getElementById(
+        "currencyFilter"
+      ).value;
 
 
-      agents.forEach(
+    const filtered =
+      agents.filter(
         function(item) {
 
-          const currency =
+          const searchable =
+            [
+              item.agent_code,
+              item.agent_name,
+              item.agent_region,
+              item.contact_person,
+              item.phone,
+              item.email,
+              item.address
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+
+          const keywordMatched =
+            !keyword
+            ||
+            searchable.includes(
+              keyword
+            );
+
+
+          let statusMatched =
+            true;
+
+
+          if (
+            status === "active"
+          ) {
+
+            statusMatched =
+              item.is_active === true;
+
+          }
+
+
+          if (
+            status === "disabled"
+          ) {
+
+            statusMatched =
+              item.is_active === false;
+
+          }
+
+
+          const itemCurrency =
             (
               item.balance_currency
               ||
@@ -2213,1043 +2598,792 @@
             .toUpperCase();
 
 
-          const amount =
-            Number(
-              item.account_balance
-              ||
-              0
-            );
+          const currencyMatched =
+            currency === "all"
+            ||
+            currency === itemCurrency;
 
 
-          if (
-            totals[currency] === undefined
-          ) {
-
-            totals[currency] =
-              0;
-
-          }
-
-
-          totals[currency] +=
-            amount;
-
-        }
-      );
-
-
-      const parts =
-        Object.keys(
-          totals
-        )
-        .sort()
-        .map(
-          function(currency) {
-
-            return (
-              formatMoney(
-                totals[currency]
-              )
-              +
-              " "
-              +
-              currency
-            );
-
-          }
-        );
-
-
-      document.getElementById(
-        "balanceSummary"
-      ).textContent =
-        parts.length
-          ?
-          parts.join(" / ")
-          :
-          "0.00 CNY";
-
-    }
-
-
-    function updateCurrencyFilter() {
-
-      const select =
-        document.getElementById(
-          "currencyFilter"
-        );
-
-
-      const current =
-        select.value;
-
-
-      const currencies =
-        Array.from(
-          new Set(
-            agents.map(
-              function(item) {
-
-                return (
-                  item.balance_currency
-                  ||
-                  "CNY"
-                )
-                .toUpperCase();
-
-              }
-            )
-          )
-        )
-        .sort();
-
-
-      select.innerHTML =
-        `
-          <option value="all">
-            全部币种
-          </option>
-        `;
-
-
-      currencies.forEach(
-        function(currency) {
-
-          const option =
-            document.createElement(
-              "option"
-            );
-
-
-          option.value =
-            currency;
-
-
-          option.textContent =
-            currency;
-
-
-          select.appendChild(
-            option
+          return (
+            keywordMatched
+            &&
+            statusMatched
+            &&
+            currencyMatched
           );
 
         }
       );
 
 
-      if (
-        currencies.includes(
-          current
-        )
-      ) {
+    const tbody =
+      document.getElementById(
+        "agentTableBody"
+      );
 
-        select.value =
-          current;
 
-      }
+    const emptyBox =
+      document.getElementById(
+        "emptyBox"
+      );
+
+
+    tbody.innerHTML =
+      "";
+
+
+    if (
+      filtered.length === 0
+    ) {
+
+      emptyBox.style.display =
+        "block";
+
+      return;
 
     }
 
 
-    /* =====================================================
-       渲染代理商
-    ===================================================== */
-
-    function renderAgents() {
-
-      const keyword =
-        document
-          .getElementById(
-            "searchInput"
-          )
-          .value
-          .trim()
-          .toLowerCase();
+    emptyBox.style.display =
+      "none";
 
 
-      const status =
-        document
-          .getElementById(
-            "statusFilter"
-          )
-          .value;
+    filtered.forEach(
+      function(item) {
+
+        const tr =
+          document.createElement(
+            "tr"
+          );
 
 
-      const currency =
-        document
-          .getElementById(
-            "currencyFilter"
-          )
-          .value;
-
-
-      const filtered =
-        agents.filter(
-          function(item) {
-
-            const searchable =
-              [
-                item.agent_code,
-                item.agent_name,
-                item.agent_region,
-                item.contact_person,
-                item.phone,
-                item.email,
-                item.address
-              ]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase();
-
-
-            const keywordMatched =
-              !keyword
-              ||
-              searchable.includes(
-                keyword
-              );
-
-
-            let statusMatched =
-              true;
-
-
-            if (
-              status === "active"
-            ) {
-
-              statusMatched =
-                item.is_active === true;
-
-            }
-
-
-            if (
-              status === "disabled"
-            ) {
-
-              statusMatched =
-                item.is_active === false;
-
-            }
-
-
-            const itemCurrency =
-              (
-                item.balance_currency
-                ||
-                "CNY"
-              )
-              .toUpperCase();
-
-
-            const currencyMatched =
-              currency === "all"
-              ||
-              currency === itemCurrency;
-
-
-            return (
-              keywordMatched
-              &&
-              statusMatched
-              &&
-              currencyMatched
-            );
-
-          }
-        );
-
-
-      const tbody =
-        document.getElementById(
-          "agentTableBody"
-        );
-
-
-      const emptyBox =
-        document.getElementById(
-          "emptyBox"
-        );
-
-
-      tbody.innerHTML =
-        "";
-
-
-      if (
-        filtered.length === 0
-      ) {
-
-        emptyBox.style.display =
-          "block";
-
-        return;
-
-      }
-
-
-      emptyBox.style.display =
-        "none";
-
-
-      filtered.forEach(
-        function(item) {
-
-          const tr =
-            document.createElement(
-              "tr"
-            );
-
-
-          const statusHTML =
-            item.is_active
-              ?
-              `
-                <span class="status status-active">
-                  有效
-                </span>
-              `
-              :
-              `
-                <span class="status status-disabled">
-                  无效
-                </span>
-              `;
-
-
-          const loginHTML =
-            item.auth_user_id
-              ?
-              `
-                <span class="login-linked">
-                  已建立
-                </span>
-              `
-              :
-              `
-                <span class="login-unlinked">
-                  未绑定
-                </span>
-              `;
-
-
-          const statusButton =
-            item.is_active
-              ?
-              `
-                <button
-                  class="btn btn-red btn-small"
-                  type="button"
-                  onclick="changeAgentStatus('${item.id}', false)"
-                >
-                  设为无效
-                </button>
-              `
-              :
-              `
-                <button
-                  class="btn btn-green btn-small"
-                  type="button"
-                  onclick="changeAgentStatus('${item.id}', true)"
-                >
-                  恢复有效
-                </button>
-              `;
-
-
-          tr.innerHTML =
+        const statusHTML =
+          item.is_active
+            ?
             `
-
-              <td class="agent-code">
-                ${escapeHTML(item.agent_code)}
-              </td>
-
-              <td class="agent-name">
-                ${escapeHTML(item.agent_name)}
-              </td>
-
-              <td>
-                ${escapeHTML(item.agent_region || "-")}
-              </td>
-
-              <td class="money">
-
-                ${
-                  formatMoney(
-                    item.account_balance || 0
-                  )
-                }
-
-                ${
-                  escapeHTML(
-                    (
-                      item.balance_currency
-                      ||
-                      "CNY"
-                    )
-                    .toUpperCase()
-                  )
-                }
-
-              </td>
-
-              <td>
-                ${escapeHTML(item.contact_person || "-")}
-              </td>
-
-              <td>
-                ${loginHTML}
-              </td>
-
-              <td>
-                ${statusHTML}
-              </td>
-
-              <td>
-                ${formatDate(item.created_at)}
-              </td>
-
-              <td>
-
-                <div class="row-actions">
-
-                  <button
-                    class="btn btn-dark btn-small"
-                    type="button"
-                    onclick="openDetailModal('${item.id}')"
-                  >
-                    查看详情
-                  </button>
-
-                  ${statusButton}
-
-                </div>
-
-              </td>
-
+              <span class="status status-active">
+                有效
+              </span>
+            `
+            :
+            `
+              <span class="status status-disabled">
+                无效
+              </span>
             `;
 
 
-          tbody.appendChild(
-            tr
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =====================================================
-       查看详情
-    ===================================================== */
-
-    function openDetailModal(id) {
-
-      const agent =
-        agents.find(
-          function(item) {
-
-            return (
-              String(item.id)
-              ===
-              String(id)
-            );
-
-          }
-        );
-
-
-      if (
-        !agent
-      ) {
-
-        showNotice(
-          "没有找到代理商资料。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      setText(
-        "detailCode",
-        agent.agent_code || "-"
-      );
-
-
-      setText(
-        "detailName",
-        agent.agent_name || "-"
-      );
-
-
-      setText(
-        "detailRegion",
-        agent.agent_region || "-"
-      );
-
-
-      setText(
-        "detailBalance",
-        formatMoney(
-          agent.account_balance || 0
-        )
-        +
-        " "
-        +
-        (
-          agent.balance_currency
-          ||
-          "CNY"
-        )
-        .toUpperCase()
-      );
-
-
-      setText(
-        "detailContact",
-        agent.contact_person || "-"
-      );
-
-
-      setText(
-        "detailPhone",
-        agent.phone || "-"
-      );
-
-
-      setText(
-        "detailEmail",
-        agent.email || "-"
-      );
-
-
-      setText(
-        "detailStatus",
-        agent.is_active
-          ?
-          "有效"
-          :
-          "无效"
-      );
-
-
-      setText(
-        "detailAddress",
-        agent.address || "-"
-      );
-
-
-      setText(
-        "detailNotes",
-        agent.notes || "-"
-      );
-
-
-      setText(
-        "detailAuthUserId",
-        agent.auth_user_id
-          ||
-          "尚未绑定登录账号"
-      );
-
-
-      setText(
-        "detailId",
-        agent.id || "-"
-      );
-
-
-      setText(
-        "detailCreatedAt",
-        formatDate(
-          agent.created_at
-        )
-      );
-
-
-      setText(
-        "detailUpdatedAt",
-        formatDate(
-          agent.updated_at
-        )
-      );
-
-
-      document
-        .getElementById(
-          "detailModal"
-        )
-        .classList
-        .add(
-          "show"
-        );
-
-    }
-
-
-    function closeDetailModal() {
-
-      document
-        .getElementById(
-          "detailModal"
-        )
-        .classList
-        .remove(
-          "show"
-        );
-
-    }
-
-
-    document
-      .getElementById(
-        "createAgentModal"
-      )
-      .addEventListener(
-        "click",
-
-        function(event) {
-
-          if (
-            event.target === this
-          ) {
-
-            closeCreateAgentModal();
-
-          }
-
-        }
-      );
-
-
-    document
-      .getElementById(
-        "detailModal"
-      )
-      .addEventListener(
-        "click",
-
-        function(event) {
-
-          if (
-            event.target === this
-          ) {
-
-            closeDetailModal();
-
-          }
-
-        }
-      );
-
-
-    /* =====================================================
-       工具
-    ===================================================== */
-
-    function setText(
-      id,
-      value
-    ) {
-
-      document
-        .getElementById(
-          id
-        )
-        .textContent =
-          value;
-
-    }
-
-
-    function formatMoney(value) {
-
-      return Number(
-        value || 0
-      )
-      .toLocaleString(
-        "zh-CN",
-        {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        }
-      );
-
-    }
-
-
-    function escapeHTML(value) {
-
-      if (
-        value === null
-        ||
-        value === undefined
-      ) {
-
-        return "";
-
-      }
-
-
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
-    }
-
-
-    function formatDate(value) {
-
-      if (
-        !value
-      ) {
-
-        return "-";
-
-      }
-
-
-      const date =
-        new Date(value);
-
-
-      if (
-        isNaN(
-          date.getTime()
-        )
-      ) {
-
-        return value;
-
-      }
-
-
-      return date.toLocaleString(
-        "zh-CN",
-        {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit"
-        }
-      );
-
-    }
-
-
-    function showLoading(show) {
-
-      const mask =
-        document.getElementById(
-          "loadingMask"
-        );
-
-
-      if (
-        show
-      ) {
-
-        mask.classList.add(
-          "show"
-        );
-
-      }
-
-      else {
-
-        mask.classList.remove(
-          "show"
-        );
-
-      }
-
-    }
-
-
-    function showNotice(
-      message,
-      type = "success"
-    ) {
-
-      const notice =
-        document.getElementById(
-          "notice"
-        );
-
-
-      notice.textContent =
-        message;
-
-
-      notice.className =
-        "notice show "
-        +
-        (
-          type === "error"
+        const loginHTML =
+          item.auth_user_id
             ?
-            "notice-error"
+            `
+              <span class="login-linked">
+                已建立
+              </span>
+            `
             :
-            "notice-success"
+            `
+              <span class="login-unlinked">
+                未绑定
+              </span>
+            `;
+
+
+        const statusButton =
+          item.is_active
+            ?
+            `
+              <button
+                class="btn btn-red btn-small"
+                type="button"
+                onclick="changeAgentStatus('${item.id}', false)"
+              >
+                设为无效
+              </button>
+            `
+            :
+            `
+              <button
+                class="btn btn-green btn-small"
+                type="button"
+                onclick="changeAgentStatus('${item.id}', true)"
+              >
+                恢复有效
+              </button>
+            `;
+
+
+        tr.innerHTML =
+          `
+
+            <td class="agent-code">
+              ${escapeHTML(item.agent_code)}
+            </td>
+
+            <td class="agent-name">
+              ${escapeHTML(item.agent_name)}
+            </td>
+
+            <td>
+              ${escapeHTML(item.agent_region || "-")}
+            </td>
+
+            <td class="money">
+
+              ${formatMoney(item.account_balance || 0)}
+
+              ${
+                escapeHTML(
+                  (
+                    item.balance_currency
+                    ||
+                    "CNY"
+                  )
+                  .toUpperCase()
+                )
+              }
+
+            </td>
+
+            <td>
+              ${escapeHTML(item.contact_person || "-")}
+            </td>
+
+            <td>
+              ${loginHTML}
+            </td>
+
+            <td>
+              ${statusHTML}
+            </td>
+
+            <td>
+              ${formatDate(item.created_at)}
+            </td>
+
+            <td>
+
+              <div class="row-actions">
+
+                <button
+                  class="btn btn-dark btn-small"
+                  type="button"
+                  onclick="openDetailModal('${item.id}')"
+                >
+                  查看详情
+                </button>
+
+                ${statusButton}
+
+              </div>
+
+            </td>
+
+          `;
+
+
+        tbody.appendChild(
+          tr
         );
 
+      }
+    );
 
-      setTimeout(
+  }
 
-        function() {
 
-          notice.classList.remove(
-            "show"
-          );
+  /* =====================================================
+     查看详情
+  ===================================================== */
 
-        },
+  function openDetailModal(id) {
 
-        5000
+    const agent =
+      agents.find(
+        item =>
+          String(item.id)
+          ===
+          String(id)
+      );
 
+
+    if (
+      !agent
+    ) {
+
+      showNotice(
+        "没有找到代理商资料。",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    setText(
+      "detailCode",
+      agent.agent_code || "-"
+    );
+
+
+    setText(
+      "detailName",
+      agent.agent_name || "-"
+    );
+
+
+    setText(
+      "detailRegion",
+      agent.agent_region || "-"
+    );
+
+
+    setText(
+      "detailBalance",
+      formatMoney(
+        agent.account_balance || 0
+      )
+      +
+      " "
+      +
+      (
+        agent.balance_currency
+        ||
+        "CNY"
+      )
+      .toUpperCase()
+    );
+
+
+    setText(
+      "detailContact",
+      agent.contact_person || "-"
+    );
+
+
+    setText(
+      "detailPhone",
+      agent.phone || "-"
+    );
+
+
+    setText(
+      "detailEmail",
+      agent.email || "-"
+    );
+
+
+    setText(
+      "detailStatus",
+      agent.is_active
+        ?
+        "有效"
+        :
+        "无效"
+    );
+
+
+    setText(
+      "detailAddress",
+      agent.address || "-"
+    );
+
+
+    setText(
+      "detailNotes",
+      agent.notes || "-"
+    );
+
+
+    setText(
+      "detailAuthUserId",
+      agent.auth_user_id
+        ||
+        "尚未绑定登录账号"
+    );
+
+
+    setText(
+      "detailId",
+      agent.id || "-"
+    );
+
+
+    setText(
+      "detailCreatedAt",
+      formatDate(
+        agent.created_at
+      )
+    );
+
+
+    setText(
+      "detailUpdatedAt",
+      formatDate(
+        agent.updated_at
+      )
+    );
+
+
+    document.getElementById(
+      "detailModal"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+  }
+
+
+  function closeDetailModal() {
+
+    document.getElementById(
+      "detailModal"
+    )
+    .classList
+    .remove(
+      "show"
+    );
+
+  }
+
+
+  document.getElementById(
+    "createAgentModal"
+  )
+  .addEventListener(
+    "click",
+
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        closeCreateAgentModal();
+
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    "detailModal"
+  )
+  .addEventListener(
+    "click",
+
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        closeDetailModal();
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     工具
+  ===================================================== */
+
+  function setText(
+    id,
+    value
+  ) {
+
+    document.getElementById(
+      id
+    ).textContent =
+      value;
+
+  }
+
+
+  function formatMoney(value) {
+
+    return Number(
+      value || 0
+    )
+    .toLocaleString(
+      "zh-CN",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }
+    );
+
+  }
+
+
+  function escapeHTML(value) {
+
+    if (
+      value === null
+      ||
+      value === undefined
+    ) {
+
+      return "";
+
+    }
+
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  function formatDate(value) {
+
+    if (
+      !value
+    ) {
+
+      return "-";
+
+    }
+
+
+    const date =
+      new Date(value);
+
+
+    if (
+      isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return value;
+
+    }
+
+
+    return date.toLocaleString(
+      "zh-CN",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+  }
+
+
+  function showLoading(show) {
+
+    const mask =
+      document.getElementById(
+        "loadingMask"
+      );
+
+
+    if (
+      show
+    ) {
+
+      mask.classList.add(
+        "show"
       );
 
     }
 
+    else {
 
-    function goBack() {
-
-      window.location.href =
-        "wholemanagement.html";
+      mask.classList.remove(
+        "show"
+      );
 
     }
 
-
-    /* =====================================================
-       10分钟无操作自动退出
-    ===================================================== */
-
-    const IDLE_LIMIT =
-      10 * 60 * 1000;
+  }
 
 
-    const WARNING_TIME =
-      60 * 1000;
+  function showNotice(
+    message,
+    type = "success"
+  ) {
+
+    const notice =
+      document.getElementById(
+        "notice"
+      );
 
 
-    let lastActivityTime =
+    notice.textContent =
+      message;
+
+
+    notice.className =
+      "notice show "
+      +
+      (
+        type === "error"
+          ?
+          "notice-error"
+          :
+          "notice-success"
+      );
+
+
+    setTimeout(
+      function() {
+
+        notice.classList.remove(
+          "show"
+        );
+
+      },
+      5000
+    );
+
+  }
+
+
+  function goBack() {
+
+    window.location.href =
+      "wholemanagement.html";
+
+  }
+
+
+  /* =====================================================
+     10分钟无操作自动退出
+  ===================================================== */
+
+  const IDLE_LIMIT =
+    10 * 60 * 1000;
+
+
+  const WARNING_TIME =
+    60 * 1000;
+
+
+  let lastActivityTime =
+    Date.now();
+
+
+  let warningShown =
+    false;
+
+
+  function userActivity() {
+
+    lastActivityTime =
       Date.now();
 
 
-    let warningShown =
+    warningShown =
       false;
 
 
-    function userActivity() {
-
-      lastActivityTime =
-        Date.now();
-
-
-      warningShown =
-        false;
+    const warning =
+      document.getElementById(
+        "timeoutWarning"
+      );
 
 
-      const warning =
-        document.getElementById(
-          "timeoutWarning"
-        );
+    if (
+      warning
+    ) {
+
+      warning.style.display =
+        "none";
+
+    }
+
+  }
+
+
+  const activityEvents = [
+    "mousedown",
+    "mousemove",
+    "keydown",
+    "scroll",
+    "touchstart",
+    "click"
+  ];
+
+
+  activityEvents.forEach(
+    function(eventName) {
+
+      document.addEventListener(
+        eventName,
+        userActivity,
+        true
+      );
+
+    }
+  );
+
+
+  setInterval(
+    function() {
+
+      const inactiveTime =
+        Date.now()
+        -
+        lastActivityTime;
 
 
       if (
-        warning
+        inactiveTime >=
+        IDLE_LIMIT -
+        WARNING_TIME
+        &&
+        inactiveTime <
+        IDLE_LIMIT
       ) {
 
-        warning.style.display =
-          "none";
-
-      }
-
-    }
-
-
-    const activityEvents = [
-      "mousedown",
-      "mousemove",
-      "keydown",
-      "scroll",
-      "touchstart",
-      "click"
-    ];
-
-
-    activityEvents.forEach(
-
-      function(eventName) {
-
-        document.addEventListener(
-          eventName,
-          userActivity,
-          true
-        );
-
-      }
-
-    );
-
-
-    setInterval(
-
-      function() {
-
-        const inactiveTime =
-          Date.now()
-          -
-          lastActivityTime;
-
-
         if (
-          inactiveTime >=
-          IDLE_LIMIT -
-          WARNING_TIME
-          &&
-          inactiveTime <
-          IDLE_LIMIT
+          !warningShown
         ) {
 
+          const warning =
+            document.getElementById(
+              "timeoutWarning"
+            );
+
+
           if (
-            !warningShown
+            warning
           ) {
 
-            const warning =
-              document.getElementById(
-                "timeoutWarning"
-              );
-
-
-            if (
-              warning
-            ) {
-
-              warning.style.display =
-                "block";
-
-            }
-
-
-            warningShown =
-              true;
+            warning.style.display =
+              "block";
 
           }
 
-        }
 
-
-        if (
-          inactiveTime >=
-          IDLE_LIMIT
-        ) {
-
-          autoLogout();
+          warningShown =
+            true;
 
         }
 
-      },
+      }
 
-      1000
 
+      if (
+        inactiveTime >=
+        IDLE_LIMIT
+      ) {
+
+        autoLogout();
+
+      }
+
+    },
+
+    1000
+
+  );
+
+
+  function clearOldLoginData() {
+
+    sessionStorage.clear();
+
+
+    localStorage.removeItem(
+      "managementLogin"
     );
 
 
-    function clearOldLoginData() {
-
-      sessionStorage.clear();
-
-
-      localStorage.removeItem(
-        "managementLogin"
-      );
+    localStorage.removeItem(
+      "managementUser"
+    );
 
 
-      localStorage.removeItem(
-        "managementUser"
-      );
+    localStorage.removeItem(
+      "managementRole"
+    );
 
 
-      localStorage.removeItem(
-        "managementRole"
-      );
+    localStorage.removeItem(
+      "loginTime"
+    );
+
+  }
 
 
-      localStorage.removeItem(
-        "loginTime"
+  async function autoLogout() {
+
+    try {
+
+      await supabaseClient
+        .auth
+        .signOut();
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "自动退出失败：",
+        error
       );
 
     }
 
 
-    async function autoLogout() {
-
-      try {
-
-        await supabaseClient
-          .auth
-          .signOut();
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "自动退出失败：",
-          error
-        );
-
-      }
+    clearOldLoginData();
 
 
-      clearOldLoginData();
+    window.location.replace(
+      "page10.html"
+    );
+
+  }
 
 
-      window.location.replace(
-        "page10.html"
+  async function logout() {
+
+    try {
+
+      await supabaseClient
+        .auth
+        .signOut();
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "退出失败：",
+        error
       );
 
     }
 
 
-    async function logout() {
-
-      try {
-
-        await supabaseClient
-          .auth
-          .signOut();
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "退出失败：",
-          error
-        );
-
-      }
+    clearOldLoginData();
 
 
-      clearOldLoginData();
+    window.location.replace(
+      "page10.html"
+    );
 
+  }
 
-      window.location.replace(
-        "page10.html"
-      );
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>
