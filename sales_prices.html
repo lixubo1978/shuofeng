@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -50,6 +49,7 @@
 
 
     body {
+
       margin: 0;
       padding: 0;
 
@@ -66,6 +66,7 @@
       color: #1f2937;
 
       min-height: 100vh;
+
     }
 
 
@@ -74,53 +75,76 @@
     ===================================================== */
 
     .topbar {
+
       background: #0f172a;
+
       color: white;
 
       padding: 18px 30px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
 
       box-shadow:
         0 2px 10px rgba(0,0,0,0.08);
+
     }
 
 
     .brand {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 3px;
+
     }
 
 
     .brand-title {
+
       font-size: 20px;
+
       font-weight: 700;
+
     }
 
 
     .brand-subtitle {
+
       font-size: 12px;
+
       color: #cbd5e1;
+
     }
 
 
     .top-actions {
+
       display: flex;
+
       align-items: center;
+
       gap: 10px;
+
     }
 
 
     .user-info {
+
       font-size: 13px;
+
       color: #cbd5e1;
+
     }
 
 
     .top-btn {
+
       padding: 8px 14px;
 
       border-radius: 7px;
@@ -135,20 +159,24 @@
       font-size: 14px;
 
       cursor: pointer;
+
     }
 
 
     .top-btn:hover {
+
       background:
         rgba(255,255,255,0.10);
+
     }
 
 
     /* =====================================================
-       主界面
+       主页面
     ===================================================== */
 
     .container {
+
       width: 100%;
 
       max-width: 1500px;
@@ -157,10 +185,12 @@
 
       padding:
         34px 24px 60px;
+
     }
 
 
     .page-header {
+
       display: flex;
 
       justify-content: space-between;
@@ -170,20 +200,24 @@
       gap: 20px;
 
       margin-bottom: 24px;
+
     }
 
 
     .page-title h1 {
+
       margin:
         0 0 8px;
 
       font-size: 28px;
 
       color: #111827;
+
     }
 
 
     .page-title p {
+
       margin: 0;
 
       color: #6b7280;
@@ -191,12 +225,16 @@
       font-size: 14px;
 
       line-height: 1.8;
+
     }
 
 
     .page-actions {
+
       display: flex;
+
       gap: 10px;
+
     }
 
 
@@ -205,6 +243,7 @@
     ===================================================== */
 
     .btn {
+
       border: none;
 
       border-radius: 8px;
@@ -217,59 +256,81 @@
       cursor: pointer;
 
       font-family: inherit;
+
     }
 
 
     .btn:hover {
-      opacity: 0.9;
+
+      opacity: 0.90;
+
     }
 
 
     .btn:disabled {
+
       opacity: 0.5;
+
       cursor: not-allowed;
+
     }
 
 
     .btn-primary {
+
       background: #2563eb;
+
       color: white;
+
     }
 
 
     .btn-light {
+
       background: white;
 
       color: #374151;
 
       border:
         1px solid #d1d5db;
+
     }
 
 
     .btn-dark {
+
       background: #111827;
+
       color: white;
+
     }
 
 
-    .btn-edit {
-      background: #7c3aed;
+    .btn-define {
+
+      background: #2563eb;
+
       color: white;
+
     }
 
 
     .btn-red {
+
       background: #dc2626;
+
       color: white;
+
     }
 
 
     .btn-small {
+
       padding:
         7px 11px;
 
       font-size: 12px;
+
     }
 
 
@@ -278,6 +339,7 @@
     ===================================================== */
 
     .summary-grid {
+
       display: grid;
 
       grid-template-columns:
@@ -286,10 +348,12 @@
       gap: 16px;
 
       margin-bottom: 20px;
+
     }
 
 
     .summary-card {
+
       background: white;
 
       border:
@@ -301,28 +365,34 @@
 
       box-shadow:
         0 2px 10px rgba(0,0,0,0.04);
+
     }
 
 
     .summary-label {
+
       color: #6b7280;
 
       font-size: 13px;
 
       margin-bottom: 8px;
+
     }
 
 
     .summary-value {
+
       font-size: 28px;
 
       font-weight: 700;
 
       color: #111827;
+
     }
 
 
     .summary-sub {
+
       margin-top: 6px;
 
       color: #94a3b8;
@@ -330,14 +400,16 @@
       font-size: 12px;
 
       line-height: 1.6;
+
     }
 
 
     /* =====================================================
-       同步状态
+       数据同步提示
     ===================================================== */
 
     .sync-box {
+
       margin-bottom: 18px;
 
       padding:
@@ -350,10 +422,12 @@
       font-weight: 600;
 
       display: none;
+
     }
 
 
     .sync-ok {
+
       display: block;
 
       background: #dcfce7;
@@ -362,10 +436,12 @@
 
       border:
         1px solid #86efac;
+
     }
 
 
     .sync-error {
+
       display: block;
 
       background: #fee2e2;
@@ -374,14 +450,16 @@
 
       border:
         1px solid #fecaca;
+
     }
 
 
     /* =====================================================
-       提示
+       消息
     ===================================================== */
 
     .notice {
+
       display: none;
 
       padding:
@@ -392,31 +470,41 @@
       border-radius: 9px;
 
       font-size: 14px;
+
     }
 
 
     .notice.show {
+
       display: block;
+
     }
 
 
     .notice-success {
+
       background: #dcfce7;
+
       color: #166534;
+
     }
 
 
     .notice-error {
+
       background: #fee2e2;
+
       color: #991b1b;
+
     }
 
 
     /* =====================================================
-       工具栏
+       搜索
     ===================================================== */
 
     .toolbar {
+
       background: white;
 
       border:
@@ -436,16 +524,21 @@
 
       box-shadow:
         0 2px 10px rgba(0,0,0,0.03);
+
     }
 
 
     .search-box {
+
       flex: 1;
+
       max-width: 650px;
+
     }
 
 
     .search-box input {
+
       width: 100%;
 
       padding:
@@ -459,24 +552,30 @@
       font-size: 14px;
 
       outline: none;
+
     }
 
 
     .search-box input:focus {
+
       border-color: #2563eb;
+
     }
 
 
     .filters {
+
       display: flex;
 
       gap: 10px;
 
       flex-wrap: wrap;
+
     }
 
 
     .filters select {
+
       padding:
         10px 12px;
 
@@ -488,6 +587,7 @@
       background: white;
 
       font-size: 14px;
+
     }
 
 
@@ -496,6 +596,7 @@
     ===================================================== */
 
     .table-card {
+
       background: white;
 
       border:
@@ -507,24 +608,30 @@
 
       box-shadow:
         0 2px 12px rgba(0,0,0,0.04);
+
     }
 
 
     .table-wrapper {
+
       overflow-x: auto;
+
     }
 
 
     table {
+
       width: 100%;
 
-      min-width: 1500px;
+      min-width: 1450px;
 
       border-collapse: collapse;
+
     }
 
 
     th {
+
       background: #f8fafc;
 
       padding:
@@ -542,10 +649,12 @@
         1px solid #e5e7eb;
 
       white-space: nowrap;
+
     }
 
 
     td {
+
       padding: 14px;
 
       font-size: 13px;
@@ -554,68 +663,93 @@
         1px solid #eef2f7;
 
       vertical-align: middle;
+
     }
 
 
     tr:hover td {
+
       background: #fafafa;
+
     }
 
 
+    /* 历史无效价格 */
+
     tr.history-row td {
+
       background:
         #eef0f2 !important;
 
       color:
         #9ca3af !important;
+
     }
 
 
     tr.history-row:hover td {
+
       background:
         #e5e7eb !important;
+
     }
 
 
     tr.history-row .btn-dark {
+
       background:
         #111827 !important;
 
       color:
         white !important;
+
     }
 
 
     .product-code {
+
       font-weight: 700;
+
       color: #475569;
+
     }
 
 
     .product-name {
+
       font-weight: 700;
+
       color: #111827;
+
     }
 
 
     .money {
+
       font-weight: 700;
+
       color: #111827;
+
       white-space: nowrap;
+
     }
 
 
     .undefined-value {
+
       color: #c2410c;
+
       font-weight: 700;
+
     }
 
 
     /* =====================================================
-       标签
+       Badge
     ===================================================== */
 
     .badge {
+
       display: inline-block;
 
       padding:
@@ -628,51 +762,53 @@
       font-weight: 700;
 
       white-space: nowrap;
+
     }
 
 
     .badge-active {
+
       background: #dcfce7;
+
       color: #166534;
+
     }
 
 
     .badge-disabled {
+
       background: #e5e7eb;
+
       color: #6b7280;
+
     }
 
 
     .badge-defined {
+
       background: #dbeafe;
+
       color: #1d4ed8;
+
     }
 
 
     .badge-undefined {
+
       background: #ffedd5;
 
       color: #c2410c;
 
       border:
         1px solid #fdba74;
+
     }
 
 
-    .badge-product-disabled {
-      background: #fee2e2;
-      color: #991b1b;
-    }
+    .locked-label {
 
+      display: inline-block;
 
-    .row-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-
-    .history-label {
       padding:
         6px 10px;
 
@@ -687,10 +823,23 @@
       font-weight: 700;
 
       white-space: nowrap;
+
+    }
+
+
+    .row-actions {
+
+      display: flex;
+
+      gap: 6px;
+
+      flex-wrap: wrap;
+
     }
 
 
     .empty-box {
+
       padding:
         55px 20px;
 
@@ -699,6 +848,7 @@
       color: #94a3b8;
 
       font-size: 14px;
+
     }
 
 
@@ -707,6 +857,7 @@
     ===================================================== */
 
     .modal-mask {
+
       display: none;
 
       position: fixed;
@@ -723,15 +874,19 @@
       justify-content: center;
 
       padding: 20px;
+
     }
 
 
     .modal-mask.show {
+
       display: flex;
+
     }
 
 
     .modal {
+
       width: 100%;
 
       max-width: 760px;
@@ -746,10 +901,12 @@
 
       box-shadow:
         0 25px 70px rgba(0,0,0,0.28);
+
     }
 
 
     .modal-header {
+
       padding:
         20px 24px;
 
@@ -761,19 +918,23 @@
       justify-content: space-between;
 
       align-items: center;
+
     }
 
 
     .modal-header h2 {
+
       margin: 0;
 
       font-size: 20px;
 
       color: #111827;
+
     }
 
 
     .modal-close {
+
       border: none;
 
       background: transparent;
@@ -783,15 +944,19 @@
       color: #64748b;
 
       cursor: pointer;
+
     }
 
 
     .modal-body {
+
       padding: 24px;
+
     }
 
 
     .modal-footer {
+
       padding:
         18px 24px;
 
@@ -803,6 +968,7 @@
       justify-content: flex-end;
 
       gap: 10px;
+
     }
 
 
@@ -811,47 +977,58 @@
     ===================================================== */
 
     .form-grid {
+
       display: grid;
 
       grid-template-columns:
         1fr 1fr;
 
       gap: 16px;
+
     }
 
 
     .form-group {
+
       display: flex;
 
       flex-direction: column;
 
       gap: 7px;
+
     }
 
 
     .form-group.full {
+
       grid-column:
         1 / -1;
+
     }
 
 
     .form-group label {
+
       font-size: 13px;
 
       font-weight: 600;
 
       color: #374151;
+
     }
 
 
     .required {
+
       color: #dc2626;
+
     }
 
 
     .form-group input,
     .form-group select,
     .form-group textarea {
+
       width: 100%;
 
       padding:
@@ -867,41 +1044,135 @@
       outline: none;
 
       background: white;
+
     }
 
 
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
+
       border-color: #2563eb;
+
     }
 
 
     .form-group textarea {
+
       min-height: 90px;
+
       resize: vertical;
+
     }
 
 
     .readonly-field {
+
       background:
         #f3f4f6 !important;
 
       color:
         #6b7280 !important;
+
     }
 
 
     .form-help {
+
       font-size: 12px;
 
       color: #6b7280;
 
       line-height: 1.7;
+
+    }
+
+
+    .important-box {
+
+      grid-column:
+        1 / -1;
+
+      background: #fff7ed;
+
+      border:
+        1px solid #fdba74;
+
+      color: #9a3412;
+
+      padding:
+        13px 15px;
+
+      border-radius: 9px;
+
+      font-size: 13px;
+
+      line-height: 1.8;
+
+    }
+
+
+    /* =====================================================
+       详情
+    ===================================================== */
+
+    .detail-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        16px 24px;
+
+    }
+
+
+    .detail-item {
+
+      border-bottom:
+        1px solid #eef2f7;
+
+      padding-bottom: 12px;
+
+    }
+
+
+    .detail-item.full {
+
+      grid-column:
+        1 / -1;
+
+    }
+
+
+    .detail-label {
+
+      font-size: 12px;
+
+      color: #6b7280;
+
+      margin-bottom: 5px;
+
+    }
+
+
+    .detail-value {
+
+      font-size: 14px;
+
+      color: #111827;
+
+      line-height: 1.7;
+
+      word-break: break-word;
+
     }
 
 
     .warning-box {
+
       background: #fff7ed;
 
       border:
@@ -919,55 +1190,7 @@
       line-height: 1.7;
 
       margin-top: 16px;
-    }
 
-
-    /* =====================================================
-       详情
-    ===================================================== */
-
-    .detail-grid {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap:
-        16px 24px;
-    }
-
-
-    .detail-item {
-      border-bottom:
-        1px solid #eef2f7;
-
-      padding-bottom: 12px;
-    }
-
-
-    .detail-item.full {
-      grid-column:
-        1 / -1;
-    }
-
-
-    .detail-label {
-      font-size: 12px;
-
-      color: #6b7280;
-
-      margin-bottom: 5px;
-    }
-
-
-    .detail-value {
-      font-size: 14px;
-
-      color: #111827;
-
-      line-height: 1.7;
-
-      word-break: break-word;
     }
 
 
@@ -976,6 +1199,7 @@
     ===================================================== */
 
     .loading-mask {
+
       display: none;
 
       position: fixed;
@@ -996,11 +1220,14 @@
       font-weight: 600;
 
       color: #334155;
+
     }
 
 
     .loading-mask.show {
+
       display: flex;
+
     }
 
 
@@ -1009,6 +1236,7 @@
     ===================================================== */
 
     .timeout-warning {
+
       position: fixed;
 
       left: 50%;
@@ -1040,14 +1268,17 @@
       z-index: 30000;
 
       display: none;
+
     }
 
 
     @media (max-width: 1000px) {
 
       .summary-grid {
+
         grid-template-columns:
           repeat(2, 1fr);
+
       }
 
     }
@@ -1056,30 +1287,41 @@
     @media (max-width: 800px) {
 
       .page-header {
+
         flex-direction: column;
+
       }
 
 
       .toolbar {
+
         flex-direction: column;
+
       }
 
 
       .search-box {
+
         max-width: none;
+
       }
 
 
       .form-grid,
       .detail-grid {
+
         grid-template-columns:
           1fr;
+
       }
 
 
       .form-group.full,
-      .detail-item.full {
+      .detail-item.full,
+      .important-box {
+
         grid-column: auto;
+
       }
 
     }
@@ -1088,25 +1330,33 @@
     @media (max-width: 600px) {
 
       .topbar {
+
         padding:
           16px 18px;
+
       }
 
 
       .user-info {
+
         display: none;
+
       }
 
 
       .container {
+
         padding:
           25px 15px 50px;
+
       }
 
 
       .summary-grid {
+
         grid-template-columns:
           1fr;
+
       }
 
     }
@@ -1118,6 +1368,10 @@
 
 <body>
 
+
+  <!-- =====================================================
+       Loading
+  ====================================================== -->
 
   <div
     id="loadingMask"
@@ -1136,13 +1390,20 @@
 
     <div class="brand">
 
+
       <div class="brand-title">
+
         硕丰科技 · 销售价格管理
+
       </div>
 
+
       <div class="brand-subtitle">
+
         ShuoFeng Technology Sales Price Management
+
       </div>
+
 
     </div>
 
@@ -1154,7 +1415,9 @@
         id="currentUser"
         class="user-info"
       >
+
         管理人员
+
       </div>
 
 
@@ -1163,7 +1426,9 @@
         type="button"
         onclick="goBack()"
       >
+
         返回工作台
+
       </button>
 
 
@@ -1172,7 +1437,9 @@
         type="button"
         onclick="logout()"
       >
+
         退出登录
+
       </button>
 
 
@@ -1196,15 +1463,24 @@
 
 
         <h1>
+
           销售价格管理
+
         </h1>
 
 
         <p>
+
           每一个有效产品始终对应一条当前有效销售价格记录。
-          本页面不允许手工新建销售价格。
-          新产品建立后系统自动生成“未定义”价格。
-          当前价格失效后，系统自动生成下一条新的“未定义”价格记录。
+
+          新产品建立后，系统自动产生一条“未定义”销售价格。
+
+          每一条价格记录只能定义一次；
+
+          一旦定义完成，价格内容永久锁定，只能将该价格设为无效。
+
+          当前价格失效后，系统自动生成下一条新的“未定义”销售价格记录。
+
         </p>
 
 
@@ -1219,7 +1495,9 @@
           type="button"
           onclick="loadData()"
         >
+
           刷新
+
         </button>
 
 
@@ -1250,72 +1528,120 @@
 
       <div class="summary-card">
 
+
         <div class="summary-label">
+
           有效产品
+
         </div>
+
 
         <div
           id="activeProductCount"
           class="summary-value"
         >
+
           0
+
         </div>
+
+
+        <div class="summary-sub">
+
+          来自 products 数据库
+
+        </div>
+
 
       </div>
 
 
       <div class="summary-card">
 
+
         <div class="summary-label">
+
           当前有效价格对象
+
         </div>
+
 
         <div
           id="activePriceCount"
           class="summary-value"
         >
+
           0
+
         </div>
+
+
+        <div class="summary-sub">
+
+          正常情况下应与有效产品数量完全一致
+
+        </div>
+
 
       </div>
 
 
       <div class="summary-card">
 
+
         <div class="summary-label">
+
           待定义价格
+
         </div>
+
 
         <div
           id="undefinedCount"
           class="summary-value"
         >
+
           0
+
         </div>
 
+
         <div class="summary-sub">
-          当前有效但价格内容尚未填写完整
+
+          尚未完成第一次价格定义
+
         </div>
+
 
       </div>
 
 
       <div class="summary-card">
 
+
         <div class="summary-label">
-          历史价格记录
+
+          历史价格
+
         </div>
+
 
         <div
           id="historyCount"
           class="summary-value"
         >
+
           0
+
         </div>
 
+
         <div class="summary-sub">
-          已永久失效，不允许重新恢复
+
+          永久保存，不允许恢复，不允许修改
+
         </div>
+
 
       </div>
 
@@ -1324,7 +1650,7 @@
 
 
     <!-- =====================================================
-         搜索筛选
+         搜索
     ====================================================== -->
 
     <div class="toolbar">
@@ -1332,12 +1658,14 @@
 
       <div class="search-box">
 
+
         <input
           id="searchInput"
           type="text"
           placeholder="搜索产品代码、产品名称、币种、备注……"
           oninput="renderRows()"
         >
+
 
       </div>
 
@@ -1350,25 +1678,41 @@
           onchange="renderRows()"
         >
 
+
           <option value="current">
+
             当前有效价格
+
           </option>
+
 
           <option value="undefined">
+
             仅未定义
+
           </option>
+
 
           <option value="defined">
+
             仅已定义
+
           </option>
+
 
           <option value="history">
+
             历史无效价格
+
           </option>
 
+
           <option value="all">
+
             全部价格记录
+
           </option>
+
 
         </select>
 
@@ -1394,7 +1738,9 @@
 
           <thead>
 
+
             <tr>
+
 
               <th>产品代码</th>
 
@@ -1416,7 +1762,9 @@
 
               <th>操作</th>
 
+
             </tr>
+
 
           </thead>
 
@@ -1437,7 +1785,9 @@
         class="empty-box"
         style="display:none;"
       >
+
         暂无销售价格记录
+
       </div>
 
 
@@ -1448,11 +1798,11 @@
 
 
   <!-- =====================================================
-       编辑价格
+       第一次定义价格
   ====================================================== -->
 
   <div
-    id="editModal"
+    id="defineModal"
     class="modal-mask"
   >
 
@@ -1464,16 +1814,20 @@
 
 
         <h2>
-          定义 / 修改销售价格
+
+          定义销售价格
+
         </h2>
 
 
         <button
           class="modal-close"
           type="button"
-          onclick="closeEditModal()"
+          onclick="closeDefineModal()"
         >
+
           ×
+
         </button>
 
 
@@ -1484,7 +1838,7 @@
 
 
         <input
-          id="editPriceId"
+          id="definePriceId"
           type="hidden"
         >
 
@@ -1494,140 +1848,205 @@
 
           <div class="form-group">
 
+
             <label>
+
               产品代码
+
             </label>
 
+
             <input
-              id="editProductCode"
+              id="defineProductCode"
               class="readonly-field"
               type="text"
               readonly
             >
+
 
           </div>
 
 
           <div class="form-group">
 
+
             <label>
+
               产品名称
+
             </label>
 
+
             <input
-              id="editProductName"
+              id="defineProductName"
               class="readonly-field"
               type="text"
               readonly
             >
+
 
           </div>
 
 
           <div class="form-group">
 
+
             <label>
+
               销售价格
+
               <span class="required">*</span>
+
             </label>
 
+
             <input
-              id="editPrice"
+              id="definePrice"
               type="number"
               min="0"
               step="0.01"
               placeholder="请输入销售价格"
             >
 
+
           </div>
 
 
           <div class="form-group">
 
+
             <label>
+
               全国统一零售价
+
               <span class="required">*</span>
+
             </label>
 
+
             <input
-              id="editRetailPrice"
+              id="defineRetailPrice"
               type="number"
               min="0"
               step="0.01"
               placeholder="请输入全国统一零售价"
             >
 
+
           </div>
 
 
           <div class="form-group">
 
+
             <label>
+
               币种
+
               <span class="required">*</span>
+
             </label>
 
-            <select id="editCurrency">
+
+            <select
+              id="defineCurrency"
+            >
+
 
               <option value="">
+
                 请选择币种
+
               </option>
+
 
               <option value="CNY">
+
                 CNY 人民币
+
               </option>
+
 
               <option value="EUR">
+
                 EUR 欧元
+
               </option>
+
 
               <option value="USD">
+
                 USD 美元
+
               </option>
 
+
               <option value="HUF">
+
                 HUF 匈牙利福林
+
               </option>
+
 
             </select>
 
+
           </div>
 
 
           <div class="form-group">
 
+
             <label>
+
               生效日期
+
             </label>
 
+
             <input
-              id="editEffectiveFrom"
+              id="defineEffectiveFrom"
               type="date"
             >
 
+
           </div>
 
 
           <div class="form-group full">
+
 
             <label>
+
               备注
+
             </label>
 
+
             <textarea
-              id="editNotes"
-              placeholder="价格说明或内部备注，可留空"
+              id="defineNotes"
+              placeholder="价格说明，可留空"
             ></textarea>
+
 
           </div>
 
 
-          <div class="form-group full">
+          <div class="important-box">
 
-            <div class="form-help">
-              销售价格、全国统一零售价和币种全部填写后，
-              系统会自动将该价格对象标记为“已定义”。
-            </div>
+            <strong>重要：</strong>
+
+            该价格记录只能定义一次。
+
+            点击“确认定义”保存成功以后，
+
+            销售价格、全国统一零售价、币种、生效日期和备注都将永久锁定，
+
+            以后不能再次修改。
+
+            如果价格发生变化，请将当前价格“设为无效”，
+
+            系统会自动生成一条新的未定义价格，再重新定义。
 
           </div>
 
@@ -1644,9 +2063,11 @@
         <button
           class="btn btn-light"
           type="button"
-          onclick="closeEditModal()"
+          onclick="closeDefineModal()"
         >
+
           取消
+
         </button>
 
 
@@ -1654,9 +2075,11 @@
           id="savePriceButton"
           class="btn btn-primary"
           type="button"
-          onclick="savePrice()"
+          onclick="saveFirstDefinition()"
         >
-          保存价格
+
+          确认定义
+
         </button>
 
 
@@ -1670,7 +2093,7 @@
 
 
   <!-- =====================================================
-       详情
+       查看详情
   ====================================================== -->
 
   <div
@@ -1686,7 +2109,9 @@
 
 
         <h2>
+
           销售价格详情
+
         </h2>
 
 
@@ -1695,7 +2120,9 @@
           type="button"
           onclick="closeDetailModal()"
         >
+
           ×
+
         </button>
 
 
@@ -1710,195 +2137,298 @@
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               产品代码
+
             </div>
+
 
             <div
               id="detailProductCode"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               产品名称
+
             </div>
+
 
             <div
               id="detailProductName"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               销售价格
+
             </div>
+
 
             <div
               id="detailPrice"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               全国统一零售价
+
             </div>
+
 
             <div
               id="detailRetailPrice"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               币种
+
             </div>
+
 
             <div
               id="detailCurrency"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               定义状态
+
             </div>
+
 
             <div
               id="detailDefined"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               价格状态
+
             </div>
+
 
             <div
               id="detailActive"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               生效日期
+
             </div>
+
 
             <div
               id="detailEffective"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item full">
 
+
             <div class="detail-label">
+
               备注
+
             </div>
+
 
             <div
               id="detailNotes"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               价格记录 ID
+
             </div>
+
 
             <div
               id="detailId"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               创建时间
+
             </div>
+
 
             <div
               id="detailCreatedAt"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
 
           <div class="detail-item">
 
+
             <div class="detail-label">
+
               最近更新时间
+
             </div>
+
 
             <div
               id="detailUpdatedAt"
               class="detail-value"
             >
+
               -
+
             </div>
+
 
           </div>
 
+
+        </div>
+
+
+        <div
+          id="definedWarning"
+          class="warning-box"
+          style="display:none;"
+        >
+
+          该价格已经完成定义。
+
+          根据系统规则，该价格内容已经锁定，
+
+          不能再次修改。
+
+          如需变更价格，请将当前价格设为无效，
+
+          系统会自动生成新的未定义价格。
 
         </div>
 
@@ -1911,8 +2441,9 @@
 
           该价格已经成为历史无效价格。
 
-          历史价格不允许恢复为有效，也不建议再修改，
-          以保证历史销售数据的完整性。
+          历史价格永久保留，
+
+          不允许修改，也不允许重新恢复有效。
 
         </div>
 
@@ -1928,7 +2459,9 @@
           type="button"
           onclick="closeDetailModal()"
         >
+
           关闭
+
         </button>
 
 
@@ -1941,15 +2474,22 @@
   </div>
 
 
+  <!-- =====================================================
+       自动退出
+  ====================================================== -->
+
   <div
     id="timeoutWarning"
     class="timeout-warning"
   >
+
     长时间未操作，系统即将自动退出。
+
   </div>
 
 
   <script>
+
 
     /* =====================================================
        Supabase
@@ -1979,12 +2519,14 @@
 
 
     /* =====================================================
-       权限
+       权限验证
     ===================================================== */
 
     async function verifyManagementAccess() {
 
+
       try {
+
 
         const {
           data: sessionData,
@@ -2000,11 +2542,14 @@
           !sessionData?.session?.user
         ) {
 
+
           window.location.replace(
             "page10.html"
           );
 
+
           return false;
+
         }
 
 
@@ -2017,7 +2562,9 @@
           error: profileError
         } =
           await supabaseClient
-            .from("profiles")
+            .from(
+              "profiles"
+            )
             .select(
               "id, display_name, role, is_active"
             )
@@ -2038,6 +2585,7 @@
           )
         ) {
 
+
           await supabaseClient
             .auth
             .signOut();
@@ -2049,6 +2597,7 @@
 
 
           return false;
+
         }
 
 
@@ -2083,9 +2632,11 @@
 
         return true;
 
+
       }
 
       catch (error) {
+
 
         console.error(
           "权限验证失败：",
@@ -2099,24 +2650,35 @@
 
 
         return false;
+
       }
 
     }
 
 
 
+    /* =====================================================
+       页面启动
+    ===================================================== */
+
     document.addEventListener(
       "DOMContentLoaded",
       async function() {
+
 
         const allowed =
           await verifyManagementAccess();
 
 
-        if (allowed) {
+        if (
+          allowed
+        ) {
+
 
           await loadData();
+
         }
+
 
       }
     );
@@ -2127,15 +2689,23 @@
       "pageshow",
       async function(event) {
 
-        if (event.persisted) {
+
+        if (
+          event.persisted
+        ) {
+
 
           const allowed =
             await verifyManagementAccess();
 
 
-          if (allowed) {
+          if (
+            allowed
+          ) {
+
 
             await loadData();
+
           }
 
         }
@@ -2146,20 +2716,29 @@
 
 
     /* =====================================================
-       读取数据
+       加载 products + sales_prices
     ===================================================== */
 
     async function loadData() {
 
-      if (!accessVerified) {
+
+      if (
+        !accessVerified
+      ) {
+
+
         return;
+
       }
 
 
-      showLoading(true);
+      showLoading(
+        true
+      );
 
 
       try {
+
 
         const [
           productResult,
@@ -2167,74 +2746,108 @@
         ] =
           await Promise.all([
 
+
             supabaseClient
-              .from("products")
-              .select("*")
+              .from(
+                "products"
+              )
+              .select(
+                "id, product_code, product_name, is_active"
+              )
               .order(
                 "created_at",
                 {
-                  ascending: false
+                  ascending:
+                    false
                 }
               ),
 
+
             supabaseClient
-              .from("sales_prices")
-              .select("*")
+              .from(
+                "sales_prices"
+              )
+              .select(
+                "id, product_id, price, national_retail_price, currency, is_defined, is_active, effective_from, notes, disabled_by_product, created_at, updated_at"
+              )
               .order(
                 "created_at",
                 {
-                  ascending: false
+                  ascending:
+                    false
                 }
               )
+
 
           ]);
 
 
-        if (productResult.error) {
+        if (
+          productResult.error
+        ) {
+
+
           throw productResult.error;
+
         }
 
 
-        if (priceResult.error) {
+        if (
+          priceResult.error
+        ) {
+
+
           throw priceResult.error;
+
         }
 
 
         products =
-          productResult.data || [];
+          productResult.data ||
+          [];
 
 
         salesPrices =
-          priceResult.data || [];
+          priceResult.data ||
+          [];
 
 
         updateSummary();
 
+
         checkSynchronization();
 
+
         renderRows();
+
 
       }
 
       catch (error) {
 
+
         console.error(
-          "读取销售价格失败：",
+          "读取销售价格数据失败：",
           error
         );
 
 
         showNotice(
-          "读取销售价格失败：" +
+          "读取销售价格数据失败：" +
           error.message,
           "error"
         );
+
 
       }
 
       finally {
 
-        showLoading(false);
+
+        showLoading(
+          false
+        );
+
       }
 
     }
@@ -2242,15 +2855,23 @@
 
 
     /* =====================================================
-       产品
+       查产品
     ===================================================== */
 
-    function getProduct(productId) {
+    function getProduct(
+      productId
+    ) {
+
 
       return products.find(
         item =>
-          String(item.id) ===
-          String(productId)
+          String(
+            item.id
+          )
+          ===
+          String(
+            productId
+          )
       ) || null;
 
     }
@@ -2262,6 +2883,7 @@
     ===================================================== */
 
     function updateSummary() {
+
 
       const activeProducts =
         products.filter(
@@ -2319,10 +2941,11 @@
 
 
     /* =====================================================
-       检查同步状态
+       检查 products / sales_prices 是否一一对应
     ===================================================== */
 
     function checkSynchronization() {
+
 
       const activeProducts =
         products.filter(
@@ -2344,31 +2967,45 @@
         );
 
 
-      let valid = true;
-
-
-      const activePriceMap =
+      const activePriceCountByProduct =
         new Map();
 
 
       activePrices.forEach(
         function(price) {
 
+
           const key =
-            String(price.product_id);
+            String(
+              price.product_id
+            );
 
 
-          activePriceMap.set(
+          activePriceCountByProduct.set(
             key,
             (
-              activePriceMap.get(key) ||
+              activePriceCountByProduct.get(
+                key
+              ) ||
               0
-            ) + 1
+            )
+            +
+            1
           );
+
 
         }
       );
 
+
+      let valid =
+        true;
+
+
+      /*
+        每个有效产品
+        必须有且只有1条有效价格
+      */
 
       for (
         const product
@@ -2376,33 +3013,48 @@
         activeProducts
       ) {
 
+
         const count =
-          activePriceMap.get(
-            String(product.id)
-          ) || 0;
+          activePriceCountByProduct.get(
+            String(
+              product.id
+            )
+          ) ||
+          0;
 
 
-        if (count !== 1) {
+        if (
+          count !== 1
+        ) {
 
-          valid = false;
+
+          valid =
+            false;
+
 
           break;
+
         }
 
       }
 
 
       /*
-        还要确保有效价格不能对应无效产品
+        每条有效价格
+        必须对应有效产品
       */
 
-      if (valid) {
+      if (
+        valid
+      ) {
+
 
         for (
           const price
           of
           activePrices
         ) {
+
 
           const product =
             getProduct(
@@ -2415,9 +3067,13 @@
             product.is_active !== true
           ) {
 
-            valid = false;
+
+            valid =
+              false;
+
 
             break;
+
           }
 
         }
@@ -2425,25 +3081,47 @@
       }
 
 
-      if (valid) {
+      /*
+        总数量也必须一样
+      */
+
+      if (
+        valid &&
+        activeProducts.length !==
+        activePrices.length
+      ) {
+
+
+        valid =
+          false;
+
+      }
+
+
+      if (
+        valid
+      ) {
+
 
         syncBox.className =
           "sync-box sync-ok";
 
 
         syncBox.textContent =
-          "✓ 数据同步正常：每一个有效产品均对应且只对应一条有效销售价格记录。";
+          "✓ 数据同步正常：有效产品与当前有效销售价格对象保持严格一一对应。";
+
 
       }
 
       else {
+
 
         syncBox.className =
           "sync-box sync-error";
 
 
         syncBox.textContent =
-          "⚠ 数据同步异常：有效产品与有效销售价格记录没有保持一一对应，请暂时不要继续操作。";
+          "⚠ 数据同步异常：有效产品和有效销售价格没有保持一一对应，请暂停价格操作并检查数据库。";
 
       }
 
@@ -2452,10 +3130,11 @@
 
 
     /* =====================================================
-       显示列表
+       渲染
     ===================================================== */
 
     function renderRows() {
+
 
       const keyword =
         document.getElementById(
@@ -2476,6 +3155,7 @@
         salesPrices.filter(
           function(price) {
 
+
             const product =
               getProduct(
                 price.product_id
@@ -2489,8 +3169,12 @@
                 price.currency,
                 price.notes
               ]
-              .filter(Boolean)
-              .join(" ")
+              .filter(
+                Boolean
+              )
+              .join(
+                " "
+              )
               .toLowerCase();
 
 
@@ -2506,40 +3190,52 @@
 
 
             if (
-              filter === "current"
+              filter ===
+              "current"
             ) {
+
 
               filterMatched =
                 price.is_active === true;
+
             }
 
 
             if (
-              filter === "undefined"
+              filter ===
+              "undefined"
             ) {
+
 
               filterMatched =
                 price.is_active === true &&
                 price.is_defined !== true;
+
             }
 
 
             if (
-              filter === "defined"
+              filter ===
+              "defined"
             ) {
+
 
               filterMatched =
                 price.is_active === true &&
                 price.is_defined === true;
+
             }
 
 
             if (
-              filter === "history"
+              filter ===
+              "history"
             ) {
+
 
               filterMatched =
                 price.is_active === false;
+
             }
 
 
@@ -2547,6 +3243,7 @@
               keywordMatched &&
               filterMatched
             );
+
 
           }
         );
@@ -2564,15 +3261,21 @@
         );
 
 
-      tbody.innerHTML = "";
+      tbody.innerHTML =
+        "";
 
 
-      if (rows.length === 0) {
+      if (
+        rows.length === 0
+      ) {
+
 
         emptyBox.style.display =
           "block";
 
+
         return;
+
       }
 
 
@@ -2582,6 +3285,7 @@
 
       rows.forEach(
         function(price) {
+
 
           const product =
             getProduct(
@@ -2599,9 +3303,11 @@
             price.is_active === false
           ) {
 
+
             tr.classList.add(
               "history-row"
             );
+
           }
 
 
@@ -2634,7 +3340,9 @@
               :
               `
                 <span class="money">
-                  ${formatMoney(price.national_retail_price)}
+                  ${formatMoney(
+                    price.national_retail_price
+                  )}
                 </span>
               `;
 
@@ -2658,7 +3366,7 @@
               ?
               `
                 <span class="badge badge-defined">
-                  已定义
+                  已定义 · 已锁定
                 </span>
               `
               :
@@ -2685,41 +3393,66 @@
               `;
 
 
-          let actions = "";
+          let actions =
+            "";
 
 
           /*
-            只有：
+            情况1：
+            当前有效 + 产品有效 + 尚未定义
 
-            产品有效
-            +
-            价格有效
-
-            才允许编辑和设为无效
+            → 允许定义一次
           */
 
           if (
             price.is_active === true &&
+            price.is_defined !== true &&
             product?.is_active === true
           ) {
+
 
             actions =
               `
 
                 <button
-                  class="btn btn-edit btn-small"
+                  class="btn btn-define btn-small"
                   type="button"
-                  onclick="openEditModal('${price.id}')"
+                  onclick="openDefineModal('${price.id}')"
                 >
-                  ${
-                    price.is_defined === true
-                      ?
-                      "修改价格"
-                      :
-                      "定义价格"
-                  }
+                  定义价格
                 </button>
 
+
+                <button
+                  class="btn btn-dark btn-small"
+                  type="button"
+                  onclick="openDetailModal('${price.id}')"
+                >
+                  查看详情
+                </button>
+
+              `;
+
+          }
+
+
+          /*
+            情况2：
+            当前有效 + 已定义
+
+            → 不允许修改
+            → 只能设为无效
+          */
+
+          else if (
+            price.is_active === true &&
+            price.is_defined === true &&
+            product?.is_active === true
+          ) {
+
+
+            actions =
+              `
 
                 <button
                   class="btn btn-red btn-small"
@@ -2738,11 +3471,27 @@
                   查看详情
                 </button>
 
+
+                <span class="locked-label">
+                  价格已锁定
+                </span>
+
               `;
 
           }
 
+
+          /*
+            情况3：
+            历史价格 / 产品已经失效
+
+            → 查看
+            → 不能修改
+            → 不能恢复
+          */
+
           else {
+
 
             actions =
               `
@@ -2756,11 +3505,12 @@
                 </button>
 
 
-                <span class="history-label">
-                  历史记录
+                <span class="locked-label">
+                  历史锁定
                 </span>
 
               `;
+
           }
 
 
@@ -2768,73 +3518,95 @@
             `
 
               <td class="product-code">
+
                 ${
                   escapeHTML(
                     product?.product_code ||
                     "-"
                   )
                 }
+
               </td>
 
 
               <td class="product-name">
+
                 ${
                   escapeHTML(
                     product?.product_name ||
                     "未知产品"
                   )
                 }
+
               </td>
 
 
               <td>
+
                 ${priceHTML}
+
               </td>
 
 
               <td>
+
                 ${retailHTML}
+
               </td>
 
 
               <td>
+
                 ${currencyHTML}
+
               </td>
 
 
               <td>
+
                 ${definedHTML}
+
               </td>
 
 
               <td>
+
                 ${activeHTML}
+
               </td>
 
 
               <td>
+
                 ${
                   formatDateOnly(
                     price.effective_from
                   )
                 }
+
               </td>
 
 
               <td>
+
                 ${
                   formatDateTime(
                     price.created_at
                   )
                 }
+
               </td>
 
 
               <td>
 
+
                 <div class="row-actions">
+
                   ${actions}
+
                 </div>
+
 
               </td>
 
@@ -2845,6 +3617,7 @@
             tr
           );
 
+
         }
       );
 
@@ -2853,29 +3626,40 @@
 
 
     /* =====================================================
-       编辑价格
+       打开第一次定义窗口
     ===================================================== */
 
-    function openEditModal(
+    function openDefineModal(
       priceId
     ) {
+
 
       const price =
         salesPrices.find(
           item =>
-            String(item.id) ===
-            String(priceId)
+            String(
+              item.id
+            )
+            ===
+            String(
+              priceId
+            )
         );
 
 
-      if (!price) {
+      if (
+        !price
+      ) {
+
 
         showNotice(
-          "没有找到价格记录。",
+          "没有找到销售价格记录。",
           "error"
         );
 
+
         return;
+
       }
 
 
@@ -2886,76 +3670,119 @@
 
 
       if (
-        price.is_active !== true ||
-        product?.is_active !== true
+        !product ||
+        product.is_active !== true
       ) {
 
+
         showNotice(
-          "历史无效价格不允许修改。",
+          "对应产品已经无效，不能定义价格。",
           "error"
         );
 
+
         return;
+
+      }
+
+
+      if (
+        price.is_active !== true
+      ) {
+
+
+        showNotice(
+          "该销售价格已经无效，不能定义。",
+          "error"
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        price.is_defined === true
+      ) {
+
+
+        showNotice(
+          "该销售价格已经定义完成，不能再次修改。",
+          "error"
+        );
+
+
+        return;
+
       }
 
 
       document.getElementById(
-        "editPriceId"
+        "definePriceId"
       ).value =
         price.id;
 
 
       document.getElementById(
-        "editProductCode"
+        "defineProductCode"
       ).value =
-        product?.product_code ||
+        product.product_code ||
         "";
 
 
       document.getElementById(
-        "editProductName"
+        "defineProductName"
       ).value =
-        product?.product_name ||
+        product.product_name ||
         "";
 
 
+      /*
+        未定义对象理论上全部应该是 NULL。
+
+        即使数据库里有异常半成品，
+        这里也显示现有内容，
+        第一次完整保存时统一完成定义。
+      */
+
       document.getElementById(
-        "editPrice"
+        "definePrice"
       ).value =
         price.price ??
         "";
 
 
       document.getElementById(
-        "editRetailPrice"
+        "defineRetailPrice"
       ).value =
         price.national_retail_price ??
         "";
 
 
       document.getElementById(
-        "editCurrency"
+        "defineCurrency"
       ).value =
         price.currency ||
         "";
 
 
       document.getElementById(
-        "editEffectiveFrom"
+        "defineEffectiveFrom"
       ).value =
         price.effective_from ||
         getToday();
 
 
       document.getElementById(
-        "editNotes"
+        "defineNotes"
       ).value =
         price.notes || "";
 
 
       document
         .getElementById(
-          "editModal"
+          "defineModal"
         )
         .classList
         .add(
@@ -2966,11 +3793,12 @@
 
 
 
-    function closeEditModal() {
+    function closeDefineModal() {
+
 
       document
         .getElementById(
-          "editModal"
+          "defineModal"
         )
         .classList
         .remove(
@@ -2981,131 +3809,290 @@
 
 
 
-    async function savePrice() {
+    /* =====================================================
+       第一次且唯一一次定义
+    ===================================================== */
 
-      const id =
+    async function saveFirstDefinition() {
+
+
+      const priceId =
         document.getElementById(
-          "editPriceId"
+          "definePriceId"
         ).value;
+
+
+      /*
+        再检查本地数据状态
+      */
+
+      const currentRecord =
+        salesPrices.find(
+          item =>
+            String(
+              item.id
+            )
+            ===
+            String(
+              priceId
+            )
+        );
+
+
+      if (
+        !currentRecord
+      ) {
+
+
+        showNotice(
+          "销售价格记录不存在。",
+          "error"
+        );
+
+
+        closeDefineModal();
+
+
+        return;
+
+      }
+
+
+      if (
+        currentRecord.is_active !== true
+      ) {
+
+
+        showNotice(
+          "该价格已经失效，不能定义。",
+          "error"
+        );
+
+
+        closeDefineModal();
+
+
+        await loadData();
+
+
+        return;
+
+      }
+
+
+      if (
+        currentRecord.is_defined === true
+      ) {
+
+
+        showNotice(
+          "该价格已经完成定义，不能再次修改。",
+          "error"
+        );
+
+
+        closeDefineModal();
+
+
+        await loadData();
+
+
+        return;
+
+      }
+
+
+      const product =
+        getProduct(
+          currentRecord.product_id
+        );
+
+
+      if (
+        !product ||
+        product.is_active !== true
+      ) {
+
+
+        showNotice(
+          "对应产品已经无效，不能定义销售价格。",
+          "error"
+        );
+
+
+        closeDefineModal();
+
+
+        await loadData();
+
+
+        return;
+
+      }
 
 
       const priceValue =
         document.getElementById(
-          "editPrice"
-        ).value.trim();
+          "definePrice"
+        )
+        .value
+        .trim();
 
 
       const retailValue =
         document.getElementById(
-          "editRetailPrice"
-        ).value.trim();
+          "defineRetailPrice"
+        )
+        .value
+        .trim();
 
 
       const currency =
         document.getElementById(
-          "editCurrency"
-        ).value.trim();
+          "defineCurrency"
+        )
+        .value
+        .trim();
 
 
       const effectiveFrom =
         document.getElementById(
-          "editEffectiveFrom"
+          "defineEffectiveFrom"
         ).value;
 
 
       const notes =
         document.getElementById(
-          "editNotes"
-        ).value.trim();
+          "defineNotes"
+        )
+        .value
+        .trim();
 
 
-      if (priceValue === "") {
+      if (
+        priceValue === ""
+      ) {
+
 
         alert(
           "请输入销售价格。"
         );
 
+
         return;
+
       }
 
 
-      if (retailValue === "") {
+      if (
+        retailValue === ""
+      ) {
+
 
         alert(
           "请输入全国统一零售价。"
         );
 
+
         return;
+
       }
 
 
-      if (!currency) {
+      if (
+        !currency
+      ) {
+
 
         alert(
           "请选择币种。"
         );
 
+
         return;
+
       }
 
 
       const priceNumber =
-        Number(priceValue);
+        Number(
+          priceValue
+        );
 
 
       const retailNumber =
-        Number(retailValue);
+        Number(
+          retailValue
+        );
 
 
       if (
-        !Number.isFinite(priceNumber) ||
+        !Number.isFinite(
+          priceNumber
+        ) ||
         priceNumber < 0
       ) {
+
 
         alert(
           "销售价格格式不正确。"
         );
 
+
         return;
+
       }
 
 
       if (
-        !Number.isFinite(retailNumber) ||
+        !Number.isFinite(
+          retailNumber
+        ) ||
         retailNumber < 0
       ) {
+
 
         alert(
           "全国统一零售价格式不正确。"
         );
 
+
         return;
+
       }
 
 
-      const currentRecord =
-        salesPrices.find(
-          item =>
-            String(item.id) ===
-            String(id)
+      const confirmed =
+        confirm(
+          "请确认销售价格：\n\n" +
+          "产品：" +
+          (product.product_code || "") +
+          " " +
+          (product.product_name || "") +
+          "\n\n" +
+          "销售价格：" +
+          priceNumber +
+          " " +
+          currency +
+          "\n" +
+          "全国统一零售价：" +
+          retailNumber +
+          " " +
+          currency +
+          "\n\n" +
+          "注意：\n" +
+          "价格一旦定义保存成功，将永久锁定，不能再次修改。\n\n" +
+          "是否确认保存？"
         );
 
 
       if (
-        !currentRecord ||
-        currentRecord.is_active !== true
+        !confirmed
       ) {
 
-        showNotice(
-          "该价格已经失效，不能继续修改。",
-          "error"
-        );
-
-        closeEditModal();
-
-        await loadData();
 
         return;
+
       }
 
 
@@ -3115,22 +4102,40 @@
         );
 
 
-      button.disabled = true;
+      button.disabled =
+        true;
+
 
       button.textContent =
-        "正在保存……";
+        "正在定义……";
 
 
-      showLoading(true);
+      showLoading(
+        true
+      );
 
 
       try {
 
+
+        /*
+          关键：
+          除了 ID，
+          再加 is_active=true
+          和 is_defined=false 条件。
+
+          如果这期间数据已经被其他操作改变，
+          就不会误更新。
+        */
+
         const {
+          data,
           error
         } =
           await supabaseClient
-            .from("sales_prices")
+            .from(
+              "sales_prices"
+            )
             .update({
 
               price:
@@ -3152,56 +4157,89 @@
             })
             .eq(
               "id",
-              id
+              priceId
             )
             .eq(
               "is_active",
               true
-            );
+            )
+            .eq(
+              "is_defined",
+              false
+            )
+            .select();
 
 
-        if (error) {
+        if (
+          error
+        ) {
+
+
           throw error;
+
         }
 
 
-        closeEditModal();
+        if (
+          !data ||
+          data.length !== 1
+        ) {
+
+
+          throw new Error(
+            "该价格状态已经发生变化，请刷新页面后重新检查。"
+          );
+
+        }
+
+
+        closeDefineModal();
 
 
         showNotice(
-          "销售价格保存成功。",
+          "销售价格定义成功。该价格记录现已永久锁定，不能再次修改。",
           "success"
         );
 
 
         await loadData();
 
+
       }
 
       catch (error) {
 
+
         console.error(
-          "保存销售价格失败：",
+          "定义销售价格失败：",
           error
         );
 
 
         showNotice(
-          "保存销售价格失败：" +
+          "定义销售价格失败：" +
           error.message,
           "error"
         );
+
 
       }
 
       finally {
 
-        showLoading(false);
 
-        button.disabled = false;
+        showLoading(
+          false
+        );
+
+
+        button.disabled =
+          false;
+
 
         button.textContent =
-          "保存价格";
+          "确认定义";
+
       }
 
     }
@@ -3209,29 +4247,40 @@
 
 
     /* =====================================================
-       当前价格永久失效
+       已定义价格 → 永久设为无效
     ===================================================== */
 
     async function disablePrice(
       priceId
     ) {
 
+
       const price =
         salesPrices.find(
           item =>
-            String(item.id) ===
-            String(priceId)
+            String(
+              item.id
+            )
+            ===
+            String(
+              priceId
+            )
         );
 
 
-      if (!price) {
+      if (
+        !price
+      ) {
+
 
         showNotice(
           "没有找到销售价格记录。",
           "error"
         );
 
+
         return;
+
       }
 
 
@@ -3245,12 +4294,39 @@
         price.is_active !== true
       ) {
 
+
         showNotice(
-          "该销售价格已经无效，不能重新操作。",
+          "该销售价格已经无效。",
           "error"
         );
 
+
         return;
+
+      }
+
+
+      /*
+        按当前规则：
+        只有已经定义完成的价格
+        才通过页面提供“设为无效”。
+
+        未定义价格直接等待定义即可。
+      */
+
+      if (
+        price.is_defined !== true
+      ) {
+
+
+        showNotice(
+          "该价格尚未定义，不需要重新生成，请直接完成价格定义。",
+          "error"
+        );
+
+
+        return;
+
       }
 
 
@@ -3259,12 +4335,15 @@
         product.is_active !== true
       ) {
 
+
         showNotice(
-          "对应产品已经无效，不能重新建立销售价格。",
+          "对应产品已经无效，不能生成新的销售价格。",
           "error"
         );
 
+
         return;
+
       }
 
 
@@ -3276,30 +4355,49 @@
           " " +
           (product.product_name || "") +
           "\n\n" +
-          "当前价格失效后：\n" +
-          "1. 这条价格将永久成为历史记录；\n" +
-          "2. 不允许重新恢复有效；\n" +
-          "3. 系统会自动为该产品建立一条新的“未定义”销售价格；\n" +
-          "4. 历史订单不受影响。\n\n" +
+          "销售价格：" +
+          formatMoney(
+            price.price
+          ) +
+          " " +
+          (price.currency || "") +
+          "\n\n" +
+          "失效后：\n" +
+          "1. 当前价格永久成为历史记录；\n" +
+          "2. 当前价格不能恢复，也不能修改；\n" +
+          "3. 系统自动生成一条新的未定义销售价格；\n" +
+          "4. 新价格需要重新定义一次；\n" +
+          "5. 历史订单不会受到影响。\n\n" +
           "是否继续？"
         );
 
 
-      if (!confirmed) {
+      if (
+        !confirmed
+      ) {
+
+
         return;
+
       }
 
 
-      showLoading(true);
+      showLoading(
+        true
+      );
 
 
       try {
 
+
         const {
+          data,
           error
         } =
           await supabaseClient
-            .from("sales_prices")
+            .from(
+              "sales_prices"
+            )
             .update({
 
               is_active:
@@ -3316,11 +4414,30 @@
             .eq(
               "is_active",
               true
-            );
+            )
+            .select();
 
 
-        if (error) {
+        if (
+          error
+        ) {
+
+
           throw error;
+
+        }
+
+
+        if (
+          !data ||
+          data.length !== 1
+        ) {
+
+
+          throw new Error(
+            "销售价格状态已经发生变化，请刷新后重新检查。"
+          );
+
         }
 
 
@@ -3332,27 +4449,34 @@
 
         await loadData();
 
+
       }
 
       catch (error) {
 
+
         console.error(
-          "销售价格失效失败：",
+          "设置销售价格无效失败：",
           error
         );
 
 
         showNotice(
-          "销售价格失效失败：" +
+          "设置销售价格无效失败：" +
           error.message,
           "error"
         );
+
 
       }
 
       finally {
 
-        showLoading(false);
+
+        showLoading(
+          false
+        );
+
       }
 
     }
@@ -3360,29 +4484,40 @@
 
 
     /* =====================================================
-       详情
+       查看详情
     ===================================================== */
 
     function openDetailModal(
       priceId
     ) {
 
+
       const price =
         salesPrices.find(
           item =>
-            String(item.id) ===
-            String(priceId)
+            String(
+              item.id
+            )
+            ===
+            String(
+              priceId
+            )
         );
 
 
-      if (!price) {
+      if (
+        !price
+      ) {
+
 
         showNotice(
-          "没有找到价格记录。",
+          "没有找到销售价格记录。",
           "error"
         );
 
+
         return;
+
       }
 
 
@@ -3416,6 +4551,15 @@
           formatMoney(
             price.price
           )
+          +
+          (
+            price.currency
+              ?
+              " " +
+              price.currency
+              :
+              ""
+          )
       );
 
 
@@ -3428,6 +4572,15 @@
           :
           formatMoney(
             price.national_retail_price
+          )
+          +
+          (
+            price.currency
+              ?
+              " " +
+              price.currency
+              :
+              ""
           )
       );
 
@@ -3443,7 +4596,7 @@
         "detailDefined",
         price.is_defined === true
           ?
-          "已定义"
+          "已定义（内容已永久锁定）"
           :
           "未定义"
       );
@@ -3476,7 +4629,8 @@
 
       setText(
         "detailId",
-        price.id
+        price.id ||
+        "-"
       );
 
 
@@ -3495,6 +4649,27 @@
         )
       );
 
+
+      /*
+        已定义但仍有效
+      */
+
+      document.getElementById(
+        "definedWarning"
+      ).style.display =
+        (
+          price.is_active === true &&
+          price.is_defined === true
+        )
+          ?
+          "block"
+          :
+          "none";
+
+
+      /*
+        历史无效
+      */
 
       document.getElementById(
         "historyWarning"
@@ -3521,6 +4696,7 @@
 
     function closeDetailModal() {
 
+
       document
         .getElementById(
           "detailModal"
@@ -3535,26 +4711,30 @@
 
 
     /* =====================================================
-       Modal 遮罩
+       点击背景关闭弹窗
     ===================================================== */
 
     document
       .getElementById(
-        "editModal"
+        "defineModal"
       )
       .addEventListener(
         "click",
         function(event) {
 
+
           if (
             event.target === this
           ) {
 
-            closeEditModal();
+
+            closeDefineModal();
+
           }
 
         }
       );
+
 
 
     document
@@ -3565,11 +4745,14 @@
         "click",
         function(event) {
 
+
           if (
             event.target === this
           ) {
 
+
             closeDetailModal();
+
           }
 
         }
@@ -3578,13 +4761,14 @@
 
 
     /* =====================================================
-       工具
+       工具函数
     ===================================================== */
 
     function setText(
       id,
       value
     ) {
+
 
       document.getElementById(
         id
@@ -3599,21 +4783,41 @@
       value
     ) {
 
+
       if (
         value === null ||
         value === undefined
       ) {
 
+
         return "";
+
       }
 
 
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+      return String(
+        value
+      )
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
 
     }
 
@@ -3623,12 +4827,32 @@
       value
     ) {
 
-      return Number(value)
+
+      if (
+        value === null ||
+        value === undefined ||
+        value === ""
+      ) {
+
+
+        return "-";
+
+      }
+
+
+      return Number(
+        value
+      )
         .toLocaleString(
           "zh-CN",
           {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
+
+            minimumFractionDigits:
+              2,
+
+            maximumFractionDigits:
+              2
+
           }
         );
 
@@ -3640,14 +4864,21 @@
       value
     ) {
 
-      if (!value) {
+
+      if (
+        !value
+      ) {
+
+
         return "-";
+
       }
 
 
       const date =
         new Date(
-          value + "T00:00:00"
+          value +
+          "T00:00:00"
         );
 
 
@@ -3657,7 +4888,9 @@
         )
       ) {
 
+
         return value;
+
       }
 
 
@@ -3673,13 +4906,21 @@
       value
     ) {
 
-      if (!value) {
+
+      if (
+        !value
+      ) {
+
+
         return "-";
+
       }
 
 
       const date =
-        new Date(value);
+        new Date(
+          value
+        );
 
 
       if (
@@ -3688,18 +4929,31 @@
         )
       ) {
 
+
         return value;
+
       }
 
 
       return date.toLocaleString(
         "zh-CN",
         {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit"
+
+          year:
+            "numeric",
+
+          month:
+            "2-digit",
+
+          day:
+            "2-digit",
+
+          hour:
+            "2-digit",
+
+          minute:
+            "2-digit"
+
         }
       );
 
@@ -3708,6 +4962,7 @@
 
 
     function getToday() {
+
 
       const date =
         new Date();
@@ -3720,19 +4975,21 @@
       const month =
         String(
           date.getMonth() + 1
-        ).padStart(
-          2,
-          "0"
-        );
+        )
+          .padStart(
+            2,
+            "0"
+          );
 
 
       const day =
         String(
           date.getDate()
-        ).padStart(
-          2,
-          "0"
-        );
+        )
+          .padStart(
+            2,
+            "0"
+          );
 
 
       return (
@@ -3751,25 +5008,32 @@
       show
     ) {
 
+
       const mask =
         document.getElementById(
           "loadingMask"
         );
 
 
-      if (show) {
+      if (
+        show
+      ) {
+
 
         mask.classList.add(
           "show"
         );
 
+
       }
 
       else {
 
+
         mask.classList.remove(
           "show"
         );
+
       }
 
     }
@@ -3780,6 +5044,7 @@
       message,
       type = "success"
     ) {
+
 
       const notice =
         document.getElementById(
@@ -3806,11 +5071,13 @@
       setTimeout(
         function() {
 
+
           notice
             .classList
             .remove(
               "show"
             );
+
 
         },
         5000
@@ -3822,6 +5089,7 @@
 
     function goBack() {
 
+
       window.location.href =
         "wholemanagement.html";
 
@@ -3830,15 +5098,18 @@
 
 
     /* =====================================================
-       10分钟无操作退出
+       10分钟无操作自动退出
     ===================================================== */
 
     const IDLE_LIMIT =
-      10 * 60 * 1000;
+      10 *
+      60 *
+      1000;
 
 
     const WARNING_TIME =
-      60 * 1000;
+      60 *
+      1000;
 
 
     let lastActivityTime =
@@ -3851,6 +5122,7 @@
 
 
     function userActivity() {
+
 
       lastActivityTime =
         Date.now();
@@ -3866,10 +5138,14 @@
         );
 
 
-      if (warning) {
+      if (
+        warning
+      ) {
+
 
         warning.style.display =
           "none";
+
       }
 
     }
@@ -3879,10 +5155,15 @@
     const activityEvents = [
 
       "mousedown",
+
       "mousemove",
+
       "keydown",
+
       "scroll",
+
       "touchstart",
+
       "click"
 
     ];
@@ -3892,11 +5173,13 @@
     activityEvents.forEach(
       function(eventName) {
 
+
         document.addEventListener(
           eventName,
           userActivity,
           true
         );
+
 
       }
     );
@@ -3906,8 +5189,10 @@
     setInterval(
       function() {
 
+
         const inactiveTime =
-          Date.now() -
+          Date.now()
+          -
           lastActivityTime;
 
 
@@ -3920,7 +5205,11 @@
           IDLE_LIMIT
         ) {
 
-          if (!warningShown) {
+
+          if (
+            !warningShown
+          ) {
+
 
             const warning =
               document.getElementById(
@@ -3928,15 +5217,20 @@
               );
 
 
-            if (warning) {
+            if (
+              warning
+            ) {
+
 
               warning.style.display =
                 "block";
+
             }
 
 
             warningShown =
               true;
+
           }
 
         }
@@ -3947,8 +5241,11 @@
           IDLE_LIMIT
         ) {
 
+
           autoLogout();
+
         }
+
 
       },
       1000
@@ -3957,6 +5254,7 @@
 
 
     function clearOldLoginData() {
+
 
       sessionStorage.clear();
 
@@ -3986,15 +5284,19 @@
 
     async function autoLogout() {
 
+
       try {
+
 
         await supabaseClient
           .auth
           .signOut();
 
+
       }
 
       catch (error) {
+
 
         console.error(
           "自动退出失败：",
@@ -4017,15 +5319,19 @@
 
     async function logout() {
 
+
       try {
+
 
         await supabaseClient
           .auth
           .signOut();
 
+
       }
 
       catch (error) {
+
 
         console.error(
           "退出失败：",
@@ -4043,6 +5349,7 @@
       );
 
     }
+
 
   </script>
 
