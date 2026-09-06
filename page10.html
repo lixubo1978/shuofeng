@@ -186,6 +186,41 @@
     }
 
 
+    /* =====================================================
+       返回主页按钮
+    ===================================================== */
+
+    .home-button {
+      width: 100%;
+
+      margin-top: 12px;
+
+      padding: 12px;
+
+      border: 1px solid #d1d5db;
+
+      border-radius: 8px;
+
+      background: #ffffff;
+
+      color: #374151;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+
+    .home-button:hover {
+      background: #f3f4f6;
+
+      border-color: #9ca3af;
+    }
+
+
     .message {
       min-height: 20px;
 
@@ -364,6 +399,17 @@
       </button>
 
 
+      <!-- 返回主页 -->
+
+      <button
+        class="home-button"
+        type="button"
+        onclick="goHome()"
+      >
+        ← 返回主页
+      </button>
+
+
 
       <div
         id="message"
@@ -438,6 +484,21 @@
 
     const message =
       document.getElementById("message");
+
+
+
+    /* =====================================================
+       返回主页
+    ===================================================== */
+
+    function goHome() {
+
+      clearLoginFields();
+
+      window.location.href =
+        "index.html";
+
+    }
 
 
 
