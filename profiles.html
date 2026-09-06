@@ -40,7 +40,9 @@
       min-height: 100vh;
     }
 
-    /* 顶部 */
+    /* =========================
+       顶部
+    ========================= */
 
     .topbar {
       background: #0f172a;
@@ -93,7 +95,9 @@
       background: rgba(255,255,255,0.10);
     }
 
-    /* 主体 */
+    /* =========================
+       主体
+    ========================= */
 
     .container {
       width: 100%;
@@ -126,7 +130,12 @@
     .page-actions {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
+
+    /* =========================
+       按钮
+    ========================= */
 
     .btn {
       border: none;
@@ -134,6 +143,12 @@
       border-radius: 8px;
       font-size: 14px;
       cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
     }
 
     .btn-light {
@@ -161,7 +176,14 @@
       opacity: 0.9;
     }
 
-    /* 统计 */
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       统计
+    ========================= */
 
     .summary-grid {
       display: grid;
@@ -190,7 +212,9 @@
       color: #111827;
     }
 
-    /* 搜索 */
+    /* =========================
+       搜索
+    ========================= */
 
     .toolbar {
       background: white;
@@ -230,7 +254,9 @@
       font-size: 14px;
     }
 
-    /* 表格 */
+    /* =========================
+       表格
+    ========================= */
 
     .table-card {
       background: white;
@@ -277,7 +303,9 @@
       color: #111827;
     }
 
-    /* 身份与状态 */
+    /* =========================
+       身份与状态
+    ========================= */
 
     .status {
       display: inline-block;
@@ -312,16 +340,9 @@
       font-size: 12px;
     }
 
-    /* 空内容 */
-
-    .empty-box {
-      padding: 55px 20px;
-      text-align: center;
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    /* 提示 */
+    /* =========================
+       提示
+    ========================= */
 
     .notice {
       display: none;
@@ -345,7 +366,118 @@
       color: #991b1b;
     }
 
-    /* Loading */
+    .empty-box {
+      padding: 55px 20px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* =========================
+       弹窗
+    ========================= */
+
+    .modal-mask {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.48);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-mask.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 560px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.28);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #111827;
+    }
+
+    .modal-close {
+      border: none;
+      background: transparent;
+      font-size: 26px;
+      color: #64748b;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .required {
+      color: #dc2626;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #2563eb;
+    }
+
+    .form-help {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.7;
+      margin-top: 7px;
+    }
+
+    .modal-footer {
+      padding: 18px 24px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* =========================
+       Loading
+    ========================= */
 
     .loading-mask {
       display: none;
@@ -364,7 +496,9 @@
       display: flex;
     }
 
-    /* 自动退出提示 */
+    /* =========================
+       自动退出提示
+    ========================= */
 
     .timeout-warning {
       position: fixed;
@@ -427,9 +561,14 @@
     正在处理，请稍候……
   </div>
 
+  <!-- =========================
+       顶部
+  ========================= -->
+
   <header class="topbar">
 
     <div class="brand">
+
       <div class="brand-title">
         硕丰科技 · 管理人员
       </div>
@@ -437,6 +576,7 @@
       <div class="brand-subtitle">
         ShuoFeng Technology Management System
       </div>
+
     </div>
 
     <div class="top-actions">
@@ -465,6 +605,10 @@
 
   </header>
 
+  <!-- =========================
+       主区域
+  ========================= -->
+
   <main class="container">
 
     <div class="page-header">
@@ -476,8 +620,8 @@
         </h1>
 
         <p>
-          查看公司创始人及管理人员账号状态。
-          创始人账号受保护；普通管理人员可设置为有效或无效。
+          查看和管理公司管理人员。
+          创始人账号受保护，不允许停用；新建管理人员统一创建为管理员账号。
         </p>
 
       </div>
@@ -492,11 +636,23 @@
           刷新
         </button>
 
+        <button
+          class="btn btn-primary"
+          type="button"
+          onclick="openCreateAdminModal()"
+        >
+          ＋ 新建管理人员
+        </button>
+
       </div>
 
     </div>
 
     <div id="notice" class="notice"></div>
+
+    <!-- =========================
+         统计
+    ========================= -->
 
     <section class="summary-grid">
 
@@ -528,6 +684,10 @@
       </div>
 
     </section>
+
+    <!-- =========================
+         搜索
+    ========================= -->
 
     <div class="toolbar">
 
@@ -567,6 +727,10 @@
 
     </div>
 
+    <!-- =========================
+         表格
+    ========================= -->
+
     <div class="table-card">
 
       <div class="table-wrapper">
@@ -604,6 +768,116 @@
 
   </main>
 
+  <!-- =========================
+       新建管理人员弹窗
+  ========================= -->
+
+  <div
+    id="createAdminModal"
+    class="modal-mask"
+  >
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <h2>
+          新建管理人员
+        </h2>
+
+        <button
+          class="modal-close"
+          type="button"
+          onclick="closeCreateAdminModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-group">
+
+          <label>
+            显示名称
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="newAdminName"
+            type="text"
+            placeholder="例如：张三"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            登录邮箱
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="newAdminEmail"
+            type="email"
+            placeholder="example@company.com"
+            autocomplete="off"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            初始密码
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="newAdminPassword"
+            type="password"
+            placeholder="至少8位"
+            autocomplete="new-password"
+          >
+
+          <div class="form-help">
+            新管理员以后使用这个邮箱和密码从 page10.html 登录。
+            账号会同时创建到 Supabase Authentication 和 profiles。
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          type="button"
+          onclick="closeCreateAdminModal()"
+        >
+          取消
+        </button>
+
+        <button
+          id="createAdminButton"
+          class="btn btn-primary"
+          type="button"
+          onclick="createAdmin()"
+        >
+          创建管理人员
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 自动退出提示 -->
+
   <div id="timeoutWarning" class="timeout-warning">
     长时间未操作，系统即将自动退出。
   </div>
@@ -632,12 +906,14 @@
     ===================================================== */
 
     let profiles = [];
-    let accessVerified = false;
+
     let currentProfile = null;
+
+    let accessVerified = false;
 
 
     /* =====================================================
-       登录 + 管理权限验证
+       登录 / 权限验证
     ===================================================== */
 
     async function verifyManagementAccess() {
@@ -710,9 +986,11 @@
             .auth
             .signOut();
 
+
           window.location.replace(
             "page10.html"
           );
+
 
           return false;
 
@@ -729,7 +1007,9 @@
           );
 
 
-        if (profile.display_name) {
+        if (
+          profile.display_name
+        ) {
 
           currentUser.textContent =
             profile.display_name
@@ -754,7 +1034,8 @@
         }
 
 
-        accessVerified = true;
+        accessVerified =
+          true;
 
 
         document
@@ -776,9 +1057,11 @@
           error
         );
 
+
         window.location.replace(
           "page10.html"
         );
+
 
         return false;
 
@@ -799,11 +1082,17 @@
         const allowed =
           await verifyManagementAccess();
 
-        if (allowed) {
+
+        if (
+          allowed
+        ) {
+
           await loadProfiles();
+
         }
 
       }
+
     );
 
 
@@ -812,28 +1101,38 @@
 
       async function(event) {
 
-        if (event.persisted) {
+        if (
+          event.persisted
+        ) {
 
           const allowed =
             await verifyManagementAccess();
 
-          if (allowed) {
+
+          if (
+            allowed
+          ) {
+
             await loadProfiles();
+
           }
 
         }
 
       }
+
     );
 
 
     /* =====================================================
-       读取管理人员
+       读取 profiles
     ===================================================== */
 
     async function loadProfiles() {
 
-      if (!accessVerified) {
+      if (
+        !accessVerified
+      ) {
         return;
       }
 
@@ -867,7 +1166,9 @@
             );
 
 
-        if (error) {
+        if (
+          error
+        ) {
           throw error;
         }
 
@@ -877,6 +1178,7 @@
 
 
         updateSummary();
+
         renderProfiles();
 
       }
@@ -919,7 +1221,11 @@
       const active =
         profiles.filter(
           function(item) {
-            return item.is_active === true;
+
+            return (
+              item.is_active === true
+            );
+
           }
         ).length;
 
@@ -930,23 +1236,26 @@
 
       document.getElementById(
         "totalCount"
-      ).textContent = total;
+      ).textContent =
+        total;
 
 
       document.getElementById(
         "activeCount"
-      ).textContent = active;
+      ).textContent =
+        active;
 
 
       document.getElementById(
         "disabledCount"
-      ).textContent = disabled;
+      ).textContent =
+        disabled;
 
     }
 
 
     /* =====================================================
-       显示管理人员
+       显示 profiles
     ===================================================== */
 
     function renderProfiles() {
@@ -993,7 +1302,9 @@
               true;
 
 
-            if (status === "active") {
+            if (
+              status === "active"
+            ) {
 
               matchStatus =
                 item.is_active === true;
@@ -1001,7 +1312,9 @@
             }
 
 
-            if (status === "disabled") {
+            if (
+              status === "disabled"
+            ) {
 
               matchStatus =
                 item.is_active === false;
@@ -1036,7 +1349,9 @@
         "";
 
 
-      if (filtered.length === 0) {
+      if (
+        filtered.length === 0
+      ) {
 
         emptyBox.style.display =
           "block";
@@ -1093,33 +1408,45 @@
 
 
           let actionHTML =
-            `<span class="protected-text">仅查看</span>`;
+            `
+              <span class="protected-text">
+                仅查看
+              </span>
+            `;
 
 
           /*
-            founder 永远不提供停用按钮
+            founder 不允许停用
           */
 
-          if (item.role === "admin") {
+          if (
+            item.role === "admin"
+          ) {
 
-            if (item.is_active === true) {
+            if (
+              item.is_active === true
+            ) {
 
               actionHTML =
                 `
                   <button
                     class="btn btn-red btn-small"
+                    type="button"
                     onclick="changeProfileStatus('${item.id}', false)"
                   >
                     设为无效
                   </button>
                 `;
 
-            } else {
+            }
+
+            else {
 
               actionHTML =
                 `
                   <button
                     class="btn btn-green btn-small"
+                    type="button"
                     onclick="changeProfileStatus('${item.id}', true)"
                   >
                     恢复有效
@@ -1135,6 +1462,7 @@
             `
 
               <td class="person-name">
+
                 ${
                   escapeHTML(
                     item.display_name
@@ -1142,27 +1470,34 @@
                     "未命名"
                   )
                 }
+
               </td>
+
 
               <td>
                 ${roleHTML}
               </td>
 
+
               <td>
                 ${statusHTML}
               </td>
+
 
               <td>
                 ${escapeHTML(item.id)}
               </td>
 
+
               <td>
                 ${formatDate(item.created_at)}
               </td>
 
+
               <td>
                 ${formatDate(item.updated_at)}
               </td>
+
 
               <td>
                 ${actionHTML}
@@ -1183,7 +1518,367 @@
 
 
     /* =====================================================
-       修改有效 / 无效
+       新建管理人员弹窗
+    ===================================================== */
+
+    function openCreateAdminModal() {
+
+      document.getElementById(
+        "newAdminName"
+      ).value = "";
+
+
+      document.getElementById(
+        "newAdminEmail"
+      ).value = "";
+
+
+      document.getElementById(
+        "newAdminPassword"
+      ).value = "";
+
+
+      document
+        .getElementById(
+          "createAdminModal"
+        )
+        .classList
+        .add(
+          "show"
+        );
+
+
+      setTimeout(
+        function() {
+
+          document
+            .getElementById(
+              "newAdminName"
+            )
+            .focus();
+
+        },
+        100
+      );
+
+    }
+
+
+    function closeCreateAdminModal() {
+
+      document
+        .getElementById(
+          "createAdminModal"
+        )
+        .classList
+        .remove(
+          "show"
+        );
+
+    }
+
+
+    document
+      .getElementById(
+        "createAdminModal"
+      )
+      .addEventListener(
+
+        "click",
+
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeCreateAdminModal();
+
+          }
+
+        }
+
+      );
+
+
+    /* =====================================================
+       调用 Edge Function 创建管理员
+    ===================================================== */
+
+    async function createAdmin() {
+
+      const displayName =
+        document
+          .getElementById(
+            "newAdminName"
+          )
+          .value
+          .trim();
+
+
+      const email =
+        document
+          .getElementById(
+            "newAdminEmail"
+          )
+          .value
+          .trim()
+          .toLowerCase();
+
+
+      const password =
+        document
+          .getElementById(
+            "newAdminPassword"
+          )
+          .value;
+
+
+      if (
+        !displayName
+      ) {
+
+        alert(
+          "请输入管理人员姓名。"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !email
+      ) {
+
+        alert(
+          "请输入登录邮箱。"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !email.includes("@")
+      ) {
+
+        alert(
+          "邮箱格式不正确。"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        password.length < 8
+      ) {
+
+        alert(
+          "密码至少需要8位。"
+        );
+
+        return;
+
+      }
+
+
+      const createButton =
+        document.getElementById(
+          "createAdminButton"
+        );
+
+
+      createButton.disabled =
+        true;
+
+
+      createButton.textContent =
+        "正在创建……";
+
+
+      showLoading(true);
+
+
+      try {
+
+        /*
+          获取当前登录 session
+        */
+
+        const {
+          data: sessionData,
+          error: sessionError
+        } =
+          await supabaseClient
+            .auth
+            .getSession();
+
+
+        if (
+          sessionError
+          ||
+          !sessionData.session
+        ) {
+
+          throw new Error(
+            "登录状态已失效，请重新登录。"
+          );
+
+        }
+
+
+        /*
+          调用 create-admin Edge Function
+        */
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .functions
+            .invoke(
+              "create-admin",
+              {
+                body: {
+                  display_name:
+                    displayName,
+
+                  email:
+                    email,
+
+                  password:
+                    password
+                }
+              }
+            );
+
+
+        if (
+          error
+        ) {
+
+          /*
+            Edge Function 错误有时详细信息在 context
+          */
+
+          let errorMessage =
+            error.message
+            ||
+            "创建管理人员失败";
+
+
+          try {
+
+            if (
+              error.context
+              &&
+              typeof error.context.json === "function"
+            ) {
+
+              const errorBody =
+                await error.context.json();
+
+
+              if (
+                errorBody
+                &&
+                errorBody.error
+              ) {
+
+                errorMessage =
+                  errorBody.error;
+
+              }
+
+            }
+
+          }
+
+          catch (
+            detailError
+          ) {
+
+            console.warn(
+              "无法读取 Edge Function 错误详情：",
+              detailError
+            );
+
+          }
+
+
+          throw new Error(
+            errorMessage
+          );
+
+        }
+
+
+        if (
+          data
+          &&
+          data.error
+        ) {
+
+          throw new Error(
+            data.error
+          );
+
+        }
+
+
+        closeCreateAdminModal();
+
+
+        showNotice(
+          "管理人员创建成功。该用户现在可以使用邮箱和密码登录。",
+          "success"
+        );
+
+
+        await loadProfiles();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "创建管理人员失败：",
+          error
+        );
+
+
+        showNotice(
+          "创建管理人员失败：" +
+          error.message,
+          "error"
+        );
+
+      }
+
+      finally {
+
+        showLoading(false);
+
+
+        createButton.disabled =
+          false;
+
+
+        createButton.textContent =
+          "创建管理人员";
+
+      }
+
+    }
+
+
+    /* =====================================================
+       有效 / 无效
     ===================================================== */
 
     async function changeProfileStatus(
@@ -1194,12 +1889,18 @@
       const targetProfile =
         profiles.find(
           function(item) {
-            return item.id === profileId;
+
+            return (
+              item.id === profileId
+            );
+
           }
         );
 
 
-      if (!targetProfile) {
+      if (
+        !targetProfile
+      ) {
 
         showNotice(
           "没有找到该管理人员。",
@@ -1212,16 +1913,16 @@
 
 
       /*
-        双重保护：
-        founder 绝对不能在页面上被修改
+        founder 双重保护
       */
 
       if (
-        targetProfile.role === "founder"
+        targetProfile.role ===
+        "founder"
       ) {
 
         showNotice(
-          "创始人账号不允许在本页面修改状态。",
+          "创始人账号不允许修改状态。",
           "error"
         );
 
@@ -1231,13 +1932,14 @@
 
 
       /*
-        防止当前登录管理员把自己停用
+        当前登录用户不能停用自己
       */
 
       if (
         currentProfile
         &&
-        currentProfile.id === profileId
+        currentProfile.id ===
+          profileId
         &&
         newStatus === false
       ) {
@@ -1264,7 +1966,9 @@
           confirmText
         )
       ) {
+
         return;
+
       }
 
 
@@ -1294,7 +1998,9 @@
             );
 
 
-        if (error) {
+        if (
+          error
+        ) {
           throw error;
         }
 
@@ -1349,7 +2055,9 @@
         ||
         value === undefined
       ) {
+
         return "";
+
       }
 
 
@@ -1365,8 +2073,12 @@
 
     function formatDate(value) {
 
-      if (!value) {
+      if (
+        !value
+      ) {
+
         return "-";
+
       }
 
 
@@ -1379,7 +2091,9 @@
           date.getTime()
         )
       ) {
+
         return value;
+
       }
 
 
@@ -1405,13 +2119,17 @@
         );
 
 
-      if (show) {
+      if (
+        show
+      ) {
 
         mask.classList.add(
           "show"
         );
 
-      } else {
+      }
+
+      else {
 
         mask.classList.remove(
           "show"
@@ -1459,7 +2177,7 @@
 
         },
 
-        4000
+        5000
 
       );
 
@@ -1510,7 +2228,9 @@
         );
 
 
-      if (warning) {
+      if (
+        warning
+      ) {
 
         warning.style.display =
           "none";
@@ -1554,17 +2274,24 @@
 
 
         const inactiveTime =
-          now - lastActivityTime;
+          now -
+          lastActivityTime;
 
 
         if (
           inactiveTime >=
-          IDLE_LIMIT - WARNING_TIME
+          IDLE_LIMIT -
+          WARNING_TIME
+
           &&
-          inactiveTime < IDLE_LIMIT
+
+          inactiveTime <
+          IDLE_LIMIT
         ) {
 
-          if (!warningShown) {
+          if (
+            !warningShown
+          ) {
 
             const warning =
               document.getElementById(
@@ -1572,7 +2299,9 @@
               );
 
 
-            if (warning) {
+            if (
+              warning
+            ) {
 
               warning.style.display =
                 "block";
@@ -1605,7 +2334,7 @@
 
 
     /* =====================================================
-       清除旧登录信息
+       清除旧登录记录
     ===================================================== */
 
     function clearOldLoginData() {
