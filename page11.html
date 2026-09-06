@@ -413,70 +413,32 @@
      页面打开时
      如果之前已经登录，则检查是否为有效代理商
   ===================================================== */
+document.addEventListener(
+  "DOMContentLoaded",
 
-  document.addEventListener(
-    "DOMContentLoaded",
+  async function() {
 
-    async function() {
+    try {
 
-      try {
-
-        const {
-          data
-        } =
-          await supabaseClient
-            .auth
-            .getSession();
-
-
-        if (
-          data
-          &&
-          data.session
-          &&
-          data.session.user
-        ) {
-
-          const allowed =
-            await verifyAgentAccess(
-              data.session.user
-            );
-
-
-          if (
-            allowed
-          ) {
-
-            window.location.replace(
-              "agentplatform.html"
-            );
-
-          }
-
-          else {
-
-            await supabaseClient
-              .auth
-              .signOut();
-
-          }
-
-        }
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "检查现有登录状态失败：",
-          error
-        );
-
-      }
+      await supabaseClient
+        .auth
+        .signOut();
 
     }
 
-  );
+    catch (error) {
+
+      console.error(
+        "清除旧登录状态失败：",
+        error
+      );
+
+    }
+
+  }
+
+);
+
 
 
   /* =====================================================
