@@ -40,9 +40,7 @@
       min-height: 100vh;
     }
 
-    /* =========================
-       顶部
-    ========================= */
+    /* 顶部 */
 
     .topbar {
       background: #0f172a;
@@ -95,13 +93,11 @@
       background: rgba(255,255,255,0.10);
     }
 
-    /* =========================
-       页面主体
-    ========================= */
+    /* 主体 */
 
     .container {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1250px;
       margin: 0 auto;
       padding: 34px 24px 60px;
     }
@@ -146,13 +142,26 @@
       border: 1px solid #d1d5db;
     }
 
+    .btn-red {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-green {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-small {
+      padding: 7px 11px;
+      font-size: 12px;
+    }
+
     .btn:hover {
       opacity: 0.9;
     }
 
-    /* =========================
-       统计
-    ========================= */
+    /* 统计 */
 
     .summary-grid {
       display: grid;
@@ -181,9 +190,7 @@
       color: #111827;
     }
 
-    /* =========================
-       搜索
-    ========================= */
+    /* 搜索 */
 
     .toolbar {
       background: white;
@@ -223,9 +230,7 @@
       font-size: 14px;
     }
 
-    /* =========================
-       表格
-    ========================= */
+    /* 表格 */
 
     .table-card {
       background: white;
@@ -241,7 +246,7 @@
 
     table {
       width: 100%;
-      min-width: 900px;
+      min-width: 1000px;
       border-collapse: collapse;
     }
 
@@ -272,9 +277,7 @@
       color: #111827;
     }
 
-    /* =========================
-       身份和状态
-    ========================= */
+    /* 身份与状态 */
 
     .status {
       display: inline-block;
@@ -304,9 +307,12 @@
       font-weight: 700;
     }
 
-    /* =========================
-       空内容
-    ========================= */
+    .protected-text {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    /* 空内容 */
 
     .empty-box {
       padding: 55px 20px;
@@ -315,9 +321,7 @@
       font-size: 14px;
     }
 
-    /* =========================
-       提示
-    ========================= */
+    /* 提示 */
 
     .notice {
       display: none;
@@ -331,14 +335,17 @@
       display: block;
     }
 
+    .notice-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
     .notice-error {
       background: #fee2e2;
       color: #991b1b;
     }
 
-    /* =========================
-       Loading
-    ========================= */
+    /* Loading */
 
     .loading-mask {
       display: none;
@@ -357,9 +364,7 @@
       display: flex;
     }
 
-    /* =========================
-       自动退出提示
-    ========================= */
+    /* 自动退出提示 */
 
     .timeout-warning {
       position: fixed;
@@ -416,25 +421,15 @@
   </style>
 </head>
 
-
 <body>
 
-  <div
-    id="loadingMask"
-    class="loading-mask"
-  >
-    正在读取管理人员资料……
+  <div id="loadingMask" class="loading-mask">
+    正在处理，请稍候……
   </div>
-
-
-  <!-- =========================
-       顶部
-  ========================= -->
 
   <header class="topbar">
 
     <div class="brand">
-
       <div class="brand-title">
         硕丰科技 · 管理人员
       </div>
@@ -442,16 +437,11 @@
       <div class="brand-subtitle">
         ShuoFeng Technology Management System
       </div>
-
     </div>
-
 
     <div class="top-actions">
 
-      <div
-        id="currentUser"
-        class="user-info"
-      >
+      <div id="currentUser" class="user-info">
         管理人员
       </div>
 
@@ -460,7 +450,7 @@
         type="button"
         onclick="goBack()"
       >
-        返回管理中心
+        返回工作台
       </button>
 
       <button
@@ -475,11 +465,6 @@
 
   </header>
 
-
-  <!-- =========================
-       主区域
-  ========================= -->
-
   <main class="container">
 
     <div class="page-header">
@@ -491,8 +476,8 @@
         </h1>
 
         <p>
-          本页面仅用于查看公司创始人及管理人员账号资料和状态。
-          管理人员账号不在本页面创建或修改。
+          查看公司创始人及管理人员账号状态。
+          创始人账号受保护；普通管理人员可设置为有效或无效。
         </p>
 
       </div>
@@ -511,72 +496,38 @@
 
     </div>
 
-
-    <div
-      id="notice"
-      class="notice"
-    ></div>
-
-
-    <!-- =========================
-         统计
-    ========================= -->
+    <div id="notice" class="notice"></div>
 
     <section class="summary-grid">
 
       <div class="summary-card">
-
         <div class="summary-label">
           管理人员总数
         </div>
-
-        <div
-          id="totalCount"
-          class="summary-value"
-        >
+        <div id="totalCount" class="summary-value">
           0
         </div>
-
       </div>
 
-
       <div class="summary-card">
-
         <div class="summary-label">
           有效账号
         </div>
-
-        <div
-          id="activeCount"
-          class="summary-value"
-        >
+        <div id="activeCount" class="summary-value">
           0
         </div>
-
       </div>
 
-
       <div class="summary-card">
-
         <div class="summary-label">
           无效账号
         </div>
-
-        <div
-          id="disabledCount"
-          class="summary-value"
-        >
+        <div id="disabledCount" class="summary-value">
           0
         </div>
-
       </div>
 
     </section>
-
-
-    <!-- =========================
-         搜索
-    ========================= -->
 
     <div class="toolbar">
 
@@ -590,7 +541,6 @@
         >
 
       </div>
-
 
       <div class="filter-box">
 
@@ -617,11 +567,6 @@
 
     </div>
 
-
-    <!-- =========================
-         管理人员表格
-    ========================= -->
-
     <div class="table-card">
 
       <div class="table-wrapper">
@@ -629,7 +574,6 @@
         <table>
 
           <thead>
-
             <tr>
               <th>显示名称</th>
               <th>身份</th>
@@ -637,20 +581,16 @@
               <th>用户 ID</th>
               <th>创建时间</th>
               <th>最近更新</th>
+              <th>操作</th>
             </tr>
-
           </thead>
 
-
-          <tbody
-            id="profileTableBody"
-          >
+          <tbody id="profileTableBody">
           </tbody>
 
         </table>
 
       </div>
-
 
       <div
         id="emptyBox"
@@ -664,18 +604,9 @@
 
   </main>
 
-
-  <!-- =========================
-       自动退出提示
-  ========================= -->
-
-  <div
-    id="timeoutWarning"
-    class="timeout-warning"
-  >
+  <div id="timeoutWarning" class="timeout-warning">
     长时间未操作，系统即将自动退出。
   </div>
-
 
   <script>
 
@@ -702,6 +633,7 @@
 
     let profiles = [];
     let accessVerified = false;
+    let currentProfile = null;
 
 
     /* =====================================================
@@ -787,37 +719,37 @@
         }
 
 
+        currentProfile =
+          profile;
+
+
         const currentUser =
           document.getElementById(
             "currentUser"
           );
 
 
-        if (currentUser) {
+        if (profile.display_name) {
 
-          if (profile.display_name) {
-
-            currentUser.textContent =
-              profile.display_name
-              +
-              (
-                profile.role === "founder"
-                ?
-                " · 建立人"
-                :
-                " · 管理人员"
-              );
-
-          } else {
-
-            currentUser.textContent =
+          currentUser.textContent =
+            profile.display_name
+            +
+            (
               profile.role === "founder"
                 ?
-                "建立人"
+                " · 创始人"
                 :
-                "管理人员";
+                " · 管理人员"
+            );
 
-          }
+        } else {
+
+          currentUser.textContent =
+            profile.role === "founder"
+              ?
+              "创始人"
+              :
+              "管理人员";
 
         }
 
@@ -835,7 +767,9 @@
 
         return true;
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         console.error(
           "权限验证失败：",
@@ -894,7 +828,7 @@
 
 
     /* =====================================================
-       读取 founder / admin
+       读取管理人员
     ===================================================== */
 
     async function loadProfiles() {
@@ -902,6 +836,7 @@
       if (!accessVerified) {
         return;
       }
+
 
       showLoading(true);
 
@@ -942,10 +877,11 @@
 
 
         updateSummary();
-
         renderProfiles();
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         console.error(
           "读取管理人员失败：",
@@ -955,10 +891,13 @@
 
         showNotice(
           "读取管理人员失败：" +
-          error.message
+          error.message,
+          "error"
         );
 
-      } finally {
+      }
+
+      finally {
 
         showLoading(false);
 
@@ -1055,14 +994,18 @@
 
 
             if (status === "active") {
+
               matchStatus =
                 item.is_active === true;
+
             }
 
 
             if (status === "disabled") {
+
               matchStatus =
                 item.is_active === false;
+
             }
 
 
@@ -1089,7 +1032,8 @@
         );
 
 
-      tbody.innerHTML = "";
+      tbody.innerHTML =
+        "";
 
 
       if (filtered.length === 0) {
@@ -1121,7 +1065,7 @@
               ?
               `
                 <span class="role-founder">
-                  管理人员
+                  创始人
                 </span>
               `
               :
@@ -1146,6 +1090,45 @@
                   无效
                 </span>
               `;
+
+
+          let actionHTML =
+            `<span class="protected-text">仅查看</span>`;
+
+
+          /*
+            founder 永远不提供停用按钮
+          */
+
+          if (item.role === "admin") {
+
+            if (item.is_active === true) {
+
+              actionHTML =
+                `
+                  <button
+                    class="btn btn-red btn-small"
+                    onclick="changeProfileStatus('${item.id}', false)"
+                  >
+                    设为无效
+                  </button>
+                `;
+
+            } else {
+
+              actionHTML =
+                `
+                  <button
+                    class="btn btn-green btn-small"
+                    onclick="changeProfileStatus('${item.id}', true)"
+                  >
+                    恢复有效
+                  </button>
+                `;
+
+            }
+
+          }
 
 
           tr.innerHTML =
@@ -1181,6 +1164,10 @@
                 ${formatDate(item.updated_at)}
               </td>
 
+              <td>
+                ${actionHTML}
+              </td>
+
             `;
 
 
@@ -1191,6 +1178,162 @@
         }
 
       );
+
+    }
+
+
+    /* =====================================================
+       修改有效 / 无效
+    ===================================================== */
+
+    async function changeProfileStatus(
+      profileId,
+      newStatus
+    ) {
+
+      const targetProfile =
+        profiles.find(
+          function(item) {
+            return item.id === profileId;
+          }
+        );
+
+
+      if (!targetProfile) {
+
+        showNotice(
+          "没有找到该管理人员。",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+        双重保护：
+        founder 绝对不能在页面上被修改
+      */
+
+      if (
+        targetProfile.role === "founder"
+      ) {
+
+        showNotice(
+          "创始人账号不允许在本页面修改状态。",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+        防止当前登录管理员把自己停用
+      */
+
+      if (
+        currentProfile
+        &&
+        currentProfile.id === profileId
+        &&
+        newStatus === false
+      ) {
+
+        alert(
+          "不能将当前正在登录的账号设置为无效。"
+        );
+
+        return;
+
+      }
+
+
+      const confirmText =
+        newStatus
+          ?
+          "确定恢复该管理人员账号为有效状态吗？"
+          :
+          "确定将该管理人员账号设置为无效吗？设置后该账号将无法进入管理系统。";
+
+
+      if (
+        !confirm(
+          confirmText
+        )
+      ) {
+        return;
+      }
+
+
+      showLoading(true);
+
+
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("profiles")
+            .update(
+              {
+                is_active:
+                  newStatus
+              }
+            )
+            .eq(
+              "id",
+              profileId
+            )
+            .eq(
+              "role",
+              "admin"
+            );
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        showNotice(
+          newStatus
+            ?
+            "该管理人员已恢复为有效账号。"
+            :
+            "该管理人员已设置为无效账号。",
+          "success"
+        );
+
+
+        await loadProfiles();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "修改状态失败：",
+          error
+        );
+
+
+        showNotice(
+          "修改状态失败：" +
+          error.message,
+          "error"
+        );
+
+      }
+
+      finally {
+
+        showLoading(false);
+
+      }
 
     }
 
@@ -1263,15 +1406,26 @@
 
 
       if (show) {
-        mask.classList.add("show");
+
+        mask.classList.add(
+          "show"
+        );
+
       } else {
-        mask.classList.remove("show");
+
+        mask.classList.remove(
+          "show"
+        );
+
       }
 
     }
 
 
-    function showNotice(message) {
+    function showNotice(
+      message,
+      type = "success"
+    ) {
 
       const notice =
         document.getElementById(
@@ -1284,16 +1438,29 @@
 
 
       notice.className =
-        "notice show notice-error";
+        "notice show "
+        +
+        (
+          type === "error"
+            ?
+            "notice-error"
+            :
+            "notice-success"
+        );
 
 
       setTimeout(
+
         function() {
+
           notice.classList.remove(
             "show"
           );
+
         },
+
         4000
+
       );
 
     }
@@ -1344,8 +1511,10 @@
 
 
       if (warning) {
+
         warning.style.display =
           "none";
+
       }
 
     }
@@ -1362,6 +1531,7 @@
 
 
     activityEvents.forEach(
+
       function(eventName) {
 
         document.addEventListener(
@@ -1371,10 +1541,12 @@
         );
 
       }
+
     );
 
 
     setInterval(
+
       function() {
 
         const now =
@@ -1401,12 +1573,15 @@
 
 
             if (warning) {
+
               warning.style.display =
                 "block";
+
             }
 
 
-            warningShown = true;
+            warningShown =
+              true;
 
           }
 
@@ -1423,7 +1598,9 @@
         }
 
       },
+
       1000
+
     );
 
 
@@ -1440,13 +1617,16 @@
         "managementLogin"
       );
 
+
       localStorage.removeItem(
         "managementUser"
       );
 
+
       localStorage.removeItem(
         "managementRole"
       );
+
 
       localStorage.removeItem(
         "loginTime"
@@ -1467,7 +1647,9 @@
           .auth
           .signOut();
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         console.error(
           "自动退出失败：",
@@ -1499,7 +1681,9 @@
           .auth
           .signOut();
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         console.error(
           "退出失败：",
