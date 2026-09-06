@@ -40,10 +40,6 @@
       min-height: 100vh;
     }
 
-    /* =========================
-       顶部
-    ========================= */
-
     .topbar {
       background: #0f172a;
       color: #ffffff;
@@ -95,10 +91,6 @@
       background: rgba(255,255,255,0.10);
     }
 
-    /* =========================
-       主体
-    ========================= */
-
     .container {
       width: 100%;
       max-width: 1250px;
@@ -132,10 +124,6 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-
-    /* =========================
-       按钮
-    ========================= */
 
     .btn {
       border: none;
@@ -181,10 +169,6 @@
       cursor: not-allowed;
     }
 
-    /* =========================
-       统计
-    ========================= */
-
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -211,10 +195,6 @@
       font-weight: 700;
       color: #111827;
     }
-
-    /* =========================
-       搜索
-    ========================= */
 
     .toolbar {
       background: white;
@@ -253,10 +233,6 @@
       background: white;
       font-size: 14px;
     }
-
-    /* =========================
-       表格
-    ========================= */
 
     .table-card {
       background: white;
@@ -303,10 +279,6 @@
       color: #111827;
     }
 
-    /* =========================
-       身份与状态
-    ========================= */
-
     .status {
       display: inline-block;
       padding: 5px 10px;
@@ -340,10 +312,6 @@
       font-size: 12px;
     }
 
-    /* =========================
-       提示
-    ========================= */
-
     .notice {
       display: none;
       padding: 13px 16px;
@@ -372,10 +340,6 @@
       color: #94a3b8;
       font-size: 14px;
     }
-
-    /* =========================
-       弹窗
-    ========================= */
 
     .modal-mask {
       display: none;
@@ -475,10 +439,6 @@
       gap: 10px;
     }
 
-    /* =========================
-       Loading
-    ========================= */
-
     .loading-mask {
       display: none;
       position: fixed;
@@ -495,10 +455,6 @@
     .loading-mask.show {
       display: flex;
     }
-
-    /* =========================
-       自动退出提示
-    ========================= */
 
     .timeout-warning {
       position: fixed;
@@ -561,14 +517,9 @@
     正在处理，请稍候……
   </div>
 
-  <!-- =========================
-       顶部
-  ========================= -->
-
   <header class="topbar">
 
     <div class="brand">
-
       <div class="brand-title">
         硕丰科技 · 管理人员
       </div>
@@ -576,7 +527,6 @@
       <div class="brand-subtitle">
         ShuoFeng Technology Management System
       </div>
-
     </div>
 
     <div class="top-actions">
@@ -604,10 +554,6 @@
     </div>
 
   </header>
-
-  <!-- =========================
-       主区域
-  ========================= -->
 
   <main class="container">
 
@@ -637,6 +583,14 @@
         </button>
 
         <button
+          class="btn btn-light"
+          type="button"
+          onclick="openPasswordModal()"
+        >
+          修改我的密码
+        </button>
+
+        <button
           class="btn btn-primary"
           type="button"
           onclick="openCreateAdminModal()"
@@ -649,10 +603,6 @@
     </div>
 
     <div id="notice" class="notice"></div>
-
-    <!-- =========================
-         统计
-    ========================= -->
 
     <section class="summary-grid">
 
@@ -684,10 +634,6 @@
       </div>
 
     </section>
-
-    <!-- =========================
-         搜索
-    ========================= -->
 
     <div class="toolbar">
 
@@ -727,10 +673,6 @@
 
     </div>
 
-    <!-- =========================
-         表格
-    ========================= -->
-
     <div class="table-card">
 
       <div class="table-wrapper">
@@ -768,9 +710,7 @@
 
   </main>
 
-  <!-- =========================
-       新建管理人员弹窗
-  ========================= -->
+  <!-- 新建管理人员 -->
 
   <div
     id="createAdminModal"
@@ -876,17 +816,101 @@
 
   </div>
 
-  <!-- 自动退出提示 -->
+  <!-- 修改自己的密码 -->
+
+  <div
+    id="passwordModal"
+    class="modal-mask"
+  >
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <h2>
+          修改我的密码
+        </h2>
+
+        <button
+          class="modal-close"
+          type="button"
+          onclick="closePasswordModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-group">
+
+          <label>
+            新密码
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            placeholder="至少8位"
+            autocomplete="new-password"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            再次输入新密码
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="confirmNewPassword"
+            type="password"
+            placeholder="请再次输入新密码"
+            autocomplete="new-password"
+          >
+
+          <div class="form-help">
+            修改成功以后，下次登录请使用新密码。
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          type="button"
+          onclick="closePasswordModal()"
+        >
+          取消
+        </button>
+
+        <button
+          id="changePasswordButton"
+          class="btn btn-primary"
+          type="button"
+          onclick="changeMyPassword()"
+        >
+          确认修改
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
 
   <div id="timeoutWarning" class="timeout-warning">
     长时间未操作，系统即将自动退出。
   </div>
 
   <script>
-
-    /* =====================================================
-       Supabase
-    ===================================================== */
 
     const SUPABASE_URL =
       "https://icmifhjjhgjrhkunjbmu.supabase.co";
@@ -901,20 +925,12 @@
       );
 
 
-    /* =====================================================
-       页面数据
-    ===================================================== */
-
     let profiles = [];
 
     let currentProfile = null;
 
     let accessVerified = false;
 
-
-    /* =====================================================
-       登录 / 权限验证
-    ===================================================== */
 
     async function verifyManagementAccess() {
 
@@ -1022,7 +1038,9 @@
                 " · 管理人员"
             );
 
-        } else {
+        }
+
+        else {
 
           currentUser.textContent =
             profile.role === "founder"
@@ -1069,10 +1087,6 @@
 
     }
 
-
-    /* =====================================================
-       页面启动
-    ===================================================== */
 
     document.addEventListener(
       "DOMContentLoaded",
@@ -1123,10 +1137,6 @@
 
     );
 
-
-    /* =====================================================
-       读取 profiles
-    ===================================================== */
 
     async function loadProfiles() {
 
@@ -1208,10 +1218,6 @@
     }
 
 
-    /* =====================================================
-       统计
-    ===================================================== */
-
     function updateSummary() {
 
       const total =
@@ -1253,10 +1259,6 @@
 
     }
 
-
-    /* =====================================================
-       显示 profiles
-    ===================================================== */
 
     function renderProfiles() {
 
@@ -1415,10 +1417,6 @@
             `;
 
 
-          /*
-            founder 不允许停用
-          */
-
           if (
             item.role === "admin"
           ) {
@@ -1462,7 +1460,6 @@
             `
 
               <td class="person-name">
-
                 ${
                   escapeHTML(
                     item.display_name
@@ -1470,34 +1467,27 @@
                     "未命名"
                   )
                 }
-
               </td>
-
 
               <td>
                 ${roleHTML}
               </td>
 
-
               <td>
                 ${statusHTML}
               </td>
-
 
               <td>
                 ${escapeHTML(item.id)}
               </td>
 
-
               <td>
                 ${formatDate(item.created_at)}
               </td>
 
-
               <td>
                 ${formatDate(item.updated_at)}
               </td>
-
 
               <td>
                 ${actionHTML}
@@ -1516,10 +1506,6 @@
 
     }
 
-
-    /* =====================================================
-       新建管理人员弹窗
-    ===================================================== */
 
     function openCreateAdminModal() {
 
@@ -1547,20 +1533,6 @@
           "show"
         );
 
-
-      setTimeout(
-        function() {
-
-          document
-            .getElementById(
-              "newAdminName"
-            )
-            .focus();
-
-        },
-        100
-      );
-
     }
 
 
@@ -1577,33 +1549,6 @@
 
     }
 
-
-    document
-      .getElementById(
-        "createAdminModal"
-      )
-      .addEventListener(
-
-        "click",
-
-        function(event) {
-
-          if (
-            event.target === this
-          ) {
-
-            closeCreateAdminModal();
-
-          }
-
-        }
-
-      );
-
-
-    /* =====================================================
-       调用 Edge Function 创建管理员
-    ===================================================== */
 
     async function createAdmin() {
 
@@ -1649,23 +1594,12 @@
 
       if (
         !email
-      ) {
-
-        alert(
-          "请输入登录邮箱。"
-        );
-
-        return;
-
-      }
-
-
-      if (
+        ||
         !email.includes("@")
       ) {
 
         alert(
-          "邮箱格式不正确。"
+          "请输入正确的登录邮箱。"
         );
 
         return;
@@ -1705,36 +1639,6 @@
 
       try {
 
-        /*
-          获取当前登录 session
-        */
-
-        const {
-          data: sessionData,
-          error: sessionError
-        } =
-          await supabaseClient
-            .auth
-            .getSession();
-
-
-        if (
-          sessionError
-          ||
-          !sessionData.session
-        ) {
-
-          throw new Error(
-            "登录状态已失效，请重新登录。"
-          );
-
-        }
-
-
-        /*
-          调用 create-admin Edge Function
-        */
-
         const {
           data,
           error
@@ -1745,6 +1649,7 @@
               "create-admin",
               {
                 body: {
+
                   display_name:
                     displayName,
 
@@ -1753,6 +1658,7 @@
 
                   password:
                     password
+
                 }
               }
             );
@@ -1761,10 +1667,6 @@
         if (
           error
         ) {
-
-          /*
-            Edge Function 错误有时详细信息在 context
-          */
 
           let errorMessage =
             error.message
@@ -1777,7 +1679,8 @@
             if (
               error.context
               &&
-              typeof error.context.json === "function"
+              typeof error.context.json ===
+              "function"
             ) {
 
               const errorBody =
@@ -1799,12 +1702,9 @@
 
           }
 
-          catch (
-            detailError
-          ) {
+          catch (detailError) {
 
             console.warn(
-              "无法读取 Edge Function 错误详情：",
               detailError
             );
 
@@ -1835,7 +1735,7 @@
 
 
         showNotice(
-          "管理人员创建成功。该用户现在可以使用邮箱和密码登录。",
+          "管理人员创建成功。",
           "success"
         );
 
@@ -1877,10 +1777,6 @@
     }
 
 
-    /* =====================================================
-       有效 / 无效
-    ===================================================== */
-
     async function changeProfileStatus(
       profileId,
       newStatus
@@ -1912,10 +1808,6 @@
       }
 
 
-      /*
-        founder 双重保护
-      */
-
       if (
         targetProfile.role ===
         "founder"
@@ -1931,15 +1823,11 @@
       }
 
 
-      /*
-        当前登录用户不能停用自己
-      */
-
       if (
         currentProfile
         &&
         currentProfile.id ===
-          profileId
+        profileId
         &&
         newStatus === false
       ) {
@@ -2044,9 +1932,210 @@
     }
 
 
-    /* =====================================================
-       工具函数
-    ===================================================== */
+    function openPasswordModal() {
+
+      document.getElementById(
+        "newPassword"
+      ).value = "";
+
+
+      document.getElementById(
+        "confirmNewPassword"
+      ).value = "";
+
+
+      document
+        .getElementById(
+          "passwordModal"
+        )
+        .classList
+        .add(
+          "show"
+        );
+
+    }
+
+
+    function closePasswordModal() {
+
+      document
+        .getElementById(
+          "passwordModal"
+        )
+        .classList
+        .remove(
+          "show"
+        );
+
+    }
+
+
+    async function changeMyPassword() {
+
+      const newPassword =
+        document
+          .getElementById(
+            "newPassword"
+          )
+          .value;
+
+
+      const confirmPassword =
+        document
+          .getElementById(
+            "confirmNewPassword"
+          )
+          .value;
+
+
+      if (
+        newPassword.length < 8
+      ) {
+
+        alert(
+          "新密码至少需要8位。"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        newPassword !==
+        confirmPassword
+      ) {
+
+        alert(
+          "两次输入的新密码不一致。"
+        );
+
+        return;
+
+      }
+
+
+      const button =
+        document.getElementById(
+          "changePasswordButton"
+        );
+
+
+      button.disabled =
+        true;
+
+
+      button.textContent =
+        "正在修改……";
+
+
+      showLoading(true);
+
+
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .auth
+            .updateUser({
+              password:
+                newPassword
+            });
+
+
+        if (
+          error
+        ) {
+          throw error;
+        }
+
+
+        closePasswordModal();
+
+
+        showNotice(
+          "密码修改成功。下次登录请使用新密码。",
+          "success"
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "修改密码失败：",
+          error
+        );
+
+
+        showNotice(
+          "修改密码失败：" +
+          error.message,
+          "error"
+        );
+
+      }
+
+      finally {
+
+        showLoading(false);
+
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          "确认修改";
+
+      }
+
+    }
+
+
+    document
+      .getElementById(
+        "createAdminModal"
+      )
+      .addEventListener(
+        "click",
+
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeCreateAdminModal();
+
+          }
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "passwordModal"
+      )
+      .addEventListener(
+        "click",
+
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closePasswordModal();
+
+          }
+
+        }
+      );
+
 
     function escapeHTML(value) {
 
@@ -2192,9 +2281,9 @@
     }
 
 
-    /* =====================================================
-       10分钟无操作自动退出
-    ===================================================== */
+    /* =========================
+       10分钟自动退出
+    ========================= */
 
     const IDLE_LIMIT =
       10 * 60 * 1000;
@@ -2269,12 +2358,9 @@
 
       function() {
 
-        const now =
-          Date.now();
-
-
         const inactiveTime =
-          now -
+          Date.now()
+          -
           lastActivityTime;
 
 
@@ -2282,9 +2368,7 @@
           inactiveTime >=
           IDLE_LIMIT -
           WARNING_TIME
-
           &&
-
           inactiveTime <
           IDLE_LIMIT
         ) {
@@ -2333,10 +2417,6 @@
     );
 
 
-    /* =====================================================
-       清除旧登录记录
-    ===================================================== */
-
     function clearOldLoginData() {
 
       sessionStorage.clear();
@@ -2363,10 +2443,6 @@
 
     }
 
-
-    /* =====================================================
-       自动退出
-    ===================================================== */
 
     async function autoLogout() {
 
@@ -2397,10 +2473,6 @@
 
     }
 
-
-    /* =====================================================
-       手工退出
-    ===================================================== */
 
     async function logout() {
 
