@@ -291,6 +291,47 @@
       background: #fafafa;
     }
 
+
+    /* =====================================================
+       无效代理商：整行灰显
+    ===================================================== */
+
+    tr.agent-disabled td {
+      background: #eef0f2 !important;
+      color: #9ca3af !important;
+    }
+
+    tr.agent-disabled:hover td {
+      background: #e5e7eb !important;
+    }
+
+    tr.agent-disabled .agent-code,
+    tr.agent-disabled .agent-name,
+    tr.agent-disabled .money,
+    tr.agent-disabled .login-linked,
+    tr.agent-disabled .login-unlinked {
+      color: #9ca3af !important;
+    }
+
+    /* 无效状态标签继续保持红色 */
+    tr.agent-disabled .status-disabled {
+      background: #fee2e2 !important;
+      color: #991b1b !important;
+    }
+
+    /* 查看详情按钮继续保持黑色 */
+    tr.agent-disabled .btn-dark {
+      background: #111827 !important;
+      color: #ffffff !important;
+    }
+
+    /* 恢复有效按钮继续保持绿色 */
+    tr.agent-disabled .btn-green {
+      background: #16a34a !important;
+      color: #ffffff !important;
+    }
+
+
     .agent-code {
       color: #475569;
       font-weight: 600;
@@ -477,7 +518,6 @@
       resize: vertical;
     }
 
-    /* 自动生成代码 */
     .readonly-code {
       background: #f3f4f6 !important;
       color: #111827;
@@ -618,7 +658,6 @@
   <header class="topbar">
 
     <div class="brand">
-
       <div class="brand-title">
         硕丰科技 · 代理商管理
       </div>
@@ -626,7 +665,6 @@
       <div class="brand-subtitle">
         ShuoFeng Technology Management System
       </div>
-
     </div>
 
     <div class="top-actions">
@@ -753,30 +791,18 @@
           id="statusFilter"
           onchange="renderAgents()"
         >
-
-          <option value="all">
-            全部状态
-          </option>
-
-          <option value="active">
-            仅有效
-          </option>
-
-          <option value="disabled">
-            仅无效
-          </option>
-
+          <option value="all">全部状态</option>
+          <option value="active">仅有效</option>
+          <option value="disabled">仅无效</option>
         </select>
 
         <select
           id="currencyFilter"
           onchange="renderAgents()"
         >
-
           <option value="all">
             全部币种
           </option>
-
         </select>
 
       </div>
@@ -790,7 +816,6 @@
         <table>
 
           <thead>
-
             <tr>
               <th>代理商代码</th>
               <th>代理商名称</th>
@@ -802,11 +827,9 @@
               <th>创建时间</th>
               <th>操作</th>
             </tr>
-
           </thead>
 
-          <tbody id="agentTableBody">
-          </tbody>
+          <tbody id="agentTableBody"></tbody>
 
         </table>
 
@@ -827,18 +850,13 @@
 
   <!-- 新增代理商 -->
 
-  <div
-    id="createAgentModal"
-    class="modal-mask"
-  >
+  <div id="createAgentModal" class="modal-mask">
 
     <div class="modal">
 
       <div class="modal-header">
 
-        <h2>
-          新增代理商
-        </h2>
+        <h2>新增代理商</h2>
 
         <button
           class="modal-close"
@@ -869,15 +887,11 @@
               placeholder="系统自动生成"
             >
 
-            <div
-              id="agentCodeHelp"
-              class="code-help"
-            >
+            <div id="agentCodeHelp" class="code-help">
               系统根据数据库自动生成，范围 001～999。
             </div>
 
           </div>
-
 
           <div class="form-group">
 
@@ -894,12 +908,9 @@
 
           </div>
 
-
           <div class="form-group full">
 
-            <label>
-              代理区域
-            </label>
+            <label>代理区域</label>
 
             <input
               id="newAgentRegion"
@@ -908,7 +919,6 @@
             >
 
           </div>
-
 
           <div class="form-group">
 
@@ -926,7 +936,6 @@
 
           </div>
 
-
           <div class="form-group">
 
             <label>
@@ -943,12 +952,9 @@
 
           </div>
 
-
           <div class="form-group">
 
-            <label>
-              联系人
-            </label>
+            <label>联系人</label>
 
             <input
               id="newAgentContact"
@@ -958,12 +964,9 @@
 
           </div>
 
-
           <div class="form-group">
 
-            <label>
-              联系电话
-            </label>
+            <label>联系电话</label>
 
             <input
               id="newAgentPhone"
@@ -973,12 +976,9 @@
 
           </div>
 
-
           <div class="form-group full">
 
-            <label>
-              地址
-            </label>
+            <label>地址</label>
 
             <input
               id="newAgentAddress"
@@ -988,12 +988,9 @@
 
           </div>
 
-
           <div class="form-group">
 
-            <label>
-              初始账户余额
-            </label>
+            <label>初始账户余额</label>
 
             <input
               id="newAgentBalance"
@@ -1004,41 +1001,22 @@
 
           </div>
 
-
           <div class="form-group">
 
-            <label>
-              币种
-            </label>
+            <label>币种</label>
 
             <select id="newAgentCurrency">
-
-              <option value="CNY">
-                CNY 人民币
-              </option>
-
-              <option value="EUR">
-                EUR 欧元
-              </option>
-
-              <option value="USD">
-                USD 美元
-              </option>
-
-              <option value="HUF">
-                HUF 匈牙利福林
-              </option>
-
+              <option value="CNY">CNY 人民币</option>
+              <option value="EUR">EUR 欧元</option>
+              <option value="USD">USD 美元</option>
+              <option value="HUF">HUF 匈牙利福林</option>
             </select>
 
           </div>
 
-
           <div class="form-group full">
 
-            <label>
-              备注
-            </label>
+            <label>备注</label>
 
             <textarea
               id="newAgentNotes"
@@ -1047,17 +1025,14 @@
 
           </div>
 
-
           <div class="form-group full">
 
             <div class="form-help">
-
               创建成功后，系统会同时建立 Authentication 登录账号、
               profiles 的 agent 身份和 agents 代理商资料。
 
               代理商从 page11.html 登录，
               不具备进入企业管理工作台的权限。
-
             </div>
 
           </div>
@@ -1065,7 +1040,6 @@
         </div>
 
       </div>
-
 
       <div class="modal-footer">
 
@@ -1095,18 +1069,13 @@
 
   <!-- 查看详情 -->
 
-  <div
-    id="detailModal"
-    class="modal-mask"
-  >
+  <div id="detailModal" class="modal-mask">
 
     <div class="modal">
 
       <div class="modal-header">
 
-        <h2>
-          代理商详细资料
-        </h2>
+        <h2>代理商详细资料</h2>
 
         <button
           class="modal-close"
@@ -1213,10 +1182,7 @@
   </div>
 
 
-  <div
-    id="timeoutWarning"
-    class="timeout-warning"
-  >
+  <div id="timeoutWarning" class="timeout-warning">
     长时间未操作，系统即将自动退出。
   </div>
 
@@ -1234,7 +1200,6 @@
       SUPABASE_URL,
       SUPABASE_KEY
     );
-
 
   let agents = [];
   let accessVerified = false;
@@ -1256,7 +1221,6 @@
           .auth
           .getSession();
 
-
       if (
         sessionError
         ||
@@ -1268,13 +1232,10 @@
         );
 
         return false;
-
       }
-
 
       const user =
         sessionData.session.user;
-
 
       const {
         data: profile,
@@ -1290,7 +1251,6 @@
             user.id
           )
           .single();
-
 
       if (
         profileError
@@ -1315,9 +1275,7 @@
         );
 
         return false;
-
       }
-
 
       document.getElementById(
         "currentUser"
@@ -1336,16 +1294,13 @@
             " · 管理人员"
         );
 
-
       accessVerified = true;
-
 
       document.documentElement
         .classList
         .add(
           "auth-ready"
         );
-
 
       return true;
 
@@ -1358,16 +1313,12 @@
         error
       );
 
-
       window.location.replace(
         "page10.html"
       );
 
-
       return false;
-
     }
-
   }
 
 
@@ -1384,9 +1335,7 @@
       ) {
 
         await loadAgents();
-
       }
-
     }
   );
 
@@ -1408,11 +1357,8 @@
         ) {
 
           await loadAgents();
-
         }
-
       }
-
     }
   );
 
@@ -1426,14 +1372,10 @@
     if (
       !accessVerified
     ) {
-
       return;
-
     }
 
-
     showLoading(true);
-
 
     try {
 
@@ -1451,19 +1393,14 @@
             }
           );
 
-
       if (
         error
       ) {
-
         throw error;
-
       }
-
 
       agents =
         data || [];
-
 
       updateSummary();
       updateCurrencyFilter();
@@ -1478,7 +1415,6 @@
         error
       );
 
-
       showNotice(
         "读取代理商失败：" +
         error.message,
@@ -1490,9 +1426,7 @@
     finally {
 
       showLoading(false);
-
     }
-
   }
 
 
@@ -1508,7 +1442,6 @@
     let maxCode =
       0;
 
-
     for (
       const item
       of
@@ -1520,15 +1453,6 @@
           item.agent_code || ""
         )
         .trim();
-
-
-      /*
-        只统计纯数字代码
-        例如：
-        001
-        002
-        125
-      */
 
       if (
         /^\d{1,3}$/.test(
@@ -1542,7 +1466,6 @@
             10
           );
 
-
         if (
           Number.isFinite(number)
           &&
@@ -1551,26 +1474,18 @@
 
           maxCode =
             number;
-
         }
-
       }
-
     }
-
 
     const next =
       maxCode + 1;
 
-
     if (
       next > 999
     ) {
-
       return null;
-
     }
-
 
     return String(
       next
@@ -1579,7 +1494,6 @@
       3,
       "0"
     );
-
   }
 
 
@@ -1595,20 +1509,15 @@
           "agent_code"
         );
 
-
     if (
       error
     ) {
-
       throw error;
-
     }
-
 
     return calculateNextAgentCode(
       data || []
     );
-
   }
 
 
@@ -1622,56 +1531,45 @@
       "newAgentCode"
     ).value = "正在生成...";
 
-
     document.getElementById(
       "newAgentName"
     ).value = "";
-
 
     document.getElementById(
       "newAgentRegion"
     ).value = "";
 
-
     document.getElementById(
       "newAgentEmail"
     ).value = "";
-
 
     document.getElementById(
       "newAgentPassword"
     ).value = "";
 
-
     document.getElementById(
       "newAgentContact"
     ).value = "";
-
 
     document.getElementById(
       "newAgentPhone"
     ).value = "";
 
-
     document.getElementById(
       "newAgentAddress"
     ).value = "";
-
 
     document.getElementById(
       "newAgentBalance"
     ).value = "0";
 
-
     document.getElementById(
       "newAgentCurrency"
     ).value = "CNY";
 
-
     document.getElementById(
       "newAgentNotes"
     ).value = "";
-
 
     document
       .getElementById(
@@ -1682,22 +1580,18 @@
         "show"
       );
 
-
     const createButton =
       document.getElementById(
         "createAgentButton"
       );
 
-
     createButton.disabled =
       true;
-
 
     try {
 
       const nextCode =
         await getNextAgentCodeFromDatabase();
-
 
       if (
         !nextCode
@@ -1707,29 +1601,23 @@
           "newAgentCode"
         ).value = "已达到999";
 
-
         document.getElementById(
           "agentCodeHelp"
         ).textContent =
           "代理商代码已达到最大值 999，无法继续创建。";
-
 
         showNotice(
           "代理商代码已经达到最大值999。",
           "error"
         );
 
-
         return;
-
       }
-
 
       document.getElementById(
         "newAgentCode"
       ).value =
         nextCode;
-
 
       document.getElementById(
         "agentCodeHelp"
@@ -1737,7 +1625,6 @@
         "系统已根据数据库自动生成代码：" +
         nextCode +
         "，不可手工修改。";
-
 
       createButton.disabled =
         false;
@@ -1751,27 +1638,22 @@
         error
       );
 
-
       document.getElementById(
         "newAgentCode"
       ).value =
         "生成失败";
-
 
       document.getElementById(
         "agentCodeHelp"
       ).textContent =
         "无法读取数据库生成代码，请关闭后重新打开。";
 
-
       showNotice(
         "生成代理商代码失败：" +
         error.message,
         "error"
       );
-
     }
-
   }
 
 
@@ -1785,7 +1667,6 @@
       .remove(
         "show"
       );
-
   }
 
 
@@ -1802,14 +1683,12 @@
       .value
       .trim();
 
-
     const region =
       document.getElementById(
         "newAgentRegion"
       )
       .value
       .trim();
-
 
     const email =
       document.getElementById(
@@ -1819,13 +1698,11 @@
       .trim()
       .toLowerCase();
 
-
     const password =
       document.getElementById(
         "newAgentPassword"
       )
       .value;
-
 
     const contact =
       document.getElementById(
@@ -1834,7 +1711,6 @@
       .value
       .trim();
 
-
     const phone =
       document.getElementById(
         "newAgentPhone"
@@ -1842,14 +1718,12 @@
       .value
       .trim();
 
-
     const address =
       document.getElementById(
         "newAgentAddress"
       )
       .value
       .trim();
-
 
     const balance =
       Number(
@@ -1860,7 +1734,6 @@
         0
       );
 
-
     const currency =
       document.getElementById(
         "newAgentCurrency"
@@ -1869,7 +1742,6 @@
       .trim()
       .toUpperCase();
 
-
     const notes =
       document.getElementById(
         "newAgentNotes"
@@ -1877,90 +1749,63 @@
       .value
       .trim();
 
-
     if (
       !agentName
     ) {
-
       alert(
         "请输入代理商名称。"
       );
-
       return;
-
     }
-
 
     if (
       !email
       ||
       !email.includes("@")
     ) {
-
       alert(
         "请输入正确的代理商登录邮箱。"
       );
-
       return;
-
     }
-
 
     if (
       password.length < 8
     ) {
-
       alert(
         "登录密码至少需要8位。"
       );
-
       return;
-
     }
-
 
     if (
       !Number.isFinite(
         balance
       )
     ) {
-
       alert(
         "账户余额格式不正确。"
       );
-
       return;
-
     }
-
 
     const button =
       document.getElementById(
         "createAgentButton"
       );
 
-
     button.disabled =
       true;
-
 
     button.textContent =
       "正在创建……";
 
-
     showLoading(true);
-
 
     try {
 
-      /*
-        创建前再次直接读取数据库。
-        不使用弹窗刚打开时的旧代码。
-      */
-
       const latestCode =
         await getNextAgentCodeFromDatabase();
-
 
       if (
         !latestCode
@@ -1969,23 +1814,12 @@
         throw new Error(
           "代理商代码已经达到最大值999。"
         );
-
       }
-
-
-      /*
-        同步更新画面
-      */
 
       document.getElementById(
         "newAgentCode"
       ).value =
         latestCode;
-
-
-      /*
-        调用正式 Edge Function
-      */
 
       const {
         data,
@@ -2030,11 +1864,9 @@
 
                 notes:
                   notes
-
               }
             }
           );
-
 
       if (
         error
@@ -2044,7 +1876,6 @@
           error.message
           ||
           "创建代理商失败";
-
 
         try {
 
@@ -2058,7 +1889,6 @@
             const body =
               await error.context.json();
 
-
             if (
               body
               &&
@@ -2067,9 +1897,7 @@
 
               errorMessage =
                 body.error;
-
             }
-
           }
 
         }
@@ -2079,16 +1907,12 @@
           console.warn(
             detailError
           );
-
         }
-
 
         throw new Error(
           errorMessage
         );
-
       }
-
 
       if (
         data
@@ -2099,12 +1923,9 @@
         throw new Error(
           data.error
         );
-
       }
 
-
       closeCreateAgentModal();
-
 
       showNotice(
         "代理商创建成功。代理商代码：" +
@@ -2112,7 +1933,6 @@
         "，登录账号已同时建立。",
         "success"
       );
-
 
       await loadAgents();
 
@@ -2124,7 +1944,6 @@
         "创建代理商失败：",
         error
       );
-
 
       showNotice(
         "创建代理商失败：" +
@@ -2138,16 +1957,12 @@
 
       showLoading(false);
 
-
       button.disabled =
         false;
 
-
       button.textContent =
         "创建代理商";
-
     }
-
   }
 
 
@@ -2169,10 +1984,8 @@
             ===
             String(agentId)
           );
-
         }
       );
-
 
     if (
       !agent
@@ -2184,9 +1997,7 @@
       );
 
       return;
-
     }
-
 
     const text =
       newStatus
@@ -2195,20 +2006,15 @@
         :
         "确定将该代理商设为无效吗？设置后该账号将不能进入代理商系统。";
 
-
     if (
       !confirm(
         text
       )
     ) {
-
       return;
-
     }
 
-
     showLoading(true);
-
 
     try {
 
@@ -2226,15 +2032,11 @@
             agent.id
           );
 
-
       if (
         agentError
       ) {
-
         throw agentError;
-
       }
-
 
       if (
         agent.auth_user_id
@@ -2258,7 +2060,6 @@
               "agent"
             );
 
-
         if (
           profileError
         ) {
@@ -2274,13 +2075,9 @@
               agent.id
             );
 
-
           throw profileError;
-
         }
-
       }
-
 
       showNotice(
         newStatus
@@ -2290,7 +2087,6 @@
           "代理商已设为无效，代理商系统访问权限已关闭。",
         "success"
       );
-
 
       await loadAgents();
 
@@ -2303,7 +2099,6 @@
         error
       );
 
-
       showNotice(
         "修改代理商状态失败：" +
         error.message,
@@ -2315,9 +2110,7 @@
     finally {
 
       showLoading(false);
-
     }
-
   }
 
 
@@ -2330,39 +2123,32 @@
     const total =
       agents.length;
 
-
     const active =
       agents.filter(
         item =>
           item.is_active === true
       ).length;
 
-
     const disabled =
       total -
       active;
-
 
     document.getElementById(
       "totalCount"
     ).textContent =
       total;
 
-
     document.getElementById(
       "activeCount"
     ).textContent =
       active;
-
 
     document.getElementById(
       "disabledCount"
     ).textContent =
       disabled;
 
-
     const totals = {};
-
 
     agents.forEach(
       function(item) {
@@ -2375,7 +2161,6 @@
           )
           .toUpperCase();
 
-
         const amount =
           Number(
             item.account_balance
@@ -2383,23 +2168,18 @@
             0
           );
 
-
         if (
           totals[currency] === undefined
         ) {
 
           totals[currency] =
             0;
-
         }
-
 
         totals[currency] +=
           amount;
-
       }
     );
-
 
     const parts =
       Object.keys(
@@ -2418,10 +2198,8 @@
             +
             currency
           );
-
         }
       );
-
 
     document.getElementById(
       "balanceSummary"
@@ -2431,7 +2209,6 @@
         parts.join(" / ")
         :
         "0.00 CNY";
-
   }
 
 
@@ -2442,10 +2219,8 @@
         "currencyFilter"
       );
 
-
     const current =
       select.value;
-
 
     const currencies =
       Array.from(
@@ -2463,14 +2238,12 @@
       )
       .sort();
 
-
     select.innerHTML =
       `
         <option value="all">
           全部币种
         </option>
       `;
-
 
     currencies.forEach(
       function(currency) {
@@ -2480,22 +2253,17 @@
             "option"
           );
 
-
         option.value =
           currency;
-
 
         option.textContent =
           currency;
 
-
         select.appendChild(
           option
         );
-
       }
     );
-
 
     if (
       currencies.includes(
@@ -2505,9 +2273,7 @@
 
       select.value =
         current;
-
     }
-
   }
 
 
@@ -2525,18 +2291,15 @@
       .trim()
       .toLowerCase();
 
-
     const status =
       document.getElementById(
         "statusFilter"
       ).value;
 
-
     const currency =
       document.getElementById(
         "currencyFilter"
       ).value;
-
 
     const filtered =
       agents.filter(
@@ -2556,7 +2319,6 @@
             .join(" ")
             .toLowerCase();
 
-
           const keywordMatched =
             !keyword
             ||
@@ -2564,10 +2326,8 @@
               keyword
             );
 
-
           let statusMatched =
             true;
-
 
           if (
             status === "active"
@@ -2575,9 +2335,7 @@
 
             statusMatched =
               item.is_active === true;
-
           }
-
 
           if (
             status === "disabled"
@@ -2585,9 +2343,7 @@
 
             statusMatched =
               item.is_active === false;
-
           }
-
 
           const itemCurrency =
             (
@@ -2597,12 +2353,10 @@
             )
             .toUpperCase();
 
-
           const currencyMatched =
             currency === "all"
             ||
             currency === itemCurrency;
-
 
           return (
             keywordMatched
@@ -2611,26 +2365,21 @@
             &&
             currencyMatched
           );
-
         }
       );
-
 
     const tbody =
       document.getElementById(
         "agentTableBody"
       );
 
-
     const emptyBox =
       document.getElementById(
         "emptyBox"
       );
 
-
     tbody.innerHTML =
       "";
-
 
     if (
       filtered.length === 0
@@ -2640,13 +2389,10 @@
         "block";
 
       return;
-
     }
-
 
     emptyBox.style.display =
       "none";
-
 
     filtered.forEach(
       function(item) {
@@ -2655,6 +2401,22 @@
           document.createElement(
             "tr"
           );
+
+
+        /*
+          =================================================
+          无效代理商整行灰显
+          =================================================
+        */
+
+        if (
+          item.is_active === false
+        ) {
+
+          tr.classList.add(
+            "agent-disabled"
+          );
+        }
 
 
         const statusHTML =
@@ -2672,7 +2434,6 @@
               </span>
             `;
 
-
         const loginHTML =
           item.auth_user_id
             ?
@@ -2687,7 +2448,6 @@
                 未绑定
               </span>
             `;
-
 
         const statusButton =
           item.is_active
@@ -2711,7 +2471,6 @@
                 恢复有效
               </button>
             `;
-
 
         tr.innerHTML =
           `
@@ -2781,14 +2540,11 @@
 
           `;
 
-
         tbody.appendChild(
           tr
         );
-
       }
     );
-
   }
 
 
@@ -2806,7 +2562,6 @@
           String(id)
       );
 
-
     if (
       !agent
     ) {
@@ -2817,27 +2572,22 @@
       );
 
       return;
-
     }
-
 
     setText(
       "detailCode",
       agent.agent_code || "-"
     );
 
-
     setText(
       "detailName",
       agent.agent_name || "-"
     );
 
-
     setText(
       "detailRegion",
       agent.agent_region || "-"
     );
-
 
     setText(
       "detailBalance",
@@ -2855,24 +2605,20 @@
       .toUpperCase()
     );
 
-
     setText(
       "detailContact",
       agent.contact_person || "-"
     );
-
 
     setText(
       "detailPhone",
       agent.phone || "-"
     );
 
-
     setText(
       "detailEmail",
       agent.email || "-"
     );
-
 
     setText(
       "detailStatus",
@@ -2883,18 +2629,15 @@
         "无效"
     );
 
-
     setText(
       "detailAddress",
       agent.address || "-"
     );
 
-
     setText(
       "detailNotes",
       agent.notes || "-"
     );
-
 
     setText(
       "detailAuthUserId",
@@ -2903,12 +2646,10 @@
         "尚未绑定登录账号"
     );
 
-
     setText(
       "detailId",
       agent.id || "-"
     );
-
 
     setText(
       "detailCreatedAt",
@@ -2917,14 +2658,12 @@
       )
     );
 
-
     setText(
       "detailUpdatedAt",
       formatDate(
         agent.updated_at
       )
     );
-
 
     document.getElementById(
       "detailModal"
@@ -2933,7 +2672,6 @@
     .add(
       "show"
     );
-
   }
 
 
@@ -2946,7 +2684,6 @@
     .remove(
       "show"
     );
-
   }
 
 
@@ -2963,9 +2700,7 @@
       ) {
 
         closeCreateAgentModal();
-
       }
-
     }
   );
 
@@ -2983,9 +2718,7 @@
       ) {
 
         closeDetailModal();
-
       }
-
     }
   );
 
@@ -3003,7 +2736,6 @@
       id
     ).textContent =
       value;
-
   }
 
 
@@ -3019,7 +2751,6 @@
         maximumFractionDigits: 2
       }
     );
-
   }
 
 
@@ -3032,9 +2763,7 @@
     ) {
 
       return "";
-
     }
-
 
     return String(value)
       .replaceAll("&", "&amp;")
@@ -3042,7 +2771,6 @@
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
-
   }
 
 
@@ -3053,13 +2781,10 @@
     ) {
 
       return "-";
-
     }
-
 
     const date =
       new Date(value);
-
 
     if (
       isNaN(
@@ -3068,9 +2793,7 @@
     ) {
 
       return value;
-
     }
-
 
     return date.toLocaleString(
       "zh-CN",
@@ -3082,7 +2805,6 @@
         minute: "2-digit"
       }
     );
-
   }
 
 
@@ -3093,7 +2815,6 @@
         "loadingMask"
       );
 
-
     if (
       show
     ) {
@@ -3101,7 +2822,6 @@
       mask.classList.add(
         "show"
       );
-
     }
 
     else {
@@ -3109,9 +2829,7 @@
       mask.classList.remove(
         "show"
       );
-
     }
-
   }
 
 
@@ -3125,10 +2843,8 @@
         "notice"
       );
 
-
     notice.textContent =
       message;
-
 
     notice.className =
       "notice show "
@@ -3141,18 +2857,15 @@
           "notice-success"
       );
 
-
     setTimeout(
       function() {
 
         notice.classList.remove(
           "show"
         );
-
       },
       5000
     );
-
   }
 
 
@@ -3160,7 +2873,6 @@
 
     window.location.href =
       "wholemanagement.html";
-
   }
 
 
@@ -3171,14 +2883,11 @@
   const IDLE_LIMIT =
     10 * 60 * 1000;
 
-
   const WARNING_TIME =
     60 * 1000;
 
-
   let lastActivityTime =
     Date.now();
-
 
   let warningShown =
     false;
@@ -3189,16 +2898,13 @@
     lastActivityTime =
       Date.now();
 
-
     warningShown =
       false;
-
 
     const warning =
       document.getElementById(
         "timeoutWarning"
       );
-
 
     if (
       warning
@@ -3206,9 +2912,7 @@
 
       warning.style.display =
         "none";
-
     }
-
   }
 
 
@@ -3230,7 +2934,6 @@
         userActivity,
         true
       );
-
     }
   );
 
@@ -3242,7 +2945,6 @@
         Date.now()
         -
         lastActivityTime;
-
 
       if (
         inactiveTime >=
@@ -3262,24 +2964,18 @@
               "timeoutWarning"
             );
 
-
           if (
             warning
           ) {
 
             warning.style.display =
               "block";
-
           }
-
 
           warningShown =
             true;
-
         }
-
       }
-
 
       if (
         inactiveTime >=
@@ -3287,13 +2983,10 @@
       ) {
 
         autoLogout();
-
       }
-
     },
 
     1000
-
   );
 
 
@@ -3301,26 +2994,21 @@
 
     sessionStorage.clear();
 
-
     localStorage.removeItem(
       "managementLogin"
     );
-
 
     localStorage.removeItem(
       "managementUser"
     );
 
-
     localStorage.removeItem(
       "managementRole"
     );
 
-
     localStorage.removeItem(
       "loginTime"
     );
-
   }
 
 
@@ -3340,17 +3028,13 @@
         "自动退出失败：",
         error
       );
-
     }
 
-
     clearOldLoginData();
-
 
     window.location.replace(
       "page10.html"
     );
-
   }
 
 
@@ -3370,17 +3054,13 @@
         "退出失败：",
         error
       );
-
     }
 
-
     clearOldLoginData();
-
 
     window.location.replace(
       "page10.html"
     );
-
   }
 
 </script>
