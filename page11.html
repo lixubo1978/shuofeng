@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    http-equiv="Cache-Control"
+    content="no-store, no-cache, must-revalidate, max-age=0"
+  >
+
+  <meta
+    http-equiv="Pragma"
+    content="no-cache"
+  >
+
+  <meta
+    http-equiv="Expires"
+    content="0"
+  >
 
   <title>代理商登录｜硕丰科技</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
+
 
     body {
       margin: 0;
@@ -38,6 +57,7 @@
       justify-content: center;
     }
 
+
     .login-container {
       width: 100%;
       max-width: 420px;
@@ -52,10 +72,12 @@
         0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
+
     .logo {
       text-align: center;
       margin-bottom: 10px;
     }
+
 
     .logo-title {
       font-size: 26px;
@@ -63,11 +85,13 @@
       color: #0b1220;
     }
 
+
     .logo-subtitle {
       margin-top: 6px;
       font-size: 14px;
       color: #777;
     }
+
 
     h2 {
       text-align: center;
@@ -80,9 +104,11 @@
       color: #222;
     }
 
+
     .form-group {
       margin-bottom: 20px;
     }
+
 
     label {
       display: block;
@@ -94,6 +120,7 @@
 
       color: #333;
     }
+
 
     input {
       width: 100%;
@@ -107,8 +134,13 @@
 
       outline: none;
 
-      transition: 0.2s;
+      background: #ffffff;
+
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
     }
+
 
     input:focus {
       border-color: #1f6feb;
@@ -117,13 +149,16 @@
         0 0 0 3px rgba(31, 111, 235, 0.10);
     }
 
+
     .password-wrapper {
       position: relative;
     }
 
+
     .password-wrapper input {
       padding-right: 65px;
     }
+
 
     .show-password {
       position: absolute;
@@ -143,6 +178,7 @@
       font-size: 13px;
     }
 
+
     .login-btn {
       width: 100%;
 
@@ -154,6 +190,7 @@
       border-radius: 8px;
 
       background: #0b1220;
+
       color: white;
 
       font-size: 16px;
@@ -164,17 +201,21 @@
       transition: 0.2s;
     }
 
+
     .login-btn:hover {
       background: #1d2a3d;
     }
+
 
     .login-btn:disabled {
       background: #999;
       cursor: not-allowed;
     }
 
+
     .back-btn {
       display: block;
+
       width: 100%;
 
       margin-top: 12px;
@@ -182,15 +223,18 @@
       padding: 13px;
 
       border: 1px solid #d8dde3;
+
       border-radius: 8px;
 
       background: #ffffff;
+
       color: #333;
 
       font-size: 15px;
       font-weight: 600;
 
       text-align: center;
+
       text-decoration: none;
 
       cursor: pointer;
@@ -198,10 +242,13 @@
       transition: 0.2s;
     }
 
+
     .back-btn:hover {
       background: #f4f6f8;
+
       border-color: #bfc6ce;
     }
+
 
     .message {
       margin-top: 18px;
@@ -215,13 +262,16 @@
       line-height: 1.6;
     }
 
-    .error {
+
+    .message.error {
       color: #d93025;
     }
 
-    .success {
+
+    .message.success {
       color: #188038;
     }
+
 
     .security-note {
       margin-top: 20px;
@@ -236,8 +286,9 @@
 
       font-size: 12px;
 
-      line-height: 1.6;
+      line-height: 1.7;
     }
+
 
     .footer {
       margin-top: 28px;
@@ -248,8 +299,25 @@
 
       color: #999;
     }
+
+
+    @media (max-width: 520px) {
+
+      body {
+        padding: 18px;
+      }
+
+
+      .login-container {
+        padding: 34px 24px;
+      }
+
+    }
+
   </style>
+
 </head>
+
 
 
 <body>
@@ -276,7 +344,10 @@
   </h2>
 
 
-  <form id="loginForm">
+  <form
+    id="loginForm"
+    autocomplete="off"
+  >
 
 
     <div class="form-group">
@@ -288,9 +359,16 @@
       <input
         type="email"
         id="username"
-        name="username"
+        name="agent_login_username"
+
         placeholder="请输入代理商登录邮箱"
-        autocomplete="username"
+
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="none"
+        spellcheck="false"
+
+        readonly
         required
       >
 
@@ -309,9 +387,13 @@
         <input
           type="password"
           id="password"
-          name="password"
+          name="agent_login_password"
+
           placeholder="请输入密码"
-          autocomplete="current-password"
+
+          autocomplete="new-password"
+
+          readonly
           required
         >
 
@@ -341,6 +423,7 @@
     <a
       href="index.html"
       class="back-btn"
+      onclick="clearLoginFields()"
     >
       返回首页
     </a>
@@ -356,9 +439,17 @@
 
 
   <div class="security-note">
+
     本页面仅供硕丰科技授权代理商使用。
-    代理商账号由公司统一创建并分配权限，
-    已停用或未经授权的账号无法进入代理商系统。
+
+    <br>
+
+    只有有效的代理商账号可以进入代理商系统。
+
+    <br>
+
+    公司管理人员账号无法从本入口进入。
+
   </div>
 
 
@@ -370,10 +461,11 @@
 </div>
 
 
+
 <script>
 
   /* =====================================================
-     Supabase
+     Supabase 配置
   ===================================================== */
 
   const SUPABASE_URL =
@@ -387,7 +479,30 @@
   const supabaseClient =
     window.supabase.createClient(
       SUPABASE_URL,
-      SUPABASE_KEY
+      SUPABASE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+
+
+  const AGENT_PAGE =
+    "agentplatform.html";
+
+
+  const usernameInput =
+    document.getElementById(
+      "username"
+    );
+
+
+  const passwordInput =
+    document.getElementById(
+      "password"
     );
 
 
@@ -409,35 +524,547 @@
     );
 
 
+
   /* =====================================================
-     页面打开时
-     如果之前已经登录，则检查是否为有效代理商
+     清除旧代理商前端数据
   ===================================================== */
-document.addEventListener(
-  "DOMContentLoaded",
 
-  async function() {
+  function clearOldAgentData() {
 
-    try {
+    const keys = [
+      "agentLogin",
+      "agentUser",
+      "agentId",
+      "agentCode",
+      "agentName",
+      "agentUserId",
+      "loginTime",
+      "username",
+      "password"
+    ];
 
-      await supabaseClient
-        .auth
-        .signOut();
+
+    keys.forEach(
+      function(key) {
+
+        try {
+
+          localStorage.removeItem(
+            key
+          );
+
+        }
+
+        catch (error) {}
+
+
+        try {
+
+          sessionStorage.removeItem(
+            key
+          );
+
+        }
+
+        catch (error) {}
+
+      }
+    );
+
+  }
+
+
+
+  /* =====================================================
+     清空用户名密码
+  ===================================================== */
+
+  function clearLoginFields() {
+
+    usernameInput.value =
+      "";
+
+    passwordInput.value =
+      "";
+
+  }
+
+
+
+  /* =====================================================
+     页面打开
+
+     每次进入 page11 都强制退出旧 Session，
+     要求代理商重新输入账号密码。
+  ===================================================== */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+
+    async function() {
+
+
+      clearOldAgentData();
+
+      clearLoginFields();
+
+
+      try {
+
+        await supabaseClient
+          .auth
+          .signOut();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "清除旧登录状态失败：",
+          error
+        );
+
+      }
+
+
+      setTimeout(
+        function() {
+
+
+          usernameInput.removeAttribute(
+            "readonly"
+          );
+
+
+          passwordInput.removeAttribute(
+            "readonly"
+          );
+
+
+          clearLoginFields();
+
+
+          usernameInput.focus();
+
+
+        },
+        350
+      );
+
+
+      setTimeout(
+        function() {
+
+          clearLoginFields();
+
+        },
+        800
+      );
+
 
     }
+  );
 
-    catch (error) {
 
-      console.error(
-        "清除旧登录状态失败：",
-        error
+
+  /* =====================================================
+     浏览器后退到 page11
+  ===================================================== */
+
+  window.addEventListener(
+    "pageshow",
+
+    async function(event) {
+
+
+      clearOldAgentData();
+
+      clearLoginFields();
+
+
+      /*
+        如果是浏览器缓存恢复，
+        再清除一次旧 Session。
+      */
+
+      if (
+        event.persisted
+      ) {
+
+        try {
+
+          await supabaseClient
+            .auth
+            .signOut();
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "后退时清除旧登录状态失败：",
+            error
+          );
+
+        }
+
+      }
+
+
+    }
+  );
+
+
+
+  /* =====================================================
+     验证代理商身份
+
+     必须同时满足：
+
+     1. profiles.role = agent
+     2. profiles.is_active = true
+     3. agents.auth_user_id = 当前用户
+     4. agents.is_active = true
+  ===================================================== */
+
+  async function verifyAgentAccess(
+    user
+  ) {
+
+
+    if (
+      !user ||
+      !user.id
+    ) {
+
+      throw new Error(
+        "无法读取当前登录用户。"
       );
 
     }
 
-  }
 
-);
+
+    /* =================================================
+       第一步：
+       检查 profiles
+
+       最多尝试3次
+    ================================================= */
+
+    let profile =
+      null;
+
+
+    let lastProfileError =
+      null;
+
+
+
+    for (
+      let attempt = 1;
+      attempt <= 3;
+      attempt++
+    ) {
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from(
+            "profiles"
+          )
+          .select(
+            "id, display_name, role, is_active"
+          )
+          .eq(
+            "id",
+            user.id
+          )
+          .maybeSingle();
+
+
+
+      if (
+        !error &&
+        data
+      ) {
+
+
+        profile =
+          data;
+
+
+        lastProfileError =
+          null;
+
+
+        break;
+
+      }
+
+
+
+      lastProfileError =
+        error;
+
+
+
+      if (
+        attempt < 3
+      ) {
+
+        await new Promise(
+          resolve =>
+            setTimeout(
+              resolve,
+              300
+            )
+        );
+
+      }
+
+
+    }
+
+
+
+    if (
+      !profile
+    ) {
+
+      console.error(
+        "没有找到代理商 profiles：",
+        lastProfileError
+      );
+
+
+      throw new Error(
+        "该账号没有代理商权限资料，禁止进入代理商系统。"
+      );
+
+    }
+
+
+
+    /* =================================================
+       第二步：
+       role 必须严格等于 agent
+    ================================================= */
+
+    if (
+      profile.role !==
+      "agent"
+    ) {
+
+      console.warn(
+        "非代理商账号尝试从 page11 登录：",
+        {
+          userId:
+            user.id,
+
+          role:
+            profile.role
+        }
+      );
+
+
+      throw new Error(
+        "该账号不是代理商账号，禁止进入代理商系统。"
+      );
+
+    }
+
+
+
+    /* =================================================
+       第三步：
+       profile 必须有效
+    ================================================= */
+
+    if (
+      profile.is_active !==
+      true
+    ) {
+
+      throw new Error(
+        "该代理商登录账号已经停用，请联系硕丰科技。"
+      );
+
+    }
+
+
+
+    /* =================================================
+       第四步：
+       查询 agents 绑定资料
+    ================================================= */
+
+    let agent =
+      null;
+
+
+    let lastAgentError =
+      null;
+
+
+
+    for (
+      let attempt = 1;
+      attempt <= 3;
+      attempt++
+    ) {
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from(
+            "agents"
+          )
+          .select(
+            `
+              id,
+              agent_code,
+              agent_name,
+              auth_user_id,
+              account_balance,
+              balance_currency,
+              is_active
+            `
+          )
+          .eq(
+            "auth_user_id",
+            user.id
+          )
+          .maybeSingle();
+
+
+
+      if (
+        !error &&
+        data
+      ) {
+
+
+        agent =
+          data;
+
+
+        lastAgentError =
+          null;
+
+
+        break;
+
+      }
+
+
+
+      lastAgentError =
+        error;
+
+
+
+      if (
+        attempt < 3
+      ) {
+
+        await new Promise(
+          resolve =>
+            setTimeout(
+              resolve,
+              300
+            )
+        );
+
+      }
+
+
+    }
+
+
+
+    if (
+      !agent
+    ) {
+
+      console.error(
+        "没有找到绑定的 agents 资料：",
+        lastAgentError
+      );
+
+
+      throw new Error(
+        "该登录账号尚未绑定代理商资料，禁止进入代理商系统。"
+      );
+
+    }
+
+
+
+    /* =================================================
+       第五步：
+       再次确认绑定关系
+    ================================================= */
+
+    if (
+      String(
+        agent.auth_user_id
+      )
+      !==
+      String(
+        user.id
+      )
+    ) {
+
+      throw new Error(
+        "代理商登录账号绑定关系不正确，禁止进入代理商系统。"
+      );
+
+    }
+
+
+
+    /* =================================================
+       第六步：
+       agents 本身必须有效
+    ================================================= */
+
+    if (
+      agent.is_active !==
+      true
+    ) {
+
+      throw new Error(
+        "该代理商已经被设为无效，请联系硕丰科技。"
+      );
+
+    }
+
+
+
+    /*
+      只返回资料。
+
+      真正的权限仍然由
+      Supabase Auth + RLS + agentplatform
+      再次验证。
+    */
+
+    return {
+      profile:
+        profile,
+
+      agent:
+        agent
+    };
+
+  }
 
 
 
@@ -450,49 +1077,22 @@ document.addEventListener(
 
     async function(event) {
 
+
       event.preventDefault();
 
 
+
       const email =
-        document
-          .getElementById(
-            "username"
-          )
+        usernameInput
           .value
           .trim()
           .toLowerCase();
 
 
+
       const password =
-        document
-          .getElementById(
-            "password"
-          )
-          .value;
+        passwordInput.value;
 
-
-      if (
-        !email
-        ||
-        !password
-      ) {
-
-        showMessage(
-          "请输入登录邮箱和密码。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      loginBtn.disabled =
-        true;
-
-
-      loginBtn.innerText =
-        "正在登录...";
 
 
       showMessage(
@@ -501,12 +1101,61 @@ document.addEventListener(
       );
 
 
+
+      if (
+        !email
+      ) {
+
+        showMessage(
+          "请输入代理商登录邮箱。",
+          "error"
+        );
+
+
+        usernameInput.focus();
+
+
+        return;
+
+      }
+
+
+
+      if (
+        !password
+      ) {
+
+        showMessage(
+          "请输入密码。",
+          "error"
+        );
+
+
+        passwordInput.focus();
+
+
+        return;
+
+      }
+
+
+
+      loginBtn.disabled =
+        true;
+
+
+      loginBtn.innerText =
+        "正在验证身份...";
+
+
+
       try {
 
-        /* =========================================
-           第一步
-           Supabase Authentication 验证
-        ========================================= */
+
+        /* =================================================
+           第一级：
+           Supabase Authentication
+        ================================================= */
 
         const {
           data: loginData,
@@ -525,72 +1174,189 @@ document.addEventListener(
             });
 
 
+
         if (
           loginError
-          ||
-          !loginData
-          ||
-          !loginData.user
+        ) {
+
+          throw loginError;
+
+        }
+
+
+
+        if (
+          !loginData ||
+          !loginData.user ||
+          !loginData.session
         ) {
 
           throw new Error(
-            "代理商邮箱或密码错误。"
+            "登录失败，请重新输入。"
           );
 
         }
 
 
-        const user =
-          loginData.user;
+
+        /*
+          =================================================
+          第二级：
+          严格验证 agent 身份
+          =================================================
+        */
+
+        loginBtn.innerText =
+          "正在检查代理商权限...";
 
 
-        /* =========================================
-           第二步
-           检查是不是有效代理商
-        ========================================= */
 
-        const allowed =
-          await verifyAgentAccess(
-            user
-          );
+        let accessData;
 
 
-        if (
-          !allowed
+        try {
+
+
+          accessData =
+            await verifyAgentAccess(
+              loginData.user
+            );
+
+
+        }
+
+        catch (
+          permissionError
         ) {
 
-          await supabaseClient
-            .auth
-            .signOut();
+
+          /*
+            Auth 虽然成功，
+            但不是有效代理商。
+
+            必须立即注销 Session。
+          */
+
+          try {
+
+            await supabaseClient
+              .auth
+              .signOut();
+
+          }
+
+          catch (
+            signOutError
+          ) {
+
+            console.error(
+              "拒绝代理商登录后退出失败：",
+              signOutError
+            );
+
+          }
 
 
-          return;
+          throw permissionError;
 
         }
 
 
-        /* =========================================
-           登录成功
-        ========================================= */
+
+        /*
+          =================================================
+          到这里才是真正代理商登录成功
+          =================================================
+        */
+
+
+        const agent =
+          accessData.agent;
+
+
+
+        /*
+          可保存少量非敏感页面信息。
+
+          agentplatform 仍会重新查数据库，
+          不依赖这些值做权限判断。
+        */
+
+        try {
+
+          sessionStorage.setItem(
+            "agentId",
+            String(
+              agent.id
+            )
+          );
+
+
+          sessionStorage.setItem(
+            "agentCode",
+            agent.agent_code ||
+            ""
+          );
+
+
+          sessionStorage.setItem(
+            "agentName",
+            agent.agent_name ||
+            ""
+          );
+
+
+          sessionStorage.setItem(
+            "agentUserId",
+            loginData.user.id
+          );
+
+        }
+
+        catch (storageError) {
+
+          console.warn(
+            "保存代理商临时页面信息失败：",
+            storageError
+          );
+
+        }
+
+
+
+        /*
+          不保留输入框中的账号密码
+        */
+
+        clearLoginFields();
+
+
 
         showMessage(
-          "登录成功，正在进入代理商系统……",
+          (
+            agent.agent_name
+            ?
+            agent.agent_name +
+            "，"
+            :
+            ""
+          )
+          +
+          "代理商身份验证成功，正在进入代理商系统……",
           "success"
         );
 
 
-        setTimeout(
 
+        setTimeout(
           function() {
 
             window.location.replace(
-              "agentplatform.html"
+              AGENT_PAGE
             );
 
           },
-
-          400
-
+          250
         );
 
 
@@ -598,27 +1364,159 @@ document.addEventListener(
 
       catch (error) {
 
+
         console.error(
           "代理商登录失败：",
           error
         );
 
 
-        await supabaseClient
-          .auth
-          .signOut();
+
+        passwordInput.value =
+          "";
+
+
+
+        let errorMessage =
+          "代理商邮箱或密码错误。";
+
+
+
+        if (
+          error &&
+          error.message
+        ) {
+
+
+          const rawMessage =
+            error.message;
+
+
+          const msg =
+            rawMessage
+              .toLowerCase();
+
+
+
+          if (
+            msg.includes(
+              "invalid login credentials"
+            )
+          ) {
+
+            errorMessage =
+              "代理商邮箱或密码错误。";
+
+          }
+
+
+          else if (
+            msg.includes(
+              "email not confirmed"
+            )
+          ) {
+
+            errorMessage =
+              "该账号尚未完成邮箱确认。";
+
+          }
+
+
+          else if (
+            msg.includes(
+              "failed to fetch"
+            )
+          ) {
+
+            errorMessage =
+              "无法连接 Supabase，请检查网络连接。";
+
+          }
+
+
+          else if (
+            msg.includes(
+              "不是代理商账号"
+            )
+            ||
+            msg.includes(
+              "没有代理商权限资料"
+            )
+            ||
+            msg.includes(
+              "尚未绑定代理商资料"
+            )
+            ||
+            msg.includes(
+              "绑定关系不正确"
+            )
+            ||
+            msg.includes(
+              "已经停用"
+            )
+            ||
+            msg.includes(
+              "已经被设为无效"
+            )
+          ) {
+
+            errorMessage =
+              rawMessage;
+
+          }
+
+
+          else {
+
+            errorMessage =
+              rawMessage;
+
+          }
+
+
+        }
+
+
+
+        /*
+          无论哪种失败，
+          再确保 Session 已经退出。
+        */
+
+        try {
+
+          await supabaseClient
+            .auth
+            .signOut();
+
+        }
+
+        catch (
+          signOutError
+        ) {
+
+          console.error(
+            "登录失败后退出 Session 失败：",
+            signOutError
+          );
+
+        }
+
 
 
         showMessage(
-          error.message
-          ||
-          "登录失败，请稍后重试。",
+          errorMessage,
           "error"
         );
+
+
+        passwordInput.focus();
+
 
       }
 
       finally {
+
 
         loginBtn.disabled =
           false;
@@ -627,267 +1525,13 @@ document.addEventListener(
         loginBtn.innerText =
           "登录代理商系统";
 
+
       }
 
-    }
 
+    }
   );
 
-
-  /* =====================================================
-     验证代理商权限
-  ===================================================== */
-
-  async function verifyAgentAccess(
-    user
-  ) {
-
-    try {
-
-      if (
-        !user
-        ||
-        !user.id
-      ) {
-
-        showMessage(
-          "登录状态无效。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      /* =========================================
-         检查 profiles
-      ========================================= */
-
-      const {
-        data: profile,
-        error: profileError
-      } =
-        await supabaseClient
-          .from("profiles")
-          .select(
-            "id, display_name, role, is_active"
-          )
-          .eq(
-            "id",
-            user.id
-          )
-          .maybeSingle();
-
-
-      if (
-        profileError
-      ) {
-
-        console.error(
-          "读取代理商权限资料失败：",
-          profileError
-        );
-
-
-        showMessage(
-          "无法读取代理商权限资料。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      if (
-        !profile
-      ) {
-
-        showMessage(
-          "该账号尚未配置代理商权限。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      if (
-        profile.role !==
-        "agent"
-      ) {
-
-        showMessage(
-          "该账号不是代理商账号。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      if (
-        profile.is_active !==
-        true
-      ) {
-
-        showMessage(
-          "该代理商账号已被停用，请联系硕丰科技。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      /* =========================================
-         检查 agents
-      ========================================= */
-
-      const {
-        data: agent,
-        error: agentError
-      } =
-        await supabaseClient
-          .from("agents")
-          .select(
-            `
-              id,
-              agent_code,
-              agent_name,
-              auth_user_id,
-              is_active
-            `
-          )
-          .eq(
-            "auth_user_id",
-            user.id
-          )
-          .maybeSingle();
-
-
-      if (
-        agentError
-      ) {
-
-        console.error(
-          "读取代理商资料失败：",
-          agentError
-        );
-
-
-        showMessage(
-          "无法读取代理商资料。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      if (
-        !agent
-      ) {
-
-        showMessage(
-          "该登录账号尚未绑定代理商资料。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      if (
-        agent.auth_user_id !==
-        user.id
-      ) {
-
-        showMessage(
-          "代理商账号绑定信息不正确。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      if (
-        agent.is_active !==
-        true
-      ) {
-
-        showMessage(
-          "该代理商已被设为无效，请联系硕丰科技。",
-          "error"
-        );
-
-        return false;
-
-      }
-
-
-      /* =========================================
-         保存少量页面使用信息
-
-         注意：
-         真正权限仍然以 Supabase 数据库为准
-      ========================================= */
-
-      sessionStorage.setItem(
-        "agentId",
-        String(agent.id)
-      );
-
-
-      sessionStorage.setItem(
-        "agentCode",
-        agent.agent_code || ""
-      );
-
-
-      sessionStorage.setItem(
-        "agentName",
-        agent.agent_name || ""
-      );
-
-
-      sessionStorage.setItem(
-        "agentUserId",
-        user.id
-      );
-
-
-      return true;
-
-    }
-
-    catch (error) {
-
-      console.error(
-        "验证代理商权限失败：",
-        error
-      );
-
-
-      showMessage(
-        "代理商权限验证失败，请稍后重试。",
-        "error"
-      );
-
-
-      return false;
-
-    }
-
-  }
 
 
   /* =====================================================
@@ -895,12 +1539,6 @@ document.addEventListener(
   ===================================================== */
 
   function togglePassword() {
-
-
-    const passwordInput =
-      document.getElementById(
-        "password"
-      );
 
 
     const button =
@@ -941,8 +1579,9 @@ document.addEventListener(
   }
 
 
+
   /* =====================================================
-     消息提示
+     消息
   ===================================================== */
 
   function showMessage(
@@ -960,16 +1599,45 @@ document.addEventListener(
       +
       (
         type
-          ?
-          " " + type
-          :
-          ""
+        ?
+        " " +
+        type
+        :
+        ""
       );
 
   }
+
+
+
+  /* =====================================================
+     离开登录页面清空输入框
+  ===================================================== */
+
+  window.addEventListener(
+    "pagehide",
+
+    function() {
+
+      clearLoginFields();
+
+    }
+  );
+
+
+  window.addEventListener(
+    "beforeunload",
+
+    function() {
+
+      clearLoginFields();
+
+    }
+  );
 
 </script>
 
 
 </body>
+
 </html>
