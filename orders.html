@@ -881,7 +881,7 @@
     }
 
     .form-group textarea {
-      min-height: 85px;
+      min-height: 90px;
       resize: vertical;
     }
 
@@ -889,6 +889,16 @@
     .form-group select:focus,
     .form-group textarea:focus {
       border-color: #2563eb;
+    }
+
+    .shipping-address-hint {
+      margin-top: 3px;
+
+      color: #64748b;
+
+      font-size: 11px;
+
+      line-height: 1.6;
     }
 
 
@@ -1302,7 +1312,7 @@
 
       <p>
         所有 status = pending 的代理商订单都会显示在这里。
-        必须填写预计发货日期、物流公司和发货单号后才能确认。
+        必须填写预计发货日期、物流公司、发货单号和实际发货地址后才能确认。
       </p>
 
     </div>
@@ -1642,14 +1652,40 @@
         </div>
 
 
+        <!--
+          这里仍然显示代理商资料中的注册地址/联系地址。
+          实际订单发货地址在下面单独显示。
+        -->
+
         <div class="detail-item full">
 
           <div class="detail-label">
-            地址
+            代理商登记地址
           </div>
 
           <div
             id="detailAddress"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <!--
+          新增：
+          已经确认的订单显示实际发货地址快照。
+        -->
+
+        <div class="detail-item full">
+
+          <div class="detail-label">
+            本订单实际发货地址
+          </div>
+
+          <div
+            id="detailShippingAddress"
             class="detail-value"
           >
             -
@@ -1806,7 +1842,9 @@
 
 
 
-      <!-- 商品明细 -->
+      <!-- =================================================
+           商品明细
+      ================================================== -->
 
       <div class="table-scroll">
 
@@ -1900,6 +1938,31 @@
               type="text"
               placeholder="请输入发货单号或物流运单号"
             >
+
+          </div>
+
+
+          <!-- =================================================
+               新增：实际发货地址
+          ================================================== -->
+
+          <div class="form-group full">
+
+            <label>
+              实际发货地址
+              <span class="required">*</span>
+            </label>
+
+            <textarea
+              id="shippingAddress"
+              placeholder="请输入本订单实际发货地址"
+            ></textarea>
+
+            <div class="shipping-address-hint">
+              默认自动读取当前代理商登记地址。
+              如本订单需要发往其他地址，可以直接修改或重新填写。
+              订单确认后，该地址将作为本订单的历史发货地址保存。
+            </div>
 
           </div>
 
@@ -2510,6 +2573,9 @@ window.addEventListener(
 
 /* ==========================================================
    读取全部订单资料
+
+   新增：
+   orders.shipping_address
 ========================================================== */
 
 async function loadAllData(
@@ -2560,6 +2626,7 @@ async function loadAllData(
               expected_shipping_date,
               shipping_company,
               tracking_number,
+              shipping_address,
               processed_at,
               processed_by,
 
@@ -3040,9 +3107,93 @@ function invoiceStatusBadge(
 }
 
 
-/* ===== 第1段结束，第2段直接接在这里 ===== */
+/* ==========================================================
+   第1段结束
+   第2段必须直接粘贴在这一行下面
+========================================================== */
   /* ==========================================================
-   待处理订单
+   订单状态
+========================================================== */
+
+function statusToChinese(status) {
+
+  const map = {
+
+    pending:
+      "待处理",
+
+    confirmed:
+      "已确认",
+
+    processing:
+      "处理中",
+
+    shipped:
+      "已发货",
+
+    completed:
+      "已完成",
+
+    cancelled:
+      "已取消"
+
+  };
+
+  return map[status] || status || "-";
+
+}
+
+
+
+function statusBadge(status) {
+
+  const classMap = {
+
+    pending:
+      "badge-pending",
+
+    confirmed:
+      "badge-confirmed",
+
+    processing:
+      "badge-processing",
+
+    shipped:
+      "badge-shipped",
+
+    completed:
+      "badge-completed",
+
+    cancelled:
+      "badge-cancelled"
+
+  };
+
+
+  return `
+
+    <span
+      class="badge ${
+        classMap[status]
+        ||
+        "badge-cancelled"
+      }"
+    >
+
+      ${escapeHtml(
+        statusToChinese(status)
+      )}
+
+    </span>
+
+  `;
+
+}
+
+
+
+/* ==========================================================
+   渲染待处理订单
 ========================================================== */
 
 function renderPendingOrders() {
@@ -3059,11 +3210,7 @@ function renderPendingOrders() {
     );
 
 
-  tbody.innerHTML =
-    "";
-
-
-  const rows =
+  const list =
     orders.filter(
       item =>
         item.status ===
@@ -3071,8 +3218,12 @@ function renderPendingOrders() {
     );
 
 
+  tbody.innerHTML =
+    "";
+
+
   if (
-    rows.length ===
+    list.length ===
     0
   ) {
 
@@ -3088,8 +3239,8 @@ function renderPendingOrders() {
     "none";
 
 
-  rows.forEach(
-    function(order) {
+  list.forEach(
+    order => {
 
 
       const agent =
@@ -3104,113 +3255,114 @@ function renderPendingOrders() {
         );
 
 
-      tr.innerHTML =
-        `
+      tr.innerHTML = `
 
-          <td class="order-no">
+        <td class="order-no">
+          ${escapeHtml(
+            order.order_no
+            ||
+            "-"
+          )}
+        </td>
 
-            ${escapeHTML(order.order_no || "-")}
+        <td class="agent-name">
 
-          </td>
+          ${escapeHtml(
+            agent?.agent_code
+            ||
+            "-"
+          )}
 
+          ·
 
-          <td class="agent-name">
+          ${escapeHtml(
+            agent?.agent_name
+            ||
+            "-"
+          )}
+
+        </td>
+
+        <td>
+          ${formatDate(
+            order.order_date
+          )}
+        </td>
+
+        <td class="money">
+
+          ${formatMoney(
+            order.total_amount
+          )}
+
+        </td>
+
+        <td>
+          ${escapeHtml(
+            order.currency
+            ||
+            "CNY"
+          )}
+        </td>
+
+        <td>
+          ${statusBadge(
+            order.status
+          )}
+        </td>
+
+        <td>
+          ${invoiceStatusBadge(
+            order.invoice_status
+          )}
+        </td>
+
+        <td>
+          ${formatDateTime(
+            order.created_at
+          )}
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              onclick="openOrderModal(${Number(order.id)})"
+            >
+              处理订单
+            </button>
 
             ${
-              escapeHTML(
-                (
-                  agent?.agent_code
-                  ?
-                  agent.agent_code
-                  +
-                  " · "
-                  :
-                  ""
-                )
-                +
-                (
-                  agent?.agent_name
-                  ||
-                  "未知代理商"
-                )
-              )
+              order.invoice_status ===
+              "issued"
+
+              ?
+
+              ""
+
+              :
+
+              `
+
+                <button
+                  class="btn btn-green"
+                  type="button"
+                  onclick="openInvoiceModal(${Number(order.id)})"
+                >
+                  开票
+                </button>
+
+              `
             }
 
-          </td>
+          </div>
 
+        </td>
 
-          <td>
-            ${formatDateOnly(order.order_date)}
-          </td>
-
-
-          <td class="money">
-
-            ${formatMoney(order.total_amount)}
-
-          </td>
-
-
-          <td>
-            ${escapeHTML(order.currency || "-")}
-          </td>
-
-
-          <td>
-
-            ${statusBadge(order.status)}
-
-          </td>
-
-
-          <td>
-
-            ${invoiceStatusBadge(order.invoice_status)}
-
-          </td>
-
-
-          <td>
-
-            ${formatDateTime(order.created_at)}
-
-          </td>
-
-
-          <td>
-
-            <div class="actions">
-
-              <button
-                class="btn btn-primary"
-                type="button"
-                onclick="openOrderModal('${order.id}')"
-              >
-                处理订单
-              </button>
-
-              ${
-                order.invoice_status !==
-                "issued"
-                ?
-                `
-                  <button
-                    class="btn btn-green"
-                    type="button"
-                    onclick="openInvoiceModal('${order.id}')"
-                  >
-                    开票
-                  </button>
-                `
-                :
-                ""
-              }
-
-            </div>
-
-          </td>
-
-        `;
+      `;
 
 
       tbody.appendChild(
@@ -3226,7 +3378,7 @@ function renderPendingOrders() {
 
 
 /* ==========================================================
-   历史订单
+   渲染历史订单
 ========================================================== */
 
 function renderHistoryOrders() {
@@ -3244,15 +3396,18 @@ function renderHistoryOrders() {
 
 
   const keyword =
-    document.getElementById(
-      "historySearch"
+    (
+      document.getElementById(
+        "historySearch"
+      ).value
+      ||
+      ""
     )
-    .value
-    .trim()
-    .toLowerCase();
+      .trim()
+      .toLowerCase();
 
 
-  const status =
+  const statusFilter =
     document.getElementById(
       "historyStatus"
     ).value;
@@ -3264,83 +3419,99 @@ function renderHistoryOrders() {
     ).value;
 
 
+  let list =
+    [...orders];
+
+
+  if (
+    keyword
+  ) {
+
+    list =
+      list.filter(
+        order => {
+
+
+          const agent =
+            getAgent(
+              order.agent_id
+            );
+
+
+          const haystack =
+            [
+
+              order.order_no,
+
+              agent?.agent_code,
+
+              agent?.agent_name,
+
+              order.invoice_number,
+
+              order.shipping_company,
+
+              order.tracking_number,
+
+              order.shipping_address
+
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .toLowerCase();
+
+
+          return haystack.includes(
+            keyword
+          );
+
+        }
+      );
+
+  }
+
+
+  if (
+    statusFilter !==
+    "all"
+  ) {
+
+    list =
+      list.filter(
+        order =>
+          order.status ===
+          statusFilter
+      );
+
+  }
+
+
+  if (
+    invoiceFilter !==
+    "all"
+  ) {
+
+    list =
+      list.filter(
+        order =>
+          (
+            order.invoice_status
+            ||
+            "unissued"
+          )
+          ===
+          invoiceFilter
+      );
+
+  }
+
+
   tbody.innerHTML =
     "";
 
 
-  const rows =
-    orders.filter(
-      function(order) {
-
-
-        const agent =
-          getAgent(
-            order.agent_id
-          );
-
-
-        const searchable =
-          [
-            order.order_no,
-            agent?.agent_code,
-            agent?.agent_name,
-            order.invoice_number
-          ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-
-
-        const keywordMatched =
-          (
-            !keyword
-            ||
-            searchable.includes(
-              keyword
-            )
-          );
-
-
-        const statusMatched =
-          (
-            status ===
-            "all"
-            ||
-            order.status ===
-            status
-          );
-
-
-        const actualInvoiceStatus =
-          order.invoice_status
-          ||
-          "unissued";
-
-
-        const invoiceMatched =
-          (
-            invoiceFilter ===
-            "all"
-            ||
-            actualInvoiceStatus ===
-            invoiceFilter
-          );
-
-
-        return (
-          keywordMatched
-          &&
-          statusMatched
-          &&
-          invoiceMatched
-        );
-
-      }
-    );
-
-
   if (
-    rows.length ===
+    list.length ===
     0
   ) {
 
@@ -3356,8 +3527,8 @@ function renderHistoryOrders() {
     "none";
 
 
-  rows.forEach(
-    function(order) {
+  list.forEach(
+    order => {
 
 
       const agent =
@@ -3372,141 +3543,150 @@ function renderHistoryOrders() {
         );
 
 
-      tr.innerHTML =
-        `
+      tr.innerHTML = `
 
-          <td class="order-no">
+        <td class="order-no">
+          ${escapeHtml(
+            order.order_no
+            ||
+            "-"
+          )}
+        </td>
 
-            ${escapeHTML(order.order_no || "-")}
+        <td class="agent-name">
 
-          </td>
+          ${escapeHtml(
+            agent?.agent_code
+            ||
+            "-"
+          )}
 
+          ·
 
-          <td class="agent-name">
+          ${escapeHtml(
+            agent?.agent_name
+            ||
+            "-"
+          )}
+
+        </td>
+
+        <td>
+          ${formatDate(
+            order.order_date
+          )}
+        </td>
+
+        <td class="money">
+          ${formatMoney(
+            order.total_amount
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            order.currency
+            ||
+            "CNY"
+          )}
+        </td>
+
+        <td>
+          ${statusBadge(
+            order.status
+          )}
+        </td>
+
+        <td>
+          ${invoiceStatusBadge(
+            order.invoice_status
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            order.invoice_number
+            ||
+            "-"
+          )}
+        </td>
+
+        <td>
+          ${formatDate(
+            order.expected_shipping_date
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            order.shipping_company
+            ||
+            "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            order.tracking_number
+            ||
+            "-"
+          )}
+        </td>
+
+        <td>
+          ${formatDateTime(
+            order.processed_at
+          )}
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="btn btn-dark"
+              type="button"
+              onclick="openOrderModal(${Number(order.id)})"
+            >
+              查看详情
+            </button>
 
             ${
-              escapeHTML(
-                (
-                  agent?.agent_code
-                  ?
-                  agent.agent_code
-                  +
-                  " · "
-                  :
-                  ""
-                )
-                +
-                (
-                  agent?.agent_name
-                  ||
-                  "未知代理商"
-                )
-              )
+              order.invoice_status ===
+              "issued"
+
+              ?
+
+              ""
+
+              :
+
+              `
+
+                <button
+                  class="btn btn-green"
+                  type="button"
+                  onclick="openInvoiceModal(${Number(order.id)})"
+                >
+                  开票
+                </button>
+
+              `
             }
 
-          </td>
+            <button
+              class="btn btn-orange"
+              type="button"
+              onclick="printOrder(${Number(order.id)})"
+            >
+              打印
+            </button>
 
+          </div>
 
-          <td>
-            ${formatDateOnly(order.order_date)}
-          </td>
+        </td>
 
-
-          <td class="money">
-            ${formatMoney(order.total_amount)}
-          </td>
-
-
-          <td>
-            ${escapeHTML(order.currency || "-")}
-          </td>
-
-
-          <td>
-            ${statusBadge(order.status)}
-          </td>
-
-
-          <td>
-
-            ${invoiceStatusBadge(order.invoice_status)}
-
-          </td>
-
-
-          <td>
-
-            ${escapeHTML(order.invoice_number || "-")}
-
-          </td>
-
-
-          <td>
-            ${formatDateOnly(order.expected_shipping_date)}
-          </td>
-
-
-          <td>
-            ${escapeHTML(order.shipping_company || "-")}
-          </td>
-
-
-          <td>
-            ${escapeHTML(order.tracking_number || "-")}
-          </td>
-
-
-          <td>
-            ${formatDateTime(order.processed_at)}
-          </td>
-
-
-          <td>
-
-            <div class="actions">
-
-
-              <button
-                class="btn btn-dark"
-                type="button"
-                onclick="openOrderModal('${order.id}')"
-              >
-                查看详情
-              </button>
-
-
-              ${
-                order.invoice_status !==
-                "issued"
-                ?
-                `
-                  <button
-                    class="btn btn-green"
-                    type="button"
-                    onclick="openInvoiceModal('${order.id}')"
-                  >
-                    开票
-                  </button>
-                `
-                :
-                ""
-              }
-
-
-              <button
-                class="btn btn-orange"
-                type="button"
-                onclick="printOrder('${order.id}')"
-              >
-                打印
-              </button>
-
-
-            </div>
-
-          </td>
-
-        `;
+      `;
 
 
       tbody.appendChild(
@@ -3522,7 +3702,14 @@ function renderHistoryOrders() {
 
 
 /* ==========================================================
-   打开订单详情 / 处理窗口
+   打开订单详情
+
+   关键修改：
+   pending订单：
+   shipping_address如果还没有保存，
+   自动使用代理商 address 作为默认值。
+
+   管理人员可以直接修改。
 ========================================================== */
 
 function openOrderModal(
@@ -3555,71 +3742,108 @@ function openOrderModal(
     order.id;
 
 
-  const agent =
-    getAgent(
-      order.agent_id
-    );
-
-
   document.getElementById(
     "currentOrderId"
   ).value =
     order.id;
 
 
+  const agent =
+    getAgent(
+      order.agent_id
+    );
+
+
+  const items =
+    getOrderItems(
+      order.id
+    );
+
+
   setText(
     "detailOrderNo",
-    order.order_no ||
+    order.order_no
+    ||
     "-"
   );
 
 
-  setText(
-    "detailStatus",
-    statusToChinese(
+  document.getElementById(
+    "detailStatus"
+  ).innerHTML =
+    statusBadge(
       order.status
-    )
-  );
+    );
 
 
   setText(
     "detailAgentCode",
-    agent?.agent_code ||
+    agent?.agent_code
+    ||
     "-"
   );
 
 
   setText(
     "detailAgentName",
-    agent?.agent_name ||
+    agent?.agent_name
+    ||
     "-"
   );
 
 
   setText(
     "detailContact",
-    agent?.contact_person ||
+    agent?.contact_person
+    ||
     "-"
   );
 
 
   setText(
     "detailPhone",
-    agent?.phone ||
+    agent?.phone
+    ||
     "-"
   );
 
 
   setText(
     "detailAddress",
-    agent?.address ||
+    agent?.address
+    ||
     "-"
+  );
+
+
+  /*
+    实际发货地址：
+
+    已确认订单：
+    读取 orders.shipping_address。
+
+    待处理订单：
+    如果订单还没有地址，
+    显示代理商当前地址。
+  */
+
+  const actualShippingAddress =
+    order.shipping_address
+    ||
+    agent?.address
+    ||
+    "-";
+
+
+  setText(
+    "detailShippingAddress",
+    actualShippingAddress
   );
 
 
   setText(
     "detailOrderDate",
-    formatDateOnly(
+    formatDate(
       order.order_date
     )
   );
@@ -3627,6 +3851,7 @@ function openOrderModal(
 
   setText(
     "detailTotal",
+
     formatMoney(
       order.total_amount
     )
@@ -3634,22 +3859,25 @@ function openOrderModal(
     " "
     +
     (
-      order.currency ||
-      ""
+      order.currency
+      ||
+      "CNY"
     )
+
   );
 
 
   setText(
     "detailRemarks",
-    order.remarks ||
+    order.remarks
+    ||
     "-"
   );
 
 
   setText(
     "detailShippingDate",
-    formatDateOnly(
+    formatDate(
       order.expected_shipping_date
     )
   );
@@ -3657,14 +3885,16 @@ function openOrderModal(
 
   setText(
     "detailShippingCompany",
-    order.shipping_company ||
+    order.shipping_company
+    ||
     "-"
   );
 
 
   setText(
     "detailTrackingNumber",
-    order.tracking_number ||
+    order.tracking_number
+    ||
     "-"
   );
 
@@ -3698,20 +3928,14 @@ function openOrderModal(
      商品明细
   ======================================================== */
 
-  const tbody =
+  const itemBody =
     document.getElementById(
       "detailItemsBody"
     );
 
 
-  tbody.innerHTML =
+  itemBody.innerHTML =
     "";
-
-
-  const items =
-    getOrderItems(
-      order.id
-    );
 
 
   if (
@@ -3720,21 +3944,20 @@ function openOrderModal(
   ) {
 
 
-    tbody.innerHTML =
-      `
+    itemBody.innerHTML = `
 
-        <tr>
+      <tr>
 
-          <td
-            colspan="7"
-            class="empty"
-          >
-            当前订单没有商品明细
-          </td>
+        <td
+          colspan="7"
+          class="empty"
+        >
+          该订单没有商品明细
+        </td>
 
-        </tr>
+      </tr>
 
-      `;
+    `;
 
 
   }
@@ -3743,7 +3966,7 @@ function openOrderModal(
 
 
     items.forEach(
-      function(item) {
+      item => {
 
 
         const tr =
@@ -3752,53 +3975,78 @@ function openOrderModal(
           );
 
 
-        tr.innerHTML =
-          `
+        tr.innerHTML = `
 
-            <td>
-              ${escapeHTML(item.product_code_snapshot || "-")}
-            </td>
+          <td>
+            ${escapeHtml(
+              item.product_code_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.product_name_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.specification_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.unit_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td class="money">
+
+            ${formatMoney(
+              item.unit_price
+            )}
+
+            ${escapeHtml(
+              order.currency
+              ||
+              "CNY"
+            )}
+
+          </td>
+
+          <td>
+            ${formatQuantity(
+              item.quantity
+            )}
+          </td>
+
+          <td class="money">
+
+            ${formatMoney(
+              item.line_total
+            )}
+
+            ${escapeHtml(
+              order.currency
+              ||
+              "CNY"
+            )}
+
+          </td>
+
+        `;
 
 
-            <td>
-              ${escapeHTML(item.product_name_snapshot || "-")}
-            </td>
-
-
-            <td>
-              ${escapeHTML(item.specification_snapshot || "-")}
-            </td>
-
-
-            <td>
-              ${escapeHTML(item.unit_snapshot || "-")}
-            </td>
-
-
-            <td class="money">
-
-              ${formatMoney(item.unit_price)}
-              ${escapeHTML(order.currency || "")}
-
-            </td>
-
-
-            <td>
-              ${formatQuantity(item.quantity)}
-            </td>
-
-
-            <td class="money">
-
-              ${formatMoney(item.line_total)}
-              ${escapeHTML(order.currency || "")}
-
-            </td>
-
-          `;
-
-
-        tbody.appendChild(
+        itemBody.appendChild(
           tr
         );
 
@@ -3812,7 +4060,8 @@ function openOrderModal(
 
 
   /* ========================================================
-     pending订单显示处理区
+     待处理订单：
+     显示发货填写窗口
   ======================================================== */
 
   const shippingBox =
@@ -3846,7 +4095,7 @@ function openOrderModal(
     ).value =
       order.expected_shipping_date
       ||
-      getToday();
+      "";
 
 
     document.getElementById(
@@ -3861,6 +4110,25 @@ function openOrderModal(
       "trackingNumber"
     ).value =
       order.tracking_number
+      ||
+      "";
+
+
+    /*
+      关键：
+
+      默认值 = 代理商当前地址
+
+      如果订单本身已经有 shipping_address，
+      优先读取订单自己的地址。
+    */
+
+    document.getElementById(
+      "shippingAddress"
+    ).value =
+      order.shipping_address
+      ||
+      agent?.address
       ||
       "";
 
@@ -3886,10 +4154,9 @@ function openOrderModal(
      开票信息
   ======================================================== */
 
-  const invoiceInfoBox =
-    document.getElementById(
-      "invoiceInfoBox"
-    );
+  renderInvoiceInformation(
+    order
+  );
 
 
   const invoiceButton =
@@ -3898,69 +4165,25 @@ function openOrderModal(
     );
 
 
-  const invoiceStatus =
-    order.invoice_status
-    ||
-    "unissued";
-
-
-  setText(
-    "detailInvoiceStatus",
-    invoiceStatusToChinese(
-      invoiceStatus
-    )
-  );
-
-
-  setText(
-    "detailInvoiceNumber",
-    order.invoice_number ||
-    "-"
-  );
-
-
-  setText(
-    "detailInvoicedAt",
-    formatDateTime(
-      order.invoiced_at
-    )
-  );
-
-
-  setText(
-    "detailInvoicedBy",
-    getProfileName(
-      order.invoiced_by
-    )
-  );
-
-
   if (
-    invoiceStatus ===
-    "issued"
+    (
+      order.invoice_status
+      ||
+      "unissued"
+    )
+    ===
+    "unissued"
   ) {
 
-
-    invoiceInfoBox.className =
-      "invoice-box";
-
-
     invoiceButton.style.display =
-      "none";
-
+      "inline-block";
 
   }
 
   else {
 
-
-    invoiceInfoBox.className =
-      "invoice-box unissued";
-
-
     invoiceButton.style.display =
-      "inline-block";
-
+      "none";
 
   }
 
@@ -3982,6 +4205,7 @@ function openOrderModal(
 
 function closeOrderModal() {
 
+
   document.getElementById(
     "orderModal"
   ).classList.remove(
@@ -3992,53 +4216,96 @@ function closeOrderModal() {
   currentOpenOrderId =
     null;
 
+
+  document.getElementById(
+    "currentOrderId"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "shippingDate"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "shippingCompany"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "trackingNumber"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "shippingAddress"
+  ).value =
+    "";
+
 }
 
 
 
 /* ==========================================================
-   正式确认订单
+   确认订单
 
-   pending
-      ↓
-   confirmed
+   这里是本次最重要修改：
 
-   processed_at / processed_by
-   由数据库自动填写
+   1. 保存发货日期
+   2. 保存物流公司
+   3. 保存运单号
+   4. 保存实际发货地址
+   5. RPC成功后立即关闭窗口
+   6. 再重新读取数据库
+   7. 自动刷新待处理/历史/顶部统计
 ========================================================== */
 
 async function confirmCurrentOrder() {
 
+
+  const orderId =
+    Number(
+      document.getElementById(
+        "currentOrderId"
+      ).value
+    );
+
+
+  const order =
+    orders.find(
+      item =>
+        Number(item.id) ===
+        orderId
+    );
+
+
   if (
-    !currentOpenOrderId
+    !order
   ) {
+
+    showNotice(
+      "没有找到当前订单。",
+      "error"
+    );
 
     return;
 
   }
 
 
-  const order =
-    orders.find(
-      item =>
-        String(item.id) ===
-        String(currentOpenOrderId)
-    );
-
-
   if (
-    !order
-    ||
     order.status !==
     "pending"
   ) {
 
-
     showNotice(
-      "该订单已经不是待处理状态，请刷新页面。",
+      "该订单已经不是待处理状态。",
       "error"
     );
-
 
     return;
 
@@ -4054,25 +4321,29 @@ async function confirmCurrentOrder() {
   const shippingCompany =
     document.getElementById(
       "shippingCompany"
-    )
-    .value
-    .trim();
+    ).value.trim();
 
 
   const trackingNumber =
     document.getElementById(
       "trackingNumber"
-    )
-    .value
-    .trim();
+    ).value.trim();
+
+
+  const shippingAddress =
+    document.getElementById(
+      "shippingAddress"
+    ).value.trim();
+
 
 
   if (
     !shippingDate
   ) {
 
-    alert(
-      "请输入预计发货日期。"
+    showNotice(
+      "请填写预计发货日期。",
+      "error"
     );
 
     return;
@@ -4084,8 +4355,9 @@ async function confirmCurrentOrder() {
     !shippingCompany
   ) {
 
-    alert(
-      "请输入快递或物流公司。"
+    showNotice(
+      "请填写快递或物流公司。",
+      "error"
     );
 
     return;
@@ -4097,54 +4369,29 @@ async function confirmCurrentOrder() {
     !trackingNumber
   ) {
 
-    alert(
-      "请输入发货单号或物流运单号。"
+    showNotice(
+      "请填写发货单号或运单号。",
+      "error"
     );
 
     return;
 
   }
-
-
-  const confirmed =
-    confirm(
-      "确定确认这个代理商订单吗？\n\n"
-      +
-      "订单号："
-      +
-      order.order_no
-      +
-      "\n"
-      +
-      "预计发货日期："
-      +
-      shippingDate
-      +
-      "\n"
-      +
-      "物流公司："
-      +
-      shippingCompany
-      +
-      "\n"
-      +
-      "发货单号："
-      +
-      trackingNumber
-      +
-      "\n\n"
-      +
-      "确认成功后，订单状态将由“待处理”变为“已确认”。"
-    );
 
 
   if (
-    !confirmed
+    !shippingAddress
   ) {
+
+    showNotice(
+      "请填写实际发货地址。",
+      "error"
+    );
 
     return;
 
   }
+
 
 
   const button =
@@ -4173,27 +4420,27 @@ async function confirmCurrentOrder() {
       data,
       error
     } =
-      await supabaseClient
-        .rpc(
-          "confirm_agent_order",
-          {
+      await supabaseClient.rpc(
+        "confirm_agent_order",
+        {
 
-            p_order_id:
-              Number(
-                order.id
-              ),
+          p_order_id:
+            orderId,
 
-            p_expected_shipping_date:
-              shippingDate,
+          p_expected_shipping_date:
+            shippingDate,
 
-            p_shipping_company:
-              shippingCompany,
+          p_shipping_company:
+            shippingCompany,
 
-            p_tracking_number:
-              trackingNumber
+          p_tracking_number:
+            trackingNumber,
 
-          }
-        );
+          p_shipping_address:
+            shippingAddress
+
+        }
+      );
 
 
     if (
@@ -4205,25 +4452,69 @@ async function confirmCurrentOrder() {
     }
 
 
+
+    /*
+      -------------------------------------------------------
+      关键修复 1：
+
+      RPC成功后立即关闭订单窗口。
+
+      不再等待第二次数据读取完成以后才关闭。
+      -------------------------------------------------------
+    */
+
     closeOrderModal();
 
 
+
+    /*
+      先关闭当前 Loading。
+
+      loadAllData 自己会控制后续 Loading。
+    */
+
+    showLoading(
+      false
+    );
+
+
+
+    /*
+      -------------------------------------------------------
+      关键修复 2：
+
+      重新读取数据库最新状态。
+
+      confirmed订单会：
+      - 从待处理列表消失
+      - 出现在历史订单
+      - 待处理数量减少
+      - 已确认数量增加
+      -------------------------------------------------------
+    */
+
+    await loadAllData(
+      false
+    );
+
+
+
     showNotice(
+
       "订单 "
       +
       (
         data?.order_no
         ||
         order.order_no
+        ||
+        ""
       )
       +
-      " 已确认，发货资料保存成功。",
+      " 已确认，发货资料和实际发货地址已保存。",
+
       "success"
-    );
 
-
-    await loadAllData(
-      false
     );
 
 
@@ -4239,6 +4530,7 @@ async function confirmCurrentOrder() {
 
 
     showNotice(
+
       "确认订单失败："
       +
       (
@@ -4246,7 +4538,9 @@ async function confirmCurrentOrder() {
         ||
         "未知错误"
       ),
+
       "error"
+
     );
 
 
@@ -4275,13 +4569,87 @@ async function confirmCurrentOrder() {
 
 
 /* ==========================================================
-   从当前订单详情打开开票窗口
+   开票信息
+========================================================== */
+
+function renderInvoiceInformation(
+  order
+) {
+
+
+  const box =
+    document.getElementById(
+      "invoiceInfoBox"
+    );
+
+
+  const issued =
+    order.invoice_status ===
+    "issued";
+
+
+  box.className =
+    issued
+    ?
+    "invoice-box"
+    :
+    "invoice-box unissued";
+
+
+  setText(
+    "detailInvoiceStatus",
+    issued
+    ?
+    "已开票"
+    :
+    "未开票"
+  );
+
+
+  setText(
+    "detailInvoiceNumber",
+    order.invoice_number
+    ||
+    "-"
+  );
+
+
+  setText(
+    "detailInvoicedAt",
+    formatDateTime(
+      order.invoiced_at
+    )
+  );
+
+
+  setText(
+    "detailInvoicedBy",
+    getProfileName(
+      order.invoiced_by
+    )
+  );
+
+}
+
+
+
+/* ==========================================================
+   从当前订单打开开票窗口
 ========================================================== */
 
 function openInvoiceModalFromCurrentOrder() {
 
+
+  const orderId =
+    Number(
+      document.getElementById(
+        "currentOrderId"
+      ).value
+    );
+
+
   if (
-    !currentOpenOrderId
+    !orderId
   ) {
 
     return;
@@ -4289,8 +4657,11 @@ function openInvoiceModalFromCurrentOrder() {
   }
 
 
+  closeOrderModal();
+
+
   openInvoiceModal(
-    currentOpenOrderId
+    orderId
   );
 
 }
@@ -4305,6 +4676,7 @@ function openInvoiceModal(
   orderId
 ) {
 
+
   const order =
     orders.find(
       item =>
@@ -4318,7 +4690,7 @@ function openInvoiceModal(
   ) {
 
     showNotice(
-      "没有找到需要开票的订单。",
+      "没有找到该订单。",
       "error"
     );
 
@@ -4332,13 +4704,9 @@ function openInvoiceModal(
     "issued"
   ) {
 
-    alert(
-      "该订单已经开票。\n\n发票号："
-      +
-      (
-        order.invoice_number ||
-        "-"
-      )
+    showNotice(
+      "该订单已经完成开票，不能重复开票。",
+      "error"
     );
 
     return;
@@ -4360,33 +4728,37 @@ function openInvoiceModal(
 
   setText(
     "invoiceOrderNo",
-    order.order_no ||
+    order.order_no
+    ||
     "-"
   );
 
 
   setText(
+
     "invoiceAgentName",
+
     (
       agent?.agent_code
-      ?
-      agent.agent_code
-      +
-      " · "
-      :
-      ""
+      ||
+      "-"
     )
+    +
+    " · "
     +
     (
       agent?.agent_name
       ||
-      "未知代理商"
+      "-"
     )
+
   );
 
 
   setText(
+
     "invoiceOrderTotal",
+
     formatMoney(
       order.total_amount
     )
@@ -4394,9 +4766,11 @@ function openInvoiceModal(
     " "
     +
     (
-      order.currency ||
-      ""
+      order.currency
+      ||
+      "CNY"
     )
+
   );
 
 
@@ -4434,6 +4808,7 @@ function openInvoiceModal(
 
 function closeInvoiceModal() {
 
+
   document.getElementById(
     "invoiceModal"
   ).classList.remove(
@@ -4457,28 +4832,34 @@ function closeInvoiceModal() {
 
 
 /* ==========================================================
-   正式开票
+   执行开票
 ========================================================== */
 
 async function issueInvoice() {
 
+
   const orderId =
-    document.getElementById(
-      "invoiceOrderId"
-    ).value;
+    Number(
+      document.getElementById(
+        "invoiceOrderId"
+      ).value
+    );
 
 
   const invoiceNumber =
     document.getElementById(
       "invoiceNumberInput"
-    )
-    .value
-    .trim();
+    ).value.trim();
 
 
   if (
     !orderId
   ) {
+
+    showNotice(
+      "没有找到需要开票的订单。",
+      "error"
+    );
 
     return;
 
@@ -4489,81 +4870,10 @@ async function issueInvoice() {
     !invoiceNumber
   ) {
 
-    alert(
-      "请输入发票号。"
+    showNotice(
+      "请输入发票号。",
+      "error"
     );
-
-    return;
-
-  }
-
-
-  const order =
-    orders.find(
-      item =>
-        String(item.id) ===
-        String(orderId)
-    );
-
-
-  if (
-    !order
-  ) {
-
-    alert(
-      "订单不存在。"
-    );
-
-    return;
-
-  }
-
-
-  if (
-    order.invoice_status ===
-    "issued"
-  ) {
-
-    alert(
-      "该订单已经开票，不能重复开票。"
-    );
-
-    closeInvoiceModal();
-
-    await loadAllData(
-      false
-    );
-
-    return;
-
-  }
-
-
-  const confirmed =
-    confirm(
-      "确定登记该订单为“已开票”吗？\n\n"
-      +
-      "订单号："
-      +
-      order.order_no
-      +
-      "\n"
-      +
-      "发票号："
-      +
-      invoiceNumber
-      +
-      "\n\n"
-      +
-      "确认后系统将自动记录开票时间和当前操作人。\n"
-      +
-      "开票记录将被永久锁定，不能修改发票号，也不能恢复为未开票。"
-    );
-
-
-  if (
-    !confirmed
-  ) {
 
     return;
 
@@ -4596,21 +4906,18 @@ async function issueInvoice() {
       data,
       error
     } =
-      await supabaseClient
-        .rpc(
-          "issue_agent_order_invoice",
-          {
+      await supabaseClient.rpc(
+        "issue_agent_order_invoice",
+        {
 
-            p_order_id:
-              Number(
-                order.id
-              ),
+          p_order_id:
+            orderId,
 
-            p_invoice_number:
-              invoiceNumber
+          p_invoice_number:
+            invoiceNumber
 
-          }
-        );
+        }
+      );
 
 
     if (
@@ -4625,38 +4932,30 @@ async function issueInvoice() {
     closeInvoiceModal();
 
 
-    /*
-      如果订单详情窗口还开着，
-      先关闭，重新加载以后再看最新资料。
-    */
-
-    closeOrderModal();
-
-
-    showNotice(
-      "订单 "
-      +
-      (
-        data?.order_no
-        ||
-        order.order_no
-      )
-      +
-      " 已完成开票。发票号："
-      +
-      (
-        data?.invoice_number
-        ||
-        invoiceNumber
-      )
-      +
-      "。",
-      "success"
+    showLoading(
+      false
     );
 
 
     await loadAllData(
       false
+    );
+
+
+    showNotice(
+
+      "订单 "
+      +
+      (
+        data?.order_no
+        ||
+        ""
+      )
+      +
+      " 已完成开票。",
+
+      "success"
+
     );
 
 
@@ -4666,20 +4965,23 @@ async function issueInvoice() {
 
 
     console.error(
-      "订单开票失败：",
+      "开票失败：",
       error
     );
 
 
     showNotice(
-      "订单开票失败："
+
+      "开票失败："
       +
       (
         error.message
         ||
         "未知错误"
       ),
+
       "error"
+
     );
 
 
@@ -4713,18 +5015,24 @@ async function issueInvoice() {
 
 function printCurrentOrder() {
 
+
+  const orderId =
+    Number(
+      document.getElementById(
+        "currentOrderId"
+      ).value
+    );
+
+
   if (
-    !currentOpenOrderId
+    orderId
   ) {
 
-    return;
+    printOrder(
+      orderId
+    );
 
   }
-
-
-  printOrder(
-    currentOpenOrderId
-  );
 
 }
 
@@ -4732,11 +5040,15 @@ function printCurrentOrder() {
 
 /* ==========================================================
    打印订单
+
+   新增：
+   打印实际发货地址
 ========================================================== */
 
 function printOrder(
   orderId
 ) {
+
 
   const order =
     orders.find(
@@ -4750,8 +5062,9 @@ function printOrder(
     !order
   ) {
 
-    alert(
-      "没有找到订单。"
+    showNotice(
+      "没有找到需要打印的订单。",
+      "error"
     );
 
     return;
@@ -4771,73 +5084,91 @@ function printOrder(
     );
 
 
-  const rows =
+  const shippingAddress =
+    order.shipping_address
+    ||
+    agent?.address
+    ||
+    "-";
+
+
+  const itemRows =
     items.map(
-      function(item,index) {
+      item => `
+
+        <tr>
+
+          <td>
+            ${escapeHtml(
+              item.product_code_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.product_name_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.specification_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.unit_snapshot
+              ||
+              "-"
+            )}
+          </td>
+
+          <td style="text-align:right;">
+            ${formatMoney(
+              item.unit_price
+            )}
+          </td>
+
+          <td style="text-align:right;">
+            ${formatQuantity(
+              item.quantity
+            )}
+          </td>
+
+          <td style="text-align:right;">
+            ${formatMoney(
+              item.line_total
+            )}
+          </td>
+
+        </tr>
+
+      `
+    ).join("");
 
 
-        return `
-
-          <tr>
-
-            <td>
-              ${index + 1}
-            </td>
-
-            <td>
-              ${printEscape(item.product_code_snapshot || "-")}
-            </td>
-
-            <td>
-              ${printEscape(item.product_name_snapshot || "-")}
-            </td>
-
-            <td>
-              ${printEscape(item.specification_snapshot || "-")}
-            </td>
-
-            <td>
-              ${printEscape(item.unit_snapshot || "-")}
-            </td>
-
-            <td style="text-align:right;">
-              ${formatMoney(item.unit_price)}
-            </td>
-
-            <td style="text-align:right;">
-              ${formatQuantity(item.quantity)}
-            </td>
-
-            <td style="text-align:right;">
-              ${formatMoney(item.line_total)}
-            </td>
-
-          </tr>
-
-        `;
-
-
-      }
-    )
-    .join(
-      ""
-    );
-
-
-  const w =
+  const printWindow =
     window.open(
       "",
       "_blank",
-      "width=1050,height=820"
+      "width=1100,height=800"
     );
 
 
   if (
-    !w
+    !printWindow
   ) {
 
-    alert(
-      "浏览器阻止了打印窗口，请允许本站打开弹出窗口。"
+    showNotice(
+      "浏览器阻止了打印窗口，请允许弹出窗口后重试。",
+      "error"
     );
 
     return;
@@ -4845,726 +5176,432 @@ function printOrder(
   }
 
 
-  const invoiceStatus =
-    order.invoice_status
-    ||
-    "unissued";
+  printWindow.document.write(`
 
+    <!DOCTYPE html>
 
-  w.document.write(
-    `
+    <html lang="zh-CN">
 
-<!DOCTYPE html>
+    <head>
 
-<html lang="zh-CN">
+      <meta charset="UTF-8">
 
-<head>
+      <title>
+        ${escapeHtml(
+          order.order_no
+          ||
+          "销售订单"
+        )}
+      </title>
 
-<meta charset="UTF-8">
+      <style>
 
-<title>
-${printEscape(order.order_no || "销售订单")}
-</title>
+        body {
 
-<style>
+          font-family:
+            Arial,
+            "Microsoft YaHei",
+            sans-serif;
 
-@page {
-  size: A4;
-  margin: 14mm;
-}
+          padding: 30px;
 
-body {
-  font-family:
-    Arial,
-    "Microsoft YaHei",
-    sans-serif;
+          color: #111;
 
-  color: #111;
+        }
 
-  font-size: 12px;
-}
+        h1 {
+          text-align: center;
+          margin-bottom: 5px;
+        }
 
-.company {
-  text-align: center;
+        .subtitle {
+          text-align: center;
+          color: #666;
+          margin-bottom: 30px;
+        }
 
-  font-size: 23px;
+        .info {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px 30px;
+          margin-bottom: 20px;
+        }
 
-  font-weight: 700;
-}
+        .full {
+          grid-column: 1 / -1;
+        }
 
-.title {
-  margin:
-    7px 0 22px;
+        .label {
+          color: #666;
+          font-size: 12px;
+        }
 
-  text-align: center;
+        .value {
+          margin-top: 4px;
+          font-size: 14px;
+          line-height: 1.7;
+        }
 
-  font-size: 20px;
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
 
-  font-weight: 700;
+        th,
+        td {
+          border: 1px solid #ccc;
+          padding: 9px;
+          font-size: 12px;
+        }
 
-  letter-spacing: 4px;
-}
+        th {
+          background: #f3f4f6;
+        }
 
-.info {
-  width: 100%;
+        .total {
+          margin-top: 20px;
+          text-align: right;
+          font-size: 18px;
+          font-weight: bold;
+        }
 
-  border-collapse: collapse;
+        .footer {
+          margin-top: 50px;
+          color: #777;
+          font-size: 11px;
+        }
 
-  margin-bottom: 18px;
-}
+      </style>
 
-.info td {
-  border:
-    1px solid #777;
+    </head>
 
-  padding: 7px;
-}
 
-.label {
-  width: 95px;
+    <body>
 
-  background: #f3f4f6;
 
-  font-weight: 700;
-}
+      <h1>
+        硕丰科技销售订单
+      </h1>
 
-.items {
-  width: 100%;
 
-  border-collapse: collapse;
-}
+      <div class="subtitle">
 
-.items th,
-.items td {
-  border:
-    1px solid #666;
+        订单号：
 
-  padding: 7px;
-}
+        ${escapeHtml(
+          order.order_no
+          ||
+          "-"
+        )}
 
-.items th {
-  background: #f3f4f6;
-}
+      </div>
 
-.total {
-  margin-top: 16px;
 
-  text-align: right;
+      <div class="info">
 
-  font-size: 17px;
 
-  font-weight: 700;
-}
+        <div>
 
-.remark {
-  margin-top: 18px;
+          <div class="label">
+            代理商
+          </div>
 
-  border:
-    1px solid #777;
+          <div class="value">
 
-  min-height: 55px;
+            ${escapeHtml(
+              agent?.agent_code
+              ||
+              "-"
+            )}
 
-  padding: 9px;
-}
+            ·
 
-.invoice-section {
-  margin-top: 18px;
+            ${escapeHtml(
+              agent?.agent_name
+              ||
+              "-"
+            )}
 
-  border:
-    1px solid #777;
+          </div>
 
-  padding: 10px;
-}
+        </div>
 
-.invoice-title {
-  font-weight: 700;
 
-  margin-bottom: 8px;
-}
+        <div>
 
-.signature-box {
-  display: grid;
+          <div class="label">
+            下单日期
+          </div>
 
-  grid-template-columns:
-    repeat(3,1fr);
+          <div class="value">
+            ${formatDate(
+              order.order_date
+            )}
+          </div>
 
-  gap: 35px;
+        </div>
 
-  margin-top: 60px;
-}
 
-.signature {
-  border-top:
-    1px solid #777;
+        <div>
 
-  text-align: center;
+          <div class="label">
+            联系人
+          </div>
 
-  padding-top: 7px;
-}
+          <div class="value">
+            ${escapeHtml(
+              agent?.contact_person
+              ||
+              "-"
+            )}
+          </div>
 
-</style>
+        </div>
 
-</head>
 
+        <div>
 
-<body>
+          <div class="label">
+            联系电话
+          </div>
 
+          <div class="value">
+            ${escapeHtml(
+              agent?.phone
+              ||
+              "-"
+            )}
+          </div>
 
-<div class="company">
-硕丰科技
-</div>
+        </div>
 
 
-<div class="title">
-代理商销售订单
-</div>
+        <div class="full">
 
+          <div class="label">
+            实际发货地址
+          </div>
 
+          <div class="value">
+            ${escapeHtml(
+              shippingAddress
+            )}
+          </div>
 
-<table class="info">
+        </div>
 
 
-<tr>
+        <div>
 
-<td class="label">
-订单号
-</td>
+          <div class="label">
+            预计发货日期
+          </div>
 
-<td>
-${printEscape(order.order_no || "-")}
-</td>
+          <div class="value">
+            ${formatDate(
+              order.expected_shipping_date
+            )}
+          </div>
 
-<td class="label">
-下单日期
-</td>
+        </div>
 
-<td>
-${printEscape(formatDateOnly(order.order_date))}
-</td>
 
-</tr>
+        <div>
 
+          <div class="label">
+            物流公司
+          </div>
 
-<tr>
+          <div class="value">
+            ${escapeHtml(
+              order.shipping_company
+              ||
+              "-"
+            )}
+          </div>
 
-<td class="label">
-代理商
-</td>
+        </div>
 
-<td>
-${printEscape(agent?.agent_name || "-")}
-</td>
 
-<td class="label">
-代理商代码
-</td>
+        <div>
 
-<td>
-${printEscape(agent?.agent_code || "-")}
-</td>
+          <div class="label">
+            发货单号
+          </div>
 
-</tr>
+          <div class="value">
+            ${escapeHtml(
+              order.tracking_number
+              ||
+              "-"
+            )}
+          </div>
 
+        </div>
 
-<tr>
 
-<td class="label">
-联系人
-</td>
+        <div>
 
-<td>
-${printEscape(agent?.contact_person || "-")}
-</td>
+          <div class="label">
+            订单状态
+          </div>
 
-<td class="label">
-电话
-</td>
+          <div class="value">
+            ${escapeHtml(
+              statusToChinese(
+                order.status
+              )
+            )}
+          </div>
 
-<td>
-${printEscape(agent?.phone || "-")}
-</td>
+        </div>
 
-</tr>
 
+        <div>
 
-<tr>
+          <div class="label">
+            开票状态
+          </div>
 
-<td class="label">
-订单状态
-</td>
+          <div class="value">
+            ${escapeHtml(
+              invoiceStatusToChinese(
+                order.invoice_status
+              )
+            )}
+          </div>
 
-<td>
-${printEscape(statusToChinese(order.status))}
-</td>
+        </div>
 
-<td class="label">
-币种
-</td>
 
-<td>
-${printEscape(order.currency || "-")}
-</td>
+        <div>
 
-</tr>
+          <div class="label">
+            发票号
+          </div>
 
+          <div class="value">
+            ${escapeHtml(
+              order.invoice_number
+              ||
+              "-"
+            )}
+          </div>
 
-<tr>
+        </div>
 
-<td class="label">
-预计发货
-</td>
 
-<td>
-${printEscape(formatDateOnly(order.expected_shipping_date))}
-</td>
+      </div>
 
-<td class="label">
-物流公司
-</td>
 
-<td>
-${printEscape(order.shipping_company || "-")}
-</td>
 
-</tr>
+      <table>
 
+        <thead>
 
-<tr>
+          <tr>
 
-<td class="label">
-发货单号
-</td>
+            <th>产品代码</th>
+            <th>产品名称</th>
+            <th>规格</th>
+            <th>单位</th>
+            <th>销售单价</th>
+            <th>数量</th>
+            <th>金额</th>
 
-<td>
-${printEscape(order.tracking_number || "-")}
-</td>
+          </tr>
 
-<td class="label">
-处理时间
-</td>
+        </thead>
 
-<td>
-${printEscape(formatDateTime(order.processed_at))}
-</td>
 
-</tr>
+        <tbody>
 
+          ${
+            itemRows
+            ||
+            `
 
-<tr>
+              <tr>
 
-<td class="label">
-处理人
-</td>
+                <td
+                  colspan="7"
+                  style="text-align:center;"
+                >
+                  无商品明细
+                </td>
 
-<td>
-${printEscape(getProfileName(order.processed_by))}
-</td>
+              </tr>
 
-<td class="label">
-创建时间
-</td>
+            `
+          }
 
-<td>
-${printEscape(formatDateTime(order.created_at))}
-</td>
+        </tbody>
 
-</tr>
+      </table>
 
 
-<tr>
+      <div class="total">
 
-<td class="label">
-地址
-</td>
+        订单总金额：
 
-<td colspan="3">
-${printEscape(agent?.address || "-")}
-</td>
+        ${formatMoney(
+          order.total_amount
+        )}
 
-</tr>
+        ${escapeHtml(
+          order.currency
+          ||
+          "CNY"
+        )}
 
+      </div>
 
-</table>
 
+      <div class="footer">
 
+        创建时间：
+        ${formatDateTime(
+          order.created_at
+        )}
 
-<table class="items">
+        <br>
 
-<thead>
+        处理时间：
+        ${formatDateTime(
+          order.processed_at
+        )}
 
-<tr>
+      </div>
 
-<th>序号</th>
-<th>产品代码</th>
-<th>产品名称</th>
-<th>规格</th>
-<th>单位</th>
-<th>销售单价</th>
-<th>数量</th>
-<th>金额</th>
 
-</tr>
+      <script>
 
-</thead>
+        window.onload =
+          function() {
 
+            window.print();
 
-<tbody>
+          };
 
-${
-  rows
-  ||
-  `
-    <tr>
+      <\/script>
 
-      <td
-        colspan="8"
-        style="text-align:center;"
-      >
-        无商品明细
-      </td>
 
-    </tr>
-  `
-}
+    </body>
 
-</tbody>
+    </html>
 
-</table>
+  `);
 
 
-
-<div class="total">
-
-订单总金额：
-${formatMoney(order.total_amount)}
-${printEscape(order.currency || "")}
-
-</div>
-
-
-
-<div class="invoice-section">
-
-<div class="invoice-title">
-开票信息
-</div>
-
-开票状态：
-${printEscape(invoiceStatusToChinese(invoiceStatus))}
-
-<br><br>
-
-发票号：
-${printEscape(order.invoice_number || "-")}
-
-<br><br>
-
-开票时间：
-${printEscape(formatDateTime(order.invoiced_at))}
-
-<br><br>
-
-开票人：
-${printEscape(getProfileName(order.invoiced_by))}
-
-</div>
-
-
-
-<div class="remark">
-
-<strong>
-订单备注：
-</strong>
-
-<br>
-
-${printEscape(order.remarks || "无")}
-
-</div>
-
-
-
-<div class="signature-box">
-
-<div class="signature">
-代理商
-</div>
-
-<div class="signature">
-订单处理人
-</div>
-
-<div class="signature">
-硕丰科技
-</div>
-
-</div>
-
-
-
-<script>
-
-window.onload =
-  function() {
-
-    setTimeout(
-      function() {
-
-        window.print();
-
-      },
-      200
-    );
-
-  };
-
-<\/script>
-
-
-</body>
-
-</html>
-
-    `
-  );
-
-
-  w.document.close();
+  printWindow.document.close();
 
 }
 
 
 
 /* ==========================================================
-   订单状态中文
-========================================================== */
-
-function statusToChinese(
-  status
-) {
-
-  const map = {
-
-    pending:
-      "待处理",
-
-    confirmed:
-      "已确认",
-
-    processing:
-      "处理中",
-
-    shipped:
-      "已发货",
-
-    completed:
-      "已完成",
-
-    cancelled:
-      "已取消"
-
-  };
-
-
-  return (
-    map[status]
-    ||
-    status
-    ||
-    "-"
-  );
-
-}
-
-
-
-/* ==========================================================
-   订单状态Badge
-========================================================== */
-
-function statusBadge(
-  status
-) {
-
-  let css =
-    "badge-cancelled";
-
-
-  if (
-    status ===
-    "pending"
-  ) {
-
-    css =
-      "badge-pending";
-
-  }
-
-
-  else if (
-    status ===
-    "confirmed"
-  ) {
-
-    css =
-      "badge-confirmed";
-
-  }
-
-
-  else if (
-    status ===
-    "processing"
-  ) {
-
-    css =
-      "badge-processing";
-
-  }
-
-
-  else if (
-    status ===
-    "shipped"
-  ) {
-
-    css =
-      "badge-shipped";
-
-  }
-
-
-  else if (
-    status ===
-    "completed"
-  ) {
-
-    css =
-      "badge-completed";
-
-  }
-
-
-  else if (
-    status ===
-    "cancelled"
-  ) {
-
-    css =
-      "badge-cancelled";
-
-  }
-
-
-  return `
-
-    <span class="badge ${css}">
-
-      ${escapeHTML(statusToChinese(status))}
-
-    </span>
-
-  `;
-
-}
-
-
-
-/* ==========================================================
-   30秒自动检查新订单
-========================================================== */
-
-setInterval(
-  async function() {
-
-    if (
-      accessVerified
-    ) {
-
-      await loadAllData(
-        false
-      );
-
-    }
-
-  },
-  30000
-);
-
-
-
-/* ==========================================================
-   Modal点击遮罩关闭
-========================================================== */
-
-document.getElementById(
-  "orderModal"
-)
-.addEventListener(
-  "click",
-  function(event) {
-
-    if (
-      event.target ===
-      this
-    ) {
-
-      closeOrderModal();
-
-    }
-
-  }
-);
-
-
-document.getElementById(
-  "invoiceModal"
-)
-.addEventListener(
-  "click",
-  function(event) {
-
-    if (
-      event.target ===
-      this
-    ) {
-
-      closeInvoiceModal();
-
-    }
-
-  }
-);
-
-
-
-/* ==========================================================
-   ESC关闭窗口
-========================================================== */
-
-document.addEventListener(
-  "keydown",
-  function(event) {
-
-    if (
-      event.key ===
-      "Escape"
-    ) {
-
-      closeOrderModal();
-
-      closeInvoiceModal();
-
-    }
-
-  }
-);
-
-
-
-/* ==========================================================
-   工具
+   通用工具
 ========================================================== */
 
 function setText(
@@ -5583,7 +5620,7 @@ function setText(
   ) {
 
     element.textContent =
-      value;
+      value ?? "-";
 
   }
 
@@ -5595,19 +5632,21 @@ function formatMoney(
   value
 ) {
 
-  return Number(
-    value ||
-    0
-  )
-  .toLocaleString(
+  const number =
+    Number(
+      value
+      ||
+      0
+    );
+
+
+  return number.toLocaleString(
     "zh-CN",
     {
 
-      minimumFractionDigits:
-        2,
+      minimumFractionDigits: 2,
 
-      maximumFractionDigits:
-        2
+      maximumFractionDigits: 2
 
     }
   );
@@ -5620,19 +5659,32 @@ function formatQuantity(
   value
 ) {
 
-  return Number(
-    value ||
-    0
-  )
-  .toLocaleString(
+  const number =
+    Number(
+      value
+      ||
+      0
+    );
+
+
+  if (
+    Number.isInteger(
+      number
+    )
+  ) {
+
+    return String(
+      number
+    );
+
+  }
+
+
+  return number.toLocaleString(
     "zh-CN",
     {
 
-      minimumFractionDigits:
-        0,
-
-      maximumFractionDigits:
-        3
+      maximumFractionDigits: 4
 
     }
   );
@@ -5641,7 +5693,7 @@ function formatQuantity(
 
 
 
-function formatDateOnly(
+function formatDate(
   value
 ) {
 
@@ -5654,12 +5706,55 @@ function formatDateOnly(
   }
 
 
-  return String(
-    value
-  )
-  .slice(
-    0,
-    10
+  /*
+    DATE字段直接显示，
+    避免时区造成日期偏移。
+  */
+
+  if (
+    /^\d{4}-\d{2}-\d{2}$/.test(
+      String(value)
+    )
+  ) {
+
+    const parts =
+      String(value).split("-");
+
+
+    return (
+      parts[0]
+      +
+      "-"
+      +
+      parts[1]
+      +
+      "-"
+      +
+      parts[2]
+    );
+
+  }
+
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return "-";
+
+  }
+
+
+  return date.toLocaleDateString(
+    "zh-CN"
   );
 
 }
@@ -5691,9 +5786,7 @@ function formatDateTime(
     )
   ) {
 
-    return String(
-      value
-    );
+    return "-";
 
   }
 
@@ -5702,20 +5795,7 @@ function formatDateTime(
     "zh-CN",
     {
 
-      year:
-        "numeric",
-
-      month:
-        "2-digit",
-
-      day:
-        "2-digit",
-
-      hour:
-        "2-digit",
-
-      minute:
-        "2-digit"
+      hour12: false
 
     }
   );
@@ -5724,110 +5804,33 @@ function formatDateTime(
 
 
 
-function getToday() {
-
-  const date =
-    new Date();
-
-
-  const year =
-    date.getFullYear();
-
-
-  const month =
-    String(
-      date.getMonth()
-      +
-      1
-    )
-    .padStart(
-      2,
-      "0"
-    );
-
-
-  const day =
-    String(
-      date.getDate()
-    )
-    .padStart(
-      2,
-      "0"
-    );
-
-
-  return (
-    year
-    +
-    "-"
-    +
-    month
-    +
-    "-"
-    +
-    day
-  );
-
-}
-
-
-
-function escapeHTML(
+function escapeHtml(
   value
 ) {
-
-  if (
-    value ===
-    null
-    ||
-    value ===
-    undefined
-  ) {
-
-    return "";
-
-  }
-
 
   return String(
-    value
+    value ?? ""
   )
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-  .replaceAll(
-    ">",
-    "&gt;"
-  )
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-  .replaceAll(
-    "'",
-    "&#039;"
-  );
-
-}
-
-
-
-function printEscape(
-  value
-) {
-
-  return escapeHTML(
-    value
-  )
-  .replaceAll(
-    "\n",
-    "<br>"
-  );
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
@@ -5837,44 +5840,65 @@ function printEscape(
    Notice
 ========================================================== */
 
+let noticeTimer =
+  null;
+
+
 function showNotice(
   message,
   type = "success"
 ) {
 
-  const notice =
+
+  const box =
     document.getElementById(
       "notice"
     );
 
 
-  notice.textContent =
+  box.textContent =
     message;
 
 
-  notice.className =
+  box.className =
     "notice show "
     +
     (
       type ===
       "error"
+
       ?
+
       "notice-error"
+
       :
+
       "notice-success"
     );
 
 
-  setTimeout(
-    function() {
+  if (
+    noticeTimer
+  ) {
 
-      notice.classList.remove(
-        "show"
-      );
+    clearTimeout(
+      noticeTimer
+    );
 
-    },
-    6000
-  );
+  }
+
+
+  noticeTimer =
+    setTimeout(
+      function() {
+
+        box.classList.remove(
+          "show"
+        );
+
+      },
+      6000
+    );
 
 }
 
@@ -5890,10 +5914,9 @@ function showLoading(
 
   document.getElementById(
     "loadingMask"
-  )
-  .classList.toggle(
+  ).classList.toggle(
     "show",
-    show
+    Boolean(show)
   );
 
 }
@@ -5914,101 +5937,211 @@ function goBack() {
 
 
 /* ==========================================================
+   退出登录
+========================================================== */
+
+async function logout() {
+
+
+  try {
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      error
+    );
+
+  }
+
+
+  window.location.replace(
+    "page10.html"
+  );
+
+}
+
+
+
+/* ==========================================================
    10分钟无操作自动退出
 ========================================================== */
 
 const IDLE_LIMIT =
-  10
-  *
-  60
-  *
-  1000;
+  10 * 60 * 1000;
 
 
 const WARNING_TIME =
-  60
-  *
-  1000;
+  60 * 1000;
 
 
-let lastActivityTime =
-  Date.now();
+let idleTimer =
+  null;
 
 
-let warningShown =
-  false;
+let warningTimer =
+  null;
 
 
-let logoutInProgress =
-  false;
+function resetIdleTimer() {
 
 
-
-function userActivity() {
-
-  if (
-    logoutInProgress
-  ) {
-
-    return;
-
-  }
+  clearTimeout(
+    idleTimer
+  );
 
 
-  lastActivityTime =
-    Date.now();
+  clearTimeout(
+    warningTimer
+  );
 
 
-  warningShown =
-    false;
+  document.getElementById(
+    "timeoutWarning"
+  ).style.display =
+    "none";
 
 
-  const warning =
-    document.getElementById(
-      "timeoutWarning"
+  warningTimer =
+    setTimeout(
+      function() {
+
+        document.getElementById(
+          "timeoutWarning"
+        ).style.display =
+          "block";
+
+      },
+
+      IDLE_LIMIT
+      -
+      WARNING_TIME
     );
 
 
-  if (
-    warning
-  ) {
+  idleTimer =
+    setTimeout(
+      async function() {
 
-    warning.style.display =
-      "none";
 
-  }
+        try {
+
+          await supabaseClient
+            .auth
+            .signOut();
+
+        }
+
+        catch (error) {
+
+          console.error(
+            error
+          );
+
+        }
+
+
+        window.location.replace(
+          "page10.html"
+        );
+
+
+      },
+
+      IDLE_LIMIT
+    );
 
 }
 
 
 
 [
-  "mousedown",
   "mousemove",
+  "mousedown",
   "keydown",
-  "scroll",
   "touchstart",
+  "scroll",
   "click"
-]
-.forEach(
-  function(eventName) {
+].forEach(
+  eventName => {
 
     document.addEventListener(
       eventName,
-      userActivity,
-      true
+      resetIdleTimer,
+      {
+        passive: true
+      }
     );
 
   }
 );
 
 
+resetIdleTimer();
 
-setInterval(
-  function() {
+
+
+/* ==========================================================
+   点击遮罩关闭窗口
+========================================================== */
+
+document.getElementById(
+  "orderModal"
+).addEventListener(
+  "click",
+  function(event) {
 
     if (
-      logoutInProgress
+      event.target ===
+      this
+    ) {
+
+      closeOrderModal();
+
+    }
+
+  }
+);
+
+
+
+document.getElementById(
+  "invoiceModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target ===
+      this
+    ) {
+
+      closeInvoiceModal();
+
+    }
+
+  }
+);
+
+
+
+/* ==========================================================
+   ESC关闭窗口
+========================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+
+    if (
+      event.key !==
+      "Escape"
     ) {
 
       return;
@@ -6016,154 +6149,94 @@ setInterval(
     }
 
 
-    const inactive =
-      Date.now()
-      -
-      lastActivityTime;
-
-
     if (
-      inactive >=
-      IDLE_LIMIT
-      -
-      WARNING_TIME
-
-      &&
-
-      inactive <
-      IDLE_LIMIT
-
-      &&
-
-      !warningShown
-    ) {
-
       document.getElementById(
-        "timeoutWarning"
-      ).style.display =
-        "block";
+        "invoiceModal"
+      ).classList.contains(
+        "show"
+      )
+    ) {
 
+      closeInvoiceModal();
 
-      warningShown =
-        true;
+      return;
 
     }
 
 
     if (
-      inactive >=
-      IDLE_LIMIT
+      document.getElementById(
+        "orderModal"
+      ).classList.contains(
+        "show"
+      )
     ) {
 
-      autoLogout();
+      closeOrderModal();
 
     }
 
 
-  },
-  1000
+  }
 );
 
 
 
 /* ==========================================================
-   自动退出
+   定时刷新
+
+   每30秒读取一次最新订单。
+   如果正在打开处理窗口，则不打断当前操作。
 ========================================================== */
 
-async function autoLogout() {
-
-  if (
-    logoutInProgress
-  ) {
-
-    return;
-
-  }
+setInterval(
+  async function() {
 
 
-  logoutInProgress =
-    true;
+    if (
+      !accessVerified
+    ) {
+
+      return;
+
+    }
 
 
-  try {
+    const orderModalOpen =
+      document.getElementById(
+        "orderModal"
+      ).classList.contains(
+        "show"
+      );
 
-    await supabaseClient
-      .auth
-      .signOut();
 
-  }
+    const invoiceModalOpen =
+      document.getElementById(
+        "invoiceModal"
+      ).classList.contains(
+        "show"
+      );
 
-  catch (error) {
 
-    console.error(
-      "自动退出失败：",
-      error
+    if (
+      orderModalOpen
+      ||
+      invoiceModalOpen
+    ) {
+
+      return;
+
+    }
+
+
+    await loadAllData(
+      false
     );
 
-  }
 
-
-  window.location.replace(
-    "page10.html"
-  );
-
-}
-
-
-
-/* ==========================================================
-   手工退出
-========================================================== */
-
-async function logout() {
-
-  if (
-    logoutInProgress
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !confirm(
-      "确定退出销售订单管理吗？"
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  logoutInProgress =
-    true;
-
-
-  try {
-
-    await supabaseClient
-      .auth
-      .signOut();
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "退出登录失败：",
-      error
-    );
-
-  }
-
-
-  window.location.replace(
-    "page10.html"
-  );
-
-}
+  },
+  30000
+);
 
 
 </script>
