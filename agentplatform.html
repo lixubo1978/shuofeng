@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -1151,6 +1150,18 @@
       代理商
     </div>
 
+
+    <!-- 新增：修改密码 -->
+
+    <button
+      class="logout-btn"
+      type="button"
+      onclick="openPasswordModal()"
+    >
+      修改密码
+    </button>
+
+
     <button
       class="logout-btn"
       type="button"
@@ -2015,6 +2026,121 @@
 
 
 <!-- =====================================================
+     新增：修改密码窗口
+====================================================== -->
+
+<div
+  id="passwordModal"
+  class="modal-mask"
+>
+
+  <div
+    class="modal"
+    style="max-width:480px;"
+  >
+
+    <div class="modal-header">
+
+      <h3>
+        修改登录密码
+      </h3>
+
+      <button
+        class="modal-close"
+        type="button"
+        onclick="closePasswordModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <div class="form-group">
+
+        <label>
+          新密码
+        </label>
+
+        <input
+          id="newPassword"
+          type="password"
+          autocomplete="new-password"
+          placeholder="请输入新的登录密码"
+        >
+
+      </div>
+
+
+      <div
+        class="form-group"
+        style="margin-top:16px;"
+      >
+
+        <label>
+          再次输入新密码
+        </label>
+
+        <input
+          id="confirmNewPassword"
+          type="password"
+          autocomplete="new-password"
+          placeholder="请再次输入新密码"
+        >
+
+      </div>
+
+
+      <div
+        style="
+          margin-top:16px;
+          padding:12px 14px;
+          background:#f8fafc;
+          border:1px solid #e5e7eb;
+          border-radius:8px;
+          color:#64748b;
+          font-size:12px;
+          line-height:1.8;
+        "
+      >
+        密码长度至少为 8 位。
+        <br>
+        修改成功后系统会自动退出，请使用新密码重新登录。
+      </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="btn btn-light"
+        type="button"
+        onclick="closePasswordModal()"
+      >
+        取消
+      </button>
+
+      <button
+        id="changePasswordButton"
+        class="btn btn-primary"
+        type="button"
+        onclick="changePassword()"
+      >
+        确认修改密码
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
      自动退出提醒
 ====================================================== -->
 
@@ -2271,6 +2397,7 @@ async function verifyAgentAccess() {
     catch (signOutError) {
 
       console.error(
+        "退出登录失败：",
         signOutError
       );
 
@@ -2289,6 +2416,59 @@ async function verifyAgentAccess() {
 }
 
 
+/* ===== 第1段结束，第2段从这里继续 ===== */
+  /* ==========================================================
+   页面启动
+========================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function() {
+
+    const allowed =
+      await verifyAgentAccess();
+
+    if (
+      allowed
+    ) {
+
+      await loadAllData();
+
+    }
+
+  }
+);
+
+
+
+window.addEventListener(
+  "pageshow",
+  async function(event) {
+
+    if (
+      event.persisted
+    ) {
+
+      accessVerified =
+        false;
+
+      const allowed =
+        await verifyAgentAccess();
+
+      if (
+        allowed
+      ) {
+
+        await loadAllData();
+
+      }
+
+    }
+
+  }
+);
+
+
 
 /* ==========================================================
    顶部代理商信息
@@ -2296,20 +2476,13 @@ async function verifyAgentAccess() {
 
 function updateAgentHeader() {
 
-  if (!currentAgent) {
+  if (
+    !currentAgent
+  ) {
+
     return;
+
   }
-
-
-  document.getElementById(
-    "welcomeAgentName"
-  ).textContent =
-    (
-      currentAgent.agent_name ||
-      "代理商"
-    )
-    +
-    " · 工作台";
 
 
   document.getElementById(
@@ -2324,101 +2497,29 @@ function updateAgentHeader() {
     +
     (
       currentAgent.agent_name ||
-      ""
+      "代理商"
     );
 
 
-  const balanceText =
-    formatMoney(
-      currentAgent.account_balance || 0
+  document.getElementById(
+    "welcomeAgentName"
+  ).textContent =
+    (
+      currentAgent.agent_name ||
+      "代理商"
     )
     +
-    " "
-    +
-    getAgentCurrency();
+    " · 工作台";
 
 
-  document.getElementById(
-    "headerBalance"
-  ).textContent =
-    balanceText;
-
-
-  document.getElementById(
-    "financeBalance"
-  ).textContent =
-    balanceText;
-
-
-  document.getElementById(
-    "rechargeCurrency"
-  ).value =
-    getAgentCurrency();
+  updateBalanceDisplays();
 
 }
 
 
 
 /* ==========================================================
-   页面启动
-========================================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  async function() {
-
-
-    const allowed =
-      await verifyAgentAccess();
-
-
-    if (
-      allowed
-    ) {
-
-      await loadAllData();
-
-    }
-
-
-  }
-);
-
-
-
-window.addEventListener(
-  "pageshow",
-  async function(event) {
-
-
-    if (
-      event.persisted
-    ) {
-
-
-      const allowed =
-        await verifyAgentAccess();
-
-
-      if (
-        allowed
-      ) {
-
-        await loadAllData();
-
-      }
-
-
-    }
-
-
-  }
-);
-
-
-
-/* ==========================================================
-   加载全部页面数据
+   读取全部数据
 ========================================================== */
 
 async function loadAllData() {
@@ -2443,13 +2544,12 @@ async function loadAllData() {
 
 
     /*
-      先重新读取当前代理商，
-      获取最新余额
+      重新读取代理商余额
     */
 
     const {
       data: latestAgent,
-      error: latestAgentError
+      error: agentError
     } =
       await supabaseClient
         .from("agents")
@@ -2458,35 +2558,24 @@ async function loadAllData() {
           "id",
           currentAgent.id
         )
+        .eq(
+          "auth_user_id",
+          currentUserId
+        )
         .single();
 
 
     if (
-      latestAgentError
-    ) {
-
-      throw latestAgentError;
-
-    }
-
-
-    if (
+      agentError
+      ||
       !latestAgent
       ||
       latestAgent.is_active !== true
-      ||
-      String(
-        latestAgent.auth_user_id
-      )
-      !==
-      String(
-        currentUserId
-      )
     ) {
 
-      await logout();
-
-      return;
+      throw new Error(
+        "代理商账号已经失效。"
+      );
 
     }
 
@@ -2498,16 +2587,13 @@ async function loadAllData() {
     updateAgentHeader();
 
 
-    /*
-      其他数据并行读取
-    */
 
     const [
-      productsResult,
-      pricesResult,
-      ordersResult,
+      productResult,
+      priceResult,
+      orderResult,
       rechargeResult,
-      requestsResult
+      requestResult
     ] =
       await Promise.all([
 
@@ -2515,7 +2601,17 @@ async function loadAllData() {
         supabaseClient
           .from("products")
           .select(
-            "id, product_code, product_name, category, model, specification, unit, description, is_active"
+            `
+              id,
+              product_code,
+              product_name,
+              category,
+              model,
+              specification,
+              unit,
+              description,
+              is_active
+            `
           )
           .eq(
             "is_active",
@@ -2532,7 +2628,16 @@ async function loadAllData() {
         supabaseClient
           .from("sales_prices")
           .select(
-            "id, product_id, price, national_retail_price, currency, is_defined, is_active, effective_from"
+            `
+              id,
+              product_id,
+              price,
+              national_retail_price,
+              currency,
+              is_defined,
+              is_active,
+              effective_from
+            `
           )
           .eq(
             "is_active",
@@ -2546,9 +2651,7 @@ async function loadAllData() {
 
         supabaseClient
           .from("orders")
-          .select(
-            "id, order_no, agent_id, order_date, status, total_amount, currency, remarks, created_at"
-          )
+          .select("*")
           .eq(
             "agent_id",
             currentAgent.id
@@ -2563,9 +2666,7 @@ async function loadAllData() {
 
         supabaseClient
           .from("agent_recharges")
-          .select(
-            "id, agent_id, request_id, recharge_type, amount, currency, balance_before, balance_after, description, occurred_at, created_at"
-          )
+          .select("*")
           .eq(
             "agent_id",
             currentAgent.id
@@ -2580,9 +2681,7 @@ async function loadAllData() {
 
         supabaseClient
           .from("recharge_requests")
-          .select(
-            "id, agent_id, amount, currency, payment_method, payment_reference, agent_notes, status, submitted_at, reviewed_at, review_notes"
-          )
+          .select("*")
           .eq(
             "agent_id",
             currentAgent.id
@@ -2594,33 +2693,33 @@ async function loadAllData() {
             }
           )
 
-
       ]);
 
 
+
     if (
-      productsResult.error
+      productResult.error
     ) {
 
-      throw productsResult.error;
+      throw productResult.error;
 
     }
 
 
     if (
-      pricesResult.error
+      priceResult.error
     ) {
 
-      throw pricesResult.error;
+      throw priceResult.error;
 
     }
 
 
     if (
-      ordersResult.error
+      orderResult.error
     ) {
 
-      throw ordersResult.error;
+      throw orderResult.error;
 
     }
 
@@ -2635,26 +2734,27 @@ async function loadAllData() {
 
 
     if (
-      requestsResult.error
+      requestResult.error
     ) {
 
-      throw requestsResult.error;
+      throw requestResult.error;
 
     }
 
 
+
     products =
-      productsResult.data ||
+      productResult.data ||
       [];
 
 
     salesPrices =
-      pricesResult.data ||
+      priceResult.data ||
       [];
 
 
     orders =
-      ordersResult.data ||
+      orderResult.data ||
       [];
 
 
@@ -2664,12 +2764,13 @@ async function loadAllData() {
 
 
     rechargeRequests =
-      requestsResult.data ||
+      requestResult.data ||
       [];
 
 
+
     /*
-      再读取当前代理商订单的明细
+      读取当前代理商订单明细
     */
 
     const orderIds =
@@ -2680,19 +2781,18 @@ async function loadAllData() {
 
 
     if (
-      orderIds.length > 0
+      orderIds.length >
+      0
     ) {
 
 
       const {
-        data: historyItems,
-        error: historyItemsError
+        data: itemData,
+        error: itemError
       } =
         await supabaseClient
           .from("order_items")
-          .select(
-            "id, order_id, product_id, product_code_snapshot, product_name_snapshot, specification_snapshot, unit_snapshot, unit_price, quantity, line_total, created_at"
-          )
+          .select("*")
           .in(
             "order_id",
             orderIds
@@ -2706,28 +2806,30 @@ async function loadAllData() {
 
 
       if (
-        historyItemsError
+        itemError
       ) {
 
-        throw historyItemsError;
+        throw itemError;
 
       }
 
 
       orderItemsHistory =
-        historyItems ||
+        itemData ||
         [];
 
     }
 
     else {
 
-
       orderItemsHistory =
         [];
 
     }
 
+
+
+    updateBalanceDisplays();
 
     renderProducts();
 
@@ -2737,7 +2839,7 @@ async function loadAllData() {
 
     renderRecharges();
 
-    renderRechargeRequestStatus();
+    renderPendingRechargeRequests();
 
 
   }
@@ -2754,7 +2856,10 @@ async function loadAllData() {
     showNotice(
       "读取数据失败："
       +
-      error.message,
+      (
+        error.message ||
+        "未知错误"
+      ),
       "error"
     );
 
@@ -2776,23 +2881,7 @@ async function loadAllData() {
 
 
 /* ==========================================================
-   获取代理商账户币种
-========================================================== */
-
-function getAgentCurrency() {
-
-  return (
-    currentAgent?.balance_currency ||
-    "CNY"
-  )
-  .toUpperCase();
-
-}
-
-
-
-/* ==========================================================
-   获取产品当前销售价格
+   当前销售价格
 ========================================================== */
 
 function getCurrentSalesPrice(
@@ -2800,40 +2889,41 @@ function getCurrentSalesPrice(
 ) {
 
   return salesPrices.find(
-    item =>
-      String(
-        item.product_id
-      )
-      ===
-      String(
-        productId
-      )
-      &&
-      item.is_active === true
-      &&
-      item.is_defined === true
-  )
-  ||
-  null;
+    function(item) {
+
+      return (
+        String(
+          item.product_id
+        )
+        ===
+        String(
+          productId
+        )
+        &&
+        item.is_active ===
+        true
+        &&
+        item.is_defined ===
+        true
+        &&
+        item.price !==
+        null
+        &&
+        item.currency
+      );
+
+    }
+  );
 
 }
 
 
 
 /* ==========================================================
-   1. 产品区域
+   产品列表
 ========================================================== */
 
 function renderProducts() {
-
-  const keyword =
-    document.getElementById(
-      "productSearch"
-    )
-    .value
-    .trim()
-    .toLowerCase();
-
 
   const tbody =
     document.getElementById(
@@ -2847,11 +2937,20 @@ function renderProducts() {
     );
 
 
+  const keyword =
+    document.getElementById(
+      "productSearch"
+    )
+    .value
+    .trim()
+    .toLowerCase();
+
+
   tbody.innerHTML =
     "";
 
 
-  const rows =
+  const availableProducts =
     products.filter(
       function(product) {
 
@@ -2864,10 +2963,6 @@ function renderProducts() {
 
         if (
           !price
-          ||
-          price.price === null
-          ||
-          !price.currency
         ) {
 
           return false;
@@ -2875,13 +2970,13 @@ function renderProducts() {
         }
 
 
-        const searchText =
+        const searchable =
           [
             product.product_code,
             product.product_name,
+            product.category,
             product.model,
-            product.specification,
-            product.category
+            product.specification
           ]
           .filter(Boolean)
           .join(" ")
@@ -2891,18 +2986,18 @@ function renderProducts() {
         return (
           !keyword
           ||
-          searchText.includes(
+          searchable.includes(
             keyword
           )
         );
-
 
       }
     );
 
 
   if (
-    rows.length === 0
+    availableProducts.length ===
+    0
   ) {
 
     empty.style.display =
@@ -2917,7 +3012,7 @@ function renderProducts() {
     "none";
 
 
-  rows.forEach(
+  availableProducts.forEach(
     function(product) {
 
 
@@ -2927,9 +3022,25 @@ function renderProducts() {
         );
 
 
-      const sameCurrency =
-        price.currency ===
-        getAgentCurrency();
+      const currency =
+        (
+          price.currency ||
+          ""
+        )
+        .toUpperCase();
+
+
+      const agentCurrency =
+        (
+          currentAgent.balance_currency ||
+          "CNY"
+        )
+        .toUpperCase();
+
+
+      const currencyMatched =
+        currency ===
+        agentCurrency;
 
 
       const tr =
@@ -2942,111 +3053,50 @@ function renderProducts() {
         `
 
           <td class="product-code">
-
-            ${
-              escapeHTML(
-                product.product_code ||
-                "-"
-              )
-            }
-
+            ${escapeHTML(product.product_code || "-")}
           </td>
-
 
           <td class="product-name">
-
-            ${
-              escapeHTML(
-                product.product_name ||
-                "-"
-              )
-            }
-
+            ${escapeHTML(product.product_name || "-")}
           </td>
-
 
           <td>
-
-            ${
-              escapeHTML(
-                product.model ||
-                "-"
-              )
-            }
-
+            ${escapeHTML(product.model || "-")}
           </td>
-
 
           <td>
-
-            ${
-              escapeHTML(
-                product.specification ||
-                "-"
-              )
-            }
-
+            ${escapeHTML(product.specification || "-")}
           </td>
-
 
           <td>
-
-            ${
-              escapeHTML(
-                product.unit ||
-                "-"
-              )
-            }
-
+            ${escapeHTML(product.unit || "-")}
           </td>
-
 
           <td class="money sale-price">
-
-            ${
-              formatMoney(
-                price.price
-              )
-            }
-
-            ${
-              escapeHTML(
-                price.currency
-              )
-            }
-
+            ${formatMoney(price.price)}
+            ${escapeHTML(currency)}
           </td>
-
 
           <td class="money retail-price">
-
             ${
-              price.national_retail_price === null
-              ||
-              price.national_retail_price === undefined
+              price.national_retail_price !== null
               ?
-              "-"
-              :
-              (
-                formatMoney(
-                  price.national_retail_price
-                )
-                +
-                " "
-                +
-                escapeHTML(
-                  price.currency
-                )
+              formatMoney(
+                price.national_retail_price
               )
+              +
+              " "
+              +
+              escapeHTML(currency)
+              :
+              "-"
             }
-
           </td>
-
 
           <td>
 
             ${
-              sameCurrency
+              currencyMatched
               ?
               `
                 <button
@@ -3059,10 +3109,7 @@ function renderProducts() {
               `
               :
               `
-                <span
-                  class="badge badge-gray"
-                  title="产品价格币种与账户币种不同"
-                >
+                <span class="badge badge-red">
                   币种不匹配
                 </span>
               `
@@ -3086,7 +3133,7 @@ function renderProducts() {
 
 
 /* ==========================================================
-   加入购物车
+   加入订单
 ========================================================== */
 
 function addProductToCart(
@@ -3114,7 +3161,7 @@ function addProductToCart(
   ) {
 
     showNotice(
-      "产品或价格已经发生变化，请刷新页面。",
+      "该产品当前没有有效销售价格。",
       "error"
     );
 
@@ -3123,13 +3170,30 @@ function addProductToCart(
   }
 
 
+  const agentCurrency =
+    (
+      currentAgent.balance_currency ||
+      "CNY"
+    )
+    .toUpperCase();
+
+
+  const priceCurrency =
+    (
+      price.currency ||
+      ""
+    )
+    .toUpperCase();
+
+
   if (
-    price.currency !==
-    getAgentCurrency()
+    agentCurrency !==
+    priceCurrency
   ) {
 
-    alert(
-      "该产品销售价格币种与您的账户币种不一致，不能加入订单。"
+    showNotice(
+      "该产品价格币种与当前代理商账户币种不一致。",
+      "error"
     );
 
     return;
@@ -3149,14 +3213,10 @@ function addProductToCart(
     existing
   ) {
 
-
     existing.quantity =
-      roundQuantity(
-        existing.quantity
-        +
-        1
-      );
-
+      Number(existing.quantity)
+      +
+      1;
 
   }
 
@@ -3189,13 +3249,12 @@ function addProductToCart(
         ),
 
       currency:
-        price.currency,
+        priceCurrency,
 
       quantity:
         1
 
     });
-
 
   }
 
@@ -3203,12 +3262,17 @@ function addProductToCart(
   renderCart();
 
 
+  showNotice(
+    "产品已加入当前订单。",
+    "success"
+  );
+
 }
 
 
 
 /* ==========================================================
-   2. 下单区
+   购物车
 ========================================================== */
 
 function renderCart() {
@@ -3225,226 +3289,135 @@ function renderCart() {
     );
 
 
-  const submit =
-    document.getElementById(
-      "submitOrderButton"
-    );
-
-
   tbody.innerHTML =
     "";
 
 
   if (
-    cartItems.length === 0
+    cartItems.length ===
+    0
   ) {
-
 
     empty.style.display =
       "block";
-
-
-    submit.disabled =
-      true;
-
 
   }
 
   else {
 
-
     empty.style.display =
       "none";
 
-
-    submit.disabled =
-      false;
+  }
 
 
-    cartItems.forEach(
-      function(item, index) {
+  cartItems.forEach(
+    function(item) {
 
 
-        const lineTotal =
-          roundMoney(
-            item.unit_price
-            *
-            item.quantity
-          );
-
-
-        const tr =
-          document.createElement(
-            "tr"
-          );
-
-
-        tr.innerHTML =
-          `
-
-            <td>
-
-              <strong>
-                ${escapeHTML(item.product_code)}
-              </strong>
-
-              <br>
-
-              ${escapeHTML(item.product_name)}
-
-            </td>
-
-
-            <td class="money">
-
-              ${formatMoney(item.unit_price)}
-              ${escapeHTML(item.currency)}
-
-            </td>
-
-
-            <td>
-
-              <input
-                type="number"
-                min="0.001"
-                step="0.001"
-                value="${item.quantity}"
-                style="
-                  width:100px;
-                  padding:7px;
-                  border:1px solid #d1d5db;
-                  border-radius:6px;
-                "
-                onchange="changeCartQuantity(${index}, this.value)"
-              >
-
-            </td>
-
-
-            <td>
-
-              ${
-                escapeHTML(
-                  item.unit ||
-                  "-"
-                )
-              }
-
-            </td>
-
-
-            <td class="money">
-
-              ${formatMoney(lineTotal)}
-              ${escapeHTML(item.currency)}
-
-            </td>
-
-
-            <td>
-
-              <button
-                class="btn btn-red btn-small"
-                type="button"
-                onclick="removeCartItem(${index})"
-              >
-                删除
-              </button>
-
-            </td>
-
-          `;
-
-
-        tbody.appendChild(
-          tr
+      const lineTotal =
+        Number(
+          item.unit_price
+        )
+        *
+        Number(
+          item.quantity
         );
 
 
-      }
-    );
+      const tr =
+        document.createElement(
+          "tr"
+        );
 
 
-  }
+      tr.innerHTML =
+        `
+
+          <td>
+
+            <div class="product-name">
+              ${escapeHTML(item.product_name)}
+            </div>
+
+            <div
+              style="
+                margin-top:3px;
+                color:#64748b;
+                font-size:11px;
+              "
+            >
+              ${escapeHTML(item.product_code)}
+              ${
+                item.specification
+                ?
+                " · "
+                +
+                escapeHTML(item.specification)
+                :
+                ""
+              }
+            </div>
+
+          </td>
+
+          <td class="money sale-price">
+            ${formatMoney(item.unit_price)}
+            ${escapeHTML(item.currency)}
+          </td>
+
+          <td>
+
+            <input
+              type="number"
+              min="0.001"
+              step="0.001"
+              value="${escapeHTML(item.quantity)}"
+              style="
+                width:100px;
+                padding:7px 8px;
+                border:1px solid #d1d5db;
+                border-radius:7px;
+              "
+              onchange="changeCartQuantity('${item.product_id}', this.value)"
+            >
+
+          </td>
+
+          <td>
+            ${escapeHTML(item.unit || "-")}
+          </td>
+
+          <td class="money">
+            ${formatMoney(lineTotal)}
+            ${escapeHTML(item.currency)}
+          </td>
+
+          <td>
+
+            <button
+              class="btn btn-red btn-small"
+              type="button"
+              onclick="removeCartItem('${item.product_id}')"
+            >
+              删除
+            </button>
+
+          </td>
+
+        `;
 
 
-  const currentBalance =
-    Number(
-      currentAgent?.account_balance ||
-      0
-    );
+      tbody.appendChild(
+        tr
+      );
 
 
-  const total =
-    calculateCartTotal();
+    }
+  );
 
 
-  const after =
-    roundMoney(
-      currentBalance -
-      total
-    );
-
-
-  document.getElementById(
-    "cartCurrentBalance"
-  ).textContent =
-    formatMoney(
-      currentBalance
-    )
-    +
-    " "
-    +
-    getAgentCurrency();
-
-
-  document.getElementById(
-    "cartOrderTotal"
-  ).textContent =
-    formatMoney(
-      total
-    )
-    +
-    " "
-    +
-    getAgentCurrency();
-
-
-  const afterElement =
-    document.getElementById(
-      "cartAfterBalance"
-    );
-
-
-  afterElement.textContent =
-    formatMoney(
-      after
-    )
-    +
-    " "
-    +
-    getAgentCurrency();
-
-
-  afterElement.className =
-    after >= 0
-      ?
-      "summary-value green"
-      :
-      "summary-value red";
-
-
-  if (
-    cartItems.length > 0
-    &&
-    after < 0
-  ) {
-
-    submit.disabled =
-      true;
-
-  }
+  updateCartSummary();
 
 }
 
@@ -3455,7 +3428,7 @@ function renderCart() {
 ========================================================== */
 
 function changeCartQuantity(
-  index,
+  productId,
   value
 ) {
 
@@ -3470,12 +3443,14 @@ function changeCartQuantity(
       quantity
     )
     ||
-    quantity <= 0
+    quantity <=
+    0
   ) {
 
     alert(
-      "数量必须大于0。"
+      "产品数量必须大于0。"
     );
+
 
     renderCart();
 
@@ -3484,10 +3459,22 @@ function changeCartQuantity(
   }
 
 
-  cartItems[index].quantity =
-    roundQuantity(
-      quantity
+  const item =
+    cartItems.find(
+      row =>
+        String(row.product_id) ===
+        String(productId)
     );
+
+
+  if (
+    item
+  ) {
+
+    item.quantity =
+      quantity;
+
+  }
 
 
   renderCart();
@@ -3501,13 +3488,15 @@ function changeCartQuantity(
 ========================================================== */
 
 function removeCartItem(
-  index
+  productId
 ) {
 
-  cartItems.splice(
-    index,
-    1
-  );
+  cartItems =
+    cartItems.filter(
+      item =>
+        String(item.product_id) !==
+        String(productId)
+    );
 
 
   renderCart();
@@ -3517,27 +3506,29 @@ function removeCartItem(
 
 
 /* ==========================================================
-   清空购物车
+   清空订单
 ========================================================== */
 
 function clearCart() {
 
   if (
-    cartItems.length === 0
+    cartItems.length >
+    0
   ) {
 
-    return;
+    const confirmed =
+      confirm(
+        "确定清空当前订单吗？"
+      );
 
-  }
 
+    if (
+      !confirmed
+    ) {
 
-  if (
-    !confirm(
-      "确定清空当前订单吗？"
-    )
-  ) {
+      return;
 
-    return;
+    }
 
   }
 
@@ -3546,6 +3537,12 @@ function clearCart() {
     [];
 
 
+  document.getElementById(
+    "orderRemarks"
+  ).value =
+    "";
+
+
   renderCart();
 
 }
@@ -3553,53 +3550,150 @@ function clearCart() {
 
 
 /* ==========================================================
-   订单金额
+   订单汇总
+
+   如果订单金额超过余额：
+   预计余额显示红色，
+   提交订单按钮禁止使用。
+
+   数据库 RPC 仍会再次检查余额。
 ========================================================== */
 
-function calculateCartTotal() {
+function updateCartSummary() {
 
-  return roundMoney(
+  const balance =
+    Number(
+      currentAgent?.account_balance ||
+      0
+    );
 
+
+  const currency =
+    (
+      currentAgent?.balance_currency ||
+      "CNY"
+    )
+    .toUpperCase();
+
+
+  const total =
     cartItems.reduce(
-      (
-        sum,
-        item
-      ) => {
+      function(sum, item) {
 
         return (
           sum
           +
-          Number(
-            item.unit_price
-          )
+          Number(item.unit_price)
           *
-          Number(
-            item.quantity
-          )
+          Number(item.quantity)
         );
 
       },
       0
-    )
+    );
 
-  );
+
+  const afterBalance =
+    balance -
+    total;
+
+
+  document.getElementById(
+    "cartCurrentBalance"
+  ).textContent =
+    formatMoney(balance)
+    +
+    " "
+    +
+    currency;
+
+
+  document.getElementById(
+    "cartOrderTotal"
+  ).textContent =
+    formatMoney(total)
+    +
+    " "
+    +
+    currency;
+
+
+  const afterElement =
+    document.getElementById(
+      "cartAfterBalance"
+    );
+
+
+  afterElement.textContent =
+    formatMoney(afterBalance)
+    +
+    " "
+    +
+    currency;
+
+
+  if (
+    afterBalance <
+    0
+  ) {
+
+    afterElement.classList.remove(
+      "green"
+    );
+
+
+    afterElement.classList.add(
+      "red"
+    );
+
+  }
+
+  else {
+
+    afterElement.classList.remove(
+      "red"
+    );
+
+
+    afterElement.classList.add(
+      "green"
+    );
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "submitOrderButton"
+    );
+
+
+  button.disabled =
+    (
+      cartItems.length ===
+      0
+      ||
+      afterBalance <
+      0
+    );
 
 }
 
 
 
 /* ==========================================================
-   正式提交代理商订单
+   正式提交订单
 ========================================================== */
 
 async function submitAgentOrder() {
 
   if (
-    cartItems.length === 0
+    cartItems.length ===
+    0
   ) {
 
     alert(
-      "订单中还没有产品。"
+      "当前订单没有产品。"
     );
 
     return;
@@ -3607,24 +3701,71 @@ async function submitAgentOrder() {
   }
 
 
-  const total =
-    calculateCartTotal();
-
-
-  const currentBalance =
+  const balance =
     Number(
       currentAgent.account_balance ||
       0
     );
 
 
+  const total =
+    cartItems.reduce(
+      function(sum, item) {
+
+        return (
+          sum
+          +
+          Number(item.unit_price)
+          *
+          Number(item.quantity)
+        );
+
+      },
+      0
+    );
+
+
+  /*
+    前端余额提示。
+
+    真正安全检查仍由数据库 RPC 完成。
+  */
+
   if (
     total >
-    currentBalance
+    balance
   ) {
 
     alert(
-      "账户余额不足，不能提交订单。"
+      "订单金额超过当前账户余额，无法提交订单。\n\n"
+      +
+      "当前余额："
+      +
+      formatMoney(balance)
+      +
+      " "
+      +
+      (
+        currentAgent.balance_currency ||
+        "CNY"
+      )
+      +
+      "\n"
+      +
+      "订单金额："
+      +
+      formatMoney(total)
+      +
+      " "
+      +
+      (
+        currentAgent.balance_currency ||
+        "CNY"
+      )
+      +
+      "\n\n"
+      +
+      "请先提交充值申请，待公司确认充值后再下单。"
     );
 
     return;
@@ -3634,52 +3775,22 @@ async function submitAgentOrder() {
 
   const confirmed =
     confirm(
-      "确定提交订单吗？\n\n"
-      +
-      "产品种类："
-      +
-      cartItems.length
-      +
-      "\n"
+      "确定提交当前订单吗？\n\n"
       +
       "订单金额："
       +
-      formatMoney(
-        total
-      )
+      formatMoney(total)
       +
       " "
       +
-      getAgentCurrency()
-      +
-      "\n"
-      +
-      "当前余额："
-      +
-      formatMoney(
-        currentBalance
+      (
+        currentAgent.balance_currency ||
+        "CNY"
       )
-      +
-      " "
-      +
-      getAgentCurrency()
-      +
-      "\n"
-      +
-      "预计下单后余额："
-      +
-      formatMoney(
-        currentBalance -
-        total
-      )
-      +
-      " "
-      +
-      getAgentCurrency()
       +
       "\n\n"
       +
-      "正式价格和余额将在数据库再次核验。"
+      "订单提交成功后，系统将自动扣减账户余额。"
     );
 
 
@@ -3692,20 +3803,6 @@ async function submitAgentOrder() {
   }
 
 
-  const button =
-    document.getElementById(
-      "submitOrderButton"
-    );
-
-
-  button.disabled =
-    true;
-
-
-  button.textContent =
-    "正在提交……";
-
-
   showLoading(
     true
   );
@@ -3715,11 +3812,10 @@ async function submitAgentOrder() {
 
 
     /*
-      只把 product_id + quantity
-      交给数据库。
+      只向数据库提交产品ID和数量。
 
-      不把价格交给数据库，
-      防止浏览器篡改价格。
+      不提交浏览器显示的价格。
+      数据库重新读取官方有效销售价格。
     */
 
     const rpcItems =
@@ -3791,27 +3887,58 @@ async function submitAgentOrder() {
       "";
 
 
+    let successMessage =
+      "订单提交成功。";
+
+
+    if (
+      data
+    ) {
+
+
+      if (
+        data.order_no
+      ) {
+
+        successMessage +=
+          " 订单号："
+          +
+          data.order_no
+          +
+          "。";
+
+      }
+
+
+      if (
+        data.total_amount !==
+        undefined
+      ) {
+
+        successMessage +=
+          " 订单金额："
+          +
+          formatMoney(
+            data.total_amount
+          )
+          +
+          " "
+          +
+          (
+            data.currency ||
+            currentAgent.balance_currency ||
+            "CNY"
+          )
+          +
+          "。";
+
+      }
+
+    }
+
+
     showNotice(
-      "订单提交成功。订单号："
-      +
-      (
-        data?.order_no ||
-        ""
-      )
-      +
-      "，订单金额："
-      +
-      formatMoney(
-        data?.total_amount ||
-        total
-      )
-      +
-      " "
-      +
-      (
-        data?.currency ||
-        getAgentCurrency()
-      ),
+      successMessage,
       "success"
     );
 
@@ -3825,17 +3952,60 @@ async function submitAgentOrder() {
 
 
     console.error(
-      "订单提交失败：",
+      "提交订单失败：",
       error
     );
+
+
+    let message =
+      error.message ||
+      "订单提交失败。";
+
+
+    /*
+      如果数据库判断余额不足，
+      给代理商更清楚的中文提示。
+    */
+
+    if (
+      message
+      .toLowerCase()
+      .includes(
+        "balance"
+      )
+      ||
+      message.includes(
+        "余额"
+      )
+    ) {
+
+      message =
+        "当前账户余额不足，订单无法提交。请先充值后再下单。";
+
+    }
 
 
     showNotice(
       "订单提交失败："
       +
-      error.message,
+      message,
       "error"
     );
+
+
+    alert(
+      "订单提交失败：\n\n"
+      +
+      message
+    );
+
+
+    /*
+      重新读取最新余额，
+      防止另一个页面刚刚下单导致余额变化。
+    */
+
+    await loadAllData();
 
 
   }
@@ -3848,13 +4018,6 @@ async function submitAgentOrder() {
     );
 
 
-    button.textContent =
-      "确认提交订单";
-
-
-    renderCart();
-
-
   }
 
 }
@@ -3862,61 +4025,10 @@ async function submitAgentOrder() {
 
 
 /* ==========================================================
-   3. 历史订单
+   历史订单
 ========================================================== */
 
 function renderOrders() {
-
-  const keyword =
-    document.getElementById(
-      "orderSearch"
-    )
-    .value
-    .trim()
-    .toLowerCase();
-
-
-  const statusFilter =
-    document.getElementById(
-      "orderStatusFilter"
-    ).value;
-
-
-  const rows =
-    orders.filter(
-      function(order) {
-
-
-        const keywordOK =
-          !keyword
-          ||
-          String(
-            order.order_no ||
-            ""
-          )
-          .toLowerCase()
-          .includes(
-            keyword
-          );
-
-
-        const statusOK =
-          statusFilter === "all"
-          ||
-          order.status ===
-          statusFilter;
-
-
-        return (
-          keywordOK
-          &&
-          statusOK
-        );
-
-
-      }
-    );
-
 
   const tbody =
     document.getElementById(
@@ -3930,12 +4042,68 @@ function renderOrders() {
     );
 
 
+  const keyword =
+    document.getElementById(
+      "orderSearch"
+    )
+    .value
+    .trim()
+    .toLowerCase();
+
+
+  const status =
+    document.getElementById(
+      "orderStatusFilter"
+    ).value;
+
+
   tbody.innerHTML =
     "";
 
 
+  const filtered =
+    orders.filter(
+      function(order) {
+
+
+        const keywordMatched =
+          (
+            !keyword
+            ||
+            String(
+              order.order_no ||
+              ""
+            )
+            .toLowerCase()
+            .includes(
+              keyword
+            )
+          );
+
+
+        const statusMatched =
+          (
+            status ===
+            "all"
+            ||
+            order.status ===
+            status
+          );
+
+
+        return (
+          keywordMatched
+          &&
+          statusMatched
+        );
+
+      }
+    );
+
+
   if (
-    rows.length === 0
+    filtered.length ===
+    0
   ) {
 
     empty.style.display =
@@ -3950,7 +4118,7 @@ function renderOrders() {
     "none";
 
 
-  rows.forEach(
+  filtered.forEach(
     function(order) {
 
 
@@ -3963,75 +4131,29 @@ function renderOrders() {
       tr.innerHTML =
         `
 
-          <td>
-
-            <strong>
-              ${
-                escapeHTML(
-                  order.order_no ||
-                  "-"
-                )
-              }
-            </strong>
-
+          <td class="product-code">
+            ${escapeHTML(order.order_no || "-")}
           </td>
 
-
           <td>
-
-            ${
-              formatDateOnly(
-                order.order_date
-              )
-            }
-
+            ${escapeHTML(formatDateOnly(order.order_date))}
           </td>
-
 
           <td class="money">
-
-            ${
-              formatMoney(
-                order.total_amount
-              )
-            }
-
+            ${formatMoney(order.total_amount)}
           </td>
-
 
           <td>
-
-            ${
-              escapeHTML(
-                order.currency ||
-                "-"
-              )
-            }
-
+            ${escapeHTML(order.currency || "-")}
           </td>
-
 
           <td>
-
-            ${
-              renderOrderStatus(
-                order.status
-              )
-            }
-
+            ${statusBadge(order.status)}
           </td>
-
 
           <td>
-
-            ${
-              formatDateTime(
-                order.created_at
-              )
-            }
-
+            ${escapeHTML(formatDate(order.created_at))}
           </td>
-
 
           <td>
 
@@ -4073,100 +4195,7 @@ function renderOrders() {
 
 
 /* ==========================================================
-   订单状态
-========================================================== */
-
-function renderOrderStatus(
-  status
-) {
-
-  if (
-    status === "completed"
-  ) {
-
-    return `
-      <span class="badge badge-green">
-        已完成
-      </span>
-    `;
-
-  }
-
-
-  if (
-    status === "cancelled"
-  ) {
-
-    return `
-      <span class="badge badge-red">
-        已取消
-      </span>
-    `;
-
-  }
-
-
-  if (
-    status === "confirmed"
-  ) {
-
-    return `
-      <span class="badge badge-blue">
-        已确认
-      </span>
-    `;
-
-  }
-
-
-  if (
-    status === "processing"
-  ) {
-
-    return `
-      <span class="badge badge-blue">
-        处理中
-      </span>
-    `;
-
-  }
-
-
-  return `
-    <span class="badge badge-orange">
-      待处理
-    </span>
-  `;
-
-}
-
-
-
-/* ==========================================================
-   获取历史订单明细
-========================================================== */
-
-function getOrderItems(
-  orderId
-) {
-
-  return orderItemsHistory.filter(
-    item =>
-      String(
-        item.order_id
-      )
-      ===
-      String(
-        orderId
-      )
-  );
-
-}
-
-
-
-/* ==========================================================
-   打开订单详情
+   订单详情
 ========================================================== */
 
 function openOrderDetail(
@@ -4199,24 +4228,23 @@ function openOrderDetail(
     order.id;
 
 
-  document.getElementById(
-    "detailOrderNo"
-  ).textContent =
+  setText(
+    "detailOrderNo",
     order.order_no ||
-    "-";
+    "-"
+  );
 
 
-  document.getElementById(
-    "detailOrderDate"
-  ).textContent =
+  setText(
+    "detailOrderDate",
     formatDateOnly(
       order.order_date
-    );
+    )
+  );
 
 
-  document.getElementById(
-    "detailOrderTotal"
-  ).textContent =
+  setText(
+    "detailOrderTotal",
     formatMoney(
       order.total_amount
     )
@@ -4226,22 +4254,23 @@ function openOrderDetail(
     (
       order.currency ||
       ""
-    );
+    )
+  );
 
 
-  document.getElementById(
-    "detailOrderStatus"
-  ).textContent =
+  setText(
+    "detailOrderStatus",
     statusToChinese(
       order.status
-    );
+    )
+  );
 
 
-  document.getElementById(
-    "detailOrderRemarks"
-  ).textContent =
+  setText(
+    "detailOrderRemarks",
     order.remarks ||
-    "-";
+    "-"
+  );
 
 
   const tbody =
@@ -4255,137 +4284,66 @@ function openOrderDetail(
 
 
   const items =
-    getOrderItems(
-      order.id
+    orderItemsHistory.filter(
+      item =>
+        String(item.order_id) ===
+        String(order.id)
     );
 
 
-  if (
-    items.length === 0
-  ) {
+  items.forEach(
+    function(item) {
 
 
-    tbody.innerHTML =
-      `
-        <tr>
-          <td colspan="7">
-            <div class="empty">
-              暂无订单明细
-            </div>
-          </td>
-        </tr>
-      `;
-
-
-  }
-
-  else {
-
-
-    items.forEach(
-      function(item) {
-
-
-        const tr =
-          document.createElement(
-            "tr"
-          );
-
-
-        tr.innerHTML =
-          `
-
-            <td>
-              ${
-                escapeHTML(
-                  item.product_code_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
-            <td>
-              ${
-                escapeHTML(
-                  item.product_name_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
-            <td>
-              ${
-                escapeHTML(
-                  item.specification_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
-            <td>
-              ${
-                escapeHTML(
-                  item.unit_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
-            <td class="money">
-
-              ${
-                formatMoney(
-                  item.unit_price
-                )
-              }
-
-              ${
-                escapeHTML(
-                  order.currency ||
-                  ""
-                )
-              }
-
-            </td>
-
-            <td>
-              ${
-                formatQuantity(
-                  item.quantity
-                )
-              }
-            </td>
-
-            <td class="money">
-
-              ${
-                formatMoney(
-                  item.line_total
-                )
-              }
-
-              ${
-                escapeHTML(
-                  order.currency ||
-                  ""
-                )
-              }
-
-            </td>
-
-          `;
-
-
-        tbody.appendChild(
-          tr
+      const tr =
+        document.createElement(
+          "tr"
         );
 
 
-      }
-    );
+      tr.innerHTML =
+        `
+
+          <td>
+            ${escapeHTML(item.product_code_snapshot || "-")}
+          </td>
+
+          <td class="product-name">
+            ${escapeHTML(item.product_name_snapshot || "-")}
+          </td>
+
+          <td>
+            ${escapeHTML(item.specification_snapshot || "-")}
+          </td>
+
+          <td>
+            ${escapeHTML(item.unit_snapshot || "-")}
+          </td>
+
+          <td class="money">
+            ${formatMoney(item.unit_price)}
+            ${escapeHTML(order.currency || "")}
+          </td>
+
+          <td>
+            ${formatQuantity(item.quantity)}
+          </td>
+
+          <td class="money">
+            ${formatMoney(item.line_total)}
+            ${escapeHTML(order.currency || "")}
+          </td>
+
+        `;
 
 
-  }
+      tbody.appendChild(
+        tr
+      );
+
+
+    }
+  );
 
 
   document
@@ -4400,10 +4358,6 @@ function openOrderDetail(
 }
 
 
-
-/* ==========================================================
-   关闭订单详情
-========================================================== */
 
 function closeOrderDetailModal() {
 
@@ -4425,7 +4379,7 @@ function closeOrderDetailModal() {
 
 
 /* ==========================================================
-   当前订单打印
+   打印
 ========================================================== */
 
 function printCurrentOrder() {
@@ -4447,10 +4401,6 @@ function printCurrentOrder() {
 
 
 
-/* ==========================================================
-   打印历史订单
-========================================================== */
-
 function printOrder(
   orderId
 ) {
@@ -4468,7 +4418,7 @@ function printOrder(
   ) {
 
     alert(
-      "没有找到订单。"
+      "没有找到该订单。"
     );
 
     return;
@@ -4477,8 +4427,10 @@ function printOrder(
 
 
   const items =
-    getOrderItems(
-      order.id
+    orderItemsHistory.filter(
+      item =>
+        String(item.order_id) ===
+        String(order.id)
     );
 
 
@@ -4486,92 +4438,35 @@ function printOrder(
     items.map(
       function(item, index) {
 
-
         return `
-
           <tr>
-
-            <td>
-              ${index + 1}
-            </td>
-
-            <td>
-              ${
-                printEscape(
-                  item.product_code_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
-            <td>
-              ${
-                printEscape(
-                  item.product_name_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
-            <td>
-              ${
-                printEscape(
-                  item.specification_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
-            <td>
-              ${
-                printEscape(
-                  item.unit_snapshot ||
-                  "-"
-                )
-              }
-            </td>
-
+            <td>${index + 1}</td>
+            <td>${escapeHTML(item.product_code_snapshot || "-")}</td>
+            <td>${escapeHTML(item.product_name_snapshot || "-")}</td>
+            <td>${escapeHTML(item.specification_snapshot || "-")}</td>
+            <td>${escapeHTML(item.unit_snapshot || "-")}</td>
             <td style="text-align:right;">
-              ${
-                formatMoney(
-                  item.unit_price
-                )
-              }
+              ${formatMoney(item.unit_price)}
             </td>
-
             <td style="text-align:right;">
-              ${
-                formatQuantity(
-                  item.quantity
-                )
-              }
+              ${formatQuantity(item.quantity)}
             </td>
-
             <td style="text-align:right;">
-              ${
-                formatMoney(
-                  item.line_total
-                )
-              }
+              ${formatMoney(item.line_total)}
             </td>
-
           </tr>
-
         `;
-
 
       }
     )
-    .join(
-      ""
-    );
+    .join("");
 
 
   const printWindow =
     window.open(
       "",
       "_blank",
-      "width=1050,height=800"
+      "width=1000,height=760"
     );
 
 
@@ -4580,15 +4475,12 @@ function printOrder(
   ) {
 
     alert(
-      "浏览器阻止了打印窗口，请允许本站弹出窗口后重新打印。"
+      "浏览器阻止了打印窗口，请允许本网站打开弹出窗口后重新打印。"
     );
 
     return;
 
   }
-
-
-  printWindow.document.open();
 
 
   printWindow.document.write(
@@ -4603,144 +4495,96 @@ function printOrder(
 <meta charset="UTF-8">
 
 <title>
-订单 ${printEscape(order.order_no || "")}
+  ${escapeHTML(order.order_no || "代理商订货单")}
 </title>
 
 <style>
 
-  @page {
-    size: A4;
-    margin: 14mm;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
   body {
-    margin: 0;
-
     font-family:
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      "Microsoft YaHei",
       Arial,
+      "Microsoft YaHei",
       sans-serif;
 
     color: #111;
 
-    font-size: 12px;
+    padding: 30px;
   }
 
-  .company {
+  h1 {
     text-align: center;
-
-    font-size: 22px;
-
-    font-weight: 700;
-
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+    font-size: 25px;
   }
 
-  .title {
+  .subtitle {
     text-align: center;
-
-    font-size: 19px;
-
-    font-weight: 700;
-
-    letter-spacing: 4px;
-
-    margin-bottom: 22px;
+    color: #555;
+    margin-bottom: 30px;
   }
 
-  table {
+  .info {
     width: 100%;
-
+    margin-bottom: 20px;
     border-collapse: collapse;
   }
 
-  .info-table {
-    margin-bottom: 18px;
+  .info td {
+    border: none;
+    padding: 5px 4px;
+    font-size: 13px;
   }
 
-  .info-table td {
+  table.items {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  table.items th,
+  table.items td {
     border: 1px solid #777;
-
-    padding: 7px 8px;
+    padding: 8px;
+    font-size: 12px;
   }
 
-  .label {
-    width: 90px;
-
-    background: #f2f2f2;
-
-    font-weight: 700;
-  }
-
-  .items th,
-  .items td {
-    border: 1px solid #666;
-
-    padding: 7px 6px;
-  }
-
-  .items th {
-    background: #f2f2f2;
-
-    text-align: center;
+  table.items th {
+    background: #f3f4f6;
   }
 
   .total {
-    margin-top: 15px;
-
+    margin-top: 18px;
     text-align: right;
-
     font-size: 16px;
-
-    font-weight: 700;
+    font-weight: bold;
   }
 
   .remarks {
-    margin-top: 18px;
-
-    min-height: 65px;
-
-    border: 1px solid #777;
-
-    padding: 9px;
-
-    line-height: 1.7;
+    margin-top: 24px;
+    font-size: 13px;
+    line-height: 1.8;
   }
 
-  .footer {
-    margin-top: 35px;
-
-    display: grid;
-
-    grid-template-columns:
-      1fr 1fr 1fr;
-
-    gap: 30px;
+  .signatures {
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
   }
 
   .signature {
+    flex: 1;
     border-top: 1px solid #777;
-
-    padding-top: 7px;
-
+    padding-top: 8px;
     text-align: center;
+    font-size: 12px;
   }
 
-  .print-time {
-    margin-top: 28px;
+  @media print {
 
-    text-align: right;
+    body {
+      padding: 0;
+    }
 
-    color: #777;
-
-    font-size: 10px;
   }
 
 </style>
@@ -4750,214 +4594,139 @@ function printOrder(
 
 <body>
 
+<h1>
+  硕丰科技 代理商订货单
+</h1>
 
-  <div class="company">
-    硕丰科技
-  </div>
-
-
-  <div class="title">
-    代理商订货单
-  </div>
+<div class="subtitle">
+  ShuoFeng Technology
+</div>
 
 
-  <table class="info-table">
+<table class="info">
+
+  <tr>
+
+    <td>
+      <strong>订单号：</strong>
+      ${escapeHTML(order.order_no || "-")}
+    </td>
+
+    <td>
+      <strong>下单日期：</strong>
+      ${escapeHTML(formatDateOnly(order.order_date))}
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      <strong>代理商代码：</strong>
+      ${escapeHTML(currentAgent.agent_code || "-")}
+    </td>
+
+    <td>
+      <strong>代理商名称：</strong>
+      ${escapeHTML(currentAgent.agent_name || "-")}
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      <strong>订单状态：</strong>
+      ${escapeHTML(statusToChinese(order.status))}
+    </td>
+
+    <td>
+      <strong>币种：</strong>
+      ${escapeHTML(order.currency || "-")}
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td colspan="2">
+      <strong>创建时间：</strong>
+      ${escapeHTML(formatDate(order.created_at))}
+    </td>
+
+  </tr>
+
+</table>
+
+
+<table class="items">
+
+  <thead>
 
     <tr>
 
-      <td class="label">
-        订单号
-      </td>
-
-      <td>
-        ${printEscape(order.order_no || "-")}
-      </td>
-
-      <td class="label">
-        日期
-      </td>
-
-      <td>
-        ${printEscape(formatDateOnly(order.order_date))}
-      </td>
+      <th>序号</th>
+      <th>产品代码</th>
+      <th>产品名称</th>
+      <th>规格</th>
+      <th>单位</th>
+      <th>单价</th>
+      <th>数量</th>
+      <th>金额</th>
 
     </tr>
 
-
-    <tr>
-
-      <td class="label">
-        代理商
-      </td>
-
-      <td>
-        ${
-          printEscape(
-            (
-              currentAgent.agent_code ||
-              ""
-            )
-            +
-            " "
-            +
-            (
-              currentAgent.agent_name ||
-              ""
-            )
-          )
-        }
-      </td>
-
-      <td class="label">
-        状态
-      </td>
-
-      <td>
-        ${printEscape(statusToChinese(order.status))}
-      </td>
-
-    </tr>
+  </thead>
 
 
-    <tr>
+  <tbody>
 
-      <td class="label">
-        币种
-      </td>
+    ${rows}
 
-      <td>
-        ${printEscape(order.currency || "-")}
-      </td>
+  </tbody>
 
-      <td class="label">
-        创建时间
-      </td>
-
-      <td>
-        ${printEscape(formatDateTime(order.created_at))}
-      </td>
-
-    </tr>
-
-  </table>
+</table>
 
 
-  <table class="items">
+<div class="total">
 
-    <thead>
+  订单总金额：
+  ${formatMoney(order.total_amount)}
+  ${escapeHTML(order.currency || "")}
 
-      <tr>
-
-        <th>序号</th>
-        <th>产品代码</th>
-        <th>产品名称</th>
-        <th>规格</th>
-        <th>单位</th>
-        <th>销售单价</th>
-        <th>数量</th>
-        <th>金额</th>
-
-      </tr>
-
-    </thead>
+</div>
 
 
-    <tbody>
+<div class="remarks">
 
-      ${
-        rows
-        ||
-        `
-          <tr>
-            <td colspan="8" style="text-align:center;">
-              无订单明细
-            </td>
-          </tr>
-        `
-      }
+  <strong>订单备注：</strong>
 
-    </tbody>
+  ${escapeHTML(order.remarks || "无")}
 
-  </table>
+</div>
 
 
-  <div class="total">
+<div class="signatures">
 
-    订单总金额：
-
-    ${formatMoney(order.total_amount)}
-
-    ${printEscape(order.currency || "")}
-
+  <div class="signature">
+    代理商确认
   </div>
 
-
-  <div class="remarks">
-
-    <strong>
-      订单备注：
-    </strong>
-
-    <br>
-
-    ${
-      printEscape(
-        order.remarks ||
-        "无"
-      )
-    }
-
+  <div class="signature">
+    硕丰科技确认
   </div>
 
-
-  <div class="footer">
-
-    <div class="signature">
-      代理商确认
-    </div>
-
-    <div class="signature">
-      公司审核
-    </div>
-
-    <div class="signature">
-      发货确认
-    </div>
-
-  </div>
-
-
-  <div class="print-time">
-
-    打印时间：
-
-    ${
-      printEscape(
-        new Date()
-          .toLocaleString(
-            "zh-CN"
-          )
-      )
-    }
-
-  </div>
+</div>
 
 
 <script>
 
-window.onload =
-  function() {
+  window.onload =
+    function() {
 
-    setTimeout(
-      function() {
+      window.print();
 
-        window.print();
-
-      },
-      200
-    );
-
-  };
+    };
 
 <\/script>
 
@@ -4977,7 +4746,7 @@ window.onload =
 
 
 /* ==========================================================
-   4. 正式充值记录
+   正式充值记录
 ========================================================== */
 
 function renderRecharges() {
@@ -4999,7 +4768,8 @@ function renderRecharges() {
 
 
   if (
-    recharges.length === 0
+    recharges.length ===
+    0
   ) {
 
     empty.style.display =
@@ -5027,6 +4797,15 @@ function renderRecharges() {
         "正式充值";
 
 
+      const badgeClass =
+        item.recharge_type ===
+        "initial"
+        ?
+        "badge-blue"
+        :
+        "badge-green";
+
+
       const tr =
         document.createElement(
           "tr"
@@ -5037,74 +4816,32 @@ function renderRecharges() {
         `
 
           <td>
-
-            ${
-              formatDateTime(
-                item.occurred_at
-              )
-            }
-
+            ${escapeHTML(formatDate(item.occurred_at))}
           </td>
-
 
           <td>
 
-            ${
-              item.recharge_type ===
-              "initial"
-              ?
-              `
-                <span class="badge badge-blue">
-                  开户初始余额
-                </span>
-              `
-              :
-              `
-                <span class="badge badge-green">
-                  正式充值
-                </span>
-              `
-            }
+            <span class="badge ${badgeClass}">
+              ${escapeHTML(typeText)}
+            </span>
 
           </td>
-
 
           <td class="money">
-
-            +${formatMoney(item.amount)}
-
-            ${escapeHTML(item.currency)}
-
+            ${formatMoney(item.amount)}
+            ${escapeHTML(item.currency || "")}
           </td>
 
-
           <td>
-
             ${formatMoney(item.balance_before)}
-
-            ${escapeHTML(item.currency)}
-
           </td>
 
-
-          <td>
-
+          <td class="money">
             ${formatMoney(item.balance_after)}
-
-            ${escapeHTML(item.currency)}
-
           </td>
 
-
           <td>
-
-            ${
-              escapeHTML(
-                item.description ||
-                typeText
-              )
-            }
-
+            ${escapeHTML(item.description || "-")}
           </td>
 
         `;
@@ -5123,10 +4860,10 @@ function renderRecharges() {
 
 
 /* ==========================================================
-   5. 充值申请状态
+   待处理充值申请
 ========================================================== */
 
-function renderRechargeRequestStatus() {
+function renderPendingRechargeRequests() {
 
   const box =
     document.getElementById(
@@ -5143,11 +4880,15 @@ function renderRechargeRequestStatus() {
 
 
   if (
-    pending.length === 0
+    pending.length ===
+    0
   ) {
 
     box.style.display =
       "none";
+
+    box.textContent =
+      "";
 
     return;
 
@@ -5156,16 +4897,18 @@ function renderRechargeRequestStatus() {
 
   const total =
     pending.reduce(
-      (
-        sum,
-        item
-      ) =>
-        sum
-        +
-        Number(
-          item.amount ||
-          0
-        ),
+      function(sum, item) {
+
+        return (
+          sum
+          +
+          Number(
+            item.amount ||
+            0
+          )
+        );
+
+      },
       0
     );
 
@@ -5178,17 +4921,13 @@ function renderRechargeRequestStatus() {
     `
       当前有
       <strong>${pending.length}</strong>
-      条充值申请正在等待公司确认，
-      合计金额：
-
+      笔充值申请正在等待公司确认，
+      合计
       <strong>
         ${formatMoney(total)}
-        ${escapeHTML(getAgentCurrency())}
-      </strong>
-
-      。
-
-      待确认申请不会计入当前余额。
+        ${escapeHTML(currentAgent.balance_currency || "CNY")}
+      </strong>。
+      审批完成以前不会增加账户余额。
     `;
 
 }
@@ -5201,17 +4940,11 @@ function renderRechargeRequestStatus() {
 
 async function submitRechargeRequest() {
 
-  const amountValue =
-    document.getElementById(
-      "rechargeAmount"
-    )
-    .value
-    .trim();
-
-
   const amount =
     Number(
-      amountValue
+      document.getElementById(
+        "rechargeAmount"
+      ).value
     );
 
 
@@ -5244,7 +4977,8 @@ async function submitRechargeRequest() {
       amount
     )
     ||
-    amount <= 0
+    amount <=
+    0
   ) {
 
     alert(
@@ -5262,23 +4996,18 @@ async function submitRechargeRequest() {
       +
       "申请金额："
       +
-      formatMoney(
-        amount
-      )
+      formatMoney(amount)
       +
       " "
       +
-      getAgentCurrency()
-      +
-      "\n"
-      +
-      "付款方式："
-      +
-      paymentMethod
+      (
+        currentAgent.balance_currency ||
+        "CNY"
+      )
       +
       "\n\n"
       +
-      "提交后不会立即增加账户余额，必须等待公司确认。"
+      "提交以后需要公司管理人员确认到账，账户余额才会增加。"
     );
 
 
@@ -5369,21 +5098,7 @@ async function submitRechargeRequest() {
 
 
     showNotice(
-      "充值申请提交成功。申请金额："
-      +
-      formatMoney(
-        data?.amount ||
-        amount
-      )
-      +
-      " "
-      +
-      (
-        data?.currency ||
-        getAgentCurrency()
-      )
-      +
-      "。请等待公司确认到账。",
+      "充值申请提交成功，正在等待公司确认。",
       "success"
     );
 
@@ -5397,15 +5112,18 @@ async function submitRechargeRequest() {
 
 
     console.error(
-      "充值申请提交失败：",
+      "提交充值申请失败：",
       error
     );
 
 
     showNotice(
-      "充值申请提交失败："
+      "提交充值申请失败："
       +
-      error.message,
+      (
+        error.message ||
+        "未知错误"
+      ),
       "error"
     );
 
@@ -5435,6 +5153,380 @@ async function submitRechargeRequest() {
 
 
 /* ==========================================================
+   更新所有余额显示
+========================================================== */
+
+function updateBalanceDisplays() {
+
+  if (
+    !currentAgent
+  ) {
+
+    return;
+
+  }
+
+
+  const balance =
+    Number(
+      currentAgent.account_balance ||
+      0
+    );
+
+
+  const currency =
+    (
+      currentAgent.balance_currency ||
+      "CNY"
+    )
+    .toUpperCase();
+
+
+  setText(
+    "headerBalance",
+    formatMoney(balance)
+    +
+    " "
+    +
+    currency
+  );
+
+
+  setText(
+    "financeBalance",
+    formatMoney(balance)
+    +
+    " "
+    +
+    currency
+  );
+
+
+  const rechargeCurrency =
+    document.getElementById(
+      "rechargeCurrency"
+    );
+
+
+  if (
+    rechargeCurrency
+  ) {
+
+    rechargeCurrency.value =
+      currency;
+
+  }
+
+
+  updateCartSummary();
+
+}
+
+
+
+/* ==========================================================
+   新增：打开修改密码窗口
+========================================================== */
+
+function openPasswordModal() {
+
+  document.getElementById(
+    "newPassword"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "confirmNewPassword"
+  ).value =
+    "";
+
+
+  document
+    .getElementById(
+      "passwordModal"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+
+  setTimeout(
+    function() {
+
+      document.getElementById(
+        "newPassword"
+      ).focus();
+
+    },
+    100
+  );
+
+}
+
+
+
+/* ==========================================================
+   新增：关闭修改密码窗口
+========================================================== */
+
+function closePasswordModal() {
+
+  document
+    .getElementById(
+      "passwordModal"
+    )
+    .classList
+    .remove(
+      "show"
+    );
+
+
+  document.getElementById(
+    "newPassword"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "confirmNewPassword"
+  ).value =
+    "";
+
+}
+
+
+
+/* ==========================================================
+   新增：修改当前代理商自己的密码
+========================================================== */
+
+async function changePassword() {
+
+  const newPassword =
+    document.getElementById(
+      "newPassword"
+    ).value;
+
+
+  const confirmPassword =
+    document.getElementById(
+      "confirmNewPassword"
+    ).value;
+
+
+  if (
+    !newPassword
+    ||
+    !confirmPassword
+  ) {
+
+    alert(
+      "请输入两次新密码。"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    newPassword.length <
+    8
+  ) {
+
+    alert(
+      "新密码至少需要8位。"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    newPassword !==
+    confirmPassword
+  ) {
+
+    alert(
+      "两次输入的新密码不一致，请重新输入。"
+    );
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      "确定修改登录密码吗？\n\n"
+      +
+      "修改成功后系统将自动退出，"
+      +
+      "请使用新密码重新登录。"
+    );
+
+
+  if (
+    !confirmed
+  ) {
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "changePasswordButton"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "正在修改……";
+
+
+  showLoading(
+    true
+  );
+
+
+  try {
+
+
+    /*
+      Supabase Auth：
+      当前已登录用户只能修改自己的密码。
+    */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .auth
+        .updateUser({
+
+          password:
+            newPassword
+
+        });
+
+
+    if (
+      error
+    ) {
+
+      throw error;
+
+    }
+
+
+    if (
+      !data?.user
+    ) {
+
+      throw new Error(
+        "密码修改没有成功，请重新操作。"
+      );
+
+    }
+
+
+    closePasswordModal();
+
+
+    alert(
+      "密码修改成功。\n\n"
+      +
+      "系统现在将退出登录，"
+      +
+      "请使用新密码重新登录。"
+    );
+
+
+    /*
+      修改成功以后立即退出。
+    */
+
+    try {
+
+      await supabaseClient
+        .auth
+        .signOut();
+
+    }
+
+    catch (signOutError) {
+
+      console.error(
+        "修改密码后退出失败：",
+        signOutError
+      );
+
+    }
+
+
+    clearAgentLocalData();
+
+
+    window.location.replace(
+      "page11.html"
+    );
+
+
+  }
+
+  catch (error) {
+
+
+    console.error(
+      "修改密码失败：",
+      error
+    );
+
+
+    alert(
+      "修改密码失败：\n\n"
+      +
+      (
+        error.message ||
+        "请稍后重新尝试。"
+      )
+    );
+
+
+  }
+
+  finally {
+
+
+    showLoading(
+      false
+    );
+
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "确认修改密码";
+
+
+  }
+
+}
+
+
+
+/* ==========================================================
    点击订单详情遮罩关闭
 ========================================================== */
 
@@ -5446,7 +5538,6 @@ document
     "click",
     function(event) {
 
-
       if (
         event.target ===
         this
@@ -5456,6 +5547,32 @@ document
 
       }
 
+    }
+  );
+
+
+
+/* ==========================================================
+   新增：
+   点击修改密码遮罩关闭
+========================================================== */
+
+document
+  .getElementById(
+    "passwordModal"
+  )
+  .addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target ===
+        this
+      ) {
+
+        closePasswordModal();
+
+      }
 
     }
   );
@@ -5463,18 +5580,69 @@ document
 
 
 /* ==========================================================
+   ESC关闭弹窗
+========================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key ===
+      "Escape"
+    ) {
+
+      closeOrderDetailModal();
+
+      closePasswordModal();
+
+    }
+
+  }
+);
+
+
+
+/* ==========================================================
    工具函数
 ========================================================== */
+
+function setText(
+  id,
+  value
+) {
+
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  if (
+    element
+  ) {
+
+    element.textContent =
+      value;
+
+  }
+
+}
+
+
 
 function formatMoney(
   value
 ) {
 
-  return Number(
-    value ||
-    0
-  )
-  .toLocaleString(
+  const number =
+    Number(
+      value ||
+      0
+    );
+
+
+  return number.toLocaleString(
     "zh-CN",
     {
 
@@ -5495,11 +5663,14 @@ function formatQuantity(
   value
 ) {
 
-  return Number(
-    value ||
-    0
-  )
-  .toLocaleString(
+  const number =
+    Number(
+      value ||
+      0
+    );
+
+
+  return number.toLocaleString(
     "zh-CN",
     {
 
@@ -5516,66 +5687,7 @@ function formatQuantity(
 
 
 
-function roundMoney(
-  value
-) {
-
-  return Math.round(
-    (
-      Number(value)
-      +
-      Number.EPSILON
-    )
-    *
-    100
-  )
-  /
-  100;
-
-}
-
-
-
-function roundQuantity(
-  value
-) {
-
-  return Math.round(
-    (
-      Number(value)
-      +
-      Number.EPSILON
-    )
-    *
-    1000
-  )
-  /
-  1000;
-
-}
-
-
-
-function formatDateOnly(
-  value
-) {
-
-  if (
-    !value
-  ) {
-
-    return "-";
-
-  }
-
-
-  return value;
-
-}
-
-
-
-function formatDateTime(
+function formatDate(
   value
 ) {
 
@@ -5595,78 +5707,69 @@ function formatDateTime(
 
 
   if (
-    isNaN(
+    Number.isNaN(
       date.getTime()
     )
   ) {
 
-    return value;
+    return String(
+      value
+    );
 
   }
 
 
-  return date
-    .toLocaleString(
-      "zh-CN",
-      {
+  return date.toLocaleString(
+    "zh-CN",
+    {
 
-        year:
-          "numeric",
+      year:
+        "numeric",
 
-        month:
-          "2-digit",
+      month:
+        "2-digit",
 
-        day:
-          "2-digit",
+      day:
+        "2-digit",
 
-        hour:
-          "2-digit",
+      hour:
+        "2-digit",
 
-        minute:
-          "2-digit"
+      minute:
+        "2-digit"
 
-      }
-    );
+    }
+  );
 
 }
 
 
 
-function statusToChinese(
-  status
+function formatDateOnly(
+  value
 ) {
 
-  const map =
-    {
+  if (
+    !value
+  ) {
 
-      pending:
-        "待处理",
+    return "-";
 
-      confirmed:
-        "已确认",
-
-      processing:
-        "处理中",
-
-      shipped:
-        "已发货",
-
-      completed:
-        "已完成",
-
-      cancelled:
-        "已取消"
-
-    };
+  }
 
 
-  return map[
-    status
-  ]
-  ||
-  status
-  ||
-  "-";
+  /*
+    数据库 order_date 本身就是 YYYY-MM-DD，
+    直接显示避免时区转换。
+  */
+
+  return String(
+    value
+  )
+  .slice(
+    0,
+    10
+  );
 
 }
 
@@ -5677,9 +5780,11 @@ function escapeHTML(
 ) {
 
   if (
-    value === null
+    value ===
+    null
     ||
-    value === undefined
+    value ===
+    undefined
   ) {
 
     return "";
@@ -5690,27 +5795,22 @@ function escapeHTML(
   return String(
     value
   )
-
   .replaceAll(
     "&",
     "&amp;"
   )
-
   .replaceAll(
     "<",
     "&lt;"
   )
-
   .replaceAll(
     ">",
     "&gt;"
   )
-
   .replaceAll(
     '"',
     "&quot;"
   )
-
   .replaceAll(
     "'",
     "&#039;"
@@ -5720,42 +5820,129 @@ function escapeHTML(
 
 
 
-function printEscape(
-  value
+/* ==========================================================
+   订单状态
+========================================================== */
+
+function statusToChinese(
+  status
 ) {
 
-  return escapeHTML(
-    value
-  )
-  .replaceAll(
-    "\n",
-    "<br>"
+  const map = {
+
+    pending:
+      "待确认",
+
+    confirmed:
+      "已确认",
+
+    processing:
+      "处理中",
+
+    shipped:
+      "已发货",
+
+    completed:
+      "已完成",
+
+    cancelled:
+      "已取消"
+
+  };
+
+
+  return (
+    map[status]
+    ||
+    status
+    ||
+    "-"
   );
 
 }
 
 
 
-function showLoading(
-  show
+function statusBadge(
+  status
 ) {
 
-  document
-    .getElementById(
-      "loadingMask"
-    )
-    .classList
-    .toggle(
-      "show",
-      show
+  const text =
+    statusToChinese(
+      status
     );
+
+
+  let css =
+    "badge-gray";
+
+
+  if (
+    status ===
+    "pending"
+  ) {
+
+    css =
+      "badge-orange";
+
+  }
+
+
+  if (
+    status ===
+    "confirmed"
+    ||
+    status ===
+    "processing"
+    ||
+    status ===
+    "shipped"
+  ) {
+
+    css =
+      "badge-blue";
+
+  }
+
+
+  if (
+    status ===
+    "completed"
+  ) {
+
+    css =
+      "badge-green";
+
+  }
+
+
+  if (
+    status ===
+    "cancelled"
+  ) {
+
+    css =
+      "badge-red";
+
+  }
+
+
+  return `
+    <span class="badge ${css}">
+      ${escapeHTML(text)}
+    </span>
+  `;
 
 }
 
 
 
+/* ==========================================================
+   Notice
+========================================================== */
+
 function showNotice(
-  message,
+  text,
   type = "success"
 ) {
 
@@ -5766,14 +5953,15 @@ function showNotice(
 
 
   notice.textContent =
-    message;
+    text;
 
 
   notice.className =
     "notice show "
     +
     (
-      type === "error"
+      type ===
+      "error"
       ?
       "notice-error"
       :
@@ -5789,7 +5977,91 @@ function showNotice(
       );
 
     },
-    6000
+    5000
+  );
+
+}
+
+
+
+/* ==========================================================
+   Loading
+========================================================== */
+
+function showLoading(
+  show
+) {
+
+  const mask =
+    document.getElementById(
+      "loadingMask"
+    );
+
+
+  if (
+    show
+  ) {
+
+    mask.classList.add(
+      "show"
+    );
+
+  }
+
+  else {
+
+    mask.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   清除代理商旧前端数据
+========================================================== */
+
+function clearAgentLocalData() {
+
+  try {
+
+    sessionStorage.clear();
+
+  }
+
+  catch (error) {}
+
+
+  const keys = [
+
+    "agentLogin",
+    "agentUser",
+    "agentId",
+    "agentCode",
+    "agentName",
+    "agentUserId",
+    "loginTime"
+
+  ];
+
+
+  keys.forEach(
+    function(key) {
+
+      try {
+
+        localStorage.removeItem(
+          key
+        );
+
+      }
+
+      catch (error) {}
+
+    }
   );
 
 }
@@ -5819,8 +6091,21 @@ let warningShown =
   false;
 
 
+let logoutInProgress =
+  false;
+
+
 
 function userActivity() {
+
+  if (
+    logoutInProgress
+  ) {
+
+    return;
+
+  }
+
 
   lastActivityTime =
     Date.now();
@@ -5830,10 +6115,20 @@ function userActivity() {
     false;
 
 
-  document.getElementById(
-    "timeoutWarning"
-  ).style.display =
-    "none";
+  const warning =
+    document.getElementById(
+      "timeoutWarning"
+    );
+
+
+  if (
+    warning
+  ) {
+
+    warning.style.display =
+      "none";
+
+  }
 
 }
 
@@ -5850,13 +6145,11 @@ function userActivity() {
 .forEach(
   function(eventName) {
 
-
     document.addEventListener(
       eventName,
       userActivity,
       true
     );
-
 
   }
 );
@@ -5866,47 +6159,66 @@ function userActivity() {
 setInterval(
   function() {
 
+    if (
+      logoutInProgress
+    ) {
 
-    const inactive =
+      return;
+
+    }
+
+
+    const inactiveTime =
       Date.now()
       -
       lastActivityTime;
 
 
     if (
-      inactive >=
+      inactiveTime >=
       IDLE_LIMIT -
       WARNING_TIME
       &&
-      inactive <
+      inactiveTime <
       IDLE_LIMIT
-      &&
-      !warningShown
     ) {
 
+      if (
+        !warningShown
+      ) {
 
-      document.getElementById(
-        "timeoutWarning"
-      ).style.display =
-        "block";
+        const warning =
+          document.getElementById(
+            "timeoutWarning"
+          );
 
 
-      warningShown =
-        true;
+        if (
+          warning
+        ) {
 
+          warning.style.display =
+            "block";
+
+        }
+
+
+        warningShown =
+          true;
+
+      }
 
     }
 
 
     if (
-      inactive >=
+      inactiveTime >=
       IDLE_LIMIT
     ) {
 
       autoLogout();
 
     }
-
 
   },
   1000
@@ -5919,6 +6231,19 @@ setInterval(
 ========================================================== */
 
 async function autoLogout() {
+
+  if (
+    logoutInProgress
+  ) {
+
+    return;
+
+  }
+
+
+  logoutInProgress =
+    true;
+
 
   try {
 
@@ -5955,6 +6280,39 @@ async function autoLogout() {
 
 async function logout() {
 
+  if (
+    logoutInProgress
+  ) {
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      "确定退出代理商系统吗？"
+    );
+
+
+  if (
+    !confirmed
+  ) {
+
+    return;
+
+  }
+
+
+  logoutInProgress =
+    true;
+
+
+  showLoading(
+    true
+  );
+
+
   try {
 
     await supabaseClient
@@ -5966,7 +6324,7 @@ async function logout() {
   catch (error) {
 
     console.error(
-      "退出失败：",
+      "退出登录失败：",
       error
     );
 
@@ -5983,40 +6341,8 @@ async function logout() {
 }
 
 
-
-/* ==========================================================
-   不保存代理商本地账户信息
-========================================================== */
-
-function clearAgentLocalData() {
-
-  localStorage.removeItem(
-    "agentLogin"
-  );
-
-
-  localStorage.removeItem(
-    "agentUser"
-  );
-
-
-  localStorage.removeItem(
-    "agentId"
-  );
-
-
-  localStorage.removeItem(
-    "agentCode"
-  );
-
-
-  sessionStorage.clear();
-
-}
-
-
 </script>
 
-
 </body>
+
 </html>
