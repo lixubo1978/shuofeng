@@ -26,9 +26,7 @@
 
   <title>采购管理｜硕丰科技</title>
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
   <style>
@@ -71,15 +69,12 @@
 
     .topbar {
       background: #0f172a;
-
       color: white;
 
       padding: 18px 28px;
 
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
 
       gap: 20px;
@@ -147,7 +142,6 @@
 
     .container {
       width: 100%;
-
       max-width: 1800px;
 
       margin: 0 auto;
@@ -158,11 +152,8 @@
 
     .page-head {
       display: flex;
-
       justify-content: space-between;
-
       gap: 20px;
-
       align-items: flex-start;
 
       margin-bottom: 20px;
@@ -181,7 +172,6 @@
       margin: 0;
 
       font-size: 14px;
-
       line-height: 1.8;
 
       color: #6b7280;
@@ -189,9 +179,7 @@
 
     .page-buttons {
       display: flex;
-
       gap: 8px;
-
       flex-wrap: wrap;
     }
 
@@ -229,7 +217,7 @@
 
 
     /* =====================================================
-       左右布局
+       两栏
     ===================================================== */
 
     .main-grid {
@@ -242,7 +230,14 @@
       gap: 18px;
 
       align-items: start;
+
+      margin-bottom: 18px;
     }
+
+
+    /* =====================================================
+       Panel
+    ===================================================== */
 
     .panel {
       background: white;
@@ -279,7 +274,6 @@
       margin: 0;
 
       font-size: 13px;
-
       line-height: 1.7;
 
       color: #6b7280;
@@ -352,6 +346,11 @@
         1px solid #d1d5db;
     }
 
+    .btn-orange {
+      background: #ea580c;
+      color: white;
+    }
+
     .btn-small {
       padding:
         6px 10px;
@@ -400,19 +399,19 @@
 
 
     /* =====================================================
-       搜索
+       搜索筛选
     ===================================================== */
 
-    .price-toolbar {
+    .toolbar {
       display: flex;
-
       gap: 8px;
+      flex-wrap: wrap;
 
       margin-bottom: 13px;
     }
 
-    .price-toolbar input,
-    .price-toolbar select {
+    .toolbar input,
+    .toolbar select {
       border:
         1px solid #d1d5db;
 
@@ -428,14 +427,25 @@
       background: white;
     }
 
-    .price-toolbar input {
+    .toolbar input {
       flex: 1;
-      min-width: 0;
+      min-width: 180px;
     }
 
-    .price-toolbar input:focus,
-    .price-toolbar select:focus {
+    .toolbar input:focus,
+    .toolbar select:focus {
       border-color: #2563eb;
+    }
+
+    .history-filter-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 10px;
+
+      margin-bottom: 14px;
     }
 
 
@@ -450,7 +460,6 @@
 
     table {
       width: 100%;
-
       border-collapse: collapse;
     }
 
@@ -460,6 +469,10 @@
 
     .cart-table {
       min-width: 720px;
+    }
+
+    .history-table {
+      min-width: 1050px;
     }
 
     th {
@@ -490,6 +503,10 @@
         1px solid #eef2f7;
 
       vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #fafafa;
     }
 
     .price-history td {
@@ -563,6 +580,11 @@
       color: #c2410c;
     }
 
+    .badge-confirmed {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
     .locked {
       color: #6b7280;
       font-size: 11px;
@@ -596,9 +618,7 @@
 
     .form-group {
       display: flex;
-
       flex-direction: column;
-
       gap: 6px;
     }
 
@@ -659,7 +679,7 @@
 
 
     /* =====================================================
-       下单产品信息
+       新建采购单
     ===================================================== */
 
     .selected-price-box {
@@ -705,7 +725,6 @@
 
     .cart-title {
       font-size: 15px;
-
       font-weight: 700;
 
       margin-bottom: 10px;
@@ -716,8 +735,7 @@
     .total-box {
       margin-top: 14px;
 
-      padding:
-        14px;
+      padding: 14px;
 
       background: #eff6ff;
 
@@ -729,7 +747,6 @@
       display: flex;
 
       justify-content: space-between;
-
       align-items: center;
 
       gap: 12px;
@@ -795,7 +812,6 @@
       z-index: 10000;
 
       align-items: center;
-
       justify-content: center;
 
       padding: 20px;
@@ -808,7 +824,7 @@
     .modal {
       width: 100%;
 
-      max-width: 620px;
+      max-width: 650px;
 
       max-height: 92vh;
 
@@ -822,6 +838,10 @@
         0 25px 70px rgba(0,0,0,0.28);
     }
 
+    .modal.large {
+      max-width: 1100px;
+    }
+
     .modal-header {
       padding:
         19px 22px;
@@ -830,9 +850,7 @@
         1px solid #e5e7eb;
 
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
     }
 
@@ -869,6 +887,8 @@
       justify-content: flex-end;
 
       gap: 8px;
+
+      flex-wrap: wrap;
     }
 
     .define-warning {
@@ -893,7 +913,58 @@
 
 
     /* =====================================================
-       Loading / Timeout
+       详情
+    ===================================================== */
+
+    .detail-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        14px 22px;
+    }
+
+    .detail-item {
+      border-bottom:
+        1px solid #eef2f7;
+
+      padding-bottom: 10px;
+    }
+
+    .detail-item.full {
+      grid-column:
+        1 / -1;
+    }
+
+    .detail-label {
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      font-size: 14px;
+      color: #111827;
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .detail-section-title {
+      margin:
+        22px 0 12px;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      color: #111827;
+    }
+
+
+    /* =====================================================
+       Loading
     ===================================================== */
 
     .loading-mask {
@@ -909,7 +980,6 @@
       z-index: 20000;
 
       align-items: center;
-
       justify-content: center;
 
       color: #334155;
@@ -922,6 +992,11 @@
     .loading-mask.show {
       display: flex;
     }
+
+
+    /* =====================================================
+       超时
+    ===================================================== */
 
     .timeout-warning {
       position: fixed;
@@ -957,14 +1032,13 @@
 
 
     /* =====================================================
-       响应式
+       手机适配
     ===================================================== */
 
     @media (max-width: 1150px) {
 
       .main-grid {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
 
     }
@@ -976,22 +1050,23 @@
       }
 
       .price-summary {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
 
-      .price-toolbar {
+      .toolbar {
         flex-direction: column;
       }
 
+      .history-filter-grid,
       .form-grid,
-      .selected-price-box {
-        grid-template-columns:
-          1fr;
+      .selected-price-box,
+      .detail-grid {
+        grid-template-columns: 1fr;
       }
 
       .form-group.full,
-      .define-warning {
+      .define-warning,
+      .detail-item.full {
         grid-column: auto;
       }
 
@@ -1009,223 +1084,325 @@
 <body>
 
 
-  <div
-    id="loadingMask"
-    class="loading-mask"
-  >
-    正在处理，请稍候……
+<div
+  id="loadingMask"
+  class="loading-mask"
+>
+  正在处理，请稍候……
+</div>
+
+
+<!-- =====================================================
+     顶部
+====================================================== -->
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="brand-title">
+      硕丰科技 · 采购管理
+    </div>
+
+    <div class="brand-subtitle">
+      Purchase Management
+    </div>
+
   </div>
 
 
-  <!-- =====================================================
-       顶部
-  ====================================================== -->
+  <div class="top-actions">
 
-  <header class="topbar">
+    <div
+      id="currentUser"
+      class="user-info"
+    >
+      创始人
+    </div>
 
-    <div class="brand">
 
-      <div class="brand-title">
-        硕丰科技 · 采购管理
-      </div>
+    <button
+      class="top-btn"
+      type="button"
+      onclick="window.location.href='suppliers.html'"
+    >
+      供应商管理
+    </button>
 
-      <div class="brand-subtitle">
-        Purchase Price & Purchase Order Management
-      </div>
+
+    <button
+      class="top-btn"
+      type="button"
+      onclick="goBack()"
+    >
+      返回工作台
+    </button>
+
+
+    <button
+      class="top-btn"
+      type="button"
+      onclick="logout()"
+    >
+      退出登录
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+
+  <!-- ===================================================
+       页面标题
+  ==================================================== -->
+
+  <div class="page-head">
+
+    <div>
+
+      <h1>
+        采购管理
+      </h1>
+
+      <p>
+        左侧负责采购价格定义与历史换代；
+        右侧负责新建采购订单；
+        下方可以查询、查看和打印全部历史采购订单。
+      </p>
 
     </div>
 
 
-    <div class="top-actions">
-
-      <div
-        id="currentUser"
-        class="user-info"
-      >
-        创始人
-      </div>
+    <div class="page-buttons">
 
       <button
-        class="top-btn"
+        class="btn btn-light"
         type="button"
-        onclick="window.location.href='suppliers.html'"
+        onclick="loadAllData()"
       >
-        供应商管理
-      </button>
-
-      <button
-        class="top-btn"
-        type="button"
-        onclick="goBack()"
-      >
-        返回工作台
-      </button>
-
-      <button
-        class="top-btn"
-        type="button"
-        onclick="logout()"
-      >
-        退出登录
+        刷新全部数据
       </button>
 
     </div>
 
-  </header>
+  </div>
 
 
-  <main class="container">
+  <div
+    id="notice"
+    class="notice"
+  ></div>
 
 
-    <div class="page-head">
+  <!-- ===================================================
+       上方左右两区
+  ==================================================== -->
 
-      <div>
+  <section class="main-grid">
 
-        <h1>
-          采购管理
-        </h1>
+
+    <!-- =================================================
+         ① 采购价格管理
+    ================================================== -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <h2>
+          ① 采购价格管理
+        </h2>
 
         <p>
-          左侧管理产品采购价格，每条采购价格只能定义一次；
-          右侧从已维护的供应商中选择供应商并创建采购订单。
-          已定义采购价格不可修改，如需调整必须将旧价格设为无效并重新定义系统产生的新价格。
+          新产品建立后自动生成未定义采购价格。
+          每条价格只能定义一次，定义完成以后永久锁定。
         </p>
 
       </div>
 
 
-      <div class="page-buttons">
+      <div class="panel-body">
 
-        <button
-          class="btn btn-light"
-          type="button"
-          onclick="loadAllData()"
+
+        <div class="price-summary">
+
+
+          <div class="mini-card">
+
+            <div class="mini-label">
+              当前有效价格对象
+            </div>
+
+            <div
+              id="activePriceCount"
+              class="mini-value"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="mini-card">
+
+            <div class="mini-label">
+              待定义
+            </div>
+
+            <div
+              id="undefinedPriceCount"
+              class="mini-value"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="mini-card">
+
+            <div class="mini-label">
+              历史价格
+            </div>
+
+            <div
+              id="historyPriceCount"
+              class="mini-value"
+            >
+              0
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="toolbar">
+
+          <input
+            id="priceSearch"
+            type="text"
+            placeholder="搜索产品代码或名称……"
+            oninput="renderPurchasePrices()"
+          >
+
+
+          <select
+            id="priceFilter"
+            onchange="renderPurchasePrices()"
+          >
+
+            <option value="current">
+              当前有效
+            </option>
+
+            <option value="undefined">
+              仅未定义
+            </option>
+
+            <option value="defined">
+              仅已定义
+            </option>
+
+            <option value="history">
+              历史价格
+            </option>
+
+            <option value="all">
+              全部
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="table-scroll">
+
+          <table class="price-table">
+
+            <thead>
+
+              <tr>
+
+                <th>产品代码</th>
+                <th>产品名称</th>
+                <th>采购价格</th>
+                <th>币种</th>
+                <th>定义状态</th>
+                <th>状态</th>
+                <th>生效日期</th>
+                <th>操作</th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody
+              id="priceTableBody"
+            ></tbody>
+
+          </table>
+
+        </div>
+
+
+        <div
+          id="priceEmpty"
+          class="empty"
+          style="display:none;"
         >
-          刷新全部数据
-        </button>
+          暂无采购价格记录
+        </div>
 
       </div>
 
     </div>
 
 
-    <div
-      id="notice"
-      class="notice"
-    ></div>
+    <!-- =================================================
+         ② 新建采购订单
+    ================================================== -->
+
+    <div class="panel">
+
+      <div class="panel-header">
+
+        <h2>
+          ② 新建采购订单
+        </h2>
+
+        <p>
+          选择供应商和已定义采购价格的产品。
+          单价由系统读取，不允许人工修改。
+        </p>
+
+      </div>
 
 
-    <section class="main-grid">
+      <div class="panel-body">
 
 
-      <!-- ===================================================
-           左：采购价格
-      ==================================================== -->
-
-      <div class="panel">
-
-        <div class="panel-header">
-
-          <h2>
-            ① 采购价格管理
-          </h2>
-
-          <p>
-            产品建立后自动出现未定义采购价。
-            一条采购价格只能定义一次，定义后永久锁定；
-            价格变化时只能将原价格设为无效。
-          </p>
-
-        </div>
+        <div class="form-grid">
 
 
-        <div class="panel-body">
+          <div class="form-group full">
 
-
-          <div class="price-summary">
-
-            <div class="mini-card">
-
-              <div class="mini-label">
-                当前有效价格对象
-              </div>
-
-              <div
-                id="activePriceCount"
-                class="mini-value"
-              >
-                0
-              </div>
-
-            </div>
-
-
-            <div class="mini-card">
-
-              <div class="mini-label">
-                待定义
-              </div>
-
-              <div
-                id="undefinedPriceCount"
-                class="mini-value"
-              >
-                0
-              </div>
-
-            </div>
-
-
-            <div class="mini-card">
-
-              <div class="mini-label">
-                历史价格
-              </div>
-
-              <div
-                id="historyPriceCount"
-                class="mini-value"
-              >
-                0
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="price-toolbar">
-
-            <input
-              id="priceSearch"
-              type="text"
-              placeholder="搜索产品代码或名称……"
-              oninput="renderPurchasePrices()"
-            >
+            <label>
+              供应商
+              <span class="required">*</span>
+            </label>
 
             <select
-              id="priceFilter"
-              onchange="renderPurchasePrices()"
+              id="supplierSelect"
             >
 
-              <option value="current">
-                当前有效
-              </option>
-
-              <option value="undefined">
-                仅未定义
-              </option>
-
-              <option value="defined">
-                仅已定义
-              </option>
-
-              <option value="history">
-                历史价格
-              </option>
-
-              <option value="all">
-                全部
+              <option value="">
+                请选择供应商
               </option>
 
             </select>
@@ -1233,28 +1410,177 @@
           </div>
 
 
+          <div class="form-group">
+
+            <label>
+              采购日期
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="purchaseDate"
+              type="date"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              预计采购单号
+            </label>
+
+            <input
+              id="purchaseNoPreview"
+              class="readonly"
+              type="text"
+              readonly
+            >
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label>
+              产品
+              <span class="required">*</span>
+            </label>
+
+            <select
+              id="productSelect"
+              onchange="updateSelectedProductInfo()"
+            >
+
+              <option value="">
+                请选择产品
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              数量
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="quantityInput"
+              type="number"
+              min="0.001"
+              step="0.001"
+              value="1"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              操作
+            </label>
+
+            <button
+              id="addItemButton"
+              class="btn btn-green"
+              type="button"
+              onclick="addItemToOrder()"
+              disabled
+            >
+              ＋ 加入采购单
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="selected-price-box">
+
+
+          <div>
+
+            <div class="selected-label">
+              当前采购价
+            </div>
+
+            <div
+              id="selectedPrice"
+              class="selected-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <div class="selected-label">
+              币种
+            </div>
+
+            <div
+              id="selectedCurrency"
+              class="selected-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <div class="selected-label">
+              单位
+            </div>
+
+            <div
+              id="selectedUnit"
+              class="selected-value"
+            >
+              -
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="productWarning"
+          class="warning"
+          style="display:none;"
+        ></div>
+
+
+        <div class="cart-section">
+
+          <div class="cart-title">
+            当前采购单明细
+          </div>
+
+
           <div class="table-scroll">
 
-            <table class="price-table">
+            <table class="cart-table">
 
               <thead>
 
                 <tr>
 
-                  <th>产品代码</th>
-
-                  <th>产品名称</th>
-
-                  <th>采购价格</th>
-
-                  <th>币种</th>
-
-                  <th>定义状态</th>
-
-                  <th>状态</th>
-
-                  <th>生效日期</th>
-
+                  <th>产品</th>
+                  <th>单价</th>
+                  <th>数量</th>
+                  <th>单位</th>
+                  <th>金额</th>
                   <th>操作</th>
 
                 </tr>
@@ -1263,7 +1589,7 @@
 
 
               <tbody
-                id="priceTableBody"
+                id="cartTableBody"
               ></tbody>
 
             </table>
@@ -1272,493 +1598,67 @@
 
 
           <div
-            id="priceEmpty"
+            id="cartEmpty"
             class="empty"
-            style="display:none;"
           >
-            暂无采购价格记录
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           右：采购下单
-      ==================================================== -->
-
-      <div class="panel">
-
-        <div class="panel-header">
-
-          <h2>
-            ② 新建采购订单
-          </h2>
-
-          <p>
-            选择供应商和已经定义采购价的产品。
-            采购单价由系统自动读取，不允许手工修改。
-          </p>
-
-        </div>
-
-
-        <div class="panel-body">
-
-
-          <div class="form-grid">
-
-
-            <div class="form-group full">
-
-              <label>
-                供应商
-                <span class="required">*</span>
-              </label>
-
-              <select
-                id="supplierSelect"
-              >
-                <option value="">
-                  请选择供应商
-                </option>
-              </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>
-                采购日期
-                <span class="required">*</span>
-              </label>
-
-              <input
-                id="purchaseDate"
-                type="date"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>
-                预计采购单号
-              </label>
-
-              <input
-                id="purchaseNoPreview"
-                class="readonly"
-                type="text"
-                readonly
-              >
-
-            </div>
-
-
-            <div class="form-group full">
-
-              <label>
-                选择产品
-                <span class="required">*</span>
-              </label>
-
-              <select
-                id="productSelect"
-                onchange="updateSelectedProductInfo()"
-              >
-
-                <option value="">
-                  请选择产品
-                </option>
-
-              </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>
-                数量
-                <span class="required">*</span>
-              </label>
-
-              <input
-                id="quantityInput"
-                type="number"
-                min="0.001"
-                step="0.001"
-                value="1"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label>
-                操作
-              </label>
-
-              <button
-                id="addItemButton"
-                class="btn btn-green"
-                type="button"
-                onclick="addItemToOrder()"
-                disabled
-              >
-                ＋ 加入采购单
-              </button>
-
-            </div>
-
+            尚未加入任何商品
           </div>
 
 
-          <div class="selected-price-box">
+          <div class="total-box">
 
-            <div>
-
-              <div class="selected-label">
-                当前采购价
-              </div>
-
-              <div
-                id="selectedPrice"
-                class="selected-value"
-              >
-                -
-              </div>
-
+            <div class="total-label">
+              采购单总金额
             </div>
 
-
-            <div>
-
-              <div class="selected-label">
-                币种
-              </div>
-
-              <div
-                id="selectedCurrency"
-                class="selected-value"
-              >
-                -
-              </div>
-
-            </div>
-
-
-            <div>
-
-              <div class="selected-label">
-                单位
-              </div>
-
-              <div
-                id="selectedUnit"
-                class="selected-value"
-              >
-                -
-              </div>
-
+            <div
+              id="orderTotal"
+              class="total-value"
+            >
+              0.00
             </div>
 
           </div>
 
 
           <div
-            id="productWarning"
-            class="warning"
-            style="display:none;"
-          ></div>
-
-
-          <!-- 当前采购单 -->
-
-          <div class="cart-section">
-
-            <div class="cart-title">
-              当前采购单明细
-            </div>
-
-
-            <div class="table-scroll">
-
-              <table class="cart-table">
-
-                <thead>
-
-                  <tr>
-
-                    <th>产品</th>
-
-                    <th>单价</th>
-
-                    <th>数量</th>
-
-                    <th>单位</th>
-
-                    <th>金额</th>
-
-                    <th>操作</th>
-
-                  </tr>
-
-                </thead>
-
-
-                <tbody
-                  id="cartTableBody"
-                ></tbody>
-
-              </table>
-
-            </div>
-
-
-            <div
-              id="cartEmpty"
-              class="empty"
-            >
-              尚未加入任何商品
-            </div>
-
-
-            <div class="total-box">
-
-              <div class="total-label">
-                采购单总金额
-              </div>
-
-              <div
-                id="orderTotal"
-                class="total-value"
-              >
-                0.00
-              </div>
-
-            </div>
-
-
-            <div class="form-group full" style="margin-top:14px;">
-
-              <label>
-                采购备注
-              </label>
-
-              <textarea
-                id="purchaseRemarks"
-                placeholder="例如：交货要求、运输要求、付款说明等"
-              ></textarea>
-
-            </div>
-
-
-            <div style="margin-top:14px;">
-
-              <button
-                id="submitOrderButton"
-                class="btn btn-primary"
-                type="button"
-                style="width:100%; padding:13px;"
-                onclick="submitPurchaseOrder()"
-                disabled
-              >
-                确认创建采购订单
-              </button>
-
-            </div>
-
-
-            <div class="order-help">
-
-              一个采购订单只能使用一种币种。
-              如果不同产品的采购价币种不同，请分别建立采购订单。
-
-              采购订单建立后，产品代码、产品名称、规格、单位和采购单价都会作为历史快照写入订单明细。
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- =====================================================
-       定义采购价格
-  ====================================================== -->
-
-  <div
-    id="defineModal"
-    class="modal-mask"
-  >
-
-    <div class="modal">
-
-      <div class="modal-header">
-
-        <h3>
-          定义采购价格
-        </h3>
-
-        <button
-          class="modal-close"
-          type="button"
-          onclick="closeDefineModal()"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-      <div class="modal-body">
-
-        <input
-          id="definePriceId"
-          type="hidden"
-        >
-
-
-        <div class="form-grid">
-
-
-          <div class="form-group">
+            class="form-group full"
+            style="margin-top:14px;"
+          >
 
             <label>
-              产品代码
-            </label>
-
-            <input
-              id="defineProductCode"
-              class="readonly"
-              type="text"
-              readonly
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              产品名称
-            </label>
-
-            <input
-              id="defineProductName"
-              class="readonly"
-              type="text"
-              readonly
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              采购价格
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="definePurchasePrice"
-              type="number"
-              min="0"
-              step="0.01"
-              placeholder="请输入采购价格"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              币种
-              <span class="required">*</span>
-            </label>
-
-            <select
-              id="defineCurrency"
-            >
-
-              <option value="">
-                请选择币种
-              </option>
-
-              <option value="CNY">
-                CNY 人民币
-              </option>
-
-              <option value="EUR">
-                EUR 欧元
-              </option>
-
-              <option value="USD">
-                USD 美元
-              </option>
-
-              <option value="HUF">
-                HUF 匈牙利福林
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              生效日期
-            </label>
-
-            <input
-              id="defineEffectiveFrom"
-              type="date"
-            >
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              备注
+              采购备注
             </label>
 
             <textarea
-              id="defineNotes"
-              placeholder="采购价格说明，可留空"
+              id="purchaseRemarks"
+              placeholder="交货、运输、付款等说明"
             ></textarea>
 
           </div>
 
 
-          <div class="define-warning">
+          <div style="margin-top:14px;">
 
-            <strong>注意：</strong>
+            <button
+              id="submitOrderButton"
+              class="btn btn-primary"
+              type="button"
+              style="width:100%; padding:13px;"
+              onclick="submitPurchaseOrder()"
+              disabled
+            >
+              确认创建采购订单
+            </button>
 
-            每一条采购价格只能定义一次。
+          </div>
 
-            本次保存成功以后，这条采购价格将永久锁定，
-            不允许再次修改。
 
-            如果以后采购价格发生变化，
-            请把当前价格“设为无效”，系统会自动生成新的未定义采购价格。
+          <div class="order-help">
+
+            一个采购订单只允许一种币种。
+
+            创建成功后，产品代码、名称、规格、单位、采购单价都会作为历史快照保存。
 
           </div>
 
@@ -1766,43 +1666,593 @@
 
       </div>
 
+    </div>
 
-      <div class="modal-footer">
+  </section>
 
-        <button
-          class="btn btn-light"
-          type="button"
-          onclick="closeDefineModal()"
+
+  <!-- ===================================================
+       ③ 历史采购订单
+  ==================================================== -->
+
+  <section class="panel">
+
+    <div class="panel-header">
+
+      <h2>
+        ③ 历史采购订单
+      </h2>
+
+      <p>
+        查询已建立的采购订单。
+        历史采购订单读取订单创建时保存的快照，可以查看详情并打印。
+      </p>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+      <div class="toolbar">
+
+
+        <input
+          id="historyOrderSearch"
+          type="text"
+          placeholder="搜索采购单号、供应商名称……"
+          oninput="renderHistoryOrders()"
         >
-          取消
-        </button>
 
-        <button
-          id="saveDefineButton"
-          class="btn btn-primary"
-          type="button"
-          onclick="savePurchasePriceDefinition()"
+
+        <select
+          id="historyOrderStatus"
+          onchange="renderHistoryOrders()"
         >
-          确认定义
-        </button>
+
+          <option value="all">
+            全部状态
+          </option>
+
+          <option value="pending">
+            pending
+          </option>
+
+          <option value="confirmed">
+            confirmed
+          </option>
+
+          <option value="completed">
+            completed
+          </option>
+
+          <option value="cancelled">
+            cancelled
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="history-filter-grid">
+
+
+        <div class="form-group">
+
+          <label>
+            开始日期
+          </label>
+
+          <input
+            id="historyStartDate"
+            type="date"
+            onchange="renderHistoryOrders()"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            结束日期
+          </label>
+
+          <input
+            id="historyEndDate"
+            type="date"
+            onchange="renderHistoryOrders()"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="table-scroll">
+
+        <table class="history-table">
+
+          <thead>
+
+            <tr>
+
+              <th>采购单号</th>
+              <th>采购日期</th>
+              <th>供应商</th>
+              <th>状态</th>
+              <th>总金额</th>
+              <th>币种</th>
+              <th>创建时间</th>
+              <th>操作</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="historyOrderTableBody"
+          ></tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        id="historyOrderEmpty"
+        class="empty"
+        style="display:none;"
+      >
+        暂无历史采购订单
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =====================================================
+     定义采购价格
+====================================================== -->
+
+<div
+  id="defineModal"
+  class="modal-mask"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h3>
+        定义采购价格
+      </h3>
+
+      <button
+        class="modal-close"
+        type="button"
+        onclick="closeDefineModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <input
+        id="definePriceId"
+        type="hidden"
+      >
+
+
+      <div class="form-grid">
+
+
+        <div class="form-group">
+
+          <label>
+            产品代码
+          </label>
+
+          <input
+            id="defineProductCode"
+            class="readonly"
+            type="text"
+            readonly
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            产品名称
+          </label>
+
+          <input
+            id="defineProductName"
+            class="readonly"
+            type="text"
+            readonly
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            采购价格
+            <span class="required">*</span>
+          </label>
+
+          <input
+            id="definePurchasePrice"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="请输入采购价格"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            币种
+            <span class="required">*</span>
+          </label>
+
+          <select
+            id="defineCurrency"
+          >
+
+            <option value="">
+              请选择币种
+            </option>
+
+            <option value="CNY">
+              CNY 人民币
+            </option>
+
+            <option value="EUR">
+              EUR 欧元
+            </option>
+
+            <option value="USD">
+              USD 美元
+            </option>
+
+            <option value="HUF">
+              HUF 匈牙利福林
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            生效日期
+          </label>
+
+          <input
+            id="defineEffectiveFrom"
+            type="date"
+          >
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            备注
+          </label>
+
+          <textarea
+            id="defineNotes"
+            placeholder="采购价格说明，可留空"
+          ></textarea>
+
+        </div>
+
+
+        <div class="define-warning">
+
+          <strong>注意：</strong>
+
+          每条采购价格只能定义一次。
+
+          保存成功后采购价格永久锁定，不允许再次修改。
+
+          如果以后采购价格变化，请将当前价格设为无效，
+          系统会自动生成新的未定义采购价格。
+
+        </div>
 
       </div>
 
     </div>
 
+
+    <div class="modal-footer">
+
+      <button
+        class="btn btn-light"
+        type="button"
+        onclick="closeDefineModal()"
+      >
+        取消
+      </button>
+
+
+      <button
+        id="saveDefineButton"
+        class="btn btn-primary"
+        type="button"
+        onclick="savePurchasePriceDefinition()"
+      >
+        确认定义
+      </button>
+
+    </div>
+
   </div>
 
+</div>
 
-  <!-- =====================================================
-       超时提醒
-  ====================================================== -->
 
-  <div
-    id="timeoutWarning"
-    class="timeout-warning"
-  >
-    长时间未操作，系统即将自动退出。
+<!-- =====================================================
+     历史采购订单详情
+====================================================== -->
+
+<div
+  id="orderDetailModal"
+  class="modal-mask"
+>
+
+  <div class="modal large">
+
+
+    <div class="modal-header">
+
+      <h3>
+        采购订单详情
+      </h3>
+
+      <button
+        class="modal-close"
+        type="button"
+        onclick="closeOrderDetailModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+
+      <div class="detail-grid">
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            采购单号
+          </div>
+
+          <div
+            id="detailPurchaseNo"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            采购日期
+          </div>
+
+          <div
+            id="detailPurchaseDate"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            供应商
+          </div>
+
+          <div
+            id="detailSupplier"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            状态
+          </div>
+
+          <div
+            id="detailOrderStatus"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            总金额
+          </div>
+
+          <div
+            id="detailOrderTotal"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            币种
+          </div>
+
+          <div
+            id="detailOrderCurrency"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item full">
+
+          <div class="detail-label">
+            备注
+          </div>
+
+          <div
+            id="detailOrderRemarks"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item full">
+
+          <div class="detail-label">
+            创建时间
+          </div>
+
+          <div
+            id="detailOrderCreatedAt"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-section-title">
+        采购商品明细
+      </div>
+
+
+      <div class="table-scroll">
+
+        <table
+          class="cart-table"
+          style="min-width:900px;"
+        >
+
+          <thead>
+
+            <tr>
+
+              <th>产品代码</th>
+              <th>产品名称</th>
+              <th>规格</th>
+              <th>单位</th>
+              <th>采购单价</th>
+              <th>数量</th>
+              <th>金额</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            id="orderDetailItemsBody"
+          ></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+
+      <button
+        id="detailPrintButton"
+        class="btn btn-orange"
+        type="button"
+        onclick="printCurrentDetailOrder()"
+      >
+        打印采购单
+      </button>
+
+
+      <button
+        class="btn btn-light"
+        type="button"
+        onclick="closeOrderDetailModal()"
+      >
+        关闭
+      </button>
+
+    </div>
+
   </div>
+
+</div>
+
+
+<div
+  id="timeoutWarning"
+  class="timeout-warning"
+>
+  长时间未操作，系统即将自动退出。
+</div>
 
 
 <script>
@@ -1827,19 +2277,49 @@ const supabaseClient =
   );
 
 
-let currentUserId = null;
+let currentUserId =
+  null;
 
-let products = [];
 
-let purchasePrices = [];
+let products =
+  [];
 
-let suppliers = [];
 
-let purchaseOrders = [];
+let purchasePrices =
+  [];
 
-let orderItems = [];
 
-let accessVerified = false;
+let suppliers =
+  [];
+
+
+let purchaseOrders =
+  [];
+
+
+/*
+  正在新建的采购订单明细
+*/
+let orderItems =
+  [];
+
+
+/*
+  历史采购订单明细
+*/
+let purchaseOrderItemsHistory =
+  [];
+
+
+let accessVerified =
+  false;
+
+
+/*
+  当前打开详情的采购订单ID
+*/
+let currentDetailOrderId =
+  null;
 
 
 
@@ -1901,7 +2381,7 @@ async function verifyFounderAccess() {
     ) {
 
       alert(
-        "采购管理属于公司内部采购机密，目前仅创始人可以进入。"
+        "采购管理属于公司内部采购信息，目前仅创始人可以进入。"
       );
 
 
@@ -1972,6 +2452,7 @@ document.addEventListener(
   "DOMContentLoaded",
   async function() {
 
+
     document.getElementById(
       "purchaseDate"
     ).value =
@@ -2017,7 +2498,7 @@ window.addEventListener(
 
 
 /* ==========================================================
-   加载全部数据
+   读取全部数据
 ========================================================== */
 
 async function loadAllData() {
@@ -2032,13 +2513,16 @@ async function loadAllData() {
 
   try {
 
+
     const [
       productsResult,
       pricesResult,
       suppliersResult,
-      ordersResult
+      ordersResult,
+      historyItemsResult
     ] =
       await Promise.all([
+
 
         supabaseClient
           .from("products")
@@ -2052,6 +2536,7 @@ async function loadAllData() {
             }
           ),
 
+
         supabaseClient
           .from("purchase_prices")
           .select(
@@ -2064,27 +2549,40 @@ async function loadAllData() {
             }
           ),
 
+
         supabaseClient
           .from("suppliers")
-          .select(
-            "id, supplier_code, supplier_name, is_active"
-          )
+          .select("*")
           .order(
-            "supplier_code",
+            "created_at",
             {
-              ascending: true
+              ascending: false
             }
           ),
+
 
         supabaseClient
           .from("purchase_orders")
           .select(
-            "id, purchase_no, purchase_date"
+            "id, purchase_no, supplier_id, purchase_date, status, total_amount, currency, remarks, created_by, created_at, updated_at"
           )
           .order(
             "created_at",
             {
               ascending: false
+            }
+          ),
+
+
+        supabaseClient
+          .from("purchase_order_items")
+          .select(
+            "id, purchase_order_id, product_id, product_code_snapshot, product_name_snapshot, specification_snapshot, unit_snapshot, unit_price, quantity, line_total, created_at"
+          )
+          .order(
+            "id",
+            {
+              ascending: true
             }
           )
 
@@ -2111,6 +2609,11 @@ async function loadAllData() {
     }
 
 
+    if (historyItemsResult.error) {
+      throw historyItemsResult.error;
+    }
+
+
     products =
       productsResult.data || [];
 
@@ -2127,17 +2630,30 @@ async function loadAllData() {
       ordersResult.data || [];
 
 
+    purchaseOrderItemsHistory =
+      historyItemsResult.data || [];
+
+
     updatePriceSummary();
+
 
     renderPurchasePrices();
 
+
     renderSupplierSelect();
+
 
     renderProductSelect();
 
+
     renderCart();
 
+
+    renderHistoryOrders();
+
+
     await refreshPurchaseNoPreview();
+
 
   }
 
@@ -2168,7 +2684,7 @@ async function loadAllData() {
 
 
 /* ==========================================================
-   查询产品
+   产品
 ========================================================== */
 
 function getProduct(productId) {
@@ -2184,7 +2700,23 @@ function getProduct(productId) {
 
 
 /* ==========================================================
-   当前有效采购价格
+   供应商
+========================================================== */
+
+function getSupplier(supplierId) {
+
+  return suppliers.find(
+    item =>
+      String(item.id) ===
+      String(supplierId)
+  ) || null;
+
+}
+
+
+
+/* ==========================================================
+   当前采购价格
 ========================================================== */
 
 function getCurrentPurchasePrice(productId) {
@@ -2202,7 +2734,7 @@ function getCurrentPurchasePrice(productId) {
 
 
 /* ==========================================================
-   左侧采购价格摘要
+   采购价格摘要
 ========================================================== */
 
 function updatePriceSummary() {
@@ -2250,7 +2782,7 @@ function updatePriceSummary() {
 
 
 /* ==========================================================
-   左侧采购价格列表
+   采购价格列表
 ========================================================== */
 
 function renderPurchasePrices() {
@@ -2294,7 +2826,9 @@ function renderPurchasePrices() {
 
         const keywordOK =
           !keyword ||
-          searchText.includes(keyword);
+          searchText.includes(
+            keyword
+          );
 
 
         let statusOK =
@@ -2413,7 +2947,9 @@ function renderPurchasePrices() {
       const currencyText =
         price.currency
           ?
-          escapeHTML(price.currency)
+          escapeHTML(
+            price.currency
+          )
           :
           `<span class="undefined">未定义</span>`;
 
@@ -2438,11 +2974,6 @@ function renderPurchasePrices() {
         "";
 
 
-      /*
-        当前有效 + 未定义
-        只允许第一次定义
-      */
-
       if (
         price.is_active === true
         &&
@@ -2463,13 +2994,6 @@ function renderPurchasePrices() {
           `;
 
       }
-
-
-      /*
-        当前有效 + 已定义
-        不允许修改
-        只能设为无效
-      */
 
       else if (
         price.is_active === true
@@ -2495,7 +3019,6 @@ function renderPurchasePrices() {
           `;
 
       }
-
 
       else {
 
@@ -2575,7 +3098,7 @@ function renderPurchasePrices() {
 
 
 /* ==========================================================
-   打开第一次定义采购价
+   打开定义采购价格
 ========================================================== */
 
 function openDefineModal(priceId) {
@@ -2611,7 +3134,7 @@ function openDefineModal(priceId) {
   ) {
 
     showNotice(
-      "对应产品已经无效，不能定义采购价格。",
+      "对应产品已经无效。",
       "error"
     );
 
@@ -2711,7 +3234,7 @@ function closeDefineModal() {
 
 
 /* ==========================================================
-   保存第一次定义
+   保存唯一一次采购价格定义
 ========================================================== */
 
 async function savePurchasePriceDefinition() {
@@ -2737,10 +3260,9 @@ async function savePurchasePriceDefinition() {
   ) {
 
     showNotice(
-      "该采购价格状态已经发生变化，请刷新页面。",
+      "该采购价格状态已经变化，请刷新页面。",
       "error"
     );
-
 
     closeDefineModal();
 
@@ -2809,11 +3331,15 @@ async function savePurchasePriceDefinition() {
 
 
   const numericPrice =
-    Number(priceValue);
+    Number(
+      priceValue
+    );
 
 
   if (
-    !Number.isFinite(numericPrice)
+    !Number.isFinite(
+      numericPrice
+    )
     ||
     numericPrice < 0
   ) {
@@ -2849,7 +3375,7 @@ async function savePurchasePriceDefinition() {
       " " +
       currency +
       "\n\n" +
-      "价格保存以后将永久锁定，不能再次修改。\n" +
+      "保存成功后该价格永久锁定，不能再次修改。\n\n" +
       "确认继续吗？"
     );
 
@@ -2928,6 +3454,7 @@ async function savePurchasePriceDefinition() {
       throw new Error(
         "该采购价格已被其他操作修改，请重新刷新。"
       );
+
     }
 
 
@@ -2964,8 +3491,10 @@ async function savePurchasePriceDefinition() {
 
     showLoading(false);
 
+
     button.disabled =
       false;
+
 
     button.textContent =
       "确认定义";
@@ -2977,7 +3506,7 @@ async function savePurchasePriceDefinition() {
 
 
 /* ==========================================================
-   当前采购价失效
+   采购价格永久失效
 ========================================================== */
 
 async function disablePurchasePrice(priceId) {
@@ -2997,7 +3526,7 @@ async function disablePurchasePrice(priceId) {
   ) {
 
     showNotice(
-      "当前记录不能执行该操作。",
+      "当前采购价格不能执行该操作。",
       "error"
     );
 
@@ -3025,8 +3554,8 @@ async function disablePurchasePrice(priceId) {
   }
 
 
-  if (
-    !confirm(
+  const confirmed =
+    confirm(
       "确定将当前采购价格永久设为无效吗？\n\n" +
       "产品：" +
       product.product_code +
@@ -3040,11 +3569,12 @@ async function disablePurchasePrice(priceId) {
       " " +
       (price.currency || "") +
       "\n\n" +
-      "失效后旧价格永久保留，不能恢复。\n" +
-      "系统将自动生成一条新的未定义采购价格。"
-    )
-  ) {
+      "原价格会永久保留为历史记录，不能恢复。\n" +
+      "系统会自动生成一条新的未定义采购价格。"
+    );
 
+
+  if (!confirmed) {
     return;
   }
 
@@ -3061,7 +3591,10 @@ async function disablePurchasePrice(priceId) {
       await supabaseClient
         .from("purchase_prices")
         .update({
-          is_active: false
+
+          is_active:
+            false
+
         })
         .eq(
           "id",
@@ -3085,20 +3618,15 @@ async function disablePurchasePrice(priceId) {
     ) {
 
       throw new Error(
-        "采购价格状态已经变化，请刷新后重新检查。"
+        "采购价格状态已经变化，请刷新后重试。"
       );
+
     }
 
 
-    showNotice(
-      "原采购价格已失效，系统已自动生成新的未定义采购价格。",
-      "success"
-    );
-
-
     /*
-      如果购物车中正在使用这个价格，
-      清空购物车，防止继续使用旧价格。
+      如果当前正在建立的采购单用了这个价格，
+      清除购物车。
     */
 
     if (
@@ -3109,14 +3637,16 @@ async function disablePurchasePrice(priceId) {
       )
     ) {
 
-      orderItems = [];
-
-      showNotice(
-        "采购价格已经失效。由于当前采购单中使用了该价格，采购单明细已清空，请重新选择产品。",
-        "success"
-      );
+      orderItems =
+        [];
 
     }
+
+
+    showNotice(
+      "原采购价格已经失效，系统已自动生成新的未定义采购价格。",
+      "success"
+    );
 
 
     await loadAllData();
@@ -3150,7 +3680,7 @@ async function disablePurchasePrice(priceId) {
 
 
 /* ==========================================================
-   供应商下拉框
+   供应商下拉
 ========================================================== */
 
 function renderSupplierSelect() {
@@ -3189,17 +3719,22 @@ function renderSupplierSelect() {
         supplier.id;
 
 
+      const code =
+        supplier.supplier_code
+          ?
+          supplier.supplier_code +
+          " · "
+          :
+          "";
+
+
       option.textContent =
-        (
-          supplier.supplier_code
-            ?
-            supplier.supplier_code +
-            " · "
-            :
-            ""
-        )
+        code
         +
-        supplier.supplier_name;
+        (
+          supplier.supplier_name ||
+          "未命名供应商"
+        );
 
 
       select.appendChild(
@@ -3225,24 +3760,12 @@ function renderSupplierSelect() {
 
   }
 
-
-  if (
-    activeSuppliers.length === 0
-  ) {
-
-    showNotice(
-      "目前没有有效供应商，请先进入“供应商管理”建立供应商。",
-      "error"
-    );
-
-  }
-
 }
 
 
 
 /* ==========================================================
-   可下单产品
+   可采购产品下拉
 ========================================================== */
 
 function renderProductSelect() {
@@ -3260,16 +3783,6 @@ function renderProductSelect() {
   select.innerHTML =
     `<option value="">请选择产品</option>`;
 
-
-  /*
-    这里只显示：
-
-    产品有效
-    +
-    当前采购价格有效
-    +
-    已完成定义
-  */
 
   const available =
     products.filter(
@@ -3373,7 +3886,7 @@ function renderProductSelect() {
 
 
 /* ==========================================================
-   产品选择后显示采购价
+   选中产品
 ========================================================== */
 
 function updateSelectedProductInfo() {
@@ -3441,23 +3954,17 @@ function updateSelectedProductInfo() {
 
 
   if (
-    !product
-    ||
-    product.is_active !== true
-    ||
-    !price
-    ||
-    price.is_active !== true
-    ||
-    price.is_defined !== true
-    ||
-    price.purchase_price === null
-    ||
+    !product ||
+    product.is_active !== true ||
+    !price ||
+    price.is_active !== true ||
+    price.is_defined !== true ||
+    price.purchase_price === null ||
     !price.currency
   ) {
 
     warning.textContent =
-      "该产品当前采购价格未完成定义，暂时不能加入采购订单。";
+      "该产品当前采购价格尚未完成定义，不能加入采购订单。";
 
 
     warning.style.display =
@@ -3528,11 +4035,15 @@ function addItemToOrder() {
 
 
   const quantity =
-    Number(quantityValue);
+    Number(
+      quantityValue
+    );
 
 
   if (
-    !Number.isFinite(quantity)
+    !Number.isFinite(
+      quantity
+    )
     ||
     quantity <= 0
   ) {
@@ -3558,19 +4069,15 @@ function addItemToOrder() {
 
 
   if (
-    !product
-    ||
-    product.is_active !== true
-    ||
-    !price
-    ||
-    price.is_active !== true
-    ||
+    !product ||
+    product.is_active !== true ||
+    !price ||
+    price.is_active !== true ||
     price.is_defined !== true
   ) {
 
     showNotice(
-      "该产品当前没有有效且已定义的采购价格。",
+      "该产品没有有效且已定义的采购价格。",
       "error"
     );
 
@@ -3578,41 +4085,32 @@ function addItemToOrder() {
   }
 
 
-  /*
-    一个订单禁止混用不同币种
-  */
-
-  const currentCurrency =
+  const cartCurrency =
     getCartCurrency();
 
 
   if (
-    currentCurrency
+    cartCurrency
     &&
-    currentCurrency !==
+    cartCurrency !==
     price.currency
   ) {
 
     alert(
       "当前采购单币种为 "
       +
-      currentCurrency
+      cartCurrency
       +
       "，不能加入 "
       +
       price.currency
       +
-      " 币种的产品。\n\n请为不同币种分别建立采购订单。"
+      " 产品。\n\n不同币种请分别建立采购订单。"
     );
 
     return;
   }
 
-
-  /*
-    相同产品 + 同一价格对象
-    自动合并数量
-  */
 
   const existing =
     orderItems.find(
@@ -3702,7 +4200,7 @@ function addItemToOrder() {
 
 
 /* ==========================================================
-   采购单币种
+   当前采购单币种
 ========================================================== */
 
 function getCartCurrency() {
@@ -3722,7 +4220,7 @@ function getCartCurrency() {
 
 
 /* ==========================================================
-   当前采购单渲染
+   渲染当前采购单
 ========================================================== */
 
 function renderCart() {
@@ -3884,7 +4382,7 @@ function renderCart() {
 
 
 /* ==========================================================
-   删除购物车行
+   删除当前采购单商品
 ========================================================== */
 
 function removeCartItem(index) {
@@ -3928,7 +4426,7 @@ function calculateOrderTotal() {
 
 
 /* ==========================================================
-   自动生成采购单号
+   自动采购单号
    PO + YYYYMMDD + 001
 ========================================================== */
 
@@ -4026,7 +4524,7 @@ async function getNextPurchaseNo() {
   ) {
 
     throw new Error(
-      "当天采购订单数量已经达到999张。"
+      "当天采购订单已超过999张。"
     );
 
   }
@@ -4047,7 +4545,7 @@ async function getNextPurchaseNo() {
 
 
 /* ==========================================================
-   预览采购单号
+   采购单号预览
 ========================================================== */
 
 async function refreshPurchaseNoPreview() {
@@ -4078,10 +4576,6 @@ async function refreshPurchaseNoPreview() {
 
 
 
-/* ==========================================================
-   日期变化后重算订单号
-========================================================== */
-
 document.getElementById(
   "purchaseDate"
 ).addEventListener(
@@ -4092,7 +4586,7 @@ document.getElementById(
 
 
 /* ==========================================================
-   提交采购订单
+   创建采购订单
 ========================================================== */
 
 async function submitPurchaseOrder() {
@@ -4128,10 +4622,8 @@ async function submitPurchaseOrder() {
 
 
   const supplier =
-    suppliers.find(
-      item =>
-        String(item.id) ===
-        String(supplierId)
+    getSupplier(
+      supplierId
     );
 
 
@@ -4141,7 +4633,7 @@ async function submitPurchaseOrder() {
   ) {
 
     showNotice(
-      "该供应商已经无效，请重新选择供应商。",
+      "该供应商已经无效，请重新选择。",
       "error"
     );
 
@@ -4173,10 +4665,34 @@ async function submitPurchaseOrder() {
   }
 
 
-  /*
-    提交前重新核查价格，
-    防止页面打开期间价格已失效。
-  */
+  const confirmed =
+    confirm(
+      "确定创建采购订单吗？\n\n" +
+      "供应商：" +
+      (
+        supplier.supplier_name ||
+        ""
+      )
+      +
+      "\n" +
+      "商品种类：" +
+      orderItems.length +
+      "\n" +
+      "总金额：" +
+      formatMoney(
+        calculateOrderTotal()
+      )
+      +
+      " "
+      +
+      getCartCurrency()
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
 
   showLoading(true);
 
@@ -4192,6 +4708,12 @@ async function submitPurchaseOrder() {
 
 
   try {
+
+
+    /*
+      再次检查采购价格，
+      避免页面停留期间价格发生变化。
+    */
 
     const productIds =
       orderItems.map(
@@ -4224,14 +4746,6 @@ async function submitPurchaseOrder() {
     }
 
 
-    /*
-      每个商品当前价格必须：
-      仍然存在
-      同一价格ID
-      已定义
-      金额没有变化
-    */
-
     for (
       const cartItem
       of
@@ -4242,24 +4756,24 @@ async function submitPurchaseOrder() {
         (latestPrices || [])
           .find(
             price =>
-              String(price.product_id) ===
-              String(cartItem.product_id)
+              String(
+                price.product_id
+              )
+              ===
+              String(
+                cartItem.product_id
+              )
           );
 
 
       if (
-        !latest
-        ||
+        !latest ||
         String(latest.id) !==
-        String(cartItem.price_id)
-        ||
-        latest.is_active !== true
-        ||
-        latest.is_defined !== true
-        ||
+        String(cartItem.price_id) ||
+        latest.is_active !== true ||
+        latest.is_defined !== true ||
         Number(latest.purchase_price) !==
-        Number(cartItem.unit_price)
-        ||
+        Number(cartItem.unit_price) ||
         latest.currency !==
         cartItem.currency
       ) {
@@ -4269,17 +4783,13 @@ async function submitPurchaseOrder() {
           +
           cartItem.product_code
           +
-          " 的采购价格已经发生变化，请刷新页面后重新建立采购订单。"
+          " 的采购价格已经发生变化，请刷新后重新建立采购订单。"
         );
 
       }
 
     }
 
-
-    /*
-      提交前再次生成最终订单号
-    */
 
     const purchaseNo =
       await getNextPurchaseNo();
@@ -4294,7 +4804,7 @@ async function submitPurchaseOrder() {
 
 
     /*
-      1. 建立采购订单主表
+      1. 创建采购订单主表
     */
 
     const {
@@ -4342,10 +4852,7 @@ async function submitPurchaseOrder() {
 
 
     /*
-      2. 建立采购订单明细
-
-      注意：
-      这里写入产品和价格快照
+      2. 创建商品历史快照
     */
 
     const itemRows =
@@ -4393,21 +4900,13 @@ async function submitPurchaseOrder() {
       error: itemsError
     } =
       await supabaseClient
-        .from(
-          "purchase_order_items"
-        )
+        .from("purchase_order_items")
         .insert(
           itemRows
         );
 
 
     if (itemsError) {
-
-      /*
-        当前数据库没有采购订单 DELETE 权限，
-        所以如果明细插入发生极少数异常，
-        将主订单标成 cancelled，避免产生正常空订单。
-      */
 
       await supabaseClient
         .from("purchase_orders")
@@ -4426,7 +4925,7 @@ async function submitPurchaseOrder() {
                 ""
             )
             +
-            "系统记录：采购订单明细写入失败，本订单自动取消。"
+            "系统记录：采购订单商品明细写入失败，本订单自动取消。"
 
         })
         .eq(
@@ -4436,22 +4935,11 @@ async function submitPurchaseOrder() {
 
 
       throw new Error(
-        "采购订单主记录已经建立，但商品明细写入失败。系统已自动将该订单标记为 cancelled。原始错误：" +
+        "订单主记录已经建立，但采购明细写入失败，系统已将该订单标记为 cancelled。错误：" +
         itemsError.message
       );
 
     }
-
-
-    /*
-      成功
-    */
-
-    showNotice(
-      "采购订单创建成功。采购单号：" +
-      purchaseNo,
-      "success"
-    );
 
 
     orderItems =
@@ -4480,6 +4968,14 @@ async function submitPurchaseOrder() {
 
 
     await loadAllData();
+
+
+    showNotice(
+      "采购订单创建成功。采购单号：" +
+      purchaseNo +
+      "。可以在下方历史采购订单中查看或打印。",
+      "success"
+    );
 
 
   }
@@ -4515,7 +5011,1202 @@ async function submitPurchaseOrder() {
 
 
 /* ==========================================================
-   Modal 点击背景关闭
+   历史采购订单
+========================================================== */
+
+function renderHistoryOrders() {
+
+  const keyword =
+    document.getElementById(
+      "historyOrderSearch"
+    )
+    .value
+    .trim()
+    .toLowerCase();
+
+
+  const statusFilter =
+    document.getElementById(
+      "historyOrderStatus"
+    ).value;
+
+
+  const startDate =
+    document.getElementById(
+      "historyStartDate"
+    ).value;
+
+
+  const endDate =
+    document.getElementById(
+      "historyEndDate"
+    ).value;
+
+
+  const rows =
+    purchaseOrders.filter(
+      function(order) {
+
+        const supplier =
+          getSupplier(
+            order.supplier_id
+          );
+
+
+        const searchText =
+          [
+            order.purchase_no,
+            supplier?.supplier_code,
+            supplier?.supplier_name,
+            order.status,
+            order.currency
+          ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+
+        const keywordOK =
+          !keyword ||
+          searchText.includes(
+            keyword
+          );
+
+
+        const statusOK =
+          statusFilter === "all"
+          ||
+          order.status ===
+          statusFilter;
+
+
+        const startOK =
+          !startDate
+          ||
+          order.purchase_date >=
+          startDate;
+
+
+        const endOK =
+          !endDate
+          ||
+          order.purchase_date <=
+          endDate;
+
+
+        return (
+          keywordOK
+          &&
+          statusOK
+          &&
+          startOK
+          &&
+          endOK
+        );
+
+      }
+    );
+
+
+  const tbody =
+    document.getElementById(
+      "historyOrderTableBody"
+    );
+
+
+  const empty =
+    document.getElementById(
+      "historyOrderEmpty"
+    );
+
+
+  tbody.innerHTML =
+    "";
+
+
+  if (
+    rows.length === 0
+  ) {
+
+    empty.style.display =
+      "block";
+
+    return;
+  }
+
+
+  empty.style.display =
+    "none";
+
+
+  rows.forEach(
+    function(order) {
+
+      const supplier =
+        getSupplier(
+          order.supplier_id
+        );
+
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML =
+        `
+
+          <td>
+            <strong>
+              ${
+                escapeHTML(
+                  order.purchase_no ||
+                  "-"
+                )
+              }
+            </strong>
+          </td>
+
+
+          <td>
+            ${
+              formatDateOnly(
+                order.purchase_date
+              )
+            }
+          </td>
+
+
+          <td>
+            ${
+              escapeHTML(
+                supplier?.supplier_name ||
+                "未知供应商"
+              )
+            }
+          </td>
+
+
+          <td>
+            ${
+              renderOrderStatusBadge(
+                order.status
+              )
+            }
+          </td>
+
+
+          <td class="money">
+            ${
+              formatMoney(
+                order.total_amount
+              )
+            }
+          </td>
+
+
+          <td>
+            ${
+              escapeHTML(
+                order.currency ||
+                "-"
+              )
+            }
+          </td>
+
+
+          <td>
+            ${
+              formatDateTime(
+                order.created_at
+              )
+            }
+          </td>
+
+
+          <td>
+
+            <div class="actions">
+
+              <button
+                class="btn btn-dark btn-small"
+                type="button"
+                onclick="openOrderDetail('${order.id}')"
+              >
+                查看详情
+              </button>
+
+
+              <button
+                class="btn btn-orange btn-small"
+                type="button"
+                onclick="printOrder('${order.id}')"
+              >
+                打印
+              </button>
+
+            </div>
+
+          </td>
+
+        `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+}
+
+
+
+/* ==========================================================
+   订单状态
+========================================================== */
+
+function renderOrderStatusBadge(status) {
+
+  const safeStatus =
+    escapeHTML(
+      status || "-"
+    );
+
+
+  if (
+    status === "completed"
+  ) {
+
+    return `
+      <span class="badge badge-active">
+        ${safeStatus}
+      </span>
+    `;
+
+  }
+
+
+  if (
+    status === "cancelled"
+  ) {
+
+    return `
+      <span class="badge badge-disabled">
+        ${safeStatus}
+      </span>
+    `;
+
+  }
+
+
+  if (
+    status === "confirmed"
+  ) {
+
+    return `
+      <span class="badge badge-confirmed">
+        ${safeStatus}
+      </span>
+    `;
+
+  }
+
+
+  return `
+    <span class="badge badge-undefined">
+      ${safeStatus}
+    </span>
+  `;
+
+}
+
+
+
+/* ==========================================================
+   打开历史订单详情
+========================================================== */
+
+function openOrderDetail(orderId) {
+
+  const order =
+    purchaseOrders.find(
+      item =>
+        String(item.id) ===
+        String(orderId)
+    );
+
+
+  if (!order) {
+
+    showNotice(
+      "没有找到采购订单。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  currentDetailOrderId =
+    order.id;
+
+
+  const supplier =
+    getSupplier(
+      order.supplier_id
+    );
+
+
+  document.getElementById(
+    "detailPurchaseNo"
+  ).textContent =
+    order.purchase_no ||
+    "-";
+
+
+  document.getElementById(
+    "detailPurchaseDate"
+  ).textContent =
+    formatDateOnly(
+      order.purchase_date
+    );
+
+
+  document.getElementById(
+    "detailSupplier"
+  ).textContent =
+    (
+      supplier?.supplier_code
+        ?
+        supplier.supplier_code +
+        " · "
+        :
+        ""
+    )
+    +
+    (
+      supplier?.supplier_name ||
+      "未知供应商"
+    );
+
+
+  document.getElementById(
+    "detailOrderStatus"
+  ).textContent =
+    order.status ||
+    "-";
+
+
+  document.getElementById(
+    "detailOrderTotal"
+  ).textContent =
+    formatMoney(
+      order.total_amount
+    )
+    +
+    " "
+    +
+    (
+      order.currency ||
+      ""
+    );
+
+
+  document.getElementById(
+    "detailOrderCurrency"
+  ).textContent =
+    order.currency ||
+    "-";
+
+
+  document.getElementById(
+    "detailOrderRemarks"
+  ).textContent =
+    order.remarks ||
+    "-";
+
+
+  document.getElementById(
+    "detailOrderCreatedAt"
+  ).textContent =
+    formatDateTime(
+      order.created_at
+    );
+
+
+  const items =
+    getOrderHistoryItems(
+      order.id
+    );
+
+
+  const tbody =
+    document.getElementById(
+      "orderDetailItemsBody"
+    );
+
+
+  tbody.innerHTML =
+    "";
+
+
+  if (
+    items.length === 0
+  ) {
+
+    tbody.innerHTML =
+      `
+        <tr>
+          <td colspan="7">
+            <div class="empty">
+              该采购订单没有商品明细
+            </div>
+          </td>
+        </tr>
+      `;
+
+  }
+
+  else {
+
+    items.forEach(
+      function(item) {
+
+        const tr =
+          document.createElement(
+            "tr"
+          );
+
+
+        tr.innerHTML =
+          `
+
+            <td>
+              ${
+                escapeHTML(
+                  item.product_code_snapshot ||
+                  "-"
+                )
+              }
+            </td>
+
+
+            <td>
+              ${
+                escapeHTML(
+                  item.product_name_snapshot ||
+                  "-"
+                )
+              }
+            </td>
+
+
+            <td>
+              ${
+                escapeHTML(
+                  item.specification_snapshot ||
+                  "-"
+                )
+              }
+            </td>
+
+
+            <td>
+              ${
+                escapeHTML(
+                  item.unit_snapshot ||
+                  "-"
+                )
+              }
+            </td>
+
+
+            <td class="money">
+              ${
+                formatMoney(
+                  item.unit_price
+                )
+              }
+              ${
+                escapeHTML(
+                  order.currency ||
+                  ""
+                )
+              }
+            </td>
+
+
+            <td>
+              ${
+                formatQuantity(
+                  item.quantity
+                )
+              }
+            </td>
+
+
+            <td class="money">
+              ${
+                formatMoney(
+                  item.line_total
+                )
+              }
+              ${
+                escapeHTML(
+                  order.currency ||
+                  ""
+                )
+              }
+            </td>
+
+          `;
+
+
+        tbody.appendChild(
+          tr
+        );
+
+      }
+    );
+
+  }
+
+
+  document.getElementById(
+    "orderDetailModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+
+/* ==========================================================
+   历史订单明细
+========================================================== */
+
+function getOrderHistoryItems(orderId) {
+
+  return purchaseOrderItemsHistory.filter(
+    item =>
+      String(
+        item.purchase_order_id
+      )
+      ===
+      String(
+        orderId
+      )
+  );
+
+}
+
+
+
+/* ==========================================================
+   关闭详情
+========================================================== */
+
+function closeOrderDetailModal() {
+
+  document.getElementById(
+    "orderDetailModal"
+  ).classList.remove(
+    "show"
+  );
+
+
+  currentDetailOrderId =
+    null;
+
+}
+
+
+
+/* ==========================================================
+   详情弹窗打印按钮
+========================================================== */
+
+function printCurrentDetailOrder() {
+
+  if (!currentDetailOrderId) {
+
+    alert(
+      "没有可打印的采购订单。"
+    );
+
+    return;
+  }
+
+
+  printOrder(
+    currentDetailOrderId
+  );
+
+}
+
+
+
+/* ==========================================================
+   打印采购订单
+========================================================== */
+
+function printOrder(orderId) {
+
+  const order =
+    purchaseOrders.find(
+      item =>
+        String(item.id) ===
+        String(orderId)
+    );
+
+
+  if (!order) {
+
+    showNotice(
+      "没有找到需要打印的采购订单。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const supplier =
+    getSupplier(
+      order.supplier_id
+    );
+
+
+  const items =
+    getOrderHistoryItems(
+      order.id
+    );
+
+
+  const rowsHTML =
+    items.length === 0
+      ?
+      `
+        <tr>
+          <td colspan="7" style="text-align:center;padding:25px;">
+            无采购商品明细
+          </td>
+        </tr>
+      `
+      :
+      items.map(
+        function(item, index) {
+
+          return `
+            <tr>
+
+              <td>
+                ${index + 1}
+              </td>
+
+              <td>
+                ${
+                  printEscape(
+                    item.product_code_snapshot ||
+                    "-"
+                  )
+                }
+              </td>
+
+              <td>
+                ${
+                  printEscape(
+                    item.product_name_snapshot ||
+                    "-"
+                  )
+                }
+              </td>
+
+              <td>
+                ${
+                  printEscape(
+                    item.specification_snapshot ||
+                    "-"
+                  )
+                }
+              </td>
+
+              <td>
+                ${
+                  printEscape(
+                    item.unit_snapshot ||
+                    "-"
+                  )
+                }
+              </td>
+
+              <td style="text-align:right;">
+                ${
+                  formatMoney(
+                    item.unit_price
+                  )
+                }
+              </td>
+
+              <td style="text-align:right;">
+                ${
+                  formatQuantity(
+                    item.quantity
+                  )
+                }
+              </td>
+
+              <td style="text-align:right;">
+                ${
+                  formatMoney(
+                    item.line_total
+                  )
+                }
+              </td>
+
+            </tr>
+          `;
+
+        }
+      )
+      .join("");
+
+
+  const printWindow =
+    window.open(
+      "",
+      "_blank",
+      "width=1000,height=800"
+    );
+
+
+  if (!printWindow) {
+
+    alert(
+      "浏览器阻止了打印窗口，请允许本站弹出窗口后重新点击打印。"
+    );
+
+    return;
+  }
+
+
+  printWindow.document.open();
+
+
+  printWindow.document.write(
+    `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+采购单 ${printEscape(order.purchase_no || "")}
+</title>
+
+<style>
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    color: #111;
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      "Microsoft YaHei",
+      Arial,
+      sans-serif;
+    font-size: 12px;
+  }
+
+  .page {
+    width: 100%;
+  }
+
+  .company {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 22px;
+  }
+
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+  }
+
+  .info-table td {
+    border: 1px solid #777;
+    padding: 7px 8px;
+  }
+
+  .info-label {
+    width: 90px;
+    background: #f2f2f2;
+    font-weight: 700;
+  }
+
+  .items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+
+  .items th,
+  .items td {
+    border: 1px solid #666;
+    padding: 7px 6px;
+  }
+
+  .items th {
+    background: #f2f2f2;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .total-row {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .remarks {
+    border: 1px solid #777;
+    min-height: 70px;
+    margin-top: 18px;
+    padding: 9px;
+    line-height: 1.7;
+  }
+
+  .remarks-title {
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .footer {
+    margin-top: 35px;
+    display: grid;
+    grid-template-columns:
+      1fr 1fr 1fr;
+    gap: 30px;
+  }
+
+  .signature {
+    border-top: 1px solid #777;
+    padding-top: 7px;
+    text-align: center;
+  }
+
+  .print-time {
+    margin-top: 28px;
+    text-align: right;
+    font-size: 10px;
+    color: #777;
+  }
+
+  @media print {
+
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+  }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+
+  <div class="company">
+    硕丰科技
+  </div>
+
+
+  <div class="title">
+    采购订单
+  </div>
+
+
+  <table class="info-table">
+
+    <tr>
+
+      <td class="info-label">
+        采购单号
+      </td>
+
+      <td>
+        ${
+          printEscape(
+            order.purchase_no ||
+            "-"
+          )
+        }
+      </td>
+
+      <td class="info-label">
+        采购日期
+      </td>
+
+      <td>
+        ${
+          printEscape(
+            formatDateOnly(
+              order.purchase_date
+            )
+          )
+        }
+      </td>
+
+    </tr>
+
+
+    <tr>
+
+      <td class="info-label">
+        供应商
+      </td>
+
+      <td>
+        ${
+          printEscape(
+            supplier?.supplier_name ||
+            "未知供应商"
+          )
+        }
+      </td>
+
+      <td class="info-label">
+        状态
+      </td>
+
+      <td>
+        ${
+          printEscape(
+            order.status ||
+            "-"
+          )
+        }
+      </td>
+
+    </tr>
+
+
+    <tr>
+
+      <td class="info-label">
+        币种
+      </td>
+
+      <td>
+        ${
+          printEscape(
+            order.currency ||
+            "-"
+          )
+        }
+      </td>
+
+      <td class="info-label">
+        创建时间
+      </td>
+
+      <td>
+        ${
+          printEscape(
+            formatDateTime(
+              order.created_at
+            )
+          )
+        }
+      </td>
+
+    </tr>
+
+  </table>
+
+
+  <table class="items">
+
+    <thead>
+
+      <tr>
+
+        <th style="width:40px;">
+          序号
+        </th>
+
+        <th>
+          产品代码
+        </th>
+
+        <th>
+          产品名称
+        </th>
+
+        <th>
+          规格
+        </th>
+
+        <th>
+          单位
+        </th>
+
+        <th>
+          采购单价
+        </th>
+
+        <th>
+          数量
+        </th>
+
+        <th>
+          金额
+        </th>
+
+      </tr>
+
+    </thead>
+
+
+    <tbody>
+
+      ${rowsHTML}
+
+    </tbody>
+
+  </table>
+
+
+  <div class="total-row">
+
+    总金额：
+    ${
+      formatMoney(
+        order.total_amount
+      )
+    }
+    ${
+      printEscape(
+        order.currency ||
+        ""
+      )
+    }
+
+  </div>
+
+
+  <div class="remarks">
+
+    <div class="remarks-title">
+      备注
+    </div>
+
+    ${
+      printEscape(
+        order.remarks ||
+        "无"
+      )
+    }
+
+  </div>
+
+
+  <div class="footer">
+
+    <div class="signature">
+      制单人
+    </div>
+
+    <div class="signature">
+      审核
+    </div>
+
+    <div class="signature">
+      供应商确认
+    </div>
+
+  </div>
+
+
+  <div class="print-time">
+
+    打印时间：
+    ${
+      printEscape(
+        new Date()
+          .toLocaleString(
+            "zh-CN"
+          )
+      )
+    }
+
+  </div>
+
+
+</div>
+
+<script>
+
+  window.onload = function() {
+
+    setTimeout(
+      function() {
+
+        window.print();
+
+      },
+      200
+    );
+
+  };
+
+<\/script>
+
+</body>
+</html>
+    `
+  );
+
+
+  printWindow.document.close();
+
+}
+
+
+
+/* ==========================================================
+   Modal 点击空白关闭
 ========================================================== */
 
 document.getElementById(
@@ -4537,8 +6228,27 @@ document.getElementById(
 
 
 
+document.getElementById(
+  "orderDetailModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target === this
+    ) {
+
+      closeOrderDetailModal();
+
+    }
+
+  }
+);
+
+
+
 /* ==========================================================
-   工具函数
+   工具
 ========================================================== */
 
 function escapeHTML(value) {
@@ -4583,6 +6293,23 @@ function escapeHTML(value) {
 
 
 
+/*
+  打印页面转义
+*/
+function printEscape(value) {
+
+  return escapeHTML(
+    value
+  )
+  .replaceAll(
+    "\n",
+    "<br>"
+  );
+
+}
+
+
+
 function formatMoney(value) {
 
   if (
@@ -4599,13 +6326,8 @@ function formatMoney(value) {
     .toLocaleString(
       "zh-CN",
       {
-
-        minimumFractionDigits:
-          2,
-
-        maximumFractionDigits:
-          2
-
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       }
     );
 
@@ -4619,13 +6341,8 @@ function formatQuantity(value) {
     .toLocaleString(
       "zh-CN",
       {
-
-        minimumFractionDigits:
-          0,
-
-        maximumFractionDigits:
-          3
-
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3
       }
     );
 
@@ -4714,12 +6431,47 @@ function getToday() {
 function formatDateOnly(value) {
 
   if (!value) {
-
     return "-";
   }
 
 
   return value;
+
+}
+
+
+
+function formatDateTime(value) {
+
+  if (!value) {
+    return "-";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return value;
+  }
+
+
+  return date.toLocaleString(
+    "zh-CN",
+    {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
 
 }
 
@@ -4805,7 +6557,7 @@ function goBack() {
 
 
 /* ==========================================================
-   10分钟无操作退出
+   10分钟自动退出
 ========================================================== */
 
 const IDLE_LIMIT =
@@ -4932,7 +6684,9 @@ async function autoLogout() {
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
   }
 
@@ -4957,7 +6711,9 @@ async function logout() {
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
   }
 
