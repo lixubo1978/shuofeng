@@ -178,10 +178,29 @@
     }
 
 
+    /*
+      新增：
+      管理工作台标题 + 充值提醒
+    */
+
+    .welcome-title-row {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 8px;
+
+    }
+
+
     .welcome h1 {
 
-      margin:
-        0 0 8px;
+      margin: 0;
 
       font-size: 28px;
 
@@ -201,6 +220,127 @@
       color: #6b7280;
 
       line-height: 1.7;
+
+    }
+
+
+    /* =========================
+       新增：充值提醒状态框
+    ========================= */
+
+    .recharge-alert-box {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      min-height: 36px;
+
+      padding:
+        8px 14px;
+
+      border-radius: 9px;
+
+      border:
+        1px solid #d1d5db;
+
+      background: #e5e7eb;
+
+      color: #6b7280;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+
+      user-select: none;
+
+    }
+
+
+    .recharge-alert-box:hover {
+
+      opacity: 0.90;
+
+    }
+
+
+    .recharge-alert-box.no-record {
+
+      background: #e5e7eb;
+
+      color: #6b7280;
+
+      border-color: #d1d5db;
+
+    }
+
+
+    .recharge-alert-box.pending {
+
+      background: #dc2626;
+
+      color: #ffffff;
+
+      border-color: #b91c1c;
+
+      box-shadow:
+        0 4px 14px
+        rgba(220,38,38,0.25);
+
+      animation:
+        rechargePulse
+        1.5s
+        infinite;
+
+    }
+
+
+    .recharge-alert-dot {
+
+      width: 9px;
+
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: currentColor;
+
+      flex-shrink: 0;
+
+    }
+
+
+    @keyframes rechargePulse {
+
+      0% {
+
+        box-shadow:
+          0 0 0 0
+          rgba(220,38,38,0.35);
+
+      }
+
+      70% {
+
+        box-shadow:
+          0 0 0 8px
+          rgba(220,38,38,0);
+
+      }
+
+      100% {
+
+        box-shadow:
+          0 0 0 0
+          rgba(220,38,38,0);
+
+      }
 
     }
 
@@ -384,6 +524,517 @@
 
 
     /* =========================
+       新增：充值审批 Popup
+    ========================= */
+
+    .modal-mask {
+
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 20000;
+
+      background:
+        rgba(15,23,42,0.58);
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+    }
+
+
+    .modal-mask.show {
+
+      display: flex;
+
+    }
+
+
+    .recharge-modal {
+
+      width: 100%;
+
+      max-width: 900px;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
+      background: #ffffff;
+
+      border-radius: 14px;
+
+      box-shadow:
+        0 28px 80px
+        rgba(0,0,0,0.30);
+
+    }
+
+
+    .modal-header {
+
+      padding:
+        20px 24px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+    }
+
+
+    .modal-header-title {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 4px;
+
+    }
+
+
+    .modal-header h2 {
+
+      margin: 0;
+
+      font-size: 20px;
+
+      color: #111827;
+
+    }
+
+
+    .modal-header-sub {
+
+      font-size: 12px;
+
+      color: #6b7280;
+
+    }
+
+
+    .modal-close {
+
+      width: 34px;
+
+      height: 34px;
+
+      border: none;
+
+      border-radius: 7px;
+
+      background: #f3f4f6;
+
+      color: #64748b;
+
+      font-size: 24px;
+
+      cursor: pointer;
+
+    }
+
+
+    .modal-close:hover {
+
+      background: #e5e7eb;
+
+    }
+
+
+    .modal-body {
+
+      padding: 22px 24px;
+
+    }
+
+
+    .recharge-empty {
+
+      padding:
+        45px 20px;
+
+      text-align: center;
+
+      color: #94a3b8;
+
+      font-size: 14px;
+
+    }
+
+
+    .recharge-list {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 15px;
+
+    }
+
+
+    .recharge-request-card {
+
+      border:
+        1px solid #fecaca;
+
+      border-left:
+        5px solid #dc2626;
+
+      border-radius: 10px;
+
+      padding: 17px;
+
+      background: #fffafa;
+
+    }
+
+
+    .request-head {
+
+      display: flex;
+
+      align-items: flex-start;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 14px;
+
+    }
+
+
+    .request-agent {
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      color: #111827;
+
+    }
+
+
+    .request-code {
+
+      margin-top: 3px;
+
+      font-size: 12px;
+
+      color: #6b7280;
+
+    }
+
+
+    .request-amount {
+
+      font-size: 22px;
+
+      font-weight: 800;
+
+      color: #dc2626;
+
+      white-space: nowrap;
+
+    }
+
+
+    .request-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+      gap:
+        10px 18px;
+
+      margin-bottom: 14px;
+
+    }
+
+
+    .request-item {
+
+      padding-bottom: 8px;
+
+      border-bottom:
+        1px solid #f3f4f6;
+
+    }
+
+
+    .request-label {
+
+      margin-bottom: 4px;
+
+      font-size: 11px;
+
+      color: #6b7280;
+
+    }
+
+
+    .request-value {
+
+      font-size: 13px;
+
+      color: #111827;
+
+      line-height: 1.6;
+
+      word-break: break-word;
+
+    }
+
+
+    .review-notes {
+
+      margin-top: 12px;
+
+    }
+
+
+    .review-notes label {
+
+      display: block;
+
+      margin-bottom: 6px;
+
+      font-size: 12px;
+
+      font-weight: 600;
+
+      color: #374151;
+
+    }
+
+
+    .review-notes textarea {
+
+      width: 100%;
+
+      min-height: 65px;
+
+      padding:
+        9px 10px;
+
+      border:
+        1px solid #d1d5db;
+
+      border-radius: 7px;
+
+      font-family: inherit;
+
+      font-size: 13px;
+
+      resize: vertical;
+
+      outline: none;
+
+    }
+
+
+    .review-notes textarea:focus {
+
+      border-color: #2563eb;
+
+    }
+
+
+    .request-actions {
+
+      display: flex;
+
+      justify-content: flex-end;
+
+      gap: 9px;
+
+      margin-top: 12px;
+
+      flex-wrap: wrap;
+
+    }
+
+
+    .approve-btn {
+
+      border: none;
+
+      border-radius: 7px;
+
+      padding:
+        9px 15px;
+
+      background: #16a34a;
+
+      color: #ffffff;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+    }
+
+
+    .reject-btn {
+
+      border: none;
+
+      border-radius: 7px;
+
+      padding:
+        9px 15px;
+
+      background: #dc2626;
+
+      color: #ffffff;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+    }
+
+
+    .approve-btn:hover,
+    .reject-btn:hover {
+
+      opacity: 0.9;
+
+    }
+
+
+    .approve-btn:disabled,
+    .reject-btn:disabled {
+
+      opacity: 0.5;
+
+      cursor: not-allowed;
+
+    }
+
+
+    .recharge-processing {
+
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 30000;
+
+      background:
+        rgba(255,255,255,0.72);
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      color: #334155;
+
+    }
+
+
+    .recharge-processing.show {
+
+      display: flex;
+
+    }
+
+
+    /* =========================
+       新增：顶部红色临时 Popup
+    ========================= */
+
+    .recharge-toast {
+
+      position: fixed;
+
+      top: 86px;
+
+      right: 24px;
+
+      z-index: 25000;
+
+      min-width: 290px;
+
+      max-width: 390px;
+
+      padding:
+        15px 17px;
+
+      border-radius: 10px;
+
+      background: #dc2626;
+
+      color: #ffffff;
+
+      box-shadow:
+        0 10px 30px
+        rgba(220,38,38,0.32);
+
+      display: none;
+
+      cursor: pointer;
+
+    }
+
+
+    .recharge-toast.show {
+
+      display: block;
+
+    }
+
+
+    .recharge-toast-title {
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      margin-bottom: 4px;
+
+    }
+
+
+    .recharge-toast-text {
+
+      font-size: 12px;
+
+      line-height: 1.6;
+
+      color: #fee2e2;
+
+    }
+
+
+    /* =========================
        自动退出提示
     ========================= */
 
@@ -437,6 +1088,37 @@
 
         grid-template-columns:
           repeat(2, 1fr);
+
+      }
+
+    }
+
+
+    @media
+    (max-width: 700px) {
+
+      .request-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+      .request-head {
+
+        flex-direction: column;
+
+      }
+
+      .recharge-toast {
+
+        left: 16px;
+
+        right: 16px;
+
+        top: 78px;
+
+        min-width: auto;
 
       }
 
@@ -568,9 +1250,39 @@
 
     <section class="welcome">
 
-      <h1>
-        管理工作台
-      </h1>
+
+      <!--
+        仅这里增加充值提醒框
+      -->
+
+      <div class="welcome-title-row">
+
+        <h1>
+          管理工作台
+        </h1>
+
+
+        <div
+          id="rechargeAlertBox"
+          class="recharge-alert-box no-record"
+          onclick="openRechargeModal()"
+          title="点击查看充值申请"
+        >
+
+          <span
+            class="recharge-alert-dot"
+          ></span>
+
+          <span
+            id="rechargeAlertText"
+          >
+            无充值记录
+          </span>
+
+        </div>
+
+      </div>
+
 
       <p>
         管理代理商、产品、销售价格、订单、年终奖励、管理人员、
@@ -832,6 +1544,110 @@
 
 
 
+  <!-- =====================================================
+       新增：充值审批 Popup
+  ====================================================== -->
+
+  <div
+    id="rechargeModal"
+    class="modal-mask"
+  >
+
+    <div class="recharge-modal">
+
+
+      <div class="modal-header">
+
+        <div class="modal-header-title">
+
+          <h2>
+            代理商充值申请
+          </h2>
+
+          <div
+            id="rechargeModalSubtitle"
+            class="modal-header-sub"
+          >
+            当前没有待处理申请
+          </div>
+
+        </div>
+
+
+        <button
+          class="modal-close"
+          type="button"
+          onclick="closeRechargeModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+
+        <div
+          id="rechargeEmpty"
+          class="recharge-empty"
+        >
+          暂无待处理充值申请
+        </div>
+
+
+        <div
+          id="rechargeRequestList"
+          class="recharge-list"
+        ></div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       新增：右上角红色充值提醒
+  ====================================================== -->
+
+  <div
+    id="rechargeToast"
+    class="recharge-toast"
+    onclick="openRechargeModal()"
+  >
+
+    <div class="recharge-toast-title">
+      有新的充值申请
+    </div>
+
+    <div
+      id="rechargeToastText"
+      class="recharge-toast-text"
+    >
+      点击查看并确认代理商充值。
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       新增：审批处理中遮罩
+  ====================================================== -->
+
+  <div
+    id="rechargeProcessing"
+    class="recharge-processing"
+  >
+    正在处理充值申请，请稍候……
+  </div>
+
+
+
   <!-- =========================
        自动退出提示
   ========================== -->
@@ -865,6 +1681,35 @@
         SUPABASE_URL,
         SUPABASE_KEY
       );
+
+
+
+    /*
+      新增：
+      当前待审批充值申请
+    */
+
+    let pendingRechargeRequests =
+      [];
+
+
+    /*
+      新增：
+      代理商资料缓存
+    */
+
+    let rechargeAgents =
+      {};
+
+
+    /*
+      新增：
+      防止同一批 pending
+      每30秒重复自动弹窗
+    */
+
+    let lastPopupSignature =
+      null;
 
 
 
@@ -1108,6 +1953,1423 @@
 
 
     /* =====================================================
+       新增：
+       读取待审批充值申请
+    ===================================================== */
+
+    async function loadPendingRechargeRequests(
+      autoPopup = false
+    ) {
+
+      try {
+
+
+        /*
+          1. 查询所有 pending 充值申请
+        */
+
+        const {
+          data: requests,
+          error: requestError
+        } =
+          await supabaseClient
+            .from(
+              "recharge_requests"
+            )
+            .select(
+              "id, agent_id, amount, currency, payment_method, payment_reference, agent_notes, status, submitted_at, created_at"
+            )
+            .eq(
+              "status",
+              "pending"
+            )
+            .order(
+              "submitted_at",
+              {
+                ascending: true
+              }
+            );
+
+
+        if (
+          requestError
+        ) {
+
+          throw requestError;
+
+        }
+
+
+        pendingRechargeRequests =
+          requests || [];
+
+
+        /*
+          2. 读取对应代理商
+        */
+
+        rechargeAgents =
+          {};
+
+
+        const agentIds =
+          Array.from(
+            new Set(
+              pendingRechargeRequests
+                .map(
+                  item =>
+                    item.agent_id
+                )
+                .filter(
+                  value =>
+                    value !== null
+                    &&
+                    value !== undefined
+                )
+            )
+          );
+
+
+        if (
+          agentIds.length > 0
+        ) {
+
+
+          const {
+            data: agents,
+            error: agentError
+          } =
+            await supabaseClient
+              .from(
+                "agents"
+              )
+              .select(
+                "id, agent_code, agent_name, account_balance, balance_currency, is_active"
+              )
+              .in(
+                "id",
+                agentIds
+              );
+
+
+          if (
+            agentError
+          ) {
+
+            throw agentError;
+
+          }
+
+
+          (
+            agents || []
+          )
+          .forEach(
+            function(agent) {
+
+              rechargeAgents[
+                String(agent.id)
+              ] =
+                agent;
+
+            }
+          );
+
+        }
+
+
+        /*
+          3. 刷新顶部状态框
+        */
+
+        updateRechargeAlertBox();
+
+
+        /*
+          4. 如果弹窗已经打开，
+             同步刷新内容
+        */
+
+        if (
+          document
+            .getElementById(
+              "rechargeModal"
+            )
+            .classList
+            .contains(
+              "show"
+            )
+        ) {
+
+          renderRechargeRequests();
+
+        }
+
+
+        /*
+          5. 自动红色 Popup
+        */
+
+        if (
+          autoPopup
+          &&
+          pendingRechargeRequests.length > 0
+        ) {
+
+
+          const signature =
+            pendingRechargeRequests
+              .map(
+                item =>
+                  String(item.id)
+              )
+              .join(
+                ","
+              );
+
+
+          if (
+            signature !==
+            lastPopupSignature
+          ) {
+
+
+            lastPopupSignature =
+              signature;
+
+
+            showRechargeToast();
+
+
+            /*
+              自动把审批窗口打开
+            */
+
+            openRechargeModal();
+
+          }
+
+        }
+
+
+        /*
+          pending 全部处理完，
+          清除 signature
+        */
+
+        if (
+          pendingRechargeRequests.length === 0
+        ) {
+
+          lastPopupSignature =
+            null;
+
+        }
+
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "读取充值申请失败：",
+          error
+        );
+
+
+        const box =
+          document.getElementById(
+            "rechargeAlertBox"
+          );
+
+
+        const text =
+          document.getElementById(
+            "rechargeAlertText"
+          );
+
+
+        if (
+          box &&
+          text
+        ) {
+
+          box.className =
+            "recharge-alert-box no-record";
+
+
+          text.textContent =
+            "充值记录读取失败";
+
+        }
+
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       更新顶部状态框
+    ===================================================== */
+
+    function updateRechargeAlertBox() {
+
+
+      const box =
+        document.getElementById(
+          "rechargeAlertBox"
+        );
+
+
+      const text =
+        document.getElementById(
+          "rechargeAlertText"
+        );
+
+
+      if (
+        !box ||
+        !text
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        pendingRechargeRequests.length === 0
+      ) {
+
+
+        box.className =
+          "recharge-alert-box no-record";
+
+
+        text.textContent =
+          "无充值记录";
+
+
+      }
+
+      else {
+
+
+        box.className =
+          "recharge-alert-box pending";
+
+
+        text.textContent =
+          pendingRechargeRequests.length
+          +
+          " 条充值申请待确认";
+
+
+      }
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       打开充值审批窗口
+    ===================================================== */
+
+    function openRechargeModal() {
+
+
+      renderRechargeRequests();
+
+
+      document
+        .getElementById(
+          "rechargeModal"
+        )
+        .classList
+        .add(
+          "show"
+        );
+
+
+      hideRechargeToast();
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       关闭充值审批窗口
+    ===================================================== */
+
+    function closeRechargeModal() {
+
+
+      document
+        .getElementById(
+          "rechargeModal"
+        )
+        .classList
+        .remove(
+          "show"
+        );
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       渲染充值申请
+    ===================================================== */
+
+    function renderRechargeRequests() {
+
+
+      const list =
+        document.getElementById(
+          "rechargeRequestList"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "rechargeEmpty"
+        );
+
+
+      const subtitle =
+        document.getElementById(
+          "rechargeModalSubtitle"
+        );
+
+
+      list.innerHTML =
+        "";
+
+
+      if (
+        pendingRechargeRequests.length === 0
+      ) {
+
+
+        empty.style.display =
+          "block";
+
+
+        subtitle.textContent =
+          "当前没有待处理申请";
+
+
+        return;
+
+      }
+
+
+      empty.style.display =
+        "none";
+
+
+      subtitle.textContent =
+        "当前有 "
+        +
+        pendingRechargeRequests.length
+        +
+        " 条充值申请等待处理";
+
+
+      pendingRechargeRequests
+        .forEach(
+          function(request) {
+
+
+            const agent =
+              rechargeAgents[
+                String(
+                  request.agent_id
+                )
+              ] ||
+              null;
+
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+
+            card.className =
+              "recharge-request-card";
+
+
+            card.innerHTML =
+              `
+
+                <div class="request-head">
+
+
+                  <div>
+
+                    <div class="request-agent">
+
+                      ${
+                        escapeHTML(
+                          agent?.agent_name ||
+                          "未知代理商"
+                        )
+                      }
+
+                    </div>
+
+
+                    <div class="request-code">
+
+                      代理商代码：
+                      ${
+                        escapeHTML(
+                          agent?.agent_code ||
+                          "-"
+                        )
+                      }
+
+                      &nbsp;&nbsp;
+
+                      当前余额：
+                      ${
+                        formatMoney(
+                          agent?.account_balance ||
+                          0
+                        )
+                      }
+
+                      ${
+                        escapeHTML(
+                          (
+                            agent?.balance_currency ||
+                            request.currency ||
+                            "CNY"
+                          )
+                          .toUpperCase()
+                        )
+                      }
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="request-amount">
+
+                    +${formatMoney(request.amount)}
+
+                    ${escapeHTML(request.currency)}
+
+                  </div>
+
+
+                </div>
+
+
+                <div class="request-grid">
+
+
+                  <div class="request-item">
+
+                    <div class="request-label">
+                      提交时间
+                    </div>
+
+                    <div class="request-value">
+
+                      ${
+                        formatDateTime(
+                          request.submitted_at
+                        )
+                      }
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="request-item">
+
+                    <div class="request-label">
+                      付款方式
+                    </div>
+
+                    <div class="request-value">
+
+                      ${
+                        escapeHTML(
+                          request.payment_method ||
+                          "-"
+                        )
+                      }
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="request-item">
+
+                    <div class="request-label">
+                      付款流水号 / 凭证号
+                    </div>
+
+                    <div class="request-value">
+
+                      ${
+                        escapeHTML(
+                          request.payment_reference ||
+                          "-"
+                        )
+                      }
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="request-item">
+
+                    <div class="request-label">
+                      申请编号
+                    </div>
+
+                    <div class="request-value">
+
+                      #${escapeHTML(request.id)}
+
+                    </div>
+
+                  </div>
+
+
+                  <div
+                    class="request-item"
+                    style="grid-column:1 / -1;"
+                  >
+
+                    <div class="request-label">
+                      代理商备注
+                    </div>
+
+                    <div class="request-value">
+
+                      ${
+                        escapeHTML(
+                          request.agent_notes ||
+                          "-"
+                        )
+                      }
+
+                    </div>
+
+                  </div>
+
+
+                </div>
+
+
+                <div class="review-notes">
+
+                  <label>
+                    管理审批备注
+                  </label>
+
+                  <textarea
+                    id="reviewNotes_${request.id}"
+                    placeholder="可填写到账说明、拒绝原因等；确认充值时可留空"
+                  ></textarea>
+
+                </div>
+
+
+                <div class="request-actions">
+
+
+                  <button
+                    class="reject-btn"
+                    type="button"
+                    onclick="rejectRechargeRequest('${request.id}')"
+                  >
+                    拒绝申请
+                  </button>
+
+
+                  <button
+                    class="approve-btn"
+                    type="button"
+                    onclick="approveRechargeRequest('${request.id}')"
+                  >
+                    确认充值
+                  </button>
+
+
+                </div>
+
+              `;
+
+
+            list.appendChild(
+              card
+            );
+
+
+          }
+        );
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       确认充值
+    ===================================================== */
+
+    async function approveRechargeRequest(
+      requestId
+    ) {
+
+
+      const request =
+        pendingRechargeRequests
+          .find(
+            item =>
+              String(item.id) ===
+              String(requestId)
+          );
+
+
+      if (
+        !request
+      ) {
+
+        alert(
+          "没有找到该充值申请，请刷新后重试。"
+        );
+
+        return;
+
+      }
+
+
+      const agent =
+        rechargeAgents[
+          String(
+            request.agent_id
+          )
+        ] ||
+        null;
+
+
+      const currentBalance =
+        Number(
+          agent?.account_balance ||
+          0
+        );
+
+
+      const newBalance =
+        currentBalance
+        +
+        Number(
+          request.amount ||
+          0
+        );
+
+
+      const confirmed =
+        confirm(
+          "请确认该笔代理商充值：\n\n"
+          +
+          "代理商："
+          +
+          (
+            agent?.agent_name ||
+            "未知代理商"
+          )
+          +
+          "\n"
+          +
+          "充值金额："
+          +
+          formatMoney(
+            request.amount
+          )
+          +
+          " "
+          +
+          request.currency
+          +
+          "\n"
+          +
+          "当前余额："
+          +
+          formatMoney(
+            currentBalance
+          )
+          +
+          " "
+          +
+          request.currency
+          +
+          "\n"
+          +
+          "确认后的预计余额："
+          +
+          formatMoney(
+            newBalance
+          )
+          +
+          " "
+          +
+          request.currency
+          +
+          "\n\n"
+          +
+          "确认后系统会正式增加账户余额，并写入充值流水。\n\n"
+          +
+          "是否确认？"
+        );
+
+
+      if (
+        !confirmed
+      ) {
+
+        return;
+
+      }
+
+
+      const reviewNotes =
+        document
+          .getElementById(
+            "reviewNotes_"
+            +
+            requestId
+          )
+          ?.value
+          .trim()
+          ||
+          "";
+
+
+      showRechargeProcessing(
+        true
+      );
+
+
+      try {
+
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .rpc(
+              "approve_recharge_request",
+              {
+
+                p_request_id:
+                  Number(
+                    requestId
+                  ),
+
+                p_review_notes:
+                  reviewNotes ||
+                  null
+
+              }
+            );
+
+
+        if (
+          error
+        ) {
+
+          throw error;
+
+        }
+
+
+        alert(
+          "充值确认成功。\n\n"
+          +
+          "代理商："
+          +
+          (
+            agent?.agent_name ||
+            ""
+          )
+          +
+          "\n"
+          +
+          "充值金额："
+          +
+          formatMoney(
+            request.amount
+          )
+          +
+          " "
+          +
+          request.currency
+          +
+          "\n"
+          +
+          "最新余额："
+          +
+          formatMoney(
+            data?.balance_after ??
+            newBalance
+          )
+          +
+          " "
+          +
+          request.currency
+        );
+
+
+        /*
+          重新读取，
+          pending 数量立即变化
+        */
+
+        await loadPendingRechargeRequests(
+          false
+        );
+
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "确认充值失败：",
+          error
+        );
+
+
+        alert(
+          "确认充值失败：\n"
+          +
+          error.message
+        );
+
+
+        await loadPendingRechargeRequests(
+          false
+        );
+
+
+      }
+
+      finally {
+
+
+        showRechargeProcessing(
+          false
+        );
+
+
+      }
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       拒绝充值申请
+    ===================================================== */
+
+    async function rejectRechargeRequest(
+      requestId
+    ) {
+
+
+      const request =
+        pendingRechargeRequests
+          .find(
+            item =>
+              String(item.id) ===
+              String(requestId)
+          );
+
+
+      if (
+        !request
+      ) {
+
+        alert(
+          "没有找到该充值申请。"
+        );
+
+        return;
+
+      }
+
+
+      const agent =
+        rechargeAgents[
+          String(
+            request.agent_id
+          )
+        ] ||
+        null;
+
+
+      const notesInput =
+        document
+          .getElementById(
+            "reviewNotes_"
+            +
+            requestId
+          );
+
+
+      const reviewNotes =
+        notesInput
+          ?
+          notesInput.value.trim()
+          :
+          "";
+
+
+      if (
+        !reviewNotes
+      ) {
+
+        alert(
+          "拒绝充值申请时，请填写审批备注或拒绝原因。"
+        );
+
+
+        if (
+          notesInput
+        ) {
+
+          notesInput.focus();
+
+        }
+
+
+        return;
+
+      }
+
+
+      const confirmed =
+        confirm(
+          "确定拒绝该笔充值申请吗？\n\n"
+          +
+          "代理商："
+          +
+          (
+            agent?.agent_name ||
+            "未知代理商"
+          )
+          +
+          "\n"
+          +
+          "金额："
+          +
+          formatMoney(
+            request.amount
+          )
+          +
+          " "
+          +
+          request.currency
+          +
+          "\n\n"
+          +
+          "拒绝后不会改变代理商余额。"
+        );
+
+
+      if (
+        !confirmed
+      ) {
+
+        return;
+
+      }
+
+
+      showRechargeProcessing(
+        true
+      );
+
+
+      try {
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .rpc(
+              "reject_recharge_request",
+              {
+
+                p_request_id:
+                  Number(
+                    requestId
+                  ),
+
+                p_review_notes:
+                  reviewNotes
+
+              }
+            );
+
+
+        if (
+          error
+        ) {
+
+          throw error;
+
+        }
+
+
+        alert(
+          "充值申请已经拒绝，代理商账户余额没有变化。"
+        );
+
+
+        await loadPendingRechargeRequests(
+          false
+        );
+
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "拒绝充值申请失败：",
+          error
+        );
+
+
+        alert(
+          "拒绝充值申请失败：\n"
+          +
+          error.message
+        );
+
+
+        await loadPendingRechargeRequests(
+          false
+        );
+
+
+      }
+
+      finally {
+
+
+        showRechargeProcessing(
+          false
+        );
+
+
+      }
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       右上角红色临时提醒
+    ===================================================== */
+
+    function showRechargeToast() {
+
+
+      const toast =
+        document.getElementById(
+          "rechargeToast"
+        );
+
+
+      const text =
+        document.getElementById(
+          "rechargeToastText"
+        );
+
+
+      text.textContent =
+        "当前有 "
+        +
+        pendingRechargeRequests.length
+        +
+        " 条充值申请等待确认。点击立即处理。";
+
+
+      toast
+        .classList
+        .add(
+          "show"
+        );
+
+
+      /*
+        红色提示保留8秒
+        但标题旁的红框会一直保留
+      */
+
+      setTimeout(
+        function() {
+
+          hideRechargeToast();
+
+        },
+        8000
+      );
+
+
+    }
+
+
+
+    function hideRechargeToast() {
+
+
+      document
+        .getElementById(
+          "rechargeToast"
+        )
+        .classList
+        .remove(
+          "show"
+        );
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       审批处理中遮罩
+    ===================================================== */
+
+    function showRechargeProcessing(
+      show
+    ) {
+
+
+      document
+        .getElementById(
+          "rechargeProcessing"
+        )
+        .classList
+        .toggle(
+          "show",
+          show
+        );
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       HTML 转义
+    ===================================================== */
+
+    function escapeHTML(
+      value
+    ) {
+
+
+      if (
+        value === null
+        ||
+        value === undefined
+      ) {
+
+        return "";
+
+      }
+
+
+      return String(
+        value
+      )
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       金额格式
+    ===================================================== */
+
+    function formatMoney(
+      value
+    ) {
+
+
+      return Number(
+        value || 0
+      )
+      .toLocaleString(
+        "zh-CN",
+        {
+
+          minimumFractionDigits:
+            2,
+
+          maximumFractionDigits:
+            2
+
+        }
+      );
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       时间格式
+    ===================================================== */
+
+    function formatDateTime(
+      value
+    ) {
+
+
+      if (
+        !value
+      ) {
+
+        return "-";
+
+      }
+
+
+      const date =
+        new Date(
+          value
+        );
+
+
+      if (
+        isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return value;
+
+      }
+
+
+      return date
+        .toLocaleString(
+          "zh-CN",
+          {
+
+            year:
+              "numeric",
+
+            month:
+              "2-digit",
+
+            day:
+              "2-digit",
+
+            hour:
+              "2-digit",
+
+            minute:
+              "2-digit"
+
+          }
+        );
+
+
+    }
+
+
+
+    /* =====================================================
+       新增：
+       点击遮罩关闭 Popup
+    ===================================================== */
+
+    document
+      .getElementById(
+        "rechargeModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+
+          if (
+            event.target === this
+          ) {
+
+            closeRechargeModal();
+
+          }
+
+
+        }
+      );
+
+
+
+    /* =====================================================
        页面打开立即验证
     ===================================================== */
 
@@ -1116,7 +3378,31 @@
 
       async function() {
 
-        await verifyManagementAccess();
+
+        const allowed =
+          await verifyManagementAccess();
+
+
+        if (
+          allowed
+        ) {
+
+
+          /*
+            登录成功后立即读取充值申请
+
+            true：
+            如果已有 pending，
+            立即出现红色 Popup
+          */
+
+          await loadPendingRechargeRequests(
+            true
+          );
+
+
+        }
+
 
       }
 
@@ -1139,13 +3425,64 @@
           event.persisted
         ) {
 
-          await verifyManagementAccess();
+
+          const allowed =
+            await verifyManagementAccess();
+
+
+          if (
+            allowed
+          ) {
+
+
+            await loadPendingRechargeRequests(
+              true
+            );
+
+
+          }
+
 
         }
 
 
       }
 
+    );
+
+
+
+    /* =====================================================
+       新增：
+       每30秒自动检查新的充值申请
+
+       页面不用手工刷新。
+    ===================================================== */
+
+    setInterval(
+      async function() {
+
+
+        if (
+          document
+            .documentElement
+            .classList
+            .contains(
+              "auth-ready"
+            )
+        ) {
+
+
+          await loadPendingRechargeRequests(
+            true
+          );
+
+
+        }
+
+
+      },
+      30000
     );
 
 
