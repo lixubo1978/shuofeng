@@ -1,1 +1,4976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
 
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    http-equiv="Cache-Control"
+    content="no-store, no-cache, must-revalidate, max-age=0"
+  >
+
+  <meta
+    http-equiv="Pragma"
+    content="no-cache"
+  >
+
+  <meta
+    http-equiv="Expires"
+    content="0"
+  >
+
+  <title>采购管理｜硕丰科技</title>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      visibility: hidden;
+    }
+
+    html.auth-ready {
+      visibility: visible;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft YaHei",
+        Arial,
+        sans-serif;
+
+      background: #f4f6f8;
+
+      color: #1f2937;
+
+      min-height: 100vh;
+    }
+
+
+    /* =====================================================
+       顶部
+    ===================================================== */
+
+    .topbar {
+      background: #0f172a;
+
+      color: white;
+
+      padding: 18px 28px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 20px;
+
+      box-shadow:
+        0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .user-info {
+      color: #cbd5e1;
+      font-size: 13px;
+    }
+
+    .top-btn {
+      border:
+        1px solid rgba(255,255,255,0.35);
+
+      background: transparent;
+
+      color: white;
+
+      padding: 8px 13px;
+
+      border-radius: 7px;
+
+      cursor: pointer;
+
+      font-family: inherit;
+
+      font-size: 13px;
+    }
+
+    .top-btn:hover {
+      background:
+        rgba(255,255,255,0.10);
+    }
+
+
+    /* =====================================================
+       主区域
+    ===================================================== */
+
+    .container {
+      width: 100%;
+
+      max-width: 1800px;
+
+      margin: 0 auto;
+
+      padding:
+        28px 22px 60px;
+    }
+
+    .page-head {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      align-items: flex-start;
+
+      margin-bottom: 20px;
+    }
+
+    .page-head h1 {
+      margin:
+        0 0 7px;
+
+      font-size: 28px;
+
+      color: #111827;
+    }
+
+    .page-head p {
+      margin: 0;
+
+      font-size: 14px;
+
+      line-height: 1.8;
+
+      color: #6b7280;
+    }
+
+    .page-buttons {
+      display: flex;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+    }
+
+
+    /* =====================================================
+       提示
+    ===================================================== */
+
+    .notice {
+      display: none;
+
+      margin-bottom: 18px;
+
+      padding:
+        13px 16px;
+
+      border-radius: 9px;
+
+      font-size: 14px;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .notice-error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+
+    /* =====================================================
+       左右布局
+    ===================================================== */
+
+    .main-grid {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+      gap: 18px;
+
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+
+      border:
+        1px solid #e5e7eb;
+
+      border-radius: 14px;
+
+      box-shadow:
+        0 2px 12px rgba(0,0,0,0.04);
+
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding:
+        20px 20px 16px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+    }
+
+    .panel-header h2 {
+      margin:
+        0 0 6px;
+
+      font-size: 20px;
+
+      color: #111827;
+    }
+
+    .panel-header p {
+      margin: 0;
+
+      font-size: 13px;
+
+      line-height: 1.7;
+
+      color: #6b7280;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+
+    /* =====================================================
+       按钮
+    ===================================================== */
+
+    .btn {
+      border: none;
+
+      border-radius: 8px;
+
+      padding:
+        9px 14px;
+
+      font-family: inherit;
+
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-dark {
+      background: #111827;
+      color: white;
+    }
+
+    .btn-red {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-green {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-purple {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .btn-light {
+      background: white;
+
+      color: #374151;
+
+      border:
+        1px solid #d1d5db;
+    }
+
+    .btn-small {
+      padding:
+        6px 10px;
+
+      font-size: 12px;
+    }
+
+
+    /* =====================================================
+       左侧价格摘要
+    ===================================================== */
+
+    .price-summary {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+      margin-bottom: 14px;
+    }
+
+    .mini-card {
+      background: #f8fafc;
+
+      border:
+        1px solid #e5e7eb;
+
+      border-radius: 10px;
+
+      padding: 13px;
+    }
+
+    .mini-label {
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 5px;
+    }
+
+    .mini-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+
+    /* =====================================================
+       搜索
+    ===================================================== */
+
+    .price-toolbar {
+      display: flex;
+
+      gap: 8px;
+
+      margin-bottom: 13px;
+    }
+
+    .price-toolbar input,
+    .price-toolbar select {
+      border:
+        1px solid #d1d5db;
+
+      border-radius: 8px;
+
+      padding:
+        9px 10px;
+
+      font-size: 13px;
+
+      outline: none;
+
+      background: white;
+    }
+
+    .price-toolbar input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .price-toolbar input:focus,
+    .price-toolbar select:focus {
+      border-color: #2563eb;
+    }
+
+
+    /* =====================================================
+       表格
+    ===================================================== */
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+
+      border-collapse: collapse;
+    }
+
+    .price-table {
+      min-width: 900px;
+    }
+
+    .cart-table {
+      min-width: 720px;
+    }
+
+    th {
+      padding:
+        11px 10px;
+
+      background: #f8fafc;
+
+      color: #475569;
+
+      text-align: left;
+
+      font-size: 11px;
+
+      white-space: nowrap;
+
+      border-bottom:
+        1px solid #e5e7eb;
+    }
+
+    td {
+      padding:
+        11px 10px;
+
+      font-size: 12px;
+
+      border-bottom:
+        1px solid #eef2f7;
+
+      vertical-align: middle;
+    }
+
+    .price-history td {
+      background: #f1f3f5 !important;
+      color: #9ca3af !important;
+    }
+
+    .product-code {
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .product-name {
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .money {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .undefined {
+      color: #c2410c;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+
+    /* =====================================================
+       Badge
+    ===================================================== */
+
+    .badge {
+      display: inline-block;
+
+      padding:
+        4px 8px;
+
+      border-radius: 999px;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-disabled {
+      background: #e5e7eb;
+      color: #6b7280;
+    }
+
+    .badge-defined {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-undefined {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .locked {
+      color: #6b7280;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .empty {
+      padding:
+        35px 10px;
+
+      text-align: center;
+
+      font-size: 13px;
+
+      color: #94a3b8;
+    }
+
+
+    /* =====================================================
+       表单
+    ===================================================== */
+
+    .form-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 13px;
+    }
+
+    .form-group {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column:
+        1 / -1;
+    }
+
+    .form-group label {
+      color: #374151;
+
+      font-size: 12px;
+
+      font-weight: 600;
+    }
+
+    .required {
+      color: #dc2626;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+
+      padding:
+        10px 11px;
+
+      border:
+        1px solid #d1d5db;
+
+      border-radius: 8px;
+
+      font-size: 13px;
+
+      font-family: inherit;
+
+      background: white;
+
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #2563eb;
+    }
+
+    .form-group textarea {
+      min-height: 78px;
+      resize: vertical;
+    }
+
+    .readonly {
+      background: #f3f4f6 !important;
+      color: #6b7280 !important;
+    }
+
+
+    /* =====================================================
+       下单产品信息
+    ===================================================== */
+
+    .selected-price-box {
+      margin-top: 13px;
+
+      background: #f8fafc;
+
+      border:
+        1px solid #e5e7eb;
+
+      border-radius: 10px;
+
+      padding: 13px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr 1fr;
+
+      gap: 10px;
+    }
+
+    .selected-label {
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .selected-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .cart-section {
+      margin-top: 18px;
+
+      border-top:
+        1px solid #e5e7eb;
+
+      padding-top: 16px;
+    }
+
+    .cart-title {
+      font-size: 15px;
+
+      font-weight: 700;
+
+      margin-bottom: 10px;
+
+      color: #111827;
+    }
+
+    .total-box {
+      margin-top: 14px;
+
+      padding:
+        14px;
+
+      background: #eff6ff;
+
+      border:
+        1px solid #bfdbfe;
+
+      border-radius: 10px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .total-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .total-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1d4ed8;
+    }
+
+    .order-help {
+      margin-top: 12px;
+
+      font-size: 12px;
+
+      color: #6b7280;
+
+      line-height: 1.7;
+    }
+
+    .warning {
+      margin-top: 12px;
+
+      padding:
+        10px 12px;
+
+      border-radius: 8px;
+
+      background: #fff7ed;
+
+      border:
+        1px solid #fdba74;
+
+      color: #9a3412;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       Modal
+    ===================================================== */
+
+    .modal-mask {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(0,0,0,0.48);
+
+      z-index: 10000;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .modal-mask.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+
+      max-width: 620px;
+
+      max-height: 92vh;
+
+      overflow-y: auto;
+
+      background: white;
+
+      border-radius: 14px;
+
+      box-shadow:
+        0 25px 70px rgba(0,0,0,0.28);
+    }
+
+    .modal-header {
+      padding:
+        19px 22px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .modal-close {
+      border: none;
+
+      background: transparent;
+
+      font-size: 25px;
+
+      cursor: pointer;
+
+      color: #64748b;
+    }
+
+    .modal-body {
+      padding: 22px;
+    }
+
+    .modal-footer {
+      padding:
+        16px 22px;
+
+      border-top:
+        1px solid #e5e7eb;
+
+      display: flex;
+
+      justify-content: flex-end;
+
+      gap: 8px;
+    }
+
+    .define-warning {
+      grid-column:
+        1 / -1;
+
+      background: #fff7ed;
+
+      color: #9a3412;
+
+      border:
+        1px solid #fdba74;
+
+      border-radius: 8px;
+
+      padding: 12px;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       Loading / Timeout
+    ===================================================== */
+
+    .loading-mask {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(255,255,255,0.76);
+
+      z-index: 20000;
+
+      align-items: center;
+
+      justify-content: center;
+
+      color: #334155;
+
+      font-size: 15px;
+
+      font-weight: 700;
+    }
+
+    .loading-mask.show {
+      display: flex;
+    }
+
+    .timeout-warning {
+      position: fixed;
+
+      left: 50%;
+
+      bottom: 28px;
+
+      transform:
+        translateX(-50%);
+
+      display: none;
+
+      padding:
+        11px 18px;
+
+      background: #fff7ed;
+
+      color: #9a3412;
+
+      border:
+        1px solid #fdba74;
+
+      border-radius: 8px;
+
+      z-index: 30000;
+
+      box-shadow:
+        0 6px 20px rgba(0,0,0,0.12);
+
+      font-size: 13px;
+    }
+
+
+    /* =====================================================
+       响应式
+    ===================================================== */
+
+    @media (max-width: 1150px) {
+
+      .main-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+    }
+
+    @media (max-width: 700px) {
+
+      .page-head {
+        flex-direction: column;
+      }
+
+      .price-summary {
+        grid-template-columns:
+          1fr;
+      }
+
+      .price-toolbar {
+        flex-direction: column;
+      }
+
+      .form-grid,
+      .selected-price-box {
+        grid-template-columns:
+          1fr;
+      }
+
+      .form-group.full,
+      .define-warning {
+        grid-column: auto;
+      }
+
+      .user-info {
+        display: none;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <div
+    id="loadingMask"
+    class="loading-mask"
+  >
+    正在处理，请稍候……
+  </div>
+
+
+  <!-- =====================================================
+       顶部
+  ====================================================== -->
+
+  <header class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-title">
+        硕丰科技 · 采购管理
+      </div>
+
+      <div class="brand-subtitle">
+        Purchase Price & Purchase Order Management
+      </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+      <div
+        id="currentUser"
+        class="user-info"
+      >
+        创始人
+      </div>
+
+      <button
+        class="top-btn"
+        type="button"
+        onclick="window.location.href='suppliers.html'"
+      >
+        供应商管理
+      </button>
+
+      <button
+        class="top-btn"
+        type="button"
+        onclick="goBack()"
+      >
+        返回工作台
+      </button>
+
+      <button
+        class="top-btn"
+        type="button"
+        onclick="logout()"
+      >
+        退出登录
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+
+    <div class="page-head">
+
+      <div>
+
+        <h1>
+          采购管理
+        </h1>
+
+        <p>
+          左侧管理产品采购价格，每条采购价格只能定义一次；
+          右侧从已维护的供应商中选择供应商并创建采购订单。
+          已定义采购价格不可修改，如需调整必须将旧价格设为无效并重新定义系统产生的新价格。
+        </p>
+
+      </div>
+
+
+      <div class="page-buttons">
+
+        <button
+          class="btn btn-light"
+          type="button"
+          onclick="loadAllData()"
+        >
+          刷新全部数据
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="notice"
+      class="notice"
+    ></div>
+
+
+    <section class="main-grid">
+
+
+      <!-- ===================================================
+           左：采购价格
+      ==================================================== -->
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            ① 采购价格管理
+          </h2>
+
+          <p>
+            产品建立后自动出现未定义采购价。
+            一条采购价格只能定义一次，定义后永久锁定；
+            价格变化时只能将原价格设为无效。
+          </p>
+
+        </div>
+
+
+        <div class="panel-body">
+
+
+          <div class="price-summary">
+
+            <div class="mini-card">
+
+              <div class="mini-label">
+                当前有效价格对象
+              </div>
+
+              <div
+                id="activePriceCount"
+                class="mini-value"
+              >
+                0
+              </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+              <div class="mini-label">
+                待定义
+              </div>
+
+              <div
+                id="undefinedPriceCount"
+                class="mini-value"
+              >
+                0
+              </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+              <div class="mini-label">
+                历史价格
+              </div>
+
+              <div
+                id="historyPriceCount"
+                class="mini-value"
+              >
+                0
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="price-toolbar">
+
+            <input
+              id="priceSearch"
+              type="text"
+              placeholder="搜索产品代码或名称……"
+              oninput="renderPurchasePrices()"
+            >
+
+            <select
+              id="priceFilter"
+              onchange="renderPurchasePrices()"
+            >
+
+              <option value="current">
+                当前有效
+              </option>
+
+              <option value="undefined">
+                仅未定义
+              </option>
+
+              <option value="defined">
+                仅已定义
+              </option>
+
+              <option value="history">
+                历史价格
+              </option>
+
+              <option value="all">
+                全部
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="table-scroll">
+
+            <table class="price-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>产品代码</th>
+
+                  <th>产品名称</th>
+
+                  <th>采购价格</th>
+
+                  <th>币种</th>
+
+                  <th>定义状态</th>
+
+                  <th>状态</th>
+
+                  <th>生效日期</th>
+
+                  <th>操作</th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody
+                id="priceTableBody"
+              ></tbody>
+
+            </table>
+
+          </div>
+
+
+          <div
+            id="priceEmpty"
+            class="empty"
+            style="display:none;"
+          >
+            暂无采购价格记录
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           右：采购下单
+      ==================================================== -->
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            ② 新建采购订单
+          </h2>
+
+          <p>
+            选择供应商和已经定义采购价的产品。
+            采购单价由系统自动读取，不允许手工修改。
+          </p>
+
+        </div>
+
+
+        <div class="panel-body">
+
+
+          <div class="form-grid">
+
+
+            <div class="form-group full">
+
+              <label>
+                供应商
+                <span class="required">*</span>
+              </label>
+
+              <select
+                id="supplierSelect"
+              >
+                <option value="">
+                  请选择供应商
+                </option>
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                采购日期
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="purchaseDate"
+                type="date"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                预计采购单号
+              </label>
+
+              <input
+                id="purchaseNoPreview"
+                class="readonly"
+                type="text"
+                readonly
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label>
+                选择产品
+                <span class="required">*</span>
+              </label>
+
+              <select
+                id="productSelect"
+                onchange="updateSelectedProductInfo()"
+              >
+
+                <option value="">
+                  请选择产品
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                数量
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="quantityInput"
+                type="number"
+                min="0.001"
+                step="0.001"
+                value="1"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                操作
+              </label>
+
+              <button
+                id="addItemButton"
+                class="btn btn-green"
+                type="button"
+                onclick="addItemToOrder()"
+                disabled
+              >
+                ＋ 加入采购单
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="selected-price-box">
+
+            <div>
+
+              <div class="selected-label">
+                当前采购价
+              </div>
+
+              <div
+                id="selectedPrice"
+                class="selected-value"
+              >
+                -
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="selected-label">
+                币种
+              </div>
+
+              <div
+                id="selectedCurrency"
+                class="selected-value"
+              >
+                -
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="selected-label">
+                单位
+              </div>
+
+              <div
+                id="selectedUnit"
+                class="selected-value"
+              >
+                -
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="productWarning"
+            class="warning"
+            style="display:none;"
+          ></div>
+
+
+          <!-- 当前采购单 -->
+
+          <div class="cart-section">
+
+            <div class="cart-title">
+              当前采购单明细
+            </div>
+
+
+            <div class="table-scroll">
+
+              <table class="cart-table">
+
+                <thead>
+
+                  <tr>
+
+                    <th>产品</th>
+
+                    <th>单价</th>
+
+                    <th>数量</th>
+
+                    <th>单位</th>
+
+                    <th>金额</th>
+
+                    <th>操作</th>
+
+                  </tr>
+
+                </thead>
+
+
+                <tbody
+                  id="cartTableBody"
+                ></tbody>
+
+              </table>
+
+            </div>
+
+
+            <div
+              id="cartEmpty"
+              class="empty"
+            >
+              尚未加入任何商品
+            </div>
+
+
+            <div class="total-box">
+
+              <div class="total-label">
+                采购单总金额
+              </div>
+
+              <div
+                id="orderTotal"
+                class="total-value"
+              >
+                0.00
+              </div>
+
+            </div>
+
+
+            <div class="form-group full" style="margin-top:14px;">
+
+              <label>
+                采购备注
+              </label>
+
+              <textarea
+                id="purchaseRemarks"
+                placeholder="例如：交货要求、运输要求、付款说明等"
+              ></textarea>
+
+            </div>
+
+
+            <div style="margin-top:14px;">
+
+              <button
+                id="submitOrderButton"
+                class="btn btn-primary"
+                type="button"
+                style="width:100%; padding:13px;"
+                onclick="submitPurchaseOrder()"
+                disabled
+              >
+                确认创建采购订单
+              </button>
+
+            </div>
+
+
+            <div class="order-help">
+
+              一个采购订单只能使用一种币种。
+              如果不同产品的采购价币种不同，请分别建立采购订单。
+
+              采购订单建立后，产品代码、产品名称、规格、单位和采购单价都会作为历史快照写入订单明细。
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       定义采购价格
+  ====================================================== -->
+
+  <div
+    id="defineModal"
+    class="modal-mask"
+  >
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <h3>
+          定义采购价格
+        </h3>
+
+        <button
+          class="modal-close"
+          type="button"
+          onclick="closeDefineModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <input
+          id="definePriceId"
+          type="hidden"
+        >
+
+
+        <div class="form-grid">
+
+
+          <div class="form-group">
+
+            <label>
+              产品代码
+            </label>
+
+            <input
+              id="defineProductCode"
+              class="readonly"
+              type="text"
+              readonly
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              产品名称
+            </label>
+
+            <input
+              id="defineProductName"
+              class="readonly"
+              type="text"
+              readonly
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              采购价格
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="definePurchasePrice"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="请输入采购价格"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              币种
+              <span class="required">*</span>
+            </label>
+
+            <select
+              id="defineCurrency"
+            >
+
+              <option value="">
+                请选择币种
+              </option>
+
+              <option value="CNY">
+                CNY 人民币
+              </option>
+
+              <option value="EUR">
+                EUR 欧元
+              </option>
+
+              <option value="USD">
+                USD 美元
+              </option>
+
+              <option value="HUF">
+                HUF 匈牙利福林
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label>
+              生效日期
+            </label>
+
+            <input
+              id="defineEffectiveFrom"
+              type="date"
+            >
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label>
+              备注
+            </label>
+
+            <textarea
+              id="defineNotes"
+              placeholder="采购价格说明，可留空"
+            ></textarea>
+
+          </div>
+
+
+          <div class="define-warning">
+
+            <strong>注意：</strong>
+
+            每一条采购价格只能定义一次。
+
+            本次保存成功以后，这条采购价格将永久锁定，
+            不允许再次修改。
+
+            如果以后采购价格发生变化，
+            请把当前价格“设为无效”，系统会自动生成新的未定义采购价格。
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          type="button"
+          onclick="closeDefineModal()"
+        >
+          取消
+        </button>
+
+        <button
+          id="saveDefineButton"
+          class="btn btn-primary"
+          type="button"
+          onclick="savePurchasePriceDefinition()"
+        >
+          确认定义
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       超时提醒
+  ====================================================== -->
+
+  <div
+    id="timeoutWarning"
+    class="timeout-warning"
+  >
+    长时间未操作，系统即将自动退出。
+  </div>
+
+
+<script>
+
+
+/* ==========================================================
+   Supabase
+========================================================== */
+
+const SUPABASE_URL =
+  "https://icmifhjjhgjrhkunjbmu.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let currentUserId = null;
+
+let products = [];
+
+let purchasePrices = [];
+
+let suppliers = [];
+
+let purchaseOrders = [];
+
+let orderItems = [];
+
+let accessVerified = false;
+
+
+
+/* ==========================================================
+   Founder 权限验证
+========================================================== */
+
+async function verifyFounderAccess() {
+
+  try {
+
+    const {
+      data: sessionData,
+      error: sessionError
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
+
+
+    if (
+      sessionError ||
+      !sessionData?.session?.user
+    ) {
+
+      window.location.replace(
+        "page10.html"
+      );
+
+      return false;
+    }
+
+
+    const user =
+      sessionData.session.user;
+
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select(
+          "id, display_name, role, is_active"
+        )
+        .eq(
+          "id",
+          user.id
+        )
+        .single();
+
+
+    if (
+      profileError ||
+      !profile ||
+      profile.is_active !== true ||
+      profile.role !== "founder"
+    ) {
+
+      alert(
+        "采购管理属于公司内部采购机密，目前仅创始人可以进入。"
+      );
+
+
+      window.location.replace(
+        "wholemanagement.html"
+      );
+
+
+      return false;
+    }
+
+
+    currentUserId =
+      user.id;
+
+
+    document.getElementById(
+      "currentUser"
+    ).textContent =
+      (
+        profile.display_name ||
+        "创始人"
+      )
+      +
+      " · 创始人";
+
+
+    accessVerified =
+      true;
+
+
+    document.documentElement
+      .classList
+      .add(
+        "auth-ready"
+      );
+
+
+    return true;
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "权限验证失败：",
+      error
+    );
+
+
+    window.location.replace(
+      "page10.html"
+    );
+
+
+    return false;
+  }
+
+}
+
+
+
+/* ==========================================================
+   页面启动
+========================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function() {
+
+    document.getElementById(
+      "purchaseDate"
+    ).value =
+      getToday();
+
+
+    const allowed =
+      await verifyFounderAccess();
+
+
+    if (allowed) {
+
+      await loadAllData();
+
+    }
+
+  }
+);
+
+
+
+window.addEventListener(
+  "pageshow",
+  async function(event) {
+
+    if (event.persisted) {
+
+      const allowed =
+        await verifyFounderAccess();
+
+
+      if (allowed) {
+
+        await loadAllData();
+
+      }
+
+    }
+
+  }
+);
+
+
+
+/* ==========================================================
+   加载全部数据
+========================================================== */
+
+async function loadAllData() {
+
+  if (!accessVerified) {
+    return;
+  }
+
+
+  showLoading(true);
+
+
+  try {
+
+    const [
+      productsResult,
+      pricesResult,
+      suppliersResult,
+      ordersResult
+    ] =
+      await Promise.all([
+
+        supabaseClient
+          .from("products")
+          .select(
+            "id, product_code, product_name, specification, unit, is_active"
+          )
+          .order(
+            "product_code",
+            {
+              ascending: true
+            }
+          ),
+
+        supabaseClient
+          .from("purchase_prices")
+          .select(
+            "id, product_id, purchase_price, currency, is_defined, is_active, effective_from, notes, created_at, updated_at"
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          ),
+
+        supabaseClient
+          .from("suppliers")
+          .select(
+            "id, supplier_code, supplier_name, is_active"
+          )
+          .order(
+            "supplier_code",
+            {
+              ascending: true
+            }
+          ),
+
+        supabaseClient
+          .from("purchase_orders")
+          .select(
+            "id, purchase_no, purchase_date"
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          )
+
+      ]);
+
+
+    if (productsResult.error) {
+      throw productsResult.error;
+    }
+
+
+    if (pricesResult.error) {
+      throw pricesResult.error;
+    }
+
+
+    if (suppliersResult.error) {
+      throw suppliersResult.error;
+    }
+
+
+    if (ordersResult.error) {
+      throw ordersResult.error;
+    }
+
+
+    products =
+      productsResult.data || [];
+
+
+    purchasePrices =
+      pricesResult.data || [];
+
+
+    suppliers =
+      suppliersResult.data || [];
+
+
+    purchaseOrders =
+      ordersResult.data || [];
+
+
+    updatePriceSummary();
+
+    renderPurchasePrices();
+
+    renderSupplierSelect();
+
+    renderProductSelect();
+
+    renderCart();
+
+    await refreshPurchaseNoPreview();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "读取采购数据失败：",
+      error
+    );
+
+
+    showNotice(
+      "读取采购数据失败：" +
+      error.message,
+      "error"
+    );
+
+  }
+
+  finally {
+
+    showLoading(false);
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   查询产品
+========================================================== */
+
+function getProduct(productId) {
+
+  return products.find(
+    item =>
+      String(item.id) ===
+      String(productId)
+  ) || null;
+
+}
+
+
+
+/* ==========================================================
+   当前有效采购价格
+========================================================== */
+
+function getCurrentPurchasePrice(productId) {
+
+  return purchasePrices.find(
+    item =>
+      String(item.product_id) ===
+      String(productId)
+      &&
+      item.is_active === true
+  ) || null;
+
+}
+
+
+
+/* ==========================================================
+   左侧采购价格摘要
+========================================================== */
+
+function updatePriceSummary() {
+
+  const active =
+    purchasePrices.filter(
+      item =>
+        item.is_active === true
+    );
+
+
+  const undefinedRows =
+    active.filter(
+      item =>
+        item.is_defined !== true
+    );
+
+
+  const history =
+    purchasePrices.filter(
+      item =>
+        item.is_active === false
+    );
+
+
+  document.getElementById(
+    "activePriceCount"
+  ).textContent =
+    active.length;
+
+
+  document.getElementById(
+    "undefinedPriceCount"
+  ).textContent =
+    undefinedRows.length;
+
+
+  document.getElementById(
+    "historyPriceCount"
+  ).textContent =
+    history.length;
+
+}
+
+
+
+/* ==========================================================
+   左侧采购价格列表
+========================================================== */
+
+function renderPurchasePrices() {
+
+  const keyword =
+    document.getElementById(
+      "priceSearch"
+    )
+    .value
+    .trim()
+    .toLowerCase();
+
+
+  const filter =
+    document.getElementById(
+      "priceFilter"
+    ).value;
+
+
+  const rows =
+    purchasePrices.filter(
+      function(price) {
+
+        const product =
+          getProduct(
+            price.product_id
+          );
+
+
+        const searchText =
+          [
+            product?.product_code,
+            product?.product_name,
+            price.currency,
+            price.notes
+          ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+
+        const keywordOK =
+          !keyword ||
+          searchText.includes(keyword);
+
+
+        let statusOK =
+          true;
+
+
+        if (filter === "current") {
+
+          statusOK =
+            price.is_active === true;
+
+        }
+
+
+        if (filter === "undefined") {
+
+          statusOK =
+            price.is_active === true
+            &&
+            price.is_defined !== true;
+
+        }
+
+
+        if (filter === "defined") {
+
+          statusOK =
+            price.is_active === true
+            &&
+            price.is_defined === true;
+
+        }
+
+
+        if (filter === "history") {
+
+          statusOK =
+            price.is_active === false;
+
+        }
+
+
+        return (
+          keywordOK &&
+          statusOK
+        );
+
+      }
+    );
+
+
+  const tbody =
+    document.getElementById(
+      "priceTableBody"
+    );
+
+
+  const empty =
+    document.getElementById(
+      "priceEmpty"
+    );
+
+
+  tbody.innerHTML =
+    "";
+
+
+  if (rows.length === 0) {
+
+    empty.style.display =
+      "block";
+
+    return;
+  }
+
+
+  empty.style.display =
+    "none";
+
+
+  rows.forEach(
+    function(price) {
+
+      const product =
+        getProduct(
+          price.product_id
+        );
+
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      if (
+        price.is_active === false
+      ) {
+
+        tr.classList.add(
+          "price-history"
+        );
+
+      }
+
+
+      const priceText =
+        price.purchase_price === null ||
+        price.purchase_price === undefined
+          ?
+          `<span class="undefined">未定义</span>`
+          :
+          `<span class="money">${formatMoney(price.purchase_price)}</span>`;
+
+
+      const currencyText =
+        price.currency
+          ?
+          escapeHTML(price.currency)
+          :
+          `<span class="undefined">未定义</span>`;
+
+
+      const definedText =
+        price.is_defined === true
+          ?
+          `<span class="badge badge-defined">已定义 · 锁定</span>`
+          :
+          `<span class="badge badge-undefined">未定义</span>`;
+
+
+      const statusText =
+        price.is_active === true
+          ?
+          `<span class="badge badge-active">有效</span>`
+          :
+          `<span class="badge badge-disabled">无效</span>`;
+
+
+      let actionHTML =
+        "";
+
+
+      /*
+        当前有效 + 未定义
+        只允许第一次定义
+      */
+
+      if (
+        price.is_active === true
+        &&
+        price.is_defined !== true
+        &&
+        product?.is_active === true
+      ) {
+
+        actionHTML =
+          `
+            <button
+              class="btn btn-primary btn-small"
+              type="button"
+              onclick="openDefineModal('${price.id}')"
+            >
+              定义价格
+            </button>
+          `;
+
+      }
+
+
+      /*
+        当前有效 + 已定义
+        不允许修改
+        只能设为无效
+      */
+
+      else if (
+        price.is_active === true
+        &&
+        price.is_defined === true
+        &&
+        product?.is_active === true
+      ) {
+
+        actionHTML =
+          `
+            <button
+              class="btn btn-red btn-small"
+              type="button"
+              onclick="disablePurchasePrice('${price.id}')"
+            >
+              设为无效
+            </button>
+
+            <span class="locked">
+              已锁定
+            </span>
+          `;
+
+      }
+
+
+      else {
+
+        actionHTML =
+          `
+            <span class="locked">
+              历史锁定
+            </span>
+          `;
+
+      }
+
+
+      tr.innerHTML =
+        `
+
+          <td class="product-code">
+            ${
+              escapeHTML(
+                product?.product_code ||
+                "-"
+              )
+            }
+          </td>
+
+          <td class="product-name">
+            ${
+              escapeHTML(
+                product?.product_name ||
+                "未知产品"
+              )
+            }
+          </td>
+
+          <td>
+            ${priceText}
+          </td>
+
+          <td>
+            ${currencyText}
+          </td>
+
+          <td>
+            ${definedText}
+          </td>
+
+          <td>
+            ${statusText}
+          </td>
+
+          <td>
+            ${
+              formatDateOnly(
+                price.effective_from
+              )
+            }
+          </td>
+
+          <td>
+            <div class="actions">
+              ${actionHTML}
+            </div>
+          </td>
+
+        `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+}
+
+
+
+/* ==========================================================
+   打开第一次定义采购价
+========================================================== */
+
+function openDefineModal(priceId) {
+
+  const price =
+    purchasePrices.find(
+      item =>
+        String(item.id) ===
+        String(priceId)
+    );
+
+
+  if (!price) {
+
+    showNotice(
+      "没有找到采购价格记录。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const product =
+    getProduct(
+      price.product_id
+    );
+
+
+  if (
+    !product ||
+    product.is_active !== true
+  ) {
+
+    showNotice(
+      "对应产品已经无效，不能定义采购价格。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    price.is_active !== true
+  ) {
+
+    showNotice(
+      "该采购价格已经无效。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    price.is_defined === true
+  ) {
+
+    showNotice(
+      "该采购价格已经定义完成，不能再次修改。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  document.getElementById(
+    "definePriceId"
+  ).value =
+    price.id;
+
+
+  document.getElementById(
+    "defineProductCode"
+  ).value =
+    product.product_code || "";
+
+
+  document.getElementById(
+    "defineProductName"
+  ).value =
+    product.product_name || "";
+
+
+  document.getElementById(
+    "definePurchasePrice"
+  ).value =
+    price.purchase_price ?? "";
+
+
+  document.getElementById(
+    "defineCurrency"
+  ).value =
+    price.currency || "";
+
+
+  document.getElementById(
+    "defineEffectiveFrom"
+  ).value =
+    price.effective_from ||
+    getToday();
+
+
+  document.getElementById(
+    "defineNotes"
+  ).value =
+    price.notes || "";
+
+
+  document.getElementById(
+    "defineModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+
+function closeDefineModal() {
+
+  document.getElementById(
+    "defineModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+
+/* ==========================================================
+   保存第一次定义
+========================================================== */
+
+async function savePurchasePriceDefinition() {
+
+  const priceId =
+    document.getElementById(
+      "definePriceId"
+    ).value;
+
+
+  const record =
+    purchasePrices.find(
+      item =>
+        String(item.id) ===
+        String(priceId)
+    );
+
+
+  if (
+    !record ||
+    record.is_active !== true ||
+    record.is_defined === true
+  ) {
+
+    showNotice(
+      "该采购价格状态已经发生变化，请刷新页面。",
+      "error"
+    );
+
+
+    closeDefineModal();
+
+    await loadAllData();
+
+    return;
+  }
+
+
+  const product =
+    getProduct(
+      record.product_id
+    );
+
+
+  if (
+    !product ||
+    product.is_active !== true
+  ) {
+
+    showNotice(
+      "对应产品已经无效。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const priceValue =
+    document.getElementById(
+      "definePurchasePrice"
+    )
+    .value
+    .trim();
+
+
+  const currency =
+    document.getElementById(
+      "defineCurrency"
+    ).value;
+
+
+  const effectiveFrom =
+    document.getElementById(
+      "defineEffectiveFrom"
+    ).value;
+
+
+  const notes =
+    document.getElementById(
+      "defineNotes"
+    )
+    .value
+    .trim();
+
+
+  if (priceValue === "") {
+
+    alert(
+      "请输入采购价格。"
+    );
+
+    return;
+  }
+
+
+  const numericPrice =
+    Number(priceValue);
+
+
+  if (
+    !Number.isFinite(numericPrice)
+    ||
+    numericPrice < 0
+  ) {
+
+    alert(
+      "采购价格格式不正确。"
+    );
+
+    return;
+  }
+
+
+  if (!currency) {
+
+    alert(
+      "请选择币种。"
+    );
+
+    return;
+  }
+
+
+  const confirmed =
+    confirm(
+      "请确认采购价格：\n\n" +
+      "产品：" +
+      product.product_code +
+      " " +
+      product.product_name +
+      "\n\n" +
+      "采购价格：" +
+      numericPrice +
+      " " +
+      currency +
+      "\n\n" +
+      "价格保存以后将永久锁定，不能再次修改。\n" +
+      "确认继续吗？"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "saveDefineButton"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "正在保存……";
+
+
+  showLoading(true);
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("purchase_prices")
+        .update({
+
+          purchase_price:
+            numericPrice,
+
+          currency:
+            currency,
+
+          effective_from:
+            effectiveFrom ||
+            getToday(),
+
+          notes:
+            notes || null
+
+        })
+        .eq(
+          "id",
+          record.id
+        )
+        .eq(
+          "is_active",
+          true
+        )
+        .eq(
+          "is_defined",
+          false
+        )
+        .select();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (
+      !data ||
+      data.length !== 1
+    ) {
+
+      throw new Error(
+        "该采购价格已被其他操作修改，请重新刷新。"
+      );
+    }
+
+
+    closeDefineModal();
+
+
+    showNotice(
+      "采购价格定义成功。该价格现已永久锁定。",
+      "success"
+    );
+
+
+    await loadAllData();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "定义采购价格失败：",
+      error
+    );
+
+
+    showNotice(
+      "定义采购价格失败：" +
+      error.message,
+      "error"
+    );
+
+  }
+
+  finally {
+
+    showLoading(false);
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "确认定义";
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   当前采购价失效
+========================================================== */
+
+async function disablePurchasePrice(priceId) {
+
+  const price =
+    purchasePrices.find(
+      item =>
+        String(item.id) ===
+        String(priceId)
+    );
+
+
+  if (
+    !price ||
+    price.is_active !== true ||
+    price.is_defined !== true
+  ) {
+
+    showNotice(
+      "当前记录不能执行该操作。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const product =
+    getProduct(
+      price.product_id
+    );
+
+
+  if (
+    !product ||
+    product.is_active !== true
+  ) {
+
+    showNotice(
+      "对应产品已经无效。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    !confirm(
+      "确定将当前采购价格永久设为无效吗？\n\n" +
+      "产品：" +
+      product.product_code +
+      " " +
+      product.product_name +
+      "\n\n" +
+      "当前采购价格：" +
+      formatMoney(
+        price.purchase_price
+      ) +
+      " " +
+      (price.currency || "") +
+      "\n\n" +
+      "失效后旧价格永久保留，不能恢复。\n" +
+      "系统将自动生成一条新的未定义采购价格。"
+    )
+  ) {
+
+    return;
+  }
+
+
+  showLoading(true);
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("purchase_prices")
+        .update({
+          is_active: false
+        })
+        .eq(
+          "id",
+          price.id
+        )
+        .eq(
+          "is_active",
+          true
+        )
+        .select();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (
+      !data ||
+      data.length !== 1
+    ) {
+
+      throw new Error(
+        "采购价格状态已经变化，请刷新后重新检查。"
+      );
+    }
+
+
+    showNotice(
+      "原采购价格已失效，系统已自动生成新的未定义采购价格。",
+      "success"
+    );
+
+
+    /*
+      如果购物车中正在使用这个价格，
+      清空购物车，防止继续使用旧价格。
+    */
+
+    if (
+      orderItems.some(
+        item =>
+          String(item.price_id) ===
+          String(price.id)
+      )
+    ) {
+
+      orderItems = [];
+
+      showNotice(
+        "采购价格已经失效。由于当前采购单中使用了该价格，采购单明细已清空，请重新选择产品。",
+        "success"
+      );
+
+    }
+
+
+    await loadAllData();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "采购价格失效失败：",
+      error
+    );
+
+
+    showNotice(
+      "采购价格失效失败：" +
+      error.message,
+      "error"
+    );
+
+  }
+
+  finally {
+
+    showLoading(false);
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   供应商下拉框
+========================================================== */
+
+function renderSupplierSelect() {
+
+  const select =
+    document.getElementById(
+      "supplierSelect"
+    );
+
+
+  const previous =
+    select.value;
+
+
+  select.innerHTML =
+    `<option value="">请选择供应商</option>`;
+
+
+  const activeSuppliers =
+    suppliers.filter(
+      item =>
+        item.is_active === true
+    );
+
+
+  activeSuppliers.forEach(
+    function(supplier) {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        supplier.id;
+
+
+      option.textContent =
+        (
+          supplier.supplier_code
+            ?
+            supplier.supplier_code +
+            " · "
+            :
+            ""
+        )
+        +
+        supplier.supplier_name;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  if (
+    previous
+    &&
+    activeSuppliers.some(
+      item =>
+        String(item.id) ===
+        String(previous)
+    )
+  ) {
+
+    select.value =
+      previous;
+
+  }
+
+
+  if (
+    activeSuppliers.length === 0
+  ) {
+
+    showNotice(
+      "目前没有有效供应商，请先进入“供应商管理”建立供应商。",
+      "error"
+    );
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   可下单产品
+========================================================== */
+
+function renderProductSelect() {
+
+  const select =
+    document.getElementById(
+      "productSelect"
+    );
+
+
+  const previous =
+    select.value;
+
+
+  select.innerHTML =
+    `<option value="">请选择产品</option>`;
+
+
+  /*
+    这里只显示：
+
+    产品有效
+    +
+    当前采购价格有效
+    +
+    已完成定义
+  */
+
+  const available =
+    products.filter(
+      function(product) {
+
+        if (
+          product.is_active !== true
+        ) {
+
+          return false;
+        }
+
+
+        const price =
+          getCurrentPurchasePrice(
+            product.id
+          );
+
+
+        return (
+          price
+          &&
+          price.is_active === true
+          &&
+          price.is_defined === true
+          &&
+          price.purchase_price !== null
+          &&
+          price.currency
+        );
+
+      }
+    );
+
+
+  available.forEach(
+    function(product) {
+
+      const price =
+        getCurrentPurchasePrice(
+          product.id
+        );
+
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        product.id;
+
+
+      option.textContent =
+        product.product_code
+        +
+        " · "
+        +
+        product.product_name
+        +
+        " · "
+        +
+        formatMoney(
+          price.purchase_price
+        )
+        +
+        " "
+        +
+        price.currency;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  if (
+    previous
+    &&
+    available.some(
+      item =>
+        String(item.id) ===
+        String(previous)
+    )
+  ) {
+
+    select.value =
+      previous;
+
+  }
+
+
+  updateSelectedProductInfo();
+
+}
+
+
+
+/* ==========================================================
+   产品选择后显示采购价
+========================================================== */
+
+function updateSelectedProductInfo() {
+
+  const productId =
+    document.getElementById(
+      "productSelect"
+    ).value;
+
+
+  const addButton =
+    document.getElementById(
+      "addItemButton"
+    );
+
+
+  const warning =
+    document.getElementById(
+      "productWarning"
+    );
+
+
+  warning.style.display =
+    "none";
+
+
+  if (!productId) {
+
+    document.getElementById(
+      "selectedPrice"
+    ).textContent =
+      "-";
+
+
+    document.getElementById(
+      "selectedCurrency"
+    ).textContent =
+      "-";
+
+
+    document.getElementById(
+      "selectedUnit"
+    ).textContent =
+      "-";
+
+
+    addButton.disabled =
+      true;
+
+
+    return;
+  }
+
+
+  const product =
+    getProduct(
+      productId
+    );
+
+
+  const price =
+    getCurrentPurchasePrice(
+      productId
+    );
+
+
+  if (
+    !product
+    ||
+    product.is_active !== true
+    ||
+    !price
+    ||
+    price.is_active !== true
+    ||
+    price.is_defined !== true
+    ||
+    price.purchase_price === null
+    ||
+    !price.currency
+  ) {
+
+    warning.textContent =
+      "该产品当前采购价格未完成定义，暂时不能加入采购订单。";
+
+
+    warning.style.display =
+      "block";
+
+
+    addButton.disabled =
+      true;
+
+
+    return;
+  }
+
+
+  document.getElementById(
+    "selectedPrice"
+  ).textContent =
+    formatMoney(
+      price.purchase_price
+    );
+
+
+  document.getElementById(
+    "selectedCurrency"
+  ).textContent =
+    price.currency;
+
+
+  document.getElementById(
+    "selectedUnit"
+  ).textContent =
+    product.unit || "-";
+
+
+  addButton.disabled =
+    false;
+
+}
+
+
+
+/* ==========================================================
+   加入采购单
+========================================================== */
+
+function addItemToOrder() {
+
+  const productId =
+    document.getElementById(
+      "productSelect"
+    ).value;
+
+
+  const quantityValue =
+    document.getElementById(
+      "quantityInput"
+    ).value;
+
+
+  if (!productId) {
+
+    alert(
+      "请选择产品。"
+    );
+
+    return;
+  }
+
+
+  const quantity =
+    Number(quantityValue);
+
+
+  if (
+    !Number.isFinite(quantity)
+    ||
+    quantity <= 0
+  ) {
+
+    alert(
+      "请输入正确的采购数量。"
+    );
+
+    return;
+  }
+
+
+  const product =
+    getProduct(
+      productId
+    );
+
+
+  const price =
+    getCurrentPurchasePrice(
+      productId
+    );
+
+
+  if (
+    !product
+    ||
+    product.is_active !== true
+    ||
+    !price
+    ||
+    price.is_active !== true
+    ||
+    price.is_defined !== true
+  ) {
+
+    showNotice(
+      "该产品当前没有有效且已定义的采购价格。",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /*
+    一个订单禁止混用不同币种
+  */
+
+  const currentCurrency =
+    getCartCurrency();
+
+
+  if (
+    currentCurrency
+    &&
+    currentCurrency !==
+    price.currency
+  ) {
+
+    alert(
+      "当前采购单币种为 "
+      +
+      currentCurrency
+      +
+      "，不能加入 "
+      +
+      price.currency
+      +
+      " 币种的产品。\n\n请为不同币种分别建立采购订单。"
+    );
+
+    return;
+  }
+
+
+  /*
+    相同产品 + 同一价格对象
+    自动合并数量
+  */
+
+  const existing =
+    orderItems.find(
+      item =>
+        String(item.product_id) ===
+        String(product.id)
+        &&
+        String(item.price_id) ===
+        String(price.id)
+    );
+
+
+  if (existing) {
+
+    existing.quantity =
+      roundQuantity(
+        existing.quantity +
+        quantity
+      );
+
+
+    existing.line_total =
+      roundMoney(
+        existing.unit_price *
+        existing.quantity
+      );
+
+  }
+
+  else {
+
+    orderItems.push({
+
+      product_id:
+        product.id,
+
+      price_id:
+        price.id,
+
+      product_code:
+        product.product_code,
+
+      product_name:
+        product.product_name,
+
+      specification:
+        product.specification,
+
+      unit:
+        product.unit,
+
+      unit_price:
+        Number(
+          price.purchase_price
+        ),
+
+      currency:
+        price.currency,
+
+      quantity:
+        quantity,
+
+      line_total:
+        roundMoney(
+          Number(
+            price.purchase_price
+          )
+          *
+          quantity
+        )
+
+    });
+
+  }
+
+
+  document.getElementById(
+    "quantityInput"
+  ).value =
+    "1";
+
+
+  renderCart();
+
+}
+
+
+
+/* ==========================================================
+   采购单币种
+========================================================== */
+
+function getCartCurrency() {
+
+  if (
+    orderItems.length === 0
+  ) {
+
+    return null;
+  }
+
+
+  return orderItems[0].currency;
+
+}
+
+
+
+/* ==========================================================
+   当前采购单渲染
+========================================================== */
+
+function renderCart() {
+
+  const tbody =
+    document.getElementById(
+      "cartTableBody"
+    );
+
+
+  const empty =
+    document.getElementById(
+      "cartEmpty"
+    );
+
+
+  const submit =
+    document.getElementById(
+      "submitOrderButton"
+    );
+
+
+  tbody.innerHTML =
+    "";
+
+
+  if (
+    orderItems.length === 0
+  ) {
+
+    empty.style.display =
+      "block";
+
+
+    submit.disabled =
+      true;
+
+
+    document.getElementById(
+      "orderTotal"
+    ).textContent =
+      "0.00";
+
+
+    return;
+  }
+
+
+  empty.style.display =
+    "none";
+
+
+  orderItems.forEach(
+    function(item, index) {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML =
+        `
+
+          <td>
+
+            <strong>
+              ${escapeHTML(item.product_code)}
+            </strong>
+
+            <br>
+
+            ${escapeHTML(item.product_name)}
+
+          </td>
+
+          <td>
+            ${
+              formatMoney(
+                item.unit_price
+              )
+            }
+            ${escapeHTML(item.currency)}
+          </td>
+
+          <td>
+            ${
+              formatQuantity(
+                item.quantity
+              )
+            }
+          </td>
+
+          <td>
+            ${
+              escapeHTML(
+                item.unit ||
+                "-"
+              )
+            }
+          </td>
+
+          <td class="money">
+            ${
+              formatMoney(
+                item.line_total
+              )
+            }
+            ${escapeHTML(item.currency)}
+          </td>
+
+          <td>
+
+            <button
+              class="btn btn-red btn-small"
+              type="button"
+              onclick="removeCartItem(${index})"
+            >
+              删除
+            </button>
+
+          </td>
+
+        `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+
+  const total =
+    calculateOrderTotal();
+
+
+  const currency =
+    getCartCurrency() ||
+    "";
+
+
+  document.getElementById(
+    "orderTotal"
+  ).textContent =
+    formatMoney(total)
+    +
+    " "
+    +
+    currency;
+
+
+  submit.disabled =
+    false;
+
+}
+
+
+
+/* ==========================================================
+   删除购物车行
+========================================================== */
+
+function removeCartItem(index) {
+
+  orderItems.splice(
+    index,
+    1
+  );
+
+
+  renderCart();
+
+}
+
+
+
+/* ==========================================================
+   总金额
+========================================================== */
+
+function calculateOrderTotal() {
+
+  return roundMoney(
+
+    orderItems.reduce(
+      (
+        sum,
+        item
+      ) =>
+        sum +
+        Number(
+          item.line_total
+        ),
+      0
+    )
+
+  );
+
+}
+
+
+
+/* ==========================================================
+   自动生成采购单号
+   PO + YYYYMMDD + 001
+========================================================== */
+
+async function getNextPurchaseNo() {
+
+  const dateValue =
+    document.getElementById(
+      "purchaseDate"
+    ).value ||
+    getToday();
+
+
+  const compactDate =
+    dateValue.replaceAll(
+      "-",
+      ""
+    );
+
+
+  const prefix =
+    "PO" +
+    compactDate;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("purchase_orders")
+      .select("purchase_no")
+      .like(
+        "purchase_no",
+        prefix + "%"
+      );
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  let max =
+    0;
+
+
+  (data || []).forEach(
+    function(row) {
+
+      const raw =
+        String(
+          row.purchase_no ||
+          ""
+        );
+
+
+      const suffix =
+        raw.substring(
+          prefix.length
+        );
+
+
+      if (
+        /^\d{3}$/.test(
+          suffix
+        )
+      ) {
+
+        const number =
+          parseInt(
+            suffix,
+            10
+          );
+
+
+        if (number > max) {
+
+          max =
+            number;
+
+        }
+
+      }
+
+    }
+  );
+
+
+  const next =
+    max + 1;
+
+
+  if (
+    next > 999
+  ) {
+
+    throw new Error(
+      "当天采购订单数量已经达到999张。"
+    );
+
+  }
+
+
+  return (
+    prefix
+    +
+    String(next)
+      .padStart(
+        3,
+        "0"
+      )
+  );
+
+}
+
+
+
+/* ==========================================================
+   预览采购单号
+========================================================== */
+
+async function refreshPurchaseNoPreview() {
+
+  try {
+
+    const next =
+      await getNextPurchaseNo();
+
+
+    document.getElementById(
+      "purchaseNoPreview"
+    ).value =
+      next;
+
+  }
+
+  catch (error) {
+
+    document.getElementById(
+      "purchaseNoPreview"
+    ).value =
+      "生成失败";
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   日期变化后重算订单号
+========================================================== */
+
+document.getElementById(
+  "purchaseDate"
+).addEventListener(
+  "change",
+  refreshPurchaseNoPreview
+);
+
+
+
+/* ==========================================================
+   提交采购订单
+========================================================== */
+
+async function submitPurchaseOrder() {
+
+  const supplierId =
+    document.getElementById(
+      "supplierSelect"
+    ).value;
+
+
+  const purchaseDate =
+    document.getElementById(
+      "purchaseDate"
+    ).value;
+
+
+  const remarks =
+    document.getElementById(
+      "purchaseRemarks"
+    )
+    .value
+    .trim();
+
+
+  if (!supplierId) {
+
+    alert(
+      "请选择供应商。"
+    );
+
+    return;
+  }
+
+
+  const supplier =
+    suppliers.find(
+      item =>
+        String(item.id) ===
+        String(supplierId)
+    );
+
+
+  if (
+    !supplier ||
+    supplier.is_active !== true
+  ) {
+
+    showNotice(
+      "该供应商已经无效，请重新选择供应商。",
+      "error"
+    );
+
+    await loadAllData();
+
+    return;
+  }
+
+
+  if (!purchaseDate) {
+
+    alert(
+      "请选择采购日期。"
+    );
+
+    return;
+  }
+
+
+  if (
+    orderItems.length === 0
+  ) {
+
+    alert(
+      "采购订单中还没有商品。"
+    );
+
+    return;
+  }
+
+
+  /*
+    提交前重新核查价格，
+    防止页面打开期间价格已失效。
+  */
+
+  showLoading(true);
+
+
+  const submitButton =
+    document.getElementById(
+      "submitOrderButton"
+    );
+
+
+  submitButton.disabled =
+    true;
+
+
+  try {
+
+    const productIds =
+      orderItems.map(
+        item =>
+          item.product_id
+      );
+
+
+    const {
+      data: latestPrices,
+      error: priceCheckError
+    } =
+      await supabaseClient
+        .from("purchase_prices")
+        .select(
+          "id, product_id, purchase_price, currency, is_defined, is_active"
+        )
+        .in(
+          "product_id",
+          productIds
+        )
+        .eq(
+          "is_active",
+          true
+        );
+
+
+    if (priceCheckError) {
+      throw priceCheckError;
+    }
+
+
+    /*
+      每个商品当前价格必须：
+      仍然存在
+      同一价格ID
+      已定义
+      金额没有变化
+    */
+
+    for (
+      const cartItem
+      of
+      orderItems
+    ) {
+
+      const latest =
+        (latestPrices || [])
+          .find(
+            price =>
+              String(price.product_id) ===
+              String(cartItem.product_id)
+          );
+
+
+      if (
+        !latest
+        ||
+        String(latest.id) !==
+        String(cartItem.price_id)
+        ||
+        latest.is_active !== true
+        ||
+        latest.is_defined !== true
+        ||
+        Number(latest.purchase_price) !==
+        Number(cartItem.unit_price)
+        ||
+        latest.currency !==
+        cartItem.currency
+      ) {
+
+        throw new Error(
+          "产品 "
+          +
+          cartItem.product_code
+          +
+          " 的采购价格已经发生变化，请刷新页面后重新建立采购订单。"
+        );
+
+      }
+
+    }
+
+
+    /*
+      提交前再次生成最终订单号
+    */
+
+    const purchaseNo =
+      await getNextPurchaseNo();
+
+
+    const currency =
+      getCartCurrency();
+
+
+    const totalAmount =
+      calculateOrderTotal();
+
+
+    /*
+      1. 建立采购订单主表
+    */
+
+    const {
+      data: orderData,
+      error: orderError
+    } =
+      await supabaseClient
+        .from("purchase_orders")
+        .insert({
+
+          purchase_no:
+            purchaseNo,
+
+          supplier_id:
+            Number(
+              supplierId
+            ),
+
+          purchase_date:
+            purchaseDate,
+
+          status:
+            "pending",
+
+          total_amount:
+            totalAmount,
+
+          currency:
+            currency,
+
+          remarks:
+            remarks || null,
+
+          created_by:
+            currentUserId
+
+        })
+        .select()
+        .single();
+
+
+    if (orderError) {
+      throw orderError;
+    }
+
+
+    /*
+      2. 建立采购订单明细
+
+      注意：
+      这里写入产品和价格快照
+    */
+
+    const itemRows =
+      orderItems.map(
+        function(item) {
+
+          return {
+
+            purchase_order_id:
+              orderData.id,
+
+            product_id:
+              item.product_id,
+
+            product_code_snapshot:
+              item.product_code,
+
+            product_name_snapshot:
+              item.product_name,
+
+            specification_snapshot:
+              item.specification ||
+              null,
+
+            unit_snapshot:
+              item.unit ||
+              null,
+
+            unit_price:
+              item.unit_price,
+
+            quantity:
+              item.quantity,
+
+            line_total:
+              item.line_total
+
+          };
+
+        }
+      );
+
+
+    const {
+      error: itemsError
+    } =
+      await supabaseClient
+        .from(
+          "purchase_order_items"
+        )
+        .insert(
+          itemRows
+        );
+
+
+    if (itemsError) {
+
+      /*
+        当前数据库没有采购订单 DELETE 权限，
+        所以如果明细插入发生极少数异常，
+        将主订单标成 cancelled，避免产生正常空订单。
+      */
+
+      await supabaseClient
+        .from("purchase_orders")
+        .update({
+
+          status:
+            "cancelled",
+
+          remarks:
+            (
+              remarks
+                ?
+                remarks +
+                "\n"
+                :
+                ""
+            )
+            +
+            "系统记录：采购订单明细写入失败，本订单自动取消。"
+
+        })
+        .eq(
+          "id",
+          orderData.id
+        );
+
+
+      throw new Error(
+        "采购订单主记录已经建立，但商品明细写入失败。系统已自动将该订单标记为 cancelled。原始错误：" +
+        itemsError.message
+      );
+
+    }
+
+
+    /*
+      成功
+    */
+
+    showNotice(
+      "采购订单创建成功。采购单号：" +
+      purchaseNo,
+      "success"
+    );
+
+
+    orderItems =
+      [];
+
+
+    document.getElementById(
+      "purchaseRemarks"
+    ).value =
+      "";
+
+
+    document.getElementById(
+      "productSelect"
+    ).value =
+      "";
+
+
+    document.getElementById(
+      "quantityInput"
+    ).value =
+      "1";
+
+
+    renderCart();
+
+
+    await loadAllData();
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "创建采购订单失败：",
+      error
+    );
+
+
+    showNotice(
+      "创建采购订单失败：" +
+      error.message,
+      "error"
+    );
+
+  }
+
+  finally {
+
+    showLoading(false);
+
+
+    submitButton.disabled =
+      orderItems.length === 0;
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   Modal 点击背景关闭
+========================================================== */
+
+document.getElementById(
+  "defineModal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (
+      event.target === this
+    ) {
+
+      closeDefineModal();
+
+    }
+
+  }
+);
+
+
+
+/* ==========================================================
+   工具函数
+========================================================== */
+
+function escapeHTML(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+  }
+
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function formatMoney(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+
+    return "-";
+  }
+
+
+  return Number(value)
+    .toLocaleString(
+      "zh-CN",
+      {
+
+        minimumFractionDigits:
+          2,
+
+        maximumFractionDigits:
+          2
+
+      }
+    );
+
+}
+
+
+
+function formatQuantity(value) {
+
+  return Number(value)
+    .toLocaleString(
+      "zh-CN",
+      {
+
+        minimumFractionDigits:
+          0,
+
+        maximumFractionDigits:
+          3
+
+      }
+    );
+
+}
+
+
+
+function roundMoney(value) {
+
+  return Math.round(
+    (
+      Number(value)
+      +
+      Number.EPSILON
+    )
+    *
+    100
+  )
+  /
+  100;
+
+}
+
+
+
+function roundQuantity(value) {
+
+  return Math.round(
+    (
+      Number(value)
+      +
+      Number.EPSILON
+    )
+    *
+    1000
+  )
+  /
+  1000;
+
+}
+
+
+
+function getToday() {
+
+  const date =
+    new Date();
+
+
+  const year =
+    date.getFullYear();
+
+
+  const month =
+    String(
+      date.getMonth() + 1
+    )
+    .padStart(
+      2,
+      "0"
+    );
+
+
+  const day =
+    String(
+      date.getDate()
+    )
+    .padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+
+}
+
+
+
+function formatDateOnly(value) {
+
+  if (!value) {
+
+    return "-";
+  }
+
+
+  return value;
+
+}
+
+
+
+function showLoading(show) {
+
+  const mask =
+    document.getElementById(
+      "loadingMask"
+    );
+
+
+  if (show) {
+
+    mask.classList.add(
+      "show"
+    );
+
+  }
+
+  else {
+
+    mask.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+
+function showNotice(
+  message,
+  type = "success"
+) {
+
+  const notice =
+    document.getElementById(
+      "notice"
+    );
+
+
+  notice.textContent =
+    message;
+
+
+  notice.className =
+    "notice show "
+    +
+    (
+      type === "error"
+        ?
+        "notice-error"
+        :
+        "notice-success"
+    );
+
+
+  setTimeout(
+    function() {
+
+      notice.classList.remove(
+        "show"
+      );
+
+    },
+    6000
+  );
+
+}
+
+
+
+function goBack() {
+
+  window.location.href =
+    "wholemanagement.html";
+
+}
+
+
+
+/* ==========================================================
+   10分钟无操作退出
+========================================================== */
+
+const IDLE_LIMIT =
+  10 *
+  60 *
+  1000;
+
+
+const WARNING_TIME =
+  60 *
+  1000;
+
+
+let lastActivityTime =
+  Date.now();
+
+
+let warningShown =
+  false;
+
+
+
+function userActivity() {
+
+  lastActivityTime =
+    Date.now();
+
+
+  warningShown =
+    false;
+
+
+  const warning =
+    document.getElementById(
+      "timeoutWarning"
+    );
+
+
+  warning.style.display =
+    "none";
+
+}
+
+
+
+[
+  "mousedown",
+  "mousemove",
+  "keydown",
+  "scroll",
+  "touchstart",
+  "click"
+]
+.forEach(
+  function(eventName) {
+
+    document.addEventListener(
+      eventName,
+      userActivity,
+      true
+    );
+
+  }
+);
+
+
+
+setInterval(
+  function() {
+
+    const inactive =
+      Date.now()
+      -
+      lastActivityTime;
+
+
+    if (
+      inactive >=
+      IDLE_LIMIT -
+      WARNING_TIME
+      &&
+      inactive <
+      IDLE_LIMIT
+      &&
+      !warningShown
+    ) {
+
+      document.getElementById(
+        "timeoutWarning"
+      ).style.display =
+        "block";
+
+
+      warningShown =
+        true;
+
+    }
+
+
+    if (
+      inactive >=
+      IDLE_LIMIT
+    ) {
+
+      autoLogout();
+
+    }
+
+  },
+  1000
+);
+
+
+
+async function autoLogout() {
+
+  try {
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+  }
+
+
+  window.location.replace(
+    "page10.html"
+  );
+
+}
+
+
+
+async function logout() {
+
+  try {
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+  }
+
+
+  window.location.replace(
+    "page10.html"
+  );
+
+}
+
+
+</script>
+
+
+</body>
+</html>
