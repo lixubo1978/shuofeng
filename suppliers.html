@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -70,15 +69,12 @@
 
     .topbar {
       background: #0f172a;
-
       color: white;
 
       padding: 18px 28px;
 
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
 
       gap: 20px;
@@ -159,7 +155,6 @@
       display: flex;
 
       justify-content: space-between;
-
       align-items: flex-start;
 
       gap: 20px;
@@ -188,9 +183,7 @@
 
     .page-buttons {
       display: flex;
-
       gap: 9px;
-
       flex-wrap: wrap;
     }
 
@@ -208,7 +201,6 @@
         10px 15px;
 
       font-family: inherit;
-
       font-size: 13px;
 
       cursor: pointer;
@@ -298,7 +290,7 @@
 
 
     /* =====================================================
-       汇总卡片
+       汇总
     ===================================================== */
 
     .summary-grid {
@@ -328,17 +320,13 @@
 
     .summary-label {
       color: #64748b;
-
       font-size: 12px;
-
       margin-bottom: 7px;
     }
 
     .summary-value {
       color: #111827;
-
       font-size: 27px;
-
       font-weight: 700;
     }
 
@@ -358,7 +346,6 @@
       padding: 14px;
 
       display: flex;
-
       gap: 10px;
 
       margin-bottom: 17px;
@@ -418,8 +405,7 @@
 
     table {
       width: 100%;
-
-      min-width: 1100px;
+      min-width: 1150px;
 
       border-collapse: collapse;
     }
@@ -433,7 +419,6 @@
       color: #475569;
 
       font-size: 12px;
-
       font-weight: 700;
 
       text-align: left;
@@ -445,8 +430,7 @@
     }
 
     td {
-      padding:
-        13px;
+      padding: 13px;
 
       font-size: 13px;
 
@@ -460,8 +444,6 @@
       background: #fafafa;
     }
 
-
-    /* 无效供应商整行灰色 */
 
     tr.supplier-disabled td {
       background: #eef0f2 !important;
@@ -504,9 +486,7 @@
 
     .actions {
       display: flex;
-
       gap: 6px;
-
       flex-wrap: wrap;
     }
 
@@ -524,7 +504,6 @@
       border-radius: 999px;
 
       font-size: 11px;
-
       font-weight: 700;
 
       white-space: nowrap;
@@ -569,7 +548,6 @@
         rgba(0,0,0,0.48);
 
       align-items: center;
-
       justify-content: center;
 
       padding: 20px;
@@ -581,8 +559,7 @@
 
     .modal {
       width: 100%;
-
-      max-width: 760px;
+      max-width: 820px;
 
       max-height: 92vh;
 
@@ -604,9 +581,7 @@
         1px solid #e5e7eb;
 
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
     }
 
@@ -652,6 +627,25 @@
     /* =====================================================
        表单
     ===================================================== */
+
+    .section-title {
+      grid-column:
+        1 / -1;
+
+      margin-top: 5px;
+
+      padding:
+        10px 0 7px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
+      color: #111827;
+
+      font-size: 14px;
+
+      font-weight: 700;
+    }
 
     .form-grid {
       display: grid;
@@ -736,6 +730,22 @@
        详情
     ===================================================== */
 
+    .detail-section {
+      margin:
+        5px 0 12px;
+
+      padding-bottom: 8px;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      color: #111827;
+    }
+
     .detail-grid {
       display: grid;
 
@@ -744,6 +754,8 @@
 
       gap:
         15px 22px;
+
+      margin-bottom: 22px;
     }
 
     .detail-item {
@@ -794,13 +806,11 @@
       z-index: 20000;
 
       align-items: center;
-
       justify-content: center;
 
       color: #334155;
 
       font-size: 15px;
-
       font-weight: 700;
     }
 
@@ -810,14 +820,13 @@
 
 
     /* =====================================================
-       超时
+       超时提醒
     ===================================================== */
 
     .timeout-warning {
       position: fixed;
 
       left: 50%;
-
       bottom: 28px;
 
       transform:
@@ -866,7 +875,8 @@
       }
 
       .form-group.full,
-      .detail-item.full {
+      .detail-item.full,
+      .section-title {
         grid-column: auto;
       }
 
@@ -891,10 +901,6 @@
   正在处理，请稍候……
 </div>
 
-
-<!-- =====================================================
-     顶部
-====================================================== -->
 
 <header class="topbar">
 
@@ -955,10 +961,6 @@
 <main class="container">
 
 
-  <!-- ===================================================
-       页面头
-  ==================================================== -->
-
   <div class="page-head">
 
     <div>
@@ -968,9 +970,8 @@
       </h1>
 
       <p>
-        在这里建立和维护采购供应商。
-        采购订单将直接读取状态为“有效”的供应商。
-        历史供应商资料保留，不执行删除操作。
+        建立并维护供应商基本资料、税务资料和银行账户资料。
+        采购订单只读取状态为“有效”的供应商。
       </p>
 
     </div>
@@ -1005,10 +1006,6 @@
     class="notice"
   ></div>
 
-
-  <!-- ===================================================
-       汇总
-  ==================================================== -->
 
   <section class="summary-grid">
 
@@ -1063,17 +1060,13 @@
   </section>
 
 
-  <!-- ===================================================
-       搜索
-  ==================================================== -->
-
   <div class="toolbar">
 
 
     <input
       id="searchInput"
       type="text"
-      placeholder="搜索供应商代码、名称、联系人、电话、邮箱、地址……"
+      placeholder="搜索名称、联系人、电话、税号、开户行、银行账号、银行代码、数字人民币账户……"
       oninput="renderSuppliers()"
     >
 
@@ -1100,10 +1093,6 @@
   </div>
 
 
-  <!-- ===================================================
-       表格
-  ==================================================== -->
-
   <section class="table-card">
 
     <div class="table-scroll">
@@ -1118,9 +1107,9 @@
             <th>供应商名称</th>
             <th>联系人</th>
             <th>电话</th>
-            <th>邮箱</th>
+            <th>税号</th>
+            <th>开户行</th>
             <th>状态</th>
-            <th>创建时间</th>
             <th>操作</th>
 
           </tr>
@@ -1185,6 +1174,11 @@
       <div class="form-grid">
 
 
+        <div class="section-title">
+          基本资料
+        </div>
+
+
         <div class="form-group">
 
           <label>
@@ -1199,7 +1193,7 @@
           >
 
           <div class="form-help">
-            系统自动生成，例如 S001、S002。
+            系统自动生成，例如 S001。
           </div>
 
         </div>
@@ -1215,7 +1209,6 @@
           <input
             id="createSupplierName"
             type="text"
-            placeholder="请输入供应商名称"
           >
 
         </div>
@@ -1230,7 +1223,6 @@
           <input
             id="createContactPerson"
             type="text"
-            placeholder="联系人姓名"
           >
 
         </div>
@@ -1245,7 +1237,6 @@
           <input
             id="createPhone"
             type="text"
-            placeholder="联系电话"
           >
 
         </div>
@@ -1260,7 +1251,6 @@
           <input
             id="createEmail"
             type="email"
-            placeholder="邮箱"
           >
 
         </div>
@@ -1274,9 +1264,89 @@
 
           <textarea
             id="createAddress"
-            placeholder="供应商地址"
           ></textarea>
 
+        </div>
+
+
+        <div class="section-title">
+          税务及银行资料
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            税号
+          </label>
+
+          <input
+            id="createTaxNumber"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            开户行
+          </label>
+
+          <input
+            id="createBankName"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            银行账号
+          </label>
+
+          <input
+            id="createBankAccount"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            银行代码
+          </label>
+
+          <input
+            id="createBankCode"
+            type="text"
+            placeholder="SWIFT / BIC / 银行代码等"
+          >
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            数字人民币账户
+          </label>
+
+          <input
+            id="createDigitalRmbAccount"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="section-title">
+          其他
         </div>
 
 
@@ -1288,7 +1358,6 @@
 
           <textarea
             id="createNotes"
-            placeholder="供应商相关说明，可留空"
           ></textarea>
 
         </div>
@@ -1366,6 +1435,11 @@
       <div class="form-grid">
 
 
+        <div class="section-title">
+          基本资料
+        </div>
+
+
         <div class="form-group">
 
           <label>
@@ -1378,10 +1452,6 @@
             type="text"
             readonly
           >
-
-          <div class="form-help">
-            供应商代码建立以后不允许修改。
-          </div>
 
         </div>
 
@@ -1453,6 +1523,86 @@
             id="editAddress"
           ></textarea>
 
+        </div>
+
+
+        <div class="section-title">
+          税务及银行资料
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            税号
+          </label>
+
+          <input
+            id="editTaxNumber"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            开户行
+          </label>
+
+          <input
+            id="editBankName"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            银行账号
+          </label>
+
+          <input
+            id="editBankAccount"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            银行代码
+          </label>
+
+          <input
+            id="editBankCode"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            数字人民币账户
+          </label>
+
+          <input
+            id="editDigitalRmbAccount"
+            type="text"
+          >
+
+        </div>
+
+
+        <div class="section-title">
+          其他
         </div>
 
 
@@ -1532,6 +1682,11 @@
     <div class="modal-body">
 
 
+      <div class="detail-section">
+        基本资料
+      </div>
+
+
       <div class="detail-grid">
 
 
@@ -1586,7 +1741,7 @@
         <div class="detail-item">
 
           <div class="detail-label">
-            联系电话
+            电话
           </div>
 
           <div
@@ -1602,7 +1757,7 @@
         <div class="detail-item full">
 
           <div class="detail-label">
-            电子邮箱
+            邮箱
           </div>
 
           <div
@@ -1629,6 +1784,106 @@
           </div>
 
         </div>
+
+      </div>
+
+
+      <div class="detail-section">
+        税务及银行资料
+      </div>
+
+
+      <div class="detail-grid">
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            税号
+          </div>
+
+          <div
+            id="detailTaxNumber"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            开户行
+          </div>
+
+          <div
+            id="detailBankName"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            银行账号
+          </div>
+
+          <div
+            id="detailBankAccount"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item">
+
+          <div class="detail-label">
+            银行代码
+          </div>
+
+          <div
+            id="detailBankCode"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-item full">
+
+          <div class="detail-label">
+            数字人民币账户
+          </div>
+
+          <div
+            id="detailDigitalRmbAccount"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-section">
+        状态及其他
+      </div>
+
+
+      <div class="detail-grid">
 
 
         <div class="detail-item">
@@ -1700,10 +1955,6 @@
 </div>
 
 
-<!-- =====================================================
-     超时提醒
-====================================================== -->
-
 <div
   id="timeoutWarning"
   class="timeout-warning"
@@ -1744,7 +1995,7 @@ let accessVerified =
 
 
 /* ==========================================================
-   Founder 权限
+   Founder 权限验证
 ========================================================== */
 
 async function verifyFounderAccess() {
@@ -1883,29 +2134,6 @@ document.addEventListener(
 
 
 
-window.addEventListener(
-  "pageshow",
-  async function(event) {
-
-    if (event.persisted) {
-
-      const allowed =
-        await verifyFounderAccess();
-
-
-      if (allowed) {
-
-        await loadSuppliers();
-
-      }
-
-    }
-
-  }
-);
-
-
-
 /* ==========================================================
    读取供应商
 ========================================================== */
@@ -1985,20 +2213,6 @@ async function loadSuppliers() {
 
 function updateSummary() {
 
-  const active =
-    suppliers.filter(
-      item =>
-        item.is_active === true
-    );
-
-
-  const disabled =
-    suppliers.filter(
-      item =>
-        item.is_active === false
-    );
-
-
   document.getElementById(
     "supplierTotal"
   ).textContent =
@@ -2008,20 +2222,26 @@ function updateSummary() {
   document.getElementById(
     "supplierActive"
   ).textContent =
-    active.length;
+    suppliers.filter(
+      item =>
+        item.is_active === true
+    ).length;
 
 
   document.getElementById(
     "supplierDisabled"
   ).textContent =
-    disabled.length;
+    suppliers.filter(
+      item =>
+        item.is_active === false
+    ).length;
 
 }
 
 
 
 /* ==========================================================
-   渲染
+   表格
 ========================================================== */
 
 function renderSuppliers() {
@@ -2053,6 +2273,11 @@ function renderSuppliers() {
             item.phone,
             item.email,
             item.address,
+            item.tax_number,
+            item.bank_name,
+            item.bank_account,
+            item.bank_code,
+            item.digital_rmb_account,
             item.notes
           ]
           .filter(Boolean)
@@ -2195,80 +2420,67 @@ function renderSuppliers() {
         `
 
           <td class="supplier-code">
-
             ${
               escapeHTML(
                 item.supplier_code ||
                 "-"
               )
             }
-
           </td>
 
 
           <td class="supplier-name">
-
             ${
               escapeHTML(
                 item.supplier_name ||
                 "-"
               )
             }
-
           </td>
 
 
           <td>
-
             ${
               escapeHTML(
                 item.contact_person ||
                 "-"
               )
             }
-
           </td>
 
 
           <td>
-
             ${
               escapeHTML(
                 item.phone ||
                 "-"
               )
             }
-
           </td>
 
 
           <td>
-
             ${
               escapeHTML(
-                item.email ||
+                item.tax_number ||
                 "-"
               )
             }
-
           </td>
 
 
           <td>
-
-            ${statusHTML}
-
-          </td>
-
-
-          <td>
-
             ${
-              formatDateTime(
-                item.created_at
+              escapeHTML(
+                item.bank_name ||
+                "-"
               )
             }
+          </td>
 
+
+          <td>
+            ${statusHTML}
           </td>
 
 
@@ -2297,7 +2509,6 @@ function renderSuppliers() {
 
               ${statusButton}
 
-
             </div>
 
           </td>
@@ -2317,8 +2528,7 @@ function renderSuppliers() {
 
 
 /* ==========================================================
-   自动生成供应商代码
-   S001 / S002 / ...
+   自动供应商编号
 ========================================================== */
 
 function calculateNextSupplierCode(rows) {
@@ -2395,10 +2605,6 @@ function calculateNextSupplierCode(rows) {
 
 
 
-/* ==========================================================
-   从数据库重新获取下一编号
-========================================================== */
-
 async function getNextSupplierCodeFromDatabase() {
 
   const {
@@ -2426,51 +2632,40 @@ async function getNextSupplierCodeFromDatabase() {
 
 
 /* ==========================================================
-   打开新增
+   新增弹窗
 ========================================================== */
 
 async function openCreateModal() {
+
+  [
+    "createSupplierName",
+    "createContactPerson",
+    "createPhone",
+    "createEmail",
+    "createAddress",
+    "createTaxNumber",
+    "createBankName",
+    "createBankAccount",
+    "createBankCode",
+    "createDigitalRmbAccount",
+    "createNotes"
+  ]
+  .forEach(
+    function(id) {
+
+      document.getElementById(
+        id
+      ).value =
+        "";
+
+    }
+  );
+
 
   document.getElementById(
     "createSupplierCode"
   ).value =
     "正在生成……";
-
-
-  document.getElementById(
-    "createSupplierName"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "createContactPerson"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "createPhone"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "createEmail"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "createAddress"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "createNotes"
-  ).value =
-    "";
 
 
   const button =
@@ -2501,13 +2696,7 @@ async function openCreateModal() {
       document.getElementById(
         "createSupplierCode"
       ).value =
-        "编号已达到 S999";
-
-
-      showNotice(
-        "供应商编号已经达到 S999。",
-        "error"
-      );
+        "已达到 S999";
 
 
       return;
@@ -2527,14 +2716,8 @@ async function openCreateModal() {
 
   catch (error) {
 
-    document.getElementById(
-      "createSupplierCode"
-    ).value =
-      "生成失败";
-
-
     showNotice(
-      "生成供应商代码失败：" +
+      "供应商代码生成失败：" +
       error.message,
       "error"
     );
@@ -2544,10 +2727,6 @@ async function openCreateModal() {
 }
 
 
-
-/* ==========================================================
-   关闭新增
-========================================================== */
 
 function closeCreateModal() {
 
@@ -2568,51 +2747,9 @@ function closeCreateModal() {
 async function createSupplier() {
 
   const supplierName =
-    document.getElementById(
+    valueOf(
       "createSupplierName"
-    )
-    .value
-    .trim();
-
-
-  const contactPerson =
-    document.getElementById(
-      "createContactPerson"
-    )
-    .value
-    .trim();
-
-
-  const phone =
-    document.getElementById(
-      "createPhone"
-    )
-    .value
-    .trim();
-
-
-  const email =
-    document.getElementById(
-      "createEmail"
-    )
-    .value
-    .trim();
-
-
-  const address =
-    document.getElementById(
-      "createAddress"
-    )
-    .value
-    .trim();
-
-
-  const notes =
-    document.getElementById(
-      "createNotes"
-    )
-    .value
-    .trim();
+    );
 
 
   if (!supplierName) {
@@ -2644,16 +2781,11 @@ async function createSupplier() {
 
   try {
 
-    /*
-      创建前重新查询一次最新供应商编号
-      防止长时间打开弹窗导致编号过期
-    */
-
-    const latestCode =
+    const code =
       await getNextSupplierCodeFromDatabase();
 
 
-    if (!latestCode) {
+    if (!code) {
 
       throw new Error(
         "供应商编号已经达到 S999。"
@@ -2663,7 +2795,6 @@ async function createSupplier() {
 
 
     const {
-      data,
       error
     } =
       await supabaseClient
@@ -2671,32 +2802,85 @@ async function createSupplier() {
         .insert({
 
           supplier_code:
-            latestCode,
+            code,
 
           supplier_name:
             supplierName,
 
           contact_person:
-            contactPerson || null,
+            nullIfEmpty(
+              valueOf(
+                "createContactPerson"
+              )
+            ),
 
           phone:
-            phone || null,
+            nullIfEmpty(
+              valueOf(
+                "createPhone"
+              )
+            ),
 
           email:
-            email || null,
+            nullIfEmpty(
+              valueOf(
+                "createEmail"
+              )
+            ),
 
           address:
-            address || null,
+            nullIfEmpty(
+              valueOf(
+                "createAddress"
+              )
+            ),
+
+          tax_number:
+            nullIfEmpty(
+              valueOf(
+                "createTaxNumber"
+              )
+            ),
+
+          bank_name:
+            nullIfEmpty(
+              valueOf(
+                "createBankName"
+              )
+            ),
+
+          bank_account:
+            nullIfEmpty(
+              valueOf(
+                "createBankAccount"
+              )
+            ),
+
+          bank_code:
+            nullIfEmpty(
+              valueOf(
+                "createBankCode"
+              )
+            ),
+
+          digital_rmb_account:
+            nullIfEmpty(
+              valueOf(
+                "createDigitalRmbAccount"
+              )
+            ),
 
           is_active:
             true,
 
           notes:
-            notes || null
+            nullIfEmpty(
+              valueOf(
+                "createNotes"
+              )
+            )
 
-        })
-        .select()
-        .single();
+        });
 
 
     if (error) {
@@ -2709,7 +2893,7 @@ async function createSupplier() {
 
     showNotice(
       "供应商创建成功：" +
-      latestCode +
+      code +
       " " +
       supplierName,
       "success"
@@ -2723,7 +2907,6 @@ async function createSupplier() {
   catch (error) {
 
     console.error(
-      "创建供应商失败：",
       error
     );
 
@@ -2755,83 +2938,98 @@ async function createSupplier() {
 
 
 /* ==========================================================
-   打开修改
+   修改弹窗
 ========================================================== */
 
 function openEditModal(id) {
 
   const supplier =
-    suppliers.find(
-      item =>
-        String(item.id) ===
-        String(id)
+    getSupplierById(
+      id
     );
 
 
   if (!supplier) {
-
-    showNotice(
-      "没有找到供应商。",
-      "error"
-    );
-
     return;
   }
 
 
-  document.getElementById(
-    "editSupplierId"
-  ).value =
-    supplier.id;
+  setValue(
+    "editSupplierId",
+    supplier.id
+  );
 
 
-  document.getElementById(
-    "editSupplierCode"
-  ).value =
-    supplier.supplier_code ||
-    "";
+  setValue(
+    "editSupplierCode",
+    supplier.supplier_code
+  );
 
 
-  document.getElementById(
-    "editSupplierName"
-  ).value =
-    supplier.supplier_name ||
-    "";
+  setValue(
+    "editSupplierName",
+    supplier.supplier_name
+  );
 
 
-  document.getElementById(
-    "editContactPerson"
-  ).value =
-    supplier.contact_person ||
-    "";
+  setValue(
+    "editContactPerson",
+    supplier.contact_person
+  );
 
 
-  document.getElementById(
-    "editPhone"
-  ).value =
-    supplier.phone ||
-    "";
+  setValue(
+    "editPhone",
+    supplier.phone
+  );
 
 
-  document.getElementById(
-    "editEmail"
-  ).value =
-    supplier.email ||
-    "";
+  setValue(
+    "editEmail",
+    supplier.email
+  );
 
 
-  document.getElementById(
-    "editAddress"
-  ).value =
-    supplier.address ||
-    "";
+  setValue(
+    "editAddress",
+    supplier.address
+  );
 
 
-  document.getElementById(
-    "editNotes"
-  ).value =
-    supplier.notes ||
-    "";
+  setValue(
+    "editTaxNumber",
+    supplier.tax_number
+  );
+
+
+  setValue(
+    "editBankName",
+    supplier.bank_name
+  );
+
+
+  setValue(
+    "editBankAccount",
+    supplier.bank_account
+  );
+
+
+  setValue(
+    "editBankCode",
+    supplier.bank_code
+  );
+
+
+  setValue(
+    "editDigitalRmbAccount",
+    supplier.digital_rmb_account
+  );
+
+
+  setValue(
+    "editNotes",
+    supplier.notes
+  );
 
 
   document.getElementById(
@@ -2843,10 +3041,6 @@ function openEditModal(id) {
 }
 
 
-
-/* ==========================================================
-   关闭修改
-========================================================== */
 
 function closeEditModal() {
 
@@ -2867,57 +3061,15 @@ function closeEditModal() {
 async function saveSupplierChanges() {
 
   const supplierId =
-    document.getElementById(
+    valueOf(
       "editSupplierId"
-    ).value;
+    );
 
 
   const supplierName =
-    document.getElementById(
+    valueOf(
       "editSupplierName"
-    )
-    .value
-    .trim();
-
-
-  const contactPerson =
-    document.getElementById(
-      "editContactPerson"
-    )
-    .value
-    .trim();
-
-
-  const phone =
-    document.getElementById(
-      "editPhone"
-    )
-    .value
-    .trim();
-
-
-  const email =
-    document.getElementById(
-      "editEmail"
-    )
-    .value
-    .trim();
-
-
-  const address =
-    document.getElementById(
-      "editAddress"
-    )
-    .value
-    .trim();
-
-
-  const notes =
-    document.getElementById(
-      "editNotes"
-    )
-    .value
-    .trim();
+    );
 
 
   if (!supplierName) {
@@ -2961,19 +3113,74 @@ async function saveSupplierChanges() {
             supplierName,
 
           contact_person:
-            contactPerson || null,
+            nullIfEmpty(
+              valueOf(
+                "editContactPerson"
+              )
+            ),
 
           phone:
-            phone || null,
+            nullIfEmpty(
+              valueOf(
+                "editPhone"
+              )
+            ),
 
           email:
-            email || null,
+            nullIfEmpty(
+              valueOf(
+                "editEmail"
+              )
+            ),
 
           address:
-            address || null,
+            nullIfEmpty(
+              valueOf(
+                "editAddress"
+              )
+            ),
+
+          tax_number:
+            nullIfEmpty(
+              valueOf(
+                "editTaxNumber"
+              )
+            ),
+
+          bank_name:
+            nullIfEmpty(
+              valueOf(
+                "editBankName"
+              )
+            ),
+
+          bank_account:
+            nullIfEmpty(
+              valueOf(
+                "editBankAccount"
+              )
+            ),
+
+          bank_code:
+            nullIfEmpty(
+              valueOf(
+                "editBankCode"
+              )
+            ),
+
+          digital_rmb_account:
+            nullIfEmpty(
+              valueOf(
+                "editDigitalRmbAccount"
+              )
+            ),
 
           notes:
-            notes || null
+            nullIfEmpty(
+              valueOf(
+                "editNotes"
+              )
+            )
 
         })
         .eq(
@@ -2994,7 +3201,7 @@ async function saveSupplierChanges() {
     ) {
 
       throw new Error(
-        "没有成功更新供应商，请刷新页面后重试。"
+        "没有成功更新供应商。"
       );
 
     }
@@ -3014,12 +3221,6 @@ async function saveSupplierChanges() {
   }
 
   catch (error) {
-
-    console.error(
-      "修改供应商失败：",
-      error
-    );
-
 
     showNotice(
       "修改供应商失败：" +
@@ -3048,7 +3249,7 @@ async function saveSupplierChanges() {
 
 
 /* ==========================================================
-   有效 / 无效
+   状态切换
 ========================================================== */
 
 async function changeSupplierStatus(
@@ -3057,59 +3258,29 @@ async function changeSupplierStatus(
 ) {
 
   const supplier =
-    suppliers.find(
-      item =>
-        String(item.id) ===
-        String(id)
+    getSupplierById(
+      id
     );
 
 
   if (!supplier) {
-
-    showNotice(
-      "没有找到供应商。",
-      "error"
-    );
-
     return;
   }
 
 
-  const actionText =
-    newStatus
-      ?
-      "恢复有效"
-      :
-      "设为无效";
-
-
-  const confirmText =
-    newStatus
-      ?
-      "确定恢复该供应商为有效状态吗？\n\n恢复后，该供应商会重新出现在采购订单的供应商选择列表中。"
-      :
-      "确定将该供应商设为无效吗？\n\n设为无效后：\n1. 历史采购订单不受影响；\n2. 新采购订单中不再显示该供应商；\n3. 以后如重新合作，可以恢复有效。";
-
-
   if (
     !confirm(
-      "供应商："
-      +
       (
-        supplier.supplier_code ||
-        ""
-      )
-      +
-      " "
-      +
-      (
-        supplier.supplier_name ||
-        ""
+        newStatus
+          ?
+          "确定恢复供应商为有效吗？"
+          :
+          "确定将供应商设为无效吗？"
       )
       +
       "\n\n"
       +
-      confirmText
+      supplier.supplier_name
     )
   ) {
 
@@ -3123,7 +3294,6 @@ async function changeSupplierStatus(
   try {
 
     const {
-      data,
       error
     } =
       await supabaseClient
@@ -3137,12 +3307,7 @@ async function changeSupplierStatus(
         .eq(
           "id",
           supplier.id
-        )
-        .eq(
-          "is_active",
-          !newStatus
-        )
-        .select();
+        );
 
 
     if (error) {
@@ -3150,22 +3315,12 @@ async function changeSupplierStatus(
     }
 
 
-    if (
-      !data ||
-      data.length !== 1
-    ) {
-
-      throw new Error(
-        "供应商状态已经发生变化，请刷新页面后重新操作。"
-      );
-
-    }
-
-
     showNotice(
-      "供应商已" +
-      actionText +
-      "。",
+      newStatus
+        ?
+        "供应商已经恢复有效。"
+        :
+        "供应商已经设为无效。",
       "success"
     );
 
@@ -3176,14 +3331,8 @@ async function changeSupplierStatus(
 
   catch (error) {
 
-    console.error(
-      "修改供应商状态失败：",
-      error
-    );
-
-
     showNotice(
-      "修改供应商状态失败：" +
+      "修改状态失败：" +
       error.message,
       "error"
     );
@@ -3201,69 +3350,85 @@ async function changeSupplierStatus(
 
 
 /* ==========================================================
-   查看详情
+   详情
 ========================================================== */
 
 function openDetailModal(id) {
 
   const supplier =
-    suppliers.find(
-      item =>
-        String(item.id) ===
-        String(id)
+    getSupplierById(
+      id
     );
 
 
   if (!supplier) {
-
-    showNotice(
-      "没有找到供应商。",
-      "error"
-    );
-
     return;
   }
 
 
   setText(
     "detailSupplierCode",
-    supplier.supplier_code ||
-    "-"
+    supplier.supplier_code
   );
 
 
   setText(
     "detailSupplierName",
-    supplier.supplier_name ||
-    "-"
+    supplier.supplier_name
   );
 
 
   setText(
     "detailContactPerson",
-    supplier.contact_person ||
-    "-"
+    supplier.contact_person
   );
 
 
   setText(
     "detailPhone",
-    supplier.phone ||
-    "-"
+    supplier.phone
   );
 
 
   setText(
     "detailEmail",
-    supplier.email ||
-    "-"
+    supplier.email
   );
 
 
   setText(
     "detailAddress",
-    supplier.address ||
-    "-"
+    supplier.address
+  );
+
+
+  setText(
+    "detailTaxNumber",
+    supplier.tax_number
+  );
+
+
+  setText(
+    "detailBankName",
+    supplier.bank_name
+  );
+
+
+  setText(
+    "detailBankAccount",
+    supplier.bank_account
+  );
+
+
+  setText(
+    "detailBankCode",
+    supplier.bank_code
+  );
+
+
+  setText(
+    "detailDigitalRmbAccount",
+    supplier.digital_rmb_account
   );
 
 
@@ -3287,8 +3452,7 @@ function openDetailModal(id) {
 
   setText(
     "detailNotes",
-    supplier.notes ||
-    "-"
+    supplier.notes
   );
 
 
@@ -3301,10 +3465,6 @@ function openDetailModal(id) {
 }
 
 
-
-/* ==========================================================
-   关闭详情
-========================================================== */
 
 function closeDetailModal() {
 
@@ -3358,6 +3518,56 @@ function closeDetailModal() {
    工具
 ========================================================== */
 
+function getSupplierById(id) {
+
+  return suppliers.find(
+    item =>
+      String(item.id) ===
+      String(id)
+  ) || null;
+
+}
+
+
+
+function valueOf(id) {
+
+  return document.getElementById(
+    id
+  )
+  .value
+  .trim();
+
+}
+
+
+
+function nullIfEmpty(value) {
+
+  return value === ""
+    ?
+    null
+    :
+    value;
+
+}
+
+
+
+function setValue(
+  id,
+  value
+) {
+
+  document.getElementById(
+    id
+  ).value =
+    value ?? "";
+
+}
+
+
+
 function setText(
   id,
   value
@@ -3366,7 +3576,7 @@ function setText(
   document.getElementById(
     id
   ).textContent =
-    value;
+    value || "-";
 
 }
 
@@ -3422,7 +3632,9 @@ function formatDateTime(value) {
 
 
   const date =
-    new Date(value);
+    new Date(
+      value
+    );
 
 
   if (
@@ -3438,7 +3650,6 @@ function formatDateTime(value) {
   return date.toLocaleString(
     "zh-CN",
     {
-
       year:
         "numeric",
 
@@ -3453,7 +3664,6 @@ function formatDateTime(value) {
 
       minute:
         "2-digit"
-
     }
   );
 
@@ -3463,27 +3673,13 @@ function formatDateTime(value) {
 
 function showLoading(show) {
 
-  const mask =
-    document.getElementById(
-      "loadingMask"
-    );
-
-
-  if (show) {
-
-    mask.classList.add(
-      "show"
-    );
-
-  }
-
-  else {
-
-    mask.classList.remove(
-      "show"
-    );
-
-  }
+  document.getElementById(
+    "loadingMask"
+  )
+  .classList.toggle(
+    "show",
+    show
+  );
 
 }
 
@@ -3583,13 +3779,9 @@ function userActivity() {
     false;
 
 
-  const warning =
-    document.getElementById(
-      "timeoutWarning"
-    );
-
-
-  warning.style.display =
+  document.getElementById(
+    "timeoutWarning"
+  ).style.display =
     "none";
 
 }
