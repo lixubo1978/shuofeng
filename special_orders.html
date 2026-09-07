@@ -220,11 +220,18 @@
       color: #991b1b;
     }
 
+
+    /* =====================================================
+       修改：
+       原来 repeat(6,1fr)
+       现在顶部只显示5个统计窗口
+    ====================================================== */
+
     .summary-grid {
       display: grid;
 
       grid-template-columns:
-        repeat(6,1fr);
+        repeat(5,1fr);
 
       gap: 13px;
 
@@ -1096,6 +1103,12 @@
   ></div>
 
 
+  <!-- =====================================================
+       顶部统计
+       已删除“已完成”显示框
+       业务中的 completed 状态仍然完整保留
+  ====================================================== -->
+
   <section class="summary-grid">
 
     <div class="summary-card">
@@ -1116,11 +1129,6 @@
     <div class="summary-card">
       <div class="summary-label">已发货</div>
       <div id="shippedCount" class="summary-value purple">0</div>
-    </div>
-
-    <div class="summary-card">
-      <div class="summary-label">已完成</div>
-      <div id="completedCount" class="summary-value green">0</div>
     </div>
 
     <div class="summary-card">
@@ -1871,7 +1879,7 @@
             <input
               id="processShippingCompany"
               type="text"
-              placeholder="例如：顺丰 / DHL"
+              placeholder="例如：顺丰、DHL、UPS"
             >
 
           </div>
@@ -1887,7 +1895,7 @@
             <input
               id="processTrackingNumber"
               type="text"
-              placeholder="请输入物流运单号"
+              placeholder="请输入发货单号或物流运单号"
             >
 
           </div>
@@ -1902,16 +1910,17 @@
 
             <textarea
               id="processShippingAddress"
-              placeholder="请输入本订单最终实际发货地址"
+              placeholder="默认读取创建特殊订单时填写的地址，可重新修改"
             ></textarea>
-
-            <div class="process-help">
-              默认带入创建订单时填写的地址。
-              可以直接修改，确认以后作为本订单最终发货地址保存。
-            </div>
 
           </div>
 
+        </div>
+
+
+        <div class="process-help">
+          点击确认后，订单状态由“待处理”变为“已确认”，
+          系统自动记录当前处理人和处理时间。
         </div>
 
       </div>
@@ -2237,9 +2246,11 @@ async function verifyManagementAccess() {
         .auth
         .signOut();
 
+
       window.location.replace(
         "page10.html"
       );
+
 
       return false;
     }
@@ -2249,24 +2260,28 @@ async function verifyManagementAccess() {
       profile;
 
 
-    document.getElementById(
-      "currentUser"
-    ).textContent =
-      (
-        profile.display_name
-        ||
-        "公司管理人员"
-      )
-      +
-      " · 公司管理人员";
-
-
     accessVerified =
       true;
 
 
-    document.documentElement
-      .classList.add(
+    setText(
+      "currentUser",
+      profile.display_name ||
+      (
+        profile.role ===
+        "founder"
+        ?
+        "创始人"
+        :
+        "管理人员"
+      )
+    );
+
+
+    document
+      .documentElement
+      .classList
+      .add(
         "auth-ready"
       );
 
@@ -2278,13 +2293,14 @@ async function verifyManagementAccess() {
   catch (error) {
 
     console.error(
-      "权限验证失败：",
       error
     );
+
 
     window.location.replace(
       "page10.html"
     );
+
 
     return false;
   }
@@ -2303,7 +2319,7 @@ document.addEventListener(
     document.getElementById(
       "orderDate"
     ).value =
-      getToday();
+      todayString();
 
 
     const allowed =
@@ -2320,7 +2336,16 @@ document.addEventListener(
 );
 
 
-/* =====================================================
+/*
+==========================================================
+第1段到这里结束。
+
+第2段要直接紧接在这里继续复制。
+不要增加新的 <script> 标签。
+==========================================================
+*/
+
+  /* =====================================================
    读取数据库
 ===================================================== */
 
@@ -2464,18 +2489,23 @@ async function loadAllData() {
     products =
       productsResult.data || [];
 
+
     specialOrders =
       ordersResult.data || [];
 
+
     specialOrderItems =
       itemsResult.data || [];
+
 
     profiles =
       profilesResult.data || [];
 
 
     renderProductSelect();
+
     renderSummary();
+
     renderHistory();
 
   }
@@ -2487,6 +2517,7 @@ async function loadAllData() {
       error
     );
 
+
     alert(
       "读取特殊订单资料失败：\n\n"
       +
@@ -2496,6 +2527,7 @@ async function loadAllData() {
         "未知错误"
       )
     );
+
 
     showNotice(
       "读取特殊订单资料失败："
@@ -2591,7 +2623,10 @@ function renderProductSelect() {
 
 
   if (current) {
-    select.value = current;
+
+    select.value =
+      current;
+
   }
 
 }
@@ -2624,11 +2659,15 @@ function addProductToCart() {
 
 
   const price =
-    Number(priceRaw);
+    Number(
+      priceRaw
+    );
 
 
   const quantity =
-    Number(quantityRaw);
+    Number(
+      quantityRaw
+    );
 
 
   const product =
@@ -2957,7 +2996,9 @@ function renderCart() {
   document.getElementById(
     "cartTotal"
   ).textContent =
-    formatMoney(total)
+    formatMoney(
+      total
+    )
     +
     " "
     +
@@ -2972,7 +3013,9 @@ function updateCartPrice(
 ) {
 
   const number =
-    Number(value);
+    Number(
+      value
+    );
 
 
   if (
@@ -2983,10 +3026,12 @@ function updateCartPrice(
 
     cart[index].manual_unit_price =
       number;
+
   }
 
 
   renderCart();
+
 }
 
 
@@ -2996,7 +3041,9 @@ function updateCartQuantity(
 ) {
 
   const number =
-    Number(value);
+    Number(
+      value
+    );
 
 
   if (
@@ -3007,10 +3054,12 @@ function updateCartQuantity(
 
     cart[index].quantity =
       number;
+
   }
 
 
   renderCart();
+
 }
 
 
@@ -3025,6 +3074,7 @@ function updateCartNotes(
       ||
       ""
     );
+
 }
 
 
@@ -3037,7 +3087,9 @@ function removeCartItem(
     1
   );
 
+
   renderCart();
+
 }
 
 
@@ -3101,10 +3153,6 @@ async function createSpecialOrder() {
       "请先填写客户名称。"
     );
 
-    document.getElementById(
-      "customerName"
-    ).focus();
-
     return;
   }
 
@@ -3114,10 +3162,6 @@ async function createSpecialOrder() {
     alert(
       "请先填写初始发货地址。"
     );
-
-    document.getElementById(
-      "shippingAddress"
-    ).focus();
 
     return;
   }
@@ -3145,74 +3189,6 @@ async function createSpecialOrder() {
     );
 
     return;
-  }
-
-
-  for (
-    let i = 0;
-    i < cart.length;
-    i++
-  ) {
-
-    const item =
-      cart[i];
-
-
-    const price =
-      Number(
-        item.manual_unit_price
-      );
-
-
-    const quantity =
-      Number(
-        item.quantity
-      );
-
-
-    if (
-      !Number.isFinite(price)
-      ||
-      price < 0
-    ) {
-
-      alert(
-        "产品 "
-        +
-        (
-          item.product_code
-          ||
-          ""
-        )
-        +
-        " 的成交单价不正确。"
-      );
-
-      return;
-    }
-
-
-    if (
-      !Number.isFinite(quantity)
-      ||
-      quantity <= 0
-    ) {
-
-      alert(
-        "产品 "
-        +
-        (
-          item.product_code
-          ||
-          ""
-        )
-        +
-        " 的数量不正确。"
-      );
-
-      return;
-    }
-
   }
 
 
@@ -3264,9 +3240,8 @@ async function createSpecialOrder() {
     );
 
 
-  const confirmed =
-    confirm(
-
+  if (
+    !confirm(
       "确认创建特殊订单？\n\n"
       +
       "客户："
@@ -3292,11 +3267,9 @@ async function createSpecialOrder() {
       "\n\n"
       +
       "创建后将进入“待处理”状态。"
+    )
+  ) {
 
-    );
-
-
-  if (!confirmed) {
     return;
   }
 
@@ -3315,7 +3288,9 @@ async function createSpecialOrder() {
     "正在创建……";
 
 
-  showLoading(true);
+  showLoading(
+    true
+  );
 
 
   try {
@@ -3376,29 +3351,8 @@ async function createSpecialOrder() {
       );
 
 
-    console.log(
-      "create_special_order RPC:",
-      {
-        data,
-        error
-      }
-    );
-
-
     if (error) {
       throw error;
-    }
-
-
-    if (
-      !data
-      ||
-      data.success !== true
-    ) {
-
-      throw new Error(
-        "数据库没有返回创建成功结果。"
-      );
     }
 
 
@@ -3414,7 +3368,7 @@ async function createSpecialOrder() {
       "订单号："
       +
       (
-        data.special_order_no
+        data?.special_order_no
         ||
         "-"
       )
@@ -3424,7 +3378,7 @@ async function createSpecialOrder() {
       "订单金额："
       +
       formatMoney(
-        data.total_amount
+        data?.total_amount
         ||
         total
       )
@@ -3432,7 +3386,7 @@ async function createSpecialOrder() {
       " "
       +
       (
-        data.currency
+        data?.currency
         ||
         currency
       )
@@ -3447,7 +3401,7 @@ async function createSpecialOrder() {
       "特殊订单 "
       +
       (
-        data.special_order_no
+        data?.special_order_no
         ||
         ""
       )
@@ -3485,30 +3439,39 @@ async function createSpecialOrder() {
       "未知错误";
 
 
-    if (error?.details) {
+    if (
+      error?.details
+    ) {
 
       errorText +=
         "\n\nDetails："
         +
         error.details;
+
     }
 
 
-    if (error?.hint) {
+    if (
+      error?.hint
+    ) {
 
       errorText +=
         "\n\nHint："
         +
         error.hint;
+
     }
 
 
-    if (error?.code) {
+    if (
+      error?.code
+    ) {
 
       errorText +=
         "\n\n错误代码："
         +
         error.code;
+
     }
 
 
@@ -3530,13 +3493,18 @@ async function createSpecialOrder() {
 
   finally {
 
-    showLoading(false);
+    showLoading(
+      false
+    );
+
 
     button.disabled =
       false;
 
+
     button.textContent =
       "确认创建特殊订单";
+
   }
 
 }
@@ -3546,62 +3514,80 @@ function resetCreateForm() {
 
   document.getElementById(
     "customerName"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "contactPerson"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "customerPhone"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "customerEmail"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "shippingAddress"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "orderDate"
   ).value =
-    getToday();
+    todayString();
+
 
   document.getElementById(
     "currency"
   ).value =
     "CNY";
 
+
   document.getElementById(
     "orderRemarks"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "productSelect"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "newItemPrice"
-  ).value = "";
+  ).value =
+    "";
+
 
   document.getElementById(
     "newItemQuantity"
   ).value =
     "1";
 
-  cart = [];
+
+  cart =
+    [];
+
 
   renderCart();
+
 }
 
 
-/* =========================
-   第1段结束
-   第2段紧接下面
-========================= */
-  /* =====================================================
+/* =====================================================
    汇总
 ===================================================== */
 
@@ -3615,49 +3601,66 @@ function renderSummary() {
 
   setText(
     "pendingCount",
+
     specialOrders.filter(
       item =>
         item.status ===
         "pending"
     ).length
+
   );
 
 
   setText(
     "confirmedCount",
+
     specialOrders.filter(
       item =>
         item.status ===
         "confirmed"
     ).length
+
   );
 
 
-setText(
-  "shippedCount",
-  specialOrders.filter(
-    item =>
-      [
-        "confirmed",
-        "shipped",
-        "completed"
-      ].includes(item.status)
-  ).length
-);
+  setText(
+    "shippedCount",
 
+    specialOrders.filter(
+      item =>
+        [
+          "confirmed",
+          "shipped",
+          "completed"
+        ].includes(
+          item.status
+        )
+    ).length
+
+  );
+
+
+  /*
+    顶部“已完成”显示框已经删除。
+    这里保留原统计代码也不会报错，
+    因为 setText() 会判断元素是否存在。
+  */
 
   setText(
     "completedCount",
+
     specialOrders.filter(
       item =>
         item.status ===
         "completed"
     ).length
+
   );
 
 
   setText(
     "unissuedCount",
+
     specialOrders.filter(
       item =>
         (
@@ -3668,6 +3671,7 @@ setText(
         ===
         "unissued"
     ).length
+
   );
 
 }
@@ -3708,6 +3712,7 @@ function statusChinese(
     ||
     "-"
   );
+
 }
 
 
@@ -3744,12 +3749,17 @@ function statusBadge(
         "badge-cancelled"
       }"
     >
+
       ${escapeHtml(
-        statusChinese(status)
+        statusChinese(
+          status
+        )
       )}
+
     </span>
 
   `;
+
 }
 
 
@@ -3785,6 +3795,7 @@ function invoiceBadge(
     </span>
 
   `;
+
 }
 
 
@@ -3877,6 +3888,7 @@ function renderHistory() {
           order.status ===
           statusFilter
       );
+
   }
 
 
@@ -3896,6 +3908,7 @@ function renderHistory() {
           ===
           invoiceFilter
       );
+
   }
 
 
@@ -3982,20 +3995,26 @@ function renderHistory() {
       tr.innerHTML = `
 
         <td class="order-no">
+
           ${escapeHtml(
             order.special_order_no
             ||
             "-"
           )}
+
         </td>
 
+
         <td class="customer-name">
+
           ${escapeHtml(
             order.customer_name
             ||
             "-"
           )}
+
         </td>
+
 
         <td>
           ${formatDate(
@@ -4003,11 +4022,13 @@ function renderHistory() {
           )}
         </td>
 
+
         <td class="money">
           ${formatMoney(
             order.total_amount
           )}
         </td>
+
 
         <td>
           ${escapeHtml(
@@ -4017,17 +4038,20 @@ function renderHistory() {
           )}
         </td>
 
+
         <td>
           ${statusBadge(
             order.status
           )}
         </td>
 
+
         <td>
           ${invoiceBadge(
             order.invoice_status
           )}
         </td>
+
 
         <td>
           ${escapeHtml(
@@ -4037,11 +4061,13 @@ function renderHistory() {
           )}
         </td>
 
+
         <td>
           ${formatDate(
             order.expected_shipping_date
           )}
         </td>
+
 
         <td>
           ${escapeHtml(
@@ -4051,6 +4077,7 @@ function renderHistory() {
           )}
         </td>
 
+
         <td>
           ${escapeHtml(
             order.tracking_number
@@ -4059,11 +4086,13 @@ function renderHistory() {
           )}
         </td>
 
+
         <td>
           ${formatDateTime(
             order.processed_at
           )}
         </td>
+
 
         <td>
           ${formatDateTime(
@@ -4071,11 +4100,13 @@ function renderHistory() {
           )}
         </td>
 
+
         <td>
 
           <div class="actions">
 
             ${processButton}
+
 
             <button
               class="btn btn-dark"
@@ -4085,7 +4116,9 @@ function renderHistory() {
               查看详情
             </button>
 
+
             ${invoiceButton}
+
 
             <button
               class="btn btn-orange"
@@ -4130,6 +4163,7 @@ function getOrderItems(
         orderId
       )
   );
+
 }
 
 
@@ -4138,7 +4172,9 @@ function getProfileName(
 ) {
 
   if (!profileId) {
+
     return "-";
+
   }
 
 
@@ -4155,6 +4191,7 @@ function getProfileName(
     ||
     "-"
   );
+
 }
 
 
@@ -4260,6 +4297,7 @@ function openDetailModal(
 
   setText(
     "detailTotal",
+
     formatMoney(
       order.total_amount
     )
@@ -4271,6 +4309,7 @@ function openDetailModal(
       ||
       "CNY"
     )
+
   );
 
 
@@ -4583,11 +4622,12 @@ function closeDetailModal() {
 
   currentDetailOrderId =
     null;
+
 }
 
 
 /* =====================================================
-   处理订单
+   打开处理订单
 ===================================================== */
 
 function openProcessModalFromDetail() {
@@ -4601,15 +4641,19 @@ function openProcessModalFromDetail() {
 
 
   if (!orderId) {
+
     return;
+
   }
 
 
   closeDetailModal();
 
+
   openProcessModal(
     orderId
   );
+
 }
 
 
@@ -4669,6 +4713,7 @@ function openProcessModal(
     &nbsp;&nbsp;
 
     客户：
+
     <strong>
       ${escapeHtml(
         order.customer_name
@@ -4680,6 +4725,7 @@ function openProcessModal(
     <br>
 
     订单金额：
+
     <strong>
 
       ${formatMoney(
@@ -4751,6 +4797,7 @@ function closeProcessModal() {
     "processOrderId"
   ).value =
     "";
+
 }
 
 
@@ -4846,7 +4893,9 @@ async function confirmSpecialOrder() {
     "正在确认……";
 
 
-  showLoading(true);
+  showLoading(
+    true
+  );
 
 
   try {
@@ -4879,7 +4928,9 @@ async function confirmSpecialOrder() {
 
 
     if (error) {
+
       throw error;
+
     }
 
 
@@ -4931,20 +4982,25 @@ async function confirmSpecialOrder() {
 
   finally {
 
-    showLoading(false);
+    showLoading(
+      false
+    );
+
 
     button.disabled =
       false;
 
+
     button.textContent =
       "确认订单并保存发货资料";
+
   }
 
 }
 
 
 /* =====================================================
-   已发货
+   发货
 ===================================================== */
 
 function openShippingModal() {
@@ -4958,7 +5014,9 @@ function openShippingModal() {
 
 
   if (!order) {
+
     return;
+
   }
 
 
@@ -4980,7 +5038,7 @@ function openShippingModal() {
   ).value =
     order.expected_shipping_date
     ||
-    getToday();
+    todayString();
 
 
   document.getElementById(
@@ -5004,6 +5062,7 @@ function openShippingModal() {
   ).classList.add(
     "show"
   );
+
 }
 
 
@@ -5014,6 +5073,7 @@ function closeShippingModal() {
   ).classList.remove(
     "show"
   );
+
 }
 
 
@@ -5059,27 +5119,29 @@ async function confirmShipping() {
     company,
     tracking
   );
+
 }
 
 
 /* =====================================================
-   完成 / 取消
+   完成
 ===================================================== */
 
 async function completeCurrentOrder() {
 
   if (!currentDetailOrderId) {
+
     return;
+
   }
 
 
-  const ok =
-    confirm(
+  if (
+    !confirm(
       "确定把该特殊订单标记为“已完成”吗？"
-    );
+    )
+  ) {
 
-
-  if (!ok) {
     return;
   }
 
@@ -5087,23 +5149,29 @@ async function completeCurrentOrder() {
   await updateCurrentOrderStatus(
     "completed"
   );
+
 }
 
+
+/* =====================================================
+   取消
+===================================================== */
 
 async function cancelCurrentOrder() {
 
   if (!currentDetailOrderId) {
+
     return;
+
   }
 
 
-  const ok =
-    confirm(
+  if (
+    !confirm(
       "确定取消该特殊订单吗？\n\n取消后不能恢复。"
-    );
+    )
+  ) {
 
-
-  if (!ok) {
     return;
   }
 
@@ -5111,8 +5179,13 @@ async function cancelCurrentOrder() {
   await updateCurrentOrderStatus(
     "cancelled"
   );
+
 }
 
+
+/* =====================================================
+   更新订单状态
+===================================================== */
 
 async function updateCurrentOrderStatus(
   status,
@@ -5122,11 +5195,15 @@ async function updateCurrentOrderStatus(
 ) {
 
   if (!currentDetailOrderId) {
+
     return;
+
   }
 
 
-  showLoading(true);
+  showLoading(
+    true
+  );
 
 
   try {
@@ -5160,11 +5237,14 @@ async function updateCurrentOrderStatus(
 
 
     if (error) {
+
       throw error;
+
     }
 
 
     closeShippingModal();
+
 
     closeDetailModal();
 
@@ -5206,7 +5286,10 @@ async function updateCurrentOrderStatus(
 
   finally {
 
-    showLoading(false);
+    showLoading(
+      false
+    );
+
   }
 
 }
@@ -5227,15 +5310,19 @@ function openInvoiceModalFromDetail() {
 
 
   if (!orderId) {
+
     return;
+
   }
 
 
   closeDetailModal();
 
+
   openInvoiceModal(
     orderId
   );
+
 }
 
 
@@ -5291,6 +5378,7 @@ function openInvoiceModal(
   ).classList.add(
     "show"
   );
+
 }
 
 
@@ -5313,6 +5401,7 @@ function closeInvoiceModal() {
     "invoiceNumber"
   ).value =
     "";
+
 }
 
 
@@ -5356,7 +5445,9 @@ async function issueInvoice() {
     "正在开票……";
 
 
-  showLoading(true);
+  showLoading(
+    true
+  );
 
 
   try {
@@ -5380,7 +5471,9 @@ async function issueInvoice() {
 
 
     if (error) {
+
       throw error;
+
     }
 
 
@@ -5426,13 +5519,18 @@ async function issueInvoice() {
 
   finally {
 
-    showLoading(false);
+    showLoading(
+      false
+    );
+
 
     button.disabled =
       false;
 
+
     button.textContent =
       "确认开票";
+
   }
 
 }
@@ -5444,12 +5542,16 @@ async function issueInvoice() {
 
 function printCurrentOrder() {
 
-  if (currentDetailOrderId) {
+  if (
+    currentDetailOrderId
+  ) {
 
     printOrder(
       currentDetailOrderId
     );
+
   }
+
 }
 
 
@@ -5487,7 +5589,9 @@ function printOrder(
 
         <tr>
 
-          <td>${index + 1}</td>
+          <td>
+            ${index + 1}
+          </td>
 
           <td>
             ${escapeHtml(
@@ -5542,10 +5646,12 @@ function printOrder(
         </tr>
 
       `
-    ).join("");
+    ).join(
+      ""
+    );
 
 
-  const w =
+  const printWindow =
     window.open(
       "",
       "_blank",
@@ -5553,7 +5659,7 @@ function printOrder(
     );
 
 
-  if (!w) {
+  if (!printWindow) {
 
     alert(
       "浏览器阻止了打印窗口，请允许弹出窗口。"
@@ -5563,7 +5669,7 @@ function printOrder(
   }
 
 
-  w.document.write(`
+  printWindow.document.write(`
 
 <!DOCTYPE html>
 
@@ -5587,72 +5693,112 @@ ${escapeHtml(
 }
 
 body {
+
   font-family:
     Arial,
     "Microsoft YaHei",
     sans-serif;
+
   color:#111;
+
   font-size:12px;
+
 }
 
 .company {
+
   text-align:center;
+
   font-size:23px;
+
   font-weight:700;
+
 }
 
 .title {
-  margin:7px 0 22px;
+
+  margin:
+    7px 0 22px;
+
   text-align:center;
+
   font-size:20px;
+
   font-weight:700;
+
   letter-spacing:4px;
+
 }
 
 .info,
 .items {
+
   width:100%;
+
   border-collapse:collapse;
+
 }
 
 .info {
+
   margin-bottom:18px;
+
 }
 
 .info td,
 .items th,
 .items td {
-  border:1px solid #777;
+
   padding:7px;
+
+  border:1px solid #777;
+
 }
 
 .label {
+
   width:100px;
+
   background:#f3f4f6;
+
   font-weight:700;
+
 }
 
 .items th {
+
   background:#f3f4f6;
+
 }
 
 .total {
+
   margin-top:16px;
+
   text-align:right;
+
   font-size:17px;
+
   font-weight:700;
+
 }
 
 .remark {
+
   margin-top:18px;
+
   min-height:55px;
-  border:1px solid #777;
+
   padding:9px;
+
+  border:1px solid #777;
+
 }
 
 </style>
 
 </head>
+
 
 <body>
 
@@ -5660,6 +5806,7 @@ body {
 <div class="company">
 硕丰科技
 </div>
+
 
 <div class="title">
 特殊客户销售订单
@@ -5872,6 +6019,7 @@ ${escapeHtml(
 
 </thead>
 
+
 <tbody>
 
 ${rows}
@@ -5935,17 +6083,19 @@ function() {
 
 
 </body>
+
 </html>
 
   `);
 
 
-  w.document.close();
+  printWindow.document.close();
+
 }
 
 
 /* =====================================================
-   工具
+   通用工具
 ===================================================== */
 
 function setText(
@@ -5965,7 +6115,9 @@ function setText(
       value
       ??
       "-";
+
   }
+
 }
 
 
@@ -5973,17 +6125,25 @@ function formatMoney(
   value
 ) {
 
-  return Number(
-    value
-    ||
-    0
-  ).toLocaleString(
+  const number =
+    Number(
+      value
+      ||
+      0
+    );
+
+
+  return number.toLocaleString(
     "zh-CN",
     {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      minimumFractionDigits:
+        2,
+
+      maximumFractionDigits:
+        2
     }
   );
+
 }
 
 
@@ -5991,16 +6151,22 @@ function formatQuantity(
   value
 ) {
 
-  return Number(
-    value
-    ||
-    0
-  ).toLocaleString(
+  const number =
+    Number(
+      value
+      ||
+      0
+    );
+
+
+  return number.toLocaleString(
     "zh-CN",
     {
-      maximumFractionDigits: 4
+      maximumFractionDigits:
+        4
     }
   );
+
 }
 
 
@@ -6009,7 +6175,9 @@ function formatDate(
 ) {
 
   if (!value) {
+
     return "-";
+
   }
 
 
@@ -6019,6 +6187,7 @@ function formatDate(
     0,
     10
   );
+
 }
 
 
@@ -6027,7 +6196,9 @@ function formatDateTime(
 ) {
 
   if (!value) {
+
     return "-";
+
   }
 
 
@@ -6044,31 +6215,34 @@ function formatDateTime(
   ) {
 
     return "-";
+
   }
 
 
   return date.toLocaleString(
     "zh-CN",
     {
-      hour12: false
+      hour12:
+        false
     }
   );
+
 }
 
 
-function getToday() {
+function todayString() {
 
-  const date =
+  const now =
     new Date();
 
 
   const year =
-    date.getFullYear();
+    now.getFullYear();
 
 
   const month =
     String(
-      date.getMonth()
+      now.getMonth()
       +
       1
     ).padStart(
@@ -6079,7 +6253,7 @@ function getToday() {
 
   const day =
     String(
-      date.getDate()
+      now.getDate()
     ).padStart(
       2,
       "0"
@@ -6097,6 +6271,7 @@ function getToday() {
     +
     day
   );
+
 }
 
 
@@ -6129,6 +6304,7 @@ function escapeHtml(
     /'/g,
     "&#039;"
   );
+
 }
 
 
@@ -6184,6 +6360,7 @@ function showNotice(
       },
       6000
     );
+
 }
 
 
@@ -6201,6 +6378,7 @@ function showLoading(
     "show",
     Boolean(show)
   );
+
 }
 
 
@@ -6241,6 +6419,7 @@ function showLoading(
 
         }
 
+
         else if (
           id ===
           "processModal"
@@ -6250,6 +6429,7 @@ function showLoading(
 
         }
 
+
         else if (
           id ===
           "shippingModal"
@@ -6258,6 +6438,7 @@ function showLoading(
           closeShippingModal();
 
         }
+
 
         else if (
           id ===
@@ -6343,6 +6524,7 @@ document.addEventListener(
     ) {
 
       closeDetailModal();
+
     }
 
   }
@@ -6357,6 +6539,7 @@ function goBack() {
 
   window.location.href =
     "wholemanagement.html";
+
 }
 
 
@@ -6372,13 +6555,17 @@ async function logout() {
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
   }
 
 
   window.location.replace(
     "page10.html"
   );
+
 }
 
 
@@ -6456,7 +6643,10 @@ function resetIdleTimer() {
 
         catch (error) {
 
-          console.error(error);
+          console.error(
+            error
+          );
+
         }
 
 
@@ -6467,6 +6657,7 @@ function resetIdleTimer() {
       },
       IDLE_LIMIT
     );
+
 }
 
 
@@ -6485,7 +6676,8 @@ function resetIdleTimer() {
       eventName,
       resetIdleTimer,
       {
-        passive: true
+        passive:
+          true
       }
     );
 
@@ -6504,7 +6696,9 @@ setInterval(
   async function() {
 
     if (!accessVerified) {
+
       return;
+
     }
 
 
@@ -6529,7 +6723,9 @@ setInterval(
 
 
     if (modalOpen) {
+
       return;
+
     }
 
 
