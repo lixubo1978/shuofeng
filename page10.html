@@ -186,10 +186,6 @@
     }
 
 
-    /* =====================================================
-       返回主页按钮
-    ===================================================== */
-
     .home-button {
       width: 100%;
 
@@ -231,7 +227,7 @@
       font-size: 13px;
       font-weight: 500;
 
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
 
@@ -399,8 +395,6 @@
       </button>
 
 
-      <!-- 返回主页 -->
-
       <button
         class="home-button"
         type="button"
@@ -423,9 +417,11 @@
 
     <div class="security-note">
 
-      为保护管理系统安全，本页面不保存登录用户名和密码。
+      本入口仅限公司管理人员使用。
       <br>
-      每次进入管理系统均需重新手动输入。
+      只有有效的 admin / founder 账号可以进入管理系统。
+      <br>
+      本页面不保存登录用户名和密码。
 
     </div>
 
@@ -447,6 +443,7 @@
 
     const SUPABASE_URL =
       "https://icmifhjjhgjrhkunjbmu.supabase.co";
+
 
     const SUPABASE_KEY =
       "sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4";
@@ -471,19 +468,33 @@
 
 
     const usernameInput =
-      document.getElementById("username");
+      document.getElementById(
+        "username"
+      );
+
 
     const passwordInput =
-      document.getElementById("password");
+      document.getElementById(
+        "password"
+      );
+
 
     const loginForm =
-      document.getElementById("loginForm");
+      document.getElementById(
+        "loginForm"
+      );
+
 
     const loginButton =
-      document.getElementById("loginButton");
+      document.getElementById(
+        "loginButton"
+      );
+
 
     const message =
-      document.getElementById("message");
+      document.getElementById(
+        "message"
+      );
 
 
 
@@ -503,8 +514,9 @@
 
 
     /* =====================================================
-       清除前端旧登录资料
-       注意：不清除 Supabase Session
+       清除旧前端登录数据
+
+       不在这里清除 Supabase Session。
     ===================================================== */
 
     function clearOldLocalData() {
@@ -518,64 +530,93 @@
         "password"
       ];
 
-      keys.forEach(function(key) {
 
-        try {
-          localStorage.removeItem(key);
-        } catch (error) {}
+      keys.forEach(
+        function(key) {
 
-        try {
-          sessionStorage.removeItem(key);
-        } catch (error) {}
+          try {
 
-      });
+            localStorage.removeItem(
+              key
+            );
+
+          }
+
+          catch (error) {}
+
+
+          try {
+
+            sessionStorage.removeItem(
+              key
+            );
+
+          }
+
+          catch (error) {}
+
+        }
+      );
 
     }
 
 
 
     /* =====================================================
-       清空用户名密码输入框
+       清空用户名密码
     ===================================================== */
 
     function clearLoginFields() {
 
-      usernameInput.value = "";
-      passwordInput.value = "";
+      usernameInput.value =
+        "";
+
+      passwordInput.value =
+        "";
 
     }
 
 
 
     /* =====================================================
-       页面打开时
+       页面打开
     ===================================================== */
 
     document.addEventListener(
       "DOMContentLoaded",
+
       function() {
 
+
         clearOldLocalData();
+
         clearLoginFields();
+
 
         setTimeout(
           function() {
+
 
             usernameInput.removeAttribute(
               "readonly"
             );
 
+
             passwordInput.removeAttribute(
               "readonly"
             );
 
+
             clearLoginFields();
 
+
             usernameInput.focus();
+
 
           },
           350
         );
+
 
         setTimeout(
           function() {
@@ -586,20 +627,24 @@
           800
         );
 
+
       }
     );
 
 
 
     /* =====================================================
-       浏览器后退回登录页
+       浏览器后退到登录页面
     ===================================================== */
 
     window.addEventListener(
       "pageshow",
+
       function() {
 
+
         clearOldLocalData();
+
 
         setTimeout(
           function() {
@@ -610,8 +655,213 @@
           100
         );
 
+
       }
     );
+
+
+
+    /* =====================================================
+       检查当前账号是否属于公司管理人员
+
+       允许：
+       founder
+       admin
+
+       禁止：
+       agent
+       其他角色
+       无 profile
+       is_active=false
+    ===================================================== */
+
+    async function verifyManagementProfile(
+      user
+    ) {
+
+
+      if (
+        !user ||
+        !user.id
+      ) {
+
+        throw new Error(
+          "无法读取当前登录用户。"
+        );
+
+      }
+
+
+
+      /*
+        最多读取3次，
+        对刚刚创建的管理账号更稳妥。
+      */
+
+      let profile =
+        null;
+
+
+      let lastError =
+        null;
+
+
+
+      for (
+        let attempt = 1;
+        attempt <= 3;
+        attempt++
+      ) {
+
+
+        const {
+          data,
+          error
+        } =
+          await sb
+            .from(
+              "profiles"
+            )
+            .select(
+              "id, display_name, role, is_active"
+            )
+            .eq(
+              "id",
+              user.id
+            )
+            .maybeSingle();
+
+
+
+        if (
+          !error &&
+          data
+        ) {
+
+
+          profile =
+            data;
+
+
+          lastError =
+            null;
+
+
+          break;
+
+        }
+
+
+
+        lastError =
+          error;
+
+
+
+        if (
+          attempt < 3
+        ) {
+
+
+          await new Promise(
+            resolve =>
+              setTimeout(
+                resolve,
+                300
+              )
+          );
+
+
+        }
+
+
+      }
+
+
+
+      /*
+        没有 profiles
+      */
+
+      if (
+        !profile
+      ) {
+
+
+        console.error(
+          "没有找到 profiles：",
+          lastError
+        );
+
+
+        throw new Error(
+          "该账号没有公司管理人员资料，禁止进入管理系统。"
+        );
+
+      }
+
+
+
+      /*
+        账号被停用
+      */
+
+      if (
+        profile.is_active !== true
+      ) {
+
+
+        throw new Error(
+          "该账号已经停用，禁止进入管理系统。"
+        );
+
+      }
+
+
+
+      /*
+        核心权限判断
+
+        只有 founder / admin 可以进入。
+      */
+
+      const allowed =
+        profile.role ===
+        "founder"
+        ||
+        profile.role ===
+        "admin";
+
+
+
+      if (
+        !allowed
+      ) {
+
+
+        console.warn(
+          "非管理人员尝试从 page10 登录：",
+          {
+            userId:
+              user.id,
+
+            role:
+              profile.role
+          }
+        );
+
+
+        throw new Error(
+          "该账号不是公司管理人员，禁止进入管理系统。"
+        );
+
+      }
+
+
+
+      return profile;
+
+    }
 
 
 
@@ -621,78 +871,124 @@
 
     loginForm.addEventListener(
       "submit",
+
       async function(event) {
+
 
         event.preventDefault();
 
 
+
         const email =
-          usernameInput.value.trim();
+          usernameInput
+            .value
+            .trim();
+
+
 
         const password =
           passwordInput.value;
 
 
-        message.textContent = "";
-        message.className = "message";
+
+        message.textContent =
+          "";
 
 
-        if (!email) {
+        message.className =
+          "message";
+
+
+
+        if (
+          !email
+        ) {
+
 
           message.textContent =
             "请输入用户名。";
 
+
           message.className =
             "message error";
 
+
           usernameInput.focus();
 
+
           return;
+
         }
 
 
-        if (!password) {
+
+        if (
+          !password
+        ) {
+
 
           message.textContent =
             "请输入密码。";
 
+
           message.className =
             "message error";
 
+
           passwordInput.focus();
 
+
           return;
+
         }
 
 
-        loginButton.disabled = true;
+
+        loginButton.disabled =
+          true;
+
 
         loginButton.textContent =
-          "正在登录...";
+          "正在验证身份...";
+
 
 
         try {
 
+
           /*
-            Supabase Auth
-            邮箱 + 密码登录
+            =================================================
+            第一级：
+            Supabase Auth 验证邮箱和密码
+            =================================================
           */
 
           const {
             data,
             error
           } =
-            await sb.auth.signInWithPassword({
-              email: email,
-              password: password
-            });
+            await sb
+              .auth
+              .signInWithPassword({
+
+                email:
+                  email,
+
+                password:
+                  password
+
+              });
 
 
-          if (error) {
+
+          if (
+            error
+          ) {
 
             throw error;
 
           }
+
 
 
           if (
@@ -701,6 +997,7 @@
             !data.session
           ) {
 
+
             throw new Error(
               "登录失败，请重新输入。"
             );
@@ -708,91 +1005,242 @@
           }
 
 
+
           /*
-            登录成功后不保存用户名或密码
+            =================================================
+            第二级：
+            profiles 权限检查
+            =================================================
           */
 
-          usernameInput.value = "";
-          passwordInput.value = "";
+          loginButton.textContent =
+            "正在检查管理权限...";
+
+
+
+          let profile;
+
+
+          try {
+
+
+            profile =
+              await verifyManagementProfile(
+                data.user
+              );
+
+
+          }
+
+          catch (
+            permissionError
+          ) {
+
+
+            /*
+              非管理账号虽然 Auth 已经登录成功，
+              这里必须立即注销。
+
+              这样 agent 不会留下有效 Session。
+            */
+
+            try {
+
+
+              await sb
+                .auth
+                .signOut();
+
+
+            }
+
+            catch (
+              signOutError
+            ) {
+
+
+              console.error(
+                "拒绝登录后退出 Session 失败：",
+                signOutError
+              );
+
+
+            }
+
+
+
+            throw permissionError;
+
+          }
+
+
+
+          /*
+            到这里说明同时满足：
+
+            1. 邮箱密码正确
+            2. profiles 存在
+            3. is_active=true
+            4. role=founder/admin
+          */
+
+
+          clearLoginFields();
+
 
           clearOldLocalData();
 
 
+
           message.textContent =
-            "登录成功，正在进入管理中心...";
+            (
+              profile.display_name
+              ?
+              profile.display_name +
+              "，"
+              :
+              ""
+            )
+            +
+            "管理身份验证成功，正在进入管理中心...";
+
 
           message.className =
             "message success";
 
 
+
+          /*
+            使用 replace，
+            防止通过浏览器返回直接回到登录后的页面状态。
+          */
+
           setTimeout(
             function() {
+
 
               window.location.replace(
                 MANAGEMENT_PAGE
               );
 
+
             },
             200
           );
+
 
         }
 
 
         catch (error) {
 
-          passwordInput.value = "";
+
+          passwordInput.value =
+            "";
+
 
 
           let errorMessage =
             "用户名或密码错误。";
 
 
-          if (error && error.message) {
+
+          if (
+            error &&
+            error.message
+          ) {
+
+
+            const rawMessage =
+              error.message;
+
 
             const msg =
-              error.message.toLowerCase();
+              rawMessage.toLowerCase();
+
 
 
             if (
-              msg.includes("invalid login credentials")
+              msg.includes(
+                "invalid login credentials"
+              )
             ) {
+
 
               errorMessage =
                 "用户名或密码错误。";
 
+
             }
 
+
             else if (
-              msg.includes("email not confirmed")
+              msg.includes(
+                "email not confirmed"
+              )
             ) {
+
 
               errorMessage =
                 "该账号尚未完成邮箱确认。";
 
+
             }
 
+
             else if (
-              msg.includes("failed to fetch")
+              msg.includes(
+                "failed to fetch"
+              )
             ) {
+
 
               errorMessage =
                 "无法连接 Supabase，请检查网络连接。";
 
+
             }
+
+
+            else if (
+              msg.includes(
+                "不是公司管理人员"
+              )
+              ||
+              msg.includes(
+                "没有公司管理人员资料"
+              )
+              ||
+              msg.includes(
+                "已经停用"
+              )
+            ) {
+
+
+              errorMessage =
+                rawMessage;
+
+
+            }
+
 
             else {
 
+
               errorMessage =
-                error.message;
+                rawMessage;
+
 
             }
+
 
           }
 
 
+
           message.textContent =
             errorMessage;
+
 
           message.className =
             "message error";
@@ -800,17 +1248,23 @@
 
           passwordInput.focus();
 
+
         }
 
 
         finally {
 
-          loginButton.disabled = false;
+
+          loginButton.disabled =
+            false;
+
 
           loginButton.textContent =
             "登录";
 
+
         }
+
 
       }
     );
@@ -823,6 +1277,7 @@
 
     passwordInput.addEventListener(
       "copy",
+
       function(event) {
 
         event.preventDefault();
@@ -833,6 +1288,7 @@
 
     passwordInput.addEventListener(
       "cut",
+
       function(event) {
 
         event.preventDefault();
@@ -848,10 +1304,10 @@
 
     window.addEventListener(
       "pagehide",
+
       function() {
 
-        usernameInput.value = "";
-        passwordInput.value = "";
+        clearLoginFields();
 
       }
     );
@@ -859,10 +1315,10 @@
 
     window.addEventListener(
       "beforeunload",
+
       function() {
 
-        usernameInput.value = "";
-        passwordInput.value = "";
+        clearLoginFields();
 
       }
     );
