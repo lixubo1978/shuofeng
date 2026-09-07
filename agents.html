@@ -296,8 +296,6 @@
       background: #fafafa;
     }
 
-    /* 无效代理商整行灰显 */
-
     tr.agent-disabled td {
       background: #eef0f2 !important;
       color: #9ca3af !important;
@@ -534,6 +532,17 @@
       cursor: not-allowed;
     }
 
+    .balance-locked-box {
+      grid-column: 1 / -1;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      border-radius: 9px;
+      padding: 12px 14px;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
     .code-help {
       color: #64748b;
       font-size: 12px;
@@ -644,7 +653,8 @@
 
       .detail-item.full,
       .form-group.full,
-      .section-title {
+      .section-title,
+      .balance-locked-box {
         grid-column: auto;
       }
     }
@@ -725,6 +735,7 @@
 
         <p>
           查看和管理代理商资料、代理区域、账户余额、银行资料、登录权限和有效状态。
+          账户余额由开户初始金额、充值审批和订单扣款自动维护。
         </p>
 
       </div>
@@ -1053,25 +1064,31 @@
 
 
           <div class="section-title">
-            账户信息
+            开户账户信息
           </div>
 
           <div class="form-group">
 
-            <label>初始账户余额</label>
+            <label>开户初始余额</label>
 
             <input
               id="newAgentBalance"
               type="number"
+              min="0"
               step="0.01"
               value="0"
             >
+
+            <div class="form-help">
+              该金额只在创建代理商时填写一次。
+              创建成功后会自动形成第一条“开户初始余额”充值记录。
+            </div>
 
           </div>
 
           <div class="form-group">
 
-            <label>币种</label>
+            <label>账户币种</label>
 
             <select id="newAgentCurrency">
               <option value="CNY">CNY 人民币</option>
@@ -1080,6 +1097,16 @@
               <option value="HUF">HUF 匈牙利福林</option>
             </select>
 
+            <div class="form-help">
+              创建完成后，账户币种不再在代理商资料页面手工修改。
+            </div>
+
+          </div>
+
+          <div class="balance-locked-box">
+            <strong>账户规则：</strong>
+            代理商创建以后，账户余额不能人工修改。
+            后续余额只能通过“充值审批”增加，或通过代理商正式下单自动扣减。
           </div>
 
           <div class="form-group full">
@@ -1308,28 +1335,37 @@
 
           <div class="form-group">
 
-            <label>账户余额</label>
+            <label>当前账户余额</label>
 
             <input
               id="editAgentBalance"
-              type="number"
-              step="0.01"
+              class="readonly-field"
+              type="text"
+              readonly
             >
 
           </div>
 
           <div class="form-group">
 
-            <label>币种</label>
+            <label>账户币种</label>
 
-            <select id="editAgentCurrency">
-              <option value="CNY">CNY 人民币</option>
-              <option value="EUR">EUR 欧元</option>
-              <option value="USD">USD 美元</option>
-              <option value="HUF">HUF 匈牙利福林</option>
-            </select>
+            <input
+              id="editAgentCurrency"
+              class="readonly-field"
+              type="text"
+              readonly
+            >
 
           </div>
+
+          <div class="balance-locked-box">
+            <strong>余额已经锁定为系统管理。</strong>
+            这里仅供查看，不能手工修改。
+            以后余额增加必须由管理工作台审批代理商充值申请；
+            余额减少由代理商提交订单时自动扣减。
+          </div>
+
 
           <div class="form-group full">
 
@@ -1346,7 +1382,8 @@
           <div class="form-group full">
 
             <div class="form-help">
-              修改信息不会改变代理商代码、登录邮箱、密码和有效状态。
+              修改代理商资料不会改变代理商代码、登录邮箱、密码、
+              当前余额、账户币种和有效状态。
               有效/无效状态请使用列表中的独立按钮操作。
             </div>
 
@@ -1426,6 +1463,13 @@
           <div class="detail-item">
             <div class="detail-label">当前账户余额</div>
             <div id="detailBalance" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item full">
+            <div class="detail-label">账户余额说明</div>
+            <div class="detail-value">
+              账户余额由开户初始余额、充值审批和订单扣款自动维护，不能人工直接修改。
+            </div>
           </div>
 
           <div class="detail-item">
@@ -2061,11 +2105,12 @@
     }
 
     if (
-      !Number.isFinite(balance)
+      !Number.isFinite(balance) ||
+      balance < 0
     ) {
 
       alert(
-        "账户余额格式不正确。"
+        "开户初始余额必须是大于或等于0的有效数字。"
       );
 
       return;
@@ -2219,7 +2264,7 @@
       showNotice(
         "代理商创建成功。代理商代码：" +
         latestCode +
-        "，登录账号已同时建立。",
+        "。开户初始余额将作为第一条正式充值记录保存。",
         "success"
       );
 
@@ -2348,42 +2393,18 @@
     document.getElementById(
       "editAgentBalance"
     ).value =
-      Number(
+      formatMoney(
         agent.account_balance || 0
       );
 
 
-    const editCurrency =
+    document.getElementById(
+      "editAgentCurrency"
+    ).value =
       (
         agent.balance_currency ||
         "CNY"
       ).toUpperCase();
-
-
-    const currencySelect =
-      document.getElementById(
-        "editAgentCurrency"
-      );
-
-
-    if (
-      Array.from(
-        currencySelect.options
-      ).some(
-        option =>
-          option.value ===
-          editCurrency
-      )
-    ) {
-
-      currencySelect.value =
-        editCurrency;
-
-    } else {
-
-      currencySelect.value =
-        "CNY";
-    }
 
 
     document.getElementById(
@@ -2418,6 +2439,13 @@
 
   /* =====================================================
      保存修改
+
+     注意：
+     不再更新：
+     account_balance
+     balance_currency
+
+     余额由数据库资金流程自动维护
   ===================================================== */
 
   async function saveAgentChanges() {
@@ -2495,23 +2523,6 @@
       ).value.trim();
 
 
-    const accountBalance =
-      Number(
-        document.getElementById(
-          "editAgentBalance"
-        ).value || 0
-      );
-
-
-    const balanceCurrency =
-      document.getElementById(
-        "editAgentCurrency"
-      )
-      .value
-      .trim()
-      .toUpperCase();
-
-
     const notes =
       document.getElementById(
         "editAgentNotes"
@@ -2527,20 +2538,6 @@
       document.getElementById(
         "editAgentName"
       ).focus();
-
-      return;
-    }
-
-
-    if (
-      !Number.isFinite(
-        accountBalance
-      )
-    ) {
-
-      alert(
-        "账户余额格式不正确。"
-      );
 
       return;
     }
@@ -2588,12 +2585,6 @@
 
         tax_number:
           taxNumber || null,
-
-        account_balance:
-          accountBalance,
-
-        balance_currency:
-          balanceCurrency || "CNY",
 
         notes:
           notes || null
@@ -2677,7 +2668,7 @@
 
 
       showNotice(
-        "代理商信息修改成功。",
+        "代理商信息修改成功。账户余额未发生人工变更。",
         "success"
       );
 
