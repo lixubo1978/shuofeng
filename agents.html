@@ -93,7 +93,7 @@
 
     .container {
       width: 100%;
-      max-width: 1450px;
+      max-width: 1550px;
       margin: 0 auto;
       padding: 34px 24px 60px;
     }
@@ -165,6 +165,16 @@
       color: white;
     }
 
+    .btn-orange {
+      background: #ea580c;
+      color: white;
+    }
+
+    .btn-blue {
+      background: #0369a1;
+      color: white;
+    }
+
     .btn-small {
       padding: 7px 11px;
       font-size: 12px;
@@ -179,9 +189,13 @@
       cursor: not-allowed;
     }
 
+    /* =====================================================
+       汇总
+    ====================================================== */
+
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 16px;
       margin-bottom: 20px;
     }
@@ -192,6 +206,11 @@
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    .summary-card.refund-card {
+      background: #fff7ed;
+      border-color: #fed7aa;
     }
 
     .summary-label {
@@ -206,11 +225,21 @@
       color: #111827;
     }
 
+    .refund-card .summary-value {
+      color: #c2410c;
+      font-size: 20px;
+    }
+
     .summary-sub {
       font-size: 12px;
       color: #94a3b8;
       margin-top: 6px;
+      line-height: 1.6;
     }
+
+    /* =====================================================
+       搜索栏
+    ====================================================== */
 
     .toolbar {
       background: white;
@@ -256,6 +285,10 @@
       font-size: 14px;
     }
 
+    /* =====================================================
+       表格
+    ====================================================== */
+
     .table-card {
       background: white;
       border: 1px solid #e5e7eb;
@@ -270,7 +303,7 @@
 
     table {
       width: 100%;
-      min-width: 1350px;
+      min-width: 1580px;
       border-collapse: collapse;
     }
 
@@ -313,24 +346,8 @@
       color: #9ca3af !important;
     }
 
-    tr.agent-disabled .status-disabled {
-      background: #fee2e2 !important;
-      color: #991b1b !important;
-    }
-
-    tr.agent-disabled .btn-dark {
-      background: #111827 !important;
-      color: #ffffff !important;
-    }
-
-    tr.agent-disabled .btn-edit {
-      background: #7c3aed !important;
-      color: #ffffff !important;
-    }
-
-    tr.agent-disabled .btn-green {
-      background: #16a34a !important;
-      color: #ffffff !important;
+    tr.agent-disabled .refund-money {
+      color: #c2410c !important;
     }
 
     .agent-code {
@@ -349,12 +366,24 @@
       white-space: nowrap;
     }
 
+    .refund-money {
+      font-weight: 700;
+      color: #c2410c;
+      white-space: nowrap;
+    }
+
+    .refund-zero {
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+
     .status {
       display: inline-block;
       padding: 5px 10px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .status-active {
@@ -365,6 +394,26 @@
     .status-disabled {
       background: #fee2e2;
       color: #991b1b;
+    }
+
+    .refund-pending {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .refund-partial {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .refund-completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .refund-none {
+      background: #f1f5f9;
+      color: #64748b;
     }
 
     .login-linked {
@@ -389,6 +438,10 @@
       font-size: 14px;
     }
 
+    /* =====================================================
+       提示
+    ====================================================== */
+
     .notice {
       display: none;
       padding: 13px 16px;
@@ -411,6 +464,10 @@
       color: #991b1b;
     }
 
+    /* =====================================================
+       Modal
+    ====================================================== */
+
     .modal-mask {
       display: none;
       position: fixed;
@@ -428,12 +485,16 @@
 
     .modal {
       width: 100%;
-      max-width: 780px;
+      max-width: 820px;
       max-height: 92vh;
       overflow-y: auto;
       background: white;
       border-radius: 14px;
       box-shadow: 0 25px 70px rgba(0,0,0,0.28);
+    }
+
+    .modal-wide {
+      max-width: 1050px;
     }
 
     .modal-header {
@@ -469,6 +530,10 @@
       justify-content: flex-end;
       gap: 10px;
     }
+
+    /* =====================================================
+       表单
+    ====================================================== */
 
     .form-grid {
       display: grid;
@@ -543,16 +608,11 @@
       line-height: 1.8;
     }
 
-    .code-help {
+    .code-help,
+    .form-help {
       color: #64748b;
       font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .form-help {
-      color: #6b7280;
-      font-size: 12px;
-      line-height: 1.7;
+      line-height: 1.6;
     }
 
     .section-title {
@@ -564,6 +624,10 @@
       font-weight: 700;
       color: #111827;
     }
+
+    /* =====================================================
+       详情
+    ====================================================== */
 
     .detail-grid {
       display: grid;
@@ -592,6 +656,133 @@
       line-height: 1.7;
       word-break: break-word;
     }
+
+    /* =====================================================
+       停用确认
+    ====================================================== */
+
+    .deactivate-warning {
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      border-radius: 12px;
+      padding: 18px;
+      color: #9a3412;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .deactivate-balance {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 16px;
+    }
+
+    .deactivate-balance-label {
+      font-size: 13px;
+      color: #7f1d1d;
+      margin-bottom: 6px;
+    }
+
+    .deactivate-balance-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: #b91c1c;
+    }
+
+    /* =====================================================
+       退款管理
+    ====================================================== */
+
+    .refund-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .refund-summary-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .refund-summary-item.due {
+      background: #fff7ed;
+      border-color: #fed7aa;
+    }
+
+    .refund-summary-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .refund-summary-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .refund-summary-item.due .refund-summary-value {
+      color: #c2410c;
+    }
+
+    .refund-agent-box {
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      margin-bottom: 18px;
+      line-height: 1.7;
+      color: #1e3a8a;
+    }
+
+    .refund-form-box {
+      background: #fafafa;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 18px;
+    }
+
+    .refund-form-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 15px;
+    }
+
+    .refund-history-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 24px 0 12px;
+      color: #111827;
+    }
+
+    .refund-history-wrapper {
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+    }
+
+    .refund-history-table {
+      min-width: 850px;
+    }
+
+    .refund-history-table th {
+      background: #f8fafc;
+    }
+
+    .refund-history-table td {
+      background: white;
+    }
+
+    /* =====================================================
+       Loading / 超时
+    ====================================================== */
 
     .loading-mask {
       display: none;
@@ -627,8 +818,12 @@
       display: none;
     }
 
-    @media (max-width: 1000px) {
+    @media (max-width: 1100px) {
       .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .refund-summary-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -672,7 +867,8 @@
         padding: 25px 15px 50px;
       }
 
-      .summary-grid {
+      .summary-grid,
+      .refund-summary-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -684,6 +880,7 @@
   <div id="loadingMask" class="loading-mask">
     正在处理，请稍候……
   </div>
+
 
   <header class="topbar">
 
@@ -698,6 +895,7 @@
       </div>
 
     </div>
+
 
     <div class="top-actions">
 
@@ -738,17 +936,19 @@
 
         <p>
           查看和管理代理商资料、代理区域、账户余额、银行资料、登录权限和有效状态。
-          账户余额由开户初始金额、充值审批和订单扣款自动维护。
+          代理商设为无效时，系统将账户余额归零并自动形成应退款记录；
+          实际退款通过退款管理窗口执行并永久保存退款流水。
         </p>
 
       </div>
+
 
       <div class="page-actions">
 
         <button
           class="btn btn-light"
           type="button"
-          onclick="loadAgents()"
+          onclick="loadAllData()"
         >
           刷新
         </button>
@@ -768,6 +968,10 @@
 
     <div id="notice" class="notice"></div>
 
+
+    <!-- ===================================================
+         汇总
+    ==================================================== -->
 
     <section class="summary-grid">
 
@@ -813,7 +1017,7 @@
       <div class="summary-card">
 
         <div class="summary-label">
-          账户余额合计
+          代理商账户余额合计
         </div>
 
         <div
@@ -825,13 +1029,34 @@
         </div>
 
         <div class="summary-sub">
-          不同币种分别统计
+          设为无效后，该代理商余额自动归零，因此余额合计同步减少。
+        </div>
+
+      </div>
+
+
+      <div class="summary-card refund-card">
+
+        <div class="summary-label">
+          当前需退款金额
+        </div>
+
+        <div id="refundDueSummary" class="summary-value">
+          0.00 CNY
+        </div>
+
+        <div class="summary-sub">
+          所有待退款和部分退款代理商的剩余退款金额。
         </div>
 
       </div>
 
     </section>
 
+
+    <!-- ===================================================
+         搜索
+    ==================================================== -->
 
     <div class="toolbar">
 
@@ -845,6 +1070,7 @@
         >
 
       </div>
+
 
       <div class="filter-box">
 
@@ -869,6 +1095,34 @@
 
 
         <select
+          id="refundFilter"
+          onchange="renderAgents()"
+        >
+
+          <option value="all">
+            全部退款状态
+          </option>
+
+          <option value="pending">
+            待退款
+          </option>
+
+          <option value="partial">
+            部分退款
+          </option>
+
+          <option value="completed">
+            已退款完成
+          </option>
+
+          <option value="none">
+            无退款记录
+          </option>
+
+        </select>
+
+
+        <select
           id="currencyFilter"
           onchange="renderAgents()"
         >
@@ -884,6 +1138,10 @@
     </div>
 
 
+    <!-- ===================================================
+         代理商列表
+    ==================================================== -->
+
     <div class="table-card">
 
       <div class="table-wrapper">
@@ -893,18 +1151,33 @@
           <thead>
 
             <tr>
+
               <th>代理商代码</th>
+
               <th>代理商名称</th>
+
               <th>代理区域</th>
+
               <th>当前余额</th>
+
+              <th>需退款金额</th>
+
+              <th>退款状态</th>
+
               <th>联系人</th>
+
               <th>登录账号</th>
+
               <th>状态</th>
+
               <th>创建时间</th>
+
               <th>操作</th>
+
             </tr>
 
           </thead>
+
 
           <tbody id="agentTableBody"></tbody>
 
@@ -1208,8 +1481,9 @@
             </strong>
 
             代理商创建以后，账户余额不能人工修改。
-            后续余额只能通过“充值审批”增加，
+            后续余额只能通过正式充值增加，
             或通过代理商正式下单自动扣减。
+            代理商设为无效时，剩余余额将转为应退款金额。
 
           </div>
 
@@ -1231,15 +1505,12 @@
           <div class="form-group full">
 
             <div class="form-help">
-
               创建成功后，系统会同时建立 Authentication 登录账号、
               profiles 的 agent 身份和 agents 代理商资料。
               代理商从 page11.html 登录。
-
             </div>
 
           </div>
-
 
         </div>
 
@@ -1514,12 +1785,13 @@
           <div class="balance-locked-box">
 
             <strong>
-              余额已经锁定为系统管理。
+              余额由系统维护。
             </strong>
 
             这里仅供查看，不能手工修改。
-            以后余额增加必须由管理工作台审批代理商充值申请；
-            余额减少由代理商提交订单时自动扣减。
+            余额增加必须通过正式充值；
+            余额减少由正式订单自动扣减。
+            设为无效时剩余余额自动转为退款责任。
 
           </div>
 
@@ -1536,20 +1808,6 @@
             ></textarea>
 
           </div>
-
-
-          <div class="form-group full">
-
-            <div class="form-help">
-
-              修改代理商资料不会改变代理商代码、登录邮箱、密码、
-              当前余额、账户币种和有效状态。
-              有效/无效状态请使用列表中的独立按钮操作。
-
-            </div>
-
-          </div>
-
 
         </div>
 
@@ -1612,240 +1870,100 @@
 
         <div class="detail-grid">
 
-
           <div class="detail-item">
-
-            <div class="detail-label">
-              代理商代码
-            </div>
-
-            <div id="detailCode" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">代理商代码</div>
+            <div id="detailCode" class="detail-value">-</div>
           </div>
 
-
           <div class="detail-item">
-
-            <div class="detail-label">
-              代理商名称
-            </div>
-
-            <div id="detailName" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">代理商名称</div>
+            <div id="detailName" class="detail-value">-</div>
           </div>
 
-
           <div class="detail-item">
-
-            <div class="detail-label">
-              代理区域
-            </div>
-
-            <div id="detailRegion" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">代理区域</div>
+            <div id="detailRegion" class="detail-value">-</div>
           </div>
 
-
           <div class="detail-item">
-
-            <div class="detail-label">
-              当前账户余额
-            </div>
-
-            <div id="detailBalance" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">当前账户余额</div>
+            <div id="detailBalance" class="detail-value">-</div>
           </div>
 
+          <div class="detail-item">
+            <div class="detail-label">当前需退款金额</div>
+            <div id="detailRefundDue" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">退款状态</div>
+            <div id="detailRefundStatus" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">联系人</div>
+            <div id="detailContact" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">联系电话</div>
+            <div id="detailPhone" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">登录邮箱</div>
+            <div id="detailEmail" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">当前状态</div>
+            <div id="detailStatus" class="detail-value">-</div>
+          </div>
 
           <div class="detail-item full">
-
-            <div class="detail-label">
-              账户余额说明
-            </div>
-
-            <div class="detail-value">
-              账户余额由开户初始余额、充值审批和订单扣款自动维护，不能人工直接修改。
-            </div>
-
+            <div class="detail-label">地址</div>
+            <div id="detailAddress" class="detail-value">-</div>
           </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              联系人
-            </div>
-
-            <div id="detailContact" class="detail-value">
-              -
-            </div>
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              联系电话
-            </div>
-
-            <div id="detailPhone" class="detail-value">
-              -
-            </div>
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              登录邮箱
-            </div>
-
-            <div id="detailEmail" class="detail-value">
-              -
-            </div>
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              当前状态
-            </div>
-
-            <div id="detailStatus" class="detail-value">
-              -
-            </div>
-
-          </div>
-
 
           <div class="detail-item full">
-
-            <div class="detail-label">
-              地址
-            </div>
-
-            <div id="detailAddress" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">开户行</div>
+            <div id="detailBankName" class="detail-value">-</div>
           </div>
 
+          <div class="detail-item">
+            <div class="detail-label">银行账号</div>
+            <div id="detailBankAccount" class="detail-value">-</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">税号</div>
+            <div id="detailTaxNumber" class="detail-value">-</div>
+          </div>
 
           <div class="detail-item full">
-
-            <div class="detail-label">
-              开户行
-            </div>
-
-            <div id="detailBankName" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">备注</div>
+            <div id="detailNotes" class="detail-value">-</div>
           </div>
-
 
           <div class="detail-item">
-
-            <div class="detail-label">
-              银行账号
-            </div>
-
-            <div id="detailBankAccount" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">Authentication 用户 ID</div>
+            <div id="detailAuthUserId" class="detail-value">-</div>
           </div>
-
 
           <div class="detail-item">
-
-            <div class="detail-label">
-              税号
-            </div>
-
-            <div id="detailTaxNumber" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">代理商数据库 ID</div>
+            <div id="detailId" class="detail-value">-</div>
           </div>
-
-
-          <div class="detail-item full">
-
-            <div class="detail-label">
-              备注
-            </div>
-
-            <div id="detailNotes" class="detail-value">
-              -
-            </div>
-
-          </div>
-
 
           <div class="detail-item">
-
-            <div class="detail-label">
-              Authentication 用户 ID
-            </div>
-
-            <div id="detailAuthUserId" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">创建时间</div>
+            <div id="detailCreatedAt" class="detail-value">-</div>
           </div>
-
 
           <div class="detail-item">
-
-            <div class="detail-label">
-              代理商数据库 ID
-            </div>
-
-            <div id="detailId" class="detail-value">
-              -
-            </div>
-
+            <div class="detail-label">最近更新时间</div>
+            <div id="detailUpdatedAt" class="detail-value">-</div>
           </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              创建时间
-            </div>
-
-            <div id="detailCreatedAt" class="detail-value">
-              -
-            </div>
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              最近更新时间
-            </div>
-
-            <div id="detailUpdatedAt" class="detail-value">
-              -
-            </div>
-
-          </div>
-
 
         </div>
 
@@ -1858,6 +1976,428 @@
           class="btn btn-light"
           type="button"
           onclick="closeDetailModal()"
+        >
+          关闭
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       设为无效确认窗口
+  ====================================================== -->
+
+  <div id="deactivateModal" class="modal-mask">
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <h2>
+          设代理商为无效
+        </h2>
+
+        <button
+          class="modal-close"
+          type="button"
+          onclick="closeDeactivateModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <input
+          id="deactivateAgentId"
+          type="hidden"
+        >
+
+
+        <div class="deactivate-warning">
+
+          <strong>
+            这是资金及账户状态操作。
+          </strong>
+
+          <br>
+
+          确认以后，该代理商将立即失去代理商系统登录权限。
+          当前账户剩余余额将归零，并自动转为公司的“需退款金额”。
+
+        </div>
+
+
+        <div class="detail-grid">
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              代理商
+            </div>
+
+            <div id="deactivateAgentName" class="detail-value">
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              代理商代码
+            </div>
+
+            <div id="deactivateAgentCode" class="detail-value">
+              -
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="deactivate-balance">
+
+          <div class="deactivate-balance-label">
+            当前账户余额 / 停用后应退款金额
+          </div>
+
+          <div id="deactivateRefundAmount" class="deactivate-balance-value">
+            0.00 CNY
+          </div>
+
+        </div>
+
+
+        <div class="form-help" style="margin-top:16px;">
+
+          系统会一次性完成：
+          代理商设为无效、登录权限关闭、账户余额归零、
+          创建退款主记录。
+          处理人和处理时间由数据库自动记录。
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          type="button"
+          onclick="closeDeactivateModal()"
+        >
+          取消
+        </button>
+
+        <button
+          id="confirmDeactivateButton"
+          class="btn btn-red"
+          type="button"
+          onclick="confirmDeactivateAgent()"
+        >
+          确认设为无效
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       退款管理窗口
+  ====================================================== -->
+
+  <div id="refundModal" class="modal-mask">
+
+    <div class="modal modal-wide">
+
+      <div class="modal-header">
+
+        <h2>
+          代理商退款管理
+        </h2>
+
+        <button
+          class="modal-close"
+          type="button"
+          onclick="closeRefundModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <input
+          id="refundCaseId"
+          type="hidden"
+        >
+
+        <input
+          id="refundAgentId"
+          type="hidden"
+        >
+
+
+        <div id="refundAgentBox" class="refund-agent-box">
+          -
+        </div>
+
+
+        <div class="refund-summary-grid">
+
+          <div class="refund-summary-item">
+
+            <div class="refund-summary-label">
+              停用时账户余额
+            </div>
+
+            <div id="refundOriginalBalance" class="refund-summary-value">
+              0.00 CNY
+            </div>
+
+          </div>
+
+
+          <div class="refund-summary-item">
+
+            <div class="refund-summary-label">
+              退款总额
+            </div>
+
+            <div id="refundTotal" class="refund-summary-value">
+              0.00 CNY
+            </div>
+
+          </div>
+
+
+          <div class="refund-summary-item">
+
+            <div class="refund-summary-label">
+              已退款
+            </div>
+
+            <div id="refundedAmount" class="refund-summary-value">
+              0.00 CNY
+            </div>
+
+          </div>
+
+
+          <div class="refund-summary-item due">
+
+            <div class="refund-summary-label">
+              当前需退款
+            </div>
+
+            <div id="refundDueAmount" class="refund-summary-value">
+              0.00 CNY
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="detail-grid">
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              当前退款状态
+            </div>
+
+            <div id="refundCaseStatus" class="detail-value">
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              退款责任生成时间
+            </div>
+
+            <div id="refundCaseCreatedAt" class="detail-value">
+              -
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- 实际退款 -->
+
+        <div id="refundExecutionForm" class="refund-form-box">
+
+          <div class="refund-form-title">
+            执行本次退款
+          </div>
+
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label>
+                本次退款金额
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="refundExecutionAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+              >
+
+              <div class="form-help">
+                系统默认填写当前全部需退款金额，也可以修改为部分退款金额。
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                退款方式
+              </label>
+
+              <select id="refundMethod">
+
+                <option value="银行转账">
+                  银行转账
+                </option>
+
+                <option value="现金">
+                  现金
+                </option>
+
+                <option value="其他">
+                  其他
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label>
+                银行流水号 / 退款凭证号
+              </label>
+
+              <input
+                id="refundReferenceNo"
+                type="text"
+                placeholder="例如：银行交易流水号"
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label>
+                退款备注
+              </label>
+
+              <textarea
+                id="refundExecutionNotes"
+                placeholder="本次退款说明"
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <div style="margin-top:16px;text-align:right;">
+
+            <button
+              id="executeRefundButton"
+              class="btn btn-orange"
+              type="button"
+              onclick="executeRefund()"
+            >
+              执行退款
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- 退款流水 -->
+
+        <div class="refund-history-title">
+          退款执行记录
+        </div>
+
+
+        <div class="refund-history-wrapper">
+
+          <table class="refund-history-table">
+
+            <thead>
+
+              <tr>
+                <th>执行时间</th>
+                <th>本次退款金额</th>
+                <th>退款方式</th>
+                <th>银行流水号 / 凭证号</th>
+                <th>执行人</th>
+                <th>备注</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="refundExecutionTableBody"></tbody>
+
+          </table>
+
+
+          <div
+            id="refundExecutionEmpty"
+            class="empty-box"
+            style="display:none;"
+          >
+            尚无实际退款执行记录
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          type="button"
+          onclick="closeRefundModal()"
         >
           关闭
         </button>
@@ -1895,30 +2435,26 @@
 
   let agents = [];
 
-  let accessVerified =
-    false;
+  let refundCases = [];
+
+  let refundExecutions = [];
+
+  let profiles = [];
+
+  let accessVerified = false;
 
 
 
   /* =====================================================
      公司管理人员权限验证
-
-     founder / admin 一律作为公司管理人员处理
-     不在页面上区别权限名称
   ===================================================== */
 
   async function verifyManagementAccess() {
 
-    accessVerified =
-      false;
+    accessVerified = false;
 
 
     try {
-
-
-      /*
-        1. 读取当前 Session
-      */
 
       const {
         data: sessionData,
@@ -1946,14 +2482,8 @@
         sessionData.session.user;
 
 
-
-      /*
-        2. 再确认当前 Auth 用户
-      */
-
       const {
-        data: userData,
-        error: userError
+        data: userData
       } =
         await supabaseClient
           .auth
@@ -1965,43 +2495,23 @@
         sessionUser;
 
 
-      if (
-        !user
-      ) {
-
-        console.error(
-          "无法读取当前登录用户：",
-          userError
-        );
-
+      if (!user) {
 
         await supabaseClient
           .auth
           .signOut();
 
-
         window.location.replace(
           "page10.html"
         );
-
 
         return false;
       }
 
 
+      let profile = null;
 
-      /*
-        3. 查询 profiles
-
-        对刚生成的管理人员做最多3次读取，
-        避免登录后数据库资料短暂未同步。
-      */
-
-      let profile =
-        null;
-
-      let lastProfileError =
-        null;
+      let lastProfileError = null;
 
 
       for (
@@ -2009,7 +2519,6 @@
         attempt <= 3;
         attempt++
       ) {
-
 
         const {
           data,
@@ -2027,28 +2536,20 @@
             .maybeSingle();
 
 
-        if (
-          !error &&
-          data
-        ) {
+        if (!error && data) {
 
-          profile =
-            data;
+          profile = data;
 
-          lastProfileError =
-            null;
+          lastProfileError = null;
 
           break;
         }
 
 
-        lastProfileError =
-          error;
+        lastProfileError = error;
 
 
-        if (
-          attempt < 3
-        ) {
+        if (attempt < 3) {
 
           await new Promise(
             resolve =>
@@ -2057,39 +2558,20 @@
                 350
               )
           );
-
         }
-
-
       }
 
 
-
-      /*
-        4. 没有 profiles
-      */
-
-      if (
-        !profile
-      ) {
-
-
-        console.error(
-          "没有找到管理人员 profile：",
-          lastProfileError
-        );
-
+      if (!profile) {
 
         document
           .documentElement
           .classList
-          .add(
-            "auth-ready"
-          );
+          .add("auth-ready");
 
 
         showNotice(
-          "当前登录账号存在，但没有找到对应的公司管理人员资料。"
+          "没有找到当前公司管理人员资料。"
           +
           (
             lastProfileError?.message
@@ -2102,132 +2584,61 @@
           "error"
         );
 
-
         return false;
       }
 
 
-
-      /*
-        5. 账号必须有效
-      */
-
       if (
-        profile.is_active !== true
+        profile.is_active !== true ||
+        ![
+          "founder",
+          "admin"
+        ].includes(
+          profile.role
+        )
       ) {
-
 
         await supabaseClient
           .auth
           .signOut();
 
-
         window.location.replace(
           "page10.html"
         );
-
 
         return false;
       }
 
 
-
-      /*
-        6. 公司管理人员统一权限
-
-        founder 和 admin 都允许。
-        不区分二者。
-      */
-
-      const isCompanyManagement =
+      document.getElementById(
+        "currentUser"
+      ).textContent =
         (
-          profile.role === "founder" ||
-          profile.role === "admin"
-        );
+          profile.display_name ||
+          user.email ||
+          "公司管理人员"
+        )
+        +
+        " · 公司管理人员";
 
 
-      if (
-        !isCompanyManagement
-      ) {
-
-
-        await supabaseClient
-          .auth
-          .signOut();
-
-
-        window.location.replace(
-          "page10.html"
-        );
-
-
-        return false;
-      }
-
-
-
-      /*
-        7. 页面统一显示“公司管理人员”
-      */
-
-      const currentUser =
-        document.getElementById(
-          "currentUser"
-        );
-
-
-      if (
-        currentUser
-      ) {
-
-
-        currentUser.textContent =
-          (
-            profile.display_name ||
-            user.email ||
-            "公司管理人员"
-          )
-          +
-          " · 公司管理人员";
-
-
-      }
-
-
-
-      /*
-        8. 正式放行
-      */
-
-      accessVerified =
-        true;
+      accessVerified = true;
 
 
       document
         .documentElement
         .classList
-        .add(
-          "auth-ready"
-        );
-
-
-      console.log(
-        "公司管理人员权限验证成功：",
-        profile.display_name ||
-        user.email
-      );
+        .add("auth-ready");
 
 
       return true;
-
 
     }
 
     catch (error) {
 
-
       console.error(
-        "管理权限验证异常：",
+        "管理权限验证失败：",
         error
       );
 
@@ -2235,9 +2646,7 @@
       document
         .documentElement
         .classList
-        .add(
-          "auth-ready"
-        );
+        .add("auth-ready");
 
 
       showNotice(
@@ -2252,9 +2661,7 @@
 
 
       return false;
-
     }
-
   }
 
 
@@ -2265,117 +2672,165 @@
 
   document.addEventListener(
     "DOMContentLoaded",
-
     async function() {
-
 
       const allowed =
         await verifyManagementAccess();
 
 
-      if (
-        allowed
-      ) {
+      if (allowed) {
 
-        await loadAgents();
+        await loadAllData();
 
       }
-
-
     }
   );
 
 
 
-  /* =====================================================
-     浏览器返回缓存后重新验证
-  ===================================================== */
-
   window.addEventListener(
     "pageshow",
-
     async function(event) {
 
+      if (event.persisted) {
 
-      if (
-        event.persisted
-      ) {
-
-
-        accessVerified =
-          false;
+        accessVerified = false;
 
 
         const allowed =
           await verifyManagementAccess();
 
 
-        if (
-          allowed
-        ) {
+        if (allowed) {
 
-          await loadAgents();
+          await loadAllData();
 
         }
-
-
       }
-
-
     }
   );
 
 
 
   /* =====================================================
-     读取代理商
+     统一读取代理商 + 退款 + 管理人员资料
   ===================================================== */
 
-  async function loadAgents() {
+  async function loadAllData() {
 
-    if (
-      !accessVerified
-    ) {
-
+    if (!accessVerified) {
       return;
     }
 
 
-    showLoading(
-      true
-    );
+    showLoading(true);
 
 
     try {
 
+      const [
+        agentsResult,
+        refundCasesResult,
+        refundExecutionsResult,
+        profilesResult
+      ] =
+        await Promise.all([
 
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-          .from("agents")
-          .select("*")
-          .order(
-            "created_at",
-            {
-              ascending: false
-            }
-          );
+          supabaseClient
+            .from("agents")
+            .select("*")
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            ),
+
+          supabaseClient
+            .from("agent_refund_cases")
+            .select("*")
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            ),
+
+          supabaseClient
+            .from("agent_refund_executions")
+            .select("*")
+            .order(
+              "executed_at",
+              {
+                ascending: false
+              }
+            ),
+
+          supabaseClient
+            .from("profiles")
+            .select(
+              "id, display_name"
+            )
+
+        ]);
 
 
-      if (
-        error
-      ) {
+      if (agentsResult.error) {
+        throw agentsResult.error;
+      }
 
-        throw error;
+
+      if (refundCasesResult.error) {
+        throw refundCasesResult.error;
+      }
+
+
+      if (refundExecutionsResult.error) {
+        throw refundExecutionsResult.error;
+      }
+
+
+      if (profilesResult.error) {
+        throw profilesResult.error;
       }
 
 
       agents =
-        Array.isArray(data)
+        Array.isArray(
+          agentsResult.data
+        )
         ?
-        data
+        agentsResult.data
+        :
+        [];
+
+
+      refundCases =
+        Array.isArray(
+          refundCasesResult.data
+        )
+        ?
+        refundCasesResult.data
+        :
+        [];
+
+
+      refundExecutions =
+        Array.isArray(
+          refundExecutionsResult.data
+        )
+        ?
+        refundExecutionsResult.data
+        :
+        [];
+
+
+      profiles =
+        Array.isArray(
+          profilesResult.data
+        )
+        ?
+        profilesResult.data
         :
         [];
 
@@ -2386,31 +2841,18 @@
 
       renderAgents();
 
-
     }
 
     catch (error) {
 
-
       console.error(
-        "读取代理商失败：",
+        "读取代理商管理数据失败：",
         error
       );
 
 
-      agents =
-        [];
-
-
-      updateSummary();
-
-      updateCurrencyFilter();
-
-      renderAgents();
-
-
       showNotice(
-        "读取代理商资料失败："
+        "读取代理商管理数据失败："
         +
         (
           error?.message ||
@@ -2419,19 +2861,237 @@
         "error"
       );
 
-
     }
 
     finally {
 
+      showLoading(false);
 
-      showLoading(
-        false
+    }
+  }
+
+
+
+  /* =====================================================
+     兼容原刷新函数
+  ===================================================== */
+
+  async function loadAgents() {
+
+    await loadAllData();
+
+  }
+
+
+
+  /* =====================================================
+     退款资料辅助函数
+  ===================================================== */
+
+  function getLatestRefundCase(
+    agentId
+  ) {
+
+    const rows =
+      refundCases.filter(
+        item =>
+          String(item.agent_id) ===
+          String(agentId)
       );
 
 
+    if (!rows.length) {
+      return null;
     }
 
+
+    return rows
+      .slice()
+      .sort(
+        function(a, b) {
+
+          return (
+            new Date(
+              b.created_at
+            ).getTime()
+            -
+            new Date(
+              a.created_at
+            ).getTime()
+          );
+
+        }
+      )[0];
+  }
+
+
+
+  function getOpenRefundCase(
+    agentId
+  ) {
+
+    return (
+      refundCases.find(
+        item =>
+          String(item.agent_id) ===
+          String(agentId)
+          &&
+          (
+            item.status === "pending"
+            ||
+            item.status === "partial"
+          )
+      )
+      ||
+      null
+    );
+  }
+
+
+
+  function getRefundExecutionsForCase(
+    refundCaseId
+  ) {
+
+    return refundExecutions
+      .filter(
+        item =>
+          String(
+            item.refund_case_id
+          ) ===
+          String(
+            refundCaseId
+          )
+      )
+      .sort(
+        function(a, b) {
+
+          return (
+            new Date(
+              b.executed_at
+            ).getTime()
+            -
+            new Date(
+              a.executed_at
+            ).getTime()
+          );
+
+        }
+      );
+  }
+
+
+
+  function getProfileName(
+    profileId
+  ) {
+
+    if (!profileId) {
+      return "-";
+    }
+
+
+    const profile =
+      profiles.find(
+        item =>
+          String(item.id) ===
+          String(profileId)
+      );
+
+
+    return (
+      profile?.display_name ||
+      profileId
+    );
+  }
+
+
+
+  function refundStatusText(
+    status
+  ) {
+
+    const map = {
+
+      pending:
+        "待退款",
+
+      partial:
+        "部分退款",
+
+      completed:
+        "已退款完成"
+
+    };
+
+
+    return (
+      map[status]
+      ||
+      "无退款记录"
+    );
+  }
+
+
+
+  function refundStatusHTML(
+    refundCase
+  ) {
+
+    if (!refundCase) {
+
+      return `
+        <span class="status refund-none">
+          无退款记录
+        </span>
+      `;
+    }
+
+
+    let className =
+      "refund-none";
+
+
+    if (
+      refundCase.status ===
+      "pending"
+    ) {
+
+      className =
+        "refund-pending";
+
+    }
+
+    else if (
+      refundCase.status ===
+      "partial"
+    ) {
+
+      className =
+        "refund-partial";
+
+    }
+
+    else if (
+      refundCase.status ===
+      "completed"
+    ) {
+
+      className =
+        "refund-completed";
+
+    }
+
+
+    return `
+      <span class="status ${className}">
+        ${escapeHTML(
+          refundStatusText(
+            refundCase.status
+          )
+        )}
+      </span>
+    `;
   }
 
 
@@ -2444,8 +3104,7 @@
     rows
   ) {
 
-    let maxCode =
-      0;
+    let maxCode = 0;
 
 
     for (
@@ -2454,13 +3113,11 @@
       rows || []
     ) {
 
-
       const raw =
         String(
           item.agent_code ||
           ""
-        )
-        .trim();
+        ).trim();
 
 
       if (
@@ -2468,7 +3125,6 @@
           raw
         )
       ) {
-
 
         const number =
           parseInt(
@@ -2482,49 +3138,36 @@
             number
           )
           &&
-          number >
-          maxCode
+          number > maxCode
         ) {
 
           maxCode =
             number;
         }
-
-
       }
-
-
     }
 
 
     const next =
-      maxCode +
-      1;
+      maxCode + 1;
 
 
-    if (
-      next >
-      999
-    ) {
-
+    if (next > 999) {
       return null;
     }
 
 
     return String(
       next
-    )
-    .padStart(
+    ).padStart(
       3,
       "0"
     );
-
   }
 
 
 
   async function getNextAgentCodeFromDatabase() {
-
 
     const {
       data,
@@ -2537,19 +3180,14 @@
         );
 
 
-    if (
-      error
-    ) {
-
+    if (error) {
       throw error;
     }
 
 
     return calculateNextAgentCode(
-      data ||
-      []
+      data || []
     );
-
   }
 
 
@@ -2559,7 +3197,6 @@
   ===================================================== */
 
   async function openCreateAgentModal() {
-
 
     document.getElementById(
       "newAgentCode"
@@ -2587,9 +3224,7 @@
         "createAgentModal"
       )
       .classList
-      .add(
-        "show"
-      );
+      .add("show");
 
 
     const createButton =
@@ -2598,21 +3233,16 @@
       );
 
 
-    createButton.disabled =
-      true;
+    createButton.disabled = true;
 
 
     try {
-
 
       const nextCode =
         await getNextAgentCodeFromDatabase();
 
 
-      if (
-        !nextCode
-      ) {
-
+      if (!nextCode) {
 
         document.getElementById(
           "newAgentCode"
@@ -2623,7 +3253,7 @@
         document.getElementById(
           "agentCodeHelp"
         ).textContent =
-          "代理商代码已达到最大值 999，无法继续创建。";
+          "代理商代码已达到最大值999，无法继续创建。";
 
 
         showNotice(
@@ -2633,7 +3263,6 @@
 
 
         return;
-
       }
 
 
@@ -2656,11 +3285,9 @@
       createButton.disabled =
         false;
 
-
     }
 
     catch (error) {
-
 
       console.error(
         "生成代理商代码失败：",
@@ -2686,26 +3313,19 @@
         error.message,
         "error"
       );
-
-
     }
-
   }
 
 
 
   function closeCreateAgentModal() {
 
-
     document
       .getElementById(
         "createAgentModal"
       )
       .classList
-      .remove(
-        "show"
-      );
-
+      .remove("show");
   }
 
 
@@ -2716,21 +3336,16 @@
 
   async function createAgent() {
 
-
     const agentName =
       document.getElementById(
         "newAgentName"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const region =
       document.getElementById(
         "newAgentRegion"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const email =
@@ -2751,57 +3366,44 @@
     const contact =
       document.getElementById(
         "newAgentContact"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const phone =
       document.getElementById(
         "newAgentPhone"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const address =
       document.getElementById(
         "newAgentAddress"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const bankName =
       document.getElementById(
         "newAgentBankName"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const bankAccount =
       document.getElementById(
         "newAgentBankAccount"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const taxNumber =
       document.getElementById(
         "newAgentTaxNumber"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
     const balance =
       Number(
         document.getElementById(
           "newAgentBalance"
-        ).value ||
-        0
+        ).value || 0
       );
 
 
@@ -2817,15 +3419,10 @@
     const notes =
       document.getElementById(
         "newAgentNotes"
-      )
-      .value
-      .trim();
+      ).value.trim();
 
 
-
-    if (
-      !agentName
-    ) {
+    if (!agentName) {
 
       alert(
         "请输入代理商名称。"
@@ -2833,7 +3430,6 @@
 
       return;
     }
-
 
 
     if (
@@ -2849,10 +3445,8 @@
     }
 
 
-
     if (
-      password.length <
-      8
+      password.length < 8
     ) {
 
       alert(
@@ -2863,14 +3457,12 @@
     }
 
 
-
     if (
       !Number.isFinite(
         balance
       )
       ||
-      balance <
-      0
+      balance < 0
     ) {
 
       alert(
@@ -2881,50 +3473,39 @@
     }
 
 
-
     const button =
       document.getElementById(
         "createAgentButton"
       );
 
 
-    button.disabled =
-      true;
-
+    button.disabled = true;
 
     button.textContent =
       "正在创建……";
 
 
-    showLoading(
-      true
-    );
+    showLoading(true);
 
 
     try {
-
 
       const latestCode =
         await getNextAgentCodeFromDatabase();
 
 
-      if (
-        !latestCode
-      ) {
+      if (!latestCode) {
 
         throw new Error(
           "代理商代码已经达到最大值999。"
         );
-
       }
-
 
 
       document.getElementById(
         "newAgentCode"
       ).value =
         latestCode;
-
 
 
       const {
@@ -2936,7 +3517,6 @@
           .invoke(
             "create-agent",
             {
-
               body: {
 
                 agent_code:
@@ -2980,18 +3560,12 @@
 
                 notes:
                   notes
-
               }
-
             }
           );
 
 
-
-      if (
-        error
-      ) {
-
+      if (error) {
 
         let errorMessage =
           error.message ||
@@ -3000,13 +3574,11 @@
 
         try {
 
-
           if (
             error.context &&
             typeof error.context.json ===
             "function"
           ) {
-
 
             const body =
               await error.context.json();
@@ -3019,12 +3591,8 @@
 
               errorMessage =
                 body.error;
-
             }
-
-
           }
-
 
         }
 
@@ -3033,16 +3601,13 @@
           console.warn(
             detailError
           );
-
         }
 
 
         throw new Error(
           errorMessage
         );
-
       }
-
 
 
       if (
@@ -3053,13 +3618,10 @@
         throw new Error(
           data.error
         );
-
       }
 
 
-
       closeCreateAgentModal();
-
 
 
       showNotice(
@@ -3067,19 +3629,16 @@
         +
         latestCode
         +
-        "。开户初始余额将作为第一条正式充值记录保存。",
+        "。",
         "success"
       );
 
 
-
-      await loadAgents();
-
+      await loadAllData();
 
     }
 
     catch (error) {
-
 
       console.error(
         "创建代理商失败：",
@@ -3094,60 +3653,1022 @@
         "error"
       );
 
-
     }
 
     finally {
 
+      showLoading(false);
 
-      showLoading(
-        false
-      );
-
-
-      button.disabled =
-        false;
-
+      button.disabled = false;
 
       button.textContent =
         "创建代理商";
-
-
     }
-
   }
 
 
 
   /* =====================================================
-     修改代理商窗口
+     第1段结束
+     第2段请直接从这里继续粘贴
+  ===================================================== */
+    /* =====================================================
+     汇总
   ===================================================== */
 
-  function openEditAgentModal(
-    id
-  ) {
+  function updateSummary() {
 
+    const total =
+      agents.length;
+
+
+    const active =
+      agents.filter(
+        item =>
+          item.is_active === true
+      ).length;
+
+
+    const disabled =
+      total - active;
+
+
+    document.getElementById(
+      "totalCount"
+    ).textContent =
+      total;
+
+
+    document.getElementById(
+      "activeCount"
+    ).textContent =
+      active;
+
+
+    document.getElementById(
+      "disabledCount"
+    ).textContent =
+      disabled;
+
+
+
+    /* ===================================================
+       代理商当前余额合计
+       按币种分别统计
+    =================================================== */
+
+    const balances = {};
+
+
+    agents.forEach(
+      function(agent) {
+
+        const currency =
+          (
+            agent.balance_currency ||
+            "CNY"
+          )
+          .toUpperCase();
+
+
+        const amount =
+          Number(
+            agent.account_balance ||
+            0
+          );
+
+
+        balances[currency] =
+          (
+            balances[currency] ||
+            0
+          )
+          +
+          amount;
+
+      }
+    );
+
+
+    document.getElementById(
+      "balanceSummary"
+    ).textContent =
+      formatCurrencySummary(
+        balances
+      );
+
+
+
+    /* ===================================================
+       当前需退款合计
+       只统计 pending / partial
+    =================================================== */
+
+    const refundDue = {};
+
+
+    refundCases
+      .filter(
+        item =>
+          item.status === "pending"
+          ||
+          item.status === "partial"
+      )
+      .forEach(
+        function(item) {
+
+          const currency =
+            (
+              item.currency ||
+              "CNY"
+            )
+            .toUpperCase();
+
+
+          const amount =
+            Number(
+              item.refund_due_amount ||
+              0
+            );
+
+
+          refundDue[currency] =
+            (
+              refundDue[currency] ||
+              0
+            )
+            +
+            amount;
+
+        }
+      );
+
+
+    document.getElementById(
+      "refundDueSummary"
+    ).textContent =
+      formatCurrencySummary(
+        refundDue
+      );
+  }
+
+
+
+  /* =====================================================
+     币种筛选
+  ===================================================== */
+
+  function updateCurrencyFilter() {
+
+    const select =
+      document.getElementById(
+        "currencyFilter"
+      );
+
+
+    const oldValue =
+      select.value;
+
+
+    const currencies =
+      [
+        ...new Set(
+          agents
+            .map(
+              item =>
+                (
+                  item.balance_currency ||
+                  "CNY"
+                )
+                .toUpperCase()
+            )
+            .filter(Boolean)
+        )
+      ]
+      .sort();
+
+
+    select.innerHTML =
+      `
+        <option value="all">
+          全部币种
+        </option>
+      `;
+
+
+    currencies.forEach(
+      function(currency) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          currency;
+
+
+        option.textContent =
+          currency;
+
+
+        select.appendChild(
+          option
+        );
+      }
+    );
+
+
+    if (
+      oldValue === "all"
+      ||
+      currencies.includes(
+        oldValue
+      )
+    ) {
+
+      select.value =
+        oldValue;
+
+    }
+
+    else {
+
+      select.value =
+        "all";
+
+    }
+  }
+
+
+
+  /* =====================================================
+     渲染代理商列表
+  ===================================================== */
+
+  function renderAgents() {
+
+    const tbody =
+      document.getElementById(
+        "agentTableBody"
+      );
+
+
+    const emptyBox =
+      document.getElementById(
+        "emptyBox"
+      );
+
+
+    const keyword =
+      document.getElementById(
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+    const statusFilter =
+      document.getElementById(
+        "statusFilter"
+      ).value;
+
+
+    const refundFilter =
+      document.getElementById(
+        "refundFilter"
+      ).value;
+
+
+    const currencyFilter =
+      document.getElementById(
+        "currencyFilter"
+      ).value;
+
+
+    tbody.innerHTML =
+      "";
+
+
+    const filtered =
+      agents.filter(
+        function(agent) {
+
+          const refundCase =
+            getLatestRefundCase(
+              agent.id
+            );
+
+
+          const refundStatus =
+            refundCase
+            ?
+            refundCase.status
+            :
+            "none";
+
+
+          const searchable =
+            [
+              agent.agent_code,
+              agent.agent_name,
+              agent.agent_region,
+              agent.contact_person,
+              agent.phone,
+              agent.email,
+              agent.address,
+              agent.bank_name,
+              agent.bank_account,
+              agent.tax_number,
+              agent.notes
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+
+          const keywordMatched =
+            !keyword
+            ||
+            searchable.includes(
+              keyword
+            );
+
+
+          let statusMatched =
+            true;
+
+
+          if (
+            statusFilter ===
+            "active"
+          ) {
+
+            statusMatched =
+              agent.is_active ===
+              true;
+
+          }
+
+          else if (
+            statusFilter ===
+            "disabled"
+          ) {
+
+            statusMatched =
+              agent.is_active !==
+              true;
+
+          }
+
+
+          const refundMatched =
+            refundFilter === "all"
+            ||
+            refundStatus ===
+            refundFilter;
+
+
+          const currency =
+            (
+              agent.balance_currency ||
+              "CNY"
+            )
+            .toUpperCase();
+
+
+          const currencyMatched =
+            currencyFilter === "all"
+            ||
+            currency ===
+            currencyFilter;
+
+
+          return (
+            keywordMatched
+            &&
+            statusMatched
+            &&
+            refundMatched
+            &&
+            currencyMatched
+          );
+
+        }
+      );
+
+
+    if (
+      filtered.length ===
+      0
+    ) {
+
+      emptyBox.style.display =
+        "block";
+
+      return;
+    }
+
+
+    emptyBox.style.display =
+      "none";
+
+
+    filtered.forEach(
+      function(agent) {
+
+        const refundCase =
+          getLatestRefundCase(
+            agent.id
+          );
+
+
+        const openRefundCase =
+          getOpenRefundCase(
+            agent.id
+          );
+
+
+        const currency =
+          (
+            agent.balance_currency ||
+            "CNY"
+          )
+          .toUpperCase();
+
+
+        const refundDue =
+          refundCase
+          ?
+          Number(
+            refundCase.refund_due_amount ||
+            0
+          )
+          :
+          0;
+
+
+        const refundCurrency =
+          (
+            refundCase?.currency ||
+            currency
+          )
+          .toUpperCase();
+
+
+        const tr =
+          document.createElement(
+            "tr"
+          );
+
+
+        if (
+          agent.is_active !==
+          true
+        ) {
+
+          tr.classList.add(
+            "agent-disabled"
+          );
+        }
+
+
+        tr.innerHTML =
+          `
+
+            <td class="agent-code">
+              ${escapeHTML(
+                agent.agent_code ||
+                "-"
+              )}
+            </td>
+
+
+            <td class="agent-name">
+              ${escapeHTML(
+                agent.agent_name ||
+                "-"
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHTML(
+                agent.agent_region ||
+                "-"
+              )}
+            </td>
+
+
+            <td class="money">
+
+              ${formatMoney(
+                agent.account_balance
+              )}
+
+              ${escapeHTML(
+                currency
+              )}
+
+            </td>
+
+
+            <td>
+
+              ${
+                refundCase
+                ?
+                `
+                  <span class="${
+                    refundDue > 0
+                    ?
+                    "refund-money"
+                    :
+                    "refund-zero"
+                  }">
+
+                    ${formatMoney(
+                      refundDue
+                    )}
+
+                    ${escapeHTML(
+                      refundCurrency
+                    )}
+
+                  </span>
+                `
+                :
+                `
+                  <span class="refund-zero">
+                    -
+                  </span>
+                `
+              }
+
+            </td>
+
+
+            <td>
+              ${refundStatusHTML(
+                refundCase
+              )}
+            </td>
+
+
+            <td>
+
+              ${escapeHTML(
+                agent.contact_person ||
+                "-"
+              )}
+
+              ${
+                agent.phone
+                ?
+                `
+                  <div
+                    style="
+                      color:#64748b;
+                      margin-top:4px;
+                    "
+                  >
+                    ${escapeHTML(
+                      agent.phone
+                    )}
+                  </div>
+                `
+                :
+                ""
+              }
+
+            </td>
+
+
+            <td>
+
+              ${
+                agent.auth_user_id
+                ?
+                `
+                  <span class="login-linked">
+                    已绑定
+                  </span>
+                `
+                :
+                `
+                  <span class="login-unlinked">
+                    未绑定
+                  </span>
+                `
+              }
+
+              ${
+                agent.email
+                ?
+                `
+                  <div
+                    style="
+                      margin-top:4px;
+                      color:#64748b;
+                      font-size:12px;
+                    "
+                  >
+                    ${escapeHTML(
+                      agent.email
+                    )}
+                  </div>
+                `
+                :
+                ""
+              }
+
+            </td>
+
+
+            <td>
+
+              ${
+                agent.is_active ===
+                true
+                ?
+                `
+                  <span class="status status-active">
+                    有效
+                  </span>
+                `
+                :
+                `
+                  <span class="status status-disabled">
+                    无效
+                  </span>
+                `
+              }
+
+            </td>
+
+
+            <td>
+              ${formatDateTime(
+                agent.created_at
+              )}
+            </td>
+
+
+            <td>
+
+              <div class="row-actions">
+
+
+                <button
+                  class="btn btn-dark btn-small"
+                  type="button"
+                  onclick="openDetail('${agent.id}')"
+                >
+                  查看详情
+                </button>
+
+
+                <button
+                  class="btn btn-edit btn-small"
+                  type="button"
+                  onclick="openEditAgentModal('${agent.id}')"
+                >
+                  修改信息
+                </button>
+
+
+                ${
+                  agent.is_active === true
+                  ?
+                  `
+                    <button
+                      class="btn btn-red btn-small"
+                      type="button"
+                      onclick="openDeactivateModal('${agent.id}')"
+                    >
+                      设为无效
+                    </button>
+                  `
+                  :
+                  `
+                    <button
+                      class="btn btn-green btn-small"
+                      type="button"
+                      onclick="reactivateAgent('${agent.id}')"
+                    >
+                      恢复有效
+                    </button>
+                  `
+                }
+
+
+                ${
+                  refundCase
+                  ?
+                  `
+                    <button
+                      class="btn ${
+                        openRefundCase
+                        ?
+                        "btn-orange"
+                        :
+                        "btn-blue"
+                      } btn-small"
+                      type="button"
+                      onclick="openRefundModal('${agent.id}')"
+                    >
+                      ${
+                        openRefundCase
+                        ?
+                        "退款管理"
+                        :
+                        "退款记录"
+                      }
+                    </button>
+                  `
+                  :
+                  ""
+                }
+
+
+              </div>
+
+            </td>
+
+          `;
+
+
+        tbody.appendChild(
+          tr
+        );
+
+      }
+    );
+  }
+
+
+
+  /* =====================================================
+     查看代理商详情
+  ===================================================== */
+
+  function openDetail(
+    agentId
+  ) {
 
     const agent =
       agents.find(
         item =>
           String(item.id) ===
-          String(id)
+          String(agentId)
       );
 
 
-    if (
-      !agent
-    ) {
+    if (!agent) {
 
       showNotice(
-        "没有找到代理商资料。",
+        "没有找到该代理商。",
         "error"
       );
 
       return;
     }
 
+
+    const refundCase =
+      getLatestRefundCase(
+        agent.id
+      );
+
+
+    const currency =
+      (
+        agent.balance_currency ||
+        "CNY"
+      )
+      .toUpperCase();
+
+
+    setText(
+      "detailCode",
+      agent.agent_code ||
+      "-"
+    );
+
+
+    setText(
+      "detailName",
+      agent.agent_name ||
+      "-"
+    );
+
+
+    setText(
+      "detailRegion",
+      agent.agent_region ||
+      "-"
+    );
+
+
+    setText(
+      "detailBalance",
+      formatMoney(
+        agent.account_balance
+      )
+      +
+      " "
+      +
+      currency
+    );
+
+
+    if (refundCase) {
+
+      setText(
+        "detailRefundDue",
+        formatMoney(
+          refundCase.refund_due_amount
+        )
+        +
+        " "
+        +
+        (
+          refundCase.currency ||
+          currency
+        )
+      );
+
+
+      setText(
+        "detailRefundStatus",
+        refundStatusText(
+          refundCase.status
+        )
+      );
+
+    }
+
+    else {
+
+      setText(
+        "detailRefundDue",
+        "-"
+      );
+
+
+      setText(
+        "detailRefundStatus",
+        "无退款记录"
+      );
+    }
+
+
+    setText(
+      "detailContact",
+      agent.contact_person ||
+      "-"
+    );
+
+
+    setText(
+      "detailPhone",
+      agent.phone ||
+      "-"
+    );
+
+
+    setText(
+      "detailEmail",
+      agent.email ||
+      "-"
+    );
+
+
+    setText(
+      "detailStatus",
+      agent.is_active === true
+      ?
+      "有效"
+      :
+      "无效"
+    );
+
+
+    setText(
+      "detailAddress",
+      agent.address ||
+      "-"
+    );
+
+
+    setText(
+      "detailBankName",
+      agent.bank_name ||
+      "-"
+    );
+
+
+    setText(
+      "detailBankAccount",
+      agent.bank_account ||
+      "-"
+    );
+
+
+    setText(
+      "detailTaxNumber",
+      agent.tax_number ||
+      "-"
+    );
+
+
+    setText(
+      "detailNotes",
+      agent.notes ||
+      "-"
+    );
+
+
+    setText(
+      "detailAuthUserId",
+      agent.auth_user_id ||
+      "未绑定"
+    );
+
+
+    setText(
+      "detailId",
+      String(
+        agent.id
+      )
+    );
+
+
+    setText(
+      "detailCreatedAt",
+      formatDateTime(
+        agent.created_at
+      )
+    );
+
+
+    setText(
+      "detailUpdatedAt",
+      formatDateTime(
+        agent.updated_at
+      )
+    );
+
+
+    document
+      .getElementById(
+        "detailModal"
+      )
+      .classList
+      .add("show");
+  }
+
+
+
+  function closeDetailModal() {
+
+    document
+      .getElementById(
+        "detailModal"
+      )
+      .classList
+      .remove("show");
+  }
+
+
+
+  /* =====================================================
+     修改代理商
+  ===================================================== */
+
+  function openEditAgentModal(
+    agentId
+  ) {
+
+    const agent =
+      agents.find(
+        item =>
+          String(item.id) ===
+          String(agentId)
+      );
+
+
+    if (!agent) {
+
+      showNotice(
+        "没有找到该代理商。",
+        "error"
+      );
+
+      return;
+    }
 
 
     document.getElementById(
@@ -3230,8 +4751,7 @@
       "editAgentBalance"
     ).value =
       formatMoney(
-        agent.account_balance ||
-        0
+        agent.account_balance
       );
 
 
@@ -3241,8 +4761,7 @@
       (
         agent.balance_currency ||
         "CNY"
-      )
-      .toUpperCase();
+      );
 
 
     document.getElementById(
@@ -3257,38 +4776,24 @@
         "editAgentModal"
       )
       .classList
-      .add(
-        "show"
-      );
-
-
+      .add("show");
   }
 
 
 
   function closeEditAgentModal() {
 
-
     document
       .getElementById(
         "editAgentModal"
       )
       .classList
-      .remove(
-        "show"
-      );
-
+      .remove("show");
   }
 
 
 
-  /* =====================================================
-     保存修改
-     不修改账户余额和账户币种
-  ===================================================== */
-
   async function saveAgentChanges() {
-
 
     const agentId =
       document.getElementById(
@@ -3296,120 +4801,25 @@
       ).value;
 
 
-
-    const originalAgent =
-      agents.find(
-        item =>
-          String(item.id) ===
-          String(agentId)
-      );
+    const agentName =
+      document.getElementById(
+        "editAgentName"
+      ).value.trim();
 
 
-
-    if (
-      !originalAgent
-    ) {
-
-      showNotice(
-        "没有找到需要修改的代理商。",
-        "error"
-      );
-
+    if (!agentId) {
       return;
     }
 
 
-
-    const agentName =
-      document.getElementById(
-        "editAgentName"
-      )
-      .value
-      .trim();
-
-
-    const agentRegion =
-      document.getElementById(
-        "editAgentRegion"
-      )
-      .value
-      .trim();
-
-
-    const contactPerson =
-      document.getElementById(
-        "editAgentContact"
-      )
-      .value
-      .trim();
-
-
-    const phone =
-      document.getElementById(
-        "editAgentPhone"
-      )
-      .value
-      .trim();
-
-
-    const address =
-      document.getElementById(
-        "editAgentAddress"
-      )
-      .value
-      .trim();
-
-
-    const bankName =
-      document.getElementById(
-        "editAgentBankName"
-      )
-      .value
-      .trim();
-
-
-    const bankAccount =
-      document.getElementById(
-        "editAgentBankAccount"
-      )
-      .value
-      .trim();
-
-
-    const taxNumber =
-      document.getElementById(
-        "editAgentTaxNumber"
-      )
-      .value
-      .trim();
-
-
-    const notes =
-      document.getElementById(
-        "editAgentNotes"
-      )
-      .value
-      .trim();
-
-
-
-    if (
-      !agentName
-    ) {
+    if (!agentName) {
 
       alert(
         "代理商名称不能为空。"
       );
 
-
-      document.getElementById(
-        "editAgentName"
-      ).focus();
-
-
       return;
     }
-
 
 
     const button =
@@ -3426,988 +4836,166 @@
       "正在保存……";
 
 
-    showLoading(
-      true
-    );
+    showLoading(true);
 
 
     try {
 
-
-      const updateData = {
-
-        agent_name:
-          agentName,
-
-        agent_region:
-          agentRegion ||
-          null,
-
-        contact_person:
-          contactPerson ||
-          null,
-
-        phone:
-          phone ||
-          null,
-
-        address:
-          address ||
-          null,
-
-        bank_name:
-          bankName ||
-          null,
-
-        bank_account:
-          bankAccount ||
-          null,
-
-        tax_number:
-          taxNumber ||
-          null,
-
-        notes:
-          notes ||
-          null
-
-      };
-
-
+      /*
+        注意：
+        这里绝对不修改 account_balance
+        也不修改 balance_currency。
+      */
 
       const {
-        error: agentUpdateError
+        error
       } =
         await supabaseClient
           .from("agents")
-          .update(
-            updateData
-          )
+          .update({
+
+            agent_name:
+              agentName,
+
+            agent_region:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentRegion"
+                ).value
+              ),
+
+            contact_person:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentContact"
+                ).value
+              ),
+
+            phone:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentPhone"
+                ).value
+              ),
+
+            address:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentAddress"
+                ).value
+              ),
+
+            bank_name:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentBankName"
+                ).value
+              ),
+
+            bank_account:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentBankAccount"
+                ).value
+              ),
+
+            tax_number:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentTaxNumber"
+                ).value
+              ),
+
+            notes:
+              emptyToNull(
+                document.getElementById(
+                  "editAgentNotes"
+                ).value
+              ),
+
+            updated_at:
+              new Date()
+                .toISOString()
+
+          })
           .eq(
             "id",
             agentId
           );
 
 
-
-      if (
-        agentUpdateError
-      ) {
-
-        throw agentUpdateError;
+      if (error) {
+        throw error;
       }
-
-
-
-      /*
-        同步 profiles.display_name
-      */
-
-      if (
-        originalAgent.auth_user_id &&
-        agentName !==
-        (
-          originalAgent.agent_name ||
-          ""
-        )
-      ) {
-
-
-        const {
-          error: profileUpdateError
-        } =
-          await supabaseClient
-            .from("profiles")
-            .update({
-
-              display_name:
-                agentName
-
-            })
-            .eq(
-              "id",
-              originalAgent.auth_user_id
-            )
-            .eq(
-              "role",
-              "agent"
-            );
-
-
-
-        if (
-          profileUpdateError
-        ) {
-
-
-          console.error(
-            "同步代理商 profile 名称失败：",
-            profileUpdateError
-          );
-
-
-          throw new Error(
-            "代理商资料已更新，但同步登录资料名称失败："
-            +
-            profileUpdateError.message
-          );
-
-
-        }
-
-
-      }
-
 
 
       closeEditAgentModal();
 
 
-
       showNotice(
-        "代理商信息修改成功。账户余额未发生人工变更。",
+        "代理商资料修改成功。",
         "success"
       );
 
 
-
-      await loadAgents();
-
+      await loadAllData();
 
     }
 
     catch (error) {
 
-
       console.error(
-        "修改代理商信息失败：",
+        "修改代理商失败：",
         error
       );
 
 
       showNotice(
-        "修改代理商信息失败："
+        "修改代理商失败："
         +
-        error.message,
+        (
+          error.message ||
+          "未知错误"
+        ),
         "error"
       );
-
 
     }
 
     finally {
 
-
-      showLoading(
-        false
-      );
-
+      showLoading(false);
 
       button.disabled =
         false;
 
-
       button.textContent =
         "保存修改";
-
-
     }
-
   }
 
 
 
   /* =====================================================
-     有效 / 无效
+     打开“设为无效”窗口
   ===================================================== */
 
-  async function changeAgentStatus(
-    agentId,
-    newStatus
+  function openDeactivateModal(
+    agentId
   ) {
-
-
-    const agent =
-      agents.find(
-        function(item) {
-
-          return (
-            String(item.id) ===
-            String(agentId)
-          );
-
-        }
-      );
-
-
-
-    if (
-      !agent
-    ) {
-
-      showNotice(
-        "没有找到代理商。",
-        "error"
-      );
-
-      return;
-    }
-
-
-
-    const text =
-      newStatus
-      ?
-      "确定恢复该代理商为有效状态吗？恢复后可重新进入代理商系统。"
-      :
-      "确定将该代理商设为无效吗？设置后该账号将不能进入代理商系统。";
-
-
-
-    if (
-      !confirm(
-        text
-      )
-    ) {
-
-      return;
-    }
-
-
-
-    showLoading(
-      true
-    );
-
-
-    try {
-
-
-      const {
-        error: agentError
-      } =
-        await supabaseClient
-          .from("agents")
-          .update({
-
-            is_active:
-              newStatus
-
-          })
-          .eq(
-            "id",
-            agent.id
-          );
-
-
-
-      if (
-        agentError
-      ) {
-
-        throw agentError;
-      }
-
-
-
-      if (
-        agent.auth_user_id
-      ) {
-
-
-        const {
-          error: profileError
-        } =
-          await supabaseClient
-            .from("profiles")
-            .update({
-
-              is_active:
-                newStatus
-
-            })
-            .eq(
-              "id",
-              agent.auth_user_id
-            )
-            .eq(
-              "role",
-              "agent"
-            );
-
-
-
-        if (
-          profileError
-        ) {
-
-
-          await supabaseClient
-            .from("agents")
-            .update({
-
-              is_active:
-                !newStatus
-
-            })
-            .eq(
-              "id",
-              agent.id
-            );
-
-
-          throw profileError;
-
-        }
-
-
-      }
-
-
-
-      showNotice(
-        newStatus
-        ?
-        "代理商已恢复有效，登录权限已恢复。"
-        :
-        "代理商已设为无效，代理商系统访问权限已关闭。",
-        "success"
-      );
-
-
-
-      await loadAgents();
-
-
-    }
-
-    catch (error) {
-
-
-      console.error(
-        "修改代理商状态失败：",
-        error
-      );
-
-
-      showNotice(
-        "修改代理商状态失败："
-        +
-        error.message,
-        "error"
-      );
-
-
-    }
-
-    finally {
-
-
-      showLoading(
-        false
-      );
-
-
-    }
-
-  }
-
-
-
-  /* =====================================================
-     汇总
-  ===================================================== */
-
-  function updateSummary() {
-
-
-    const total =
-      agents.length;
-
-
-    const active =
-      agents.filter(
-        item =>
-          item.is_active ===
-          true
-      ).length;
-
-
-    const disabled =
-      total -
-      active;
-
-
-
-    document.getElementById(
-      "totalCount"
-    ).textContent =
-      total;
-
-
-    document.getElementById(
-      "activeCount"
-    ).textContent =
-      active;
-
-
-    document.getElementById(
-      "disabledCount"
-    ).textContent =
-      disabled;
-
-
-
-    const totals =
-      {};
-
-
-
-    agents.forEach(
-      function(item) {
-
-
-        const currency =
-          (
-            item.balance_currency ||
-            "CNY"
-          )
-          .toUpperCase();
-
-
-        const amount =
-          Number(
-            item.account_balance ||
-            0
-          );
-
-
-        if (
-          totals[currency] ===
-          undefined
-        ) {
-
-          totals[currency] =
-            0;
-
-        }
-
-
-        totals[currency] +=
-          amount;
-
-
-      }
-    );
-
-
-
-    const parts =
-      Object.keys(
-        totals
-      )
-      .sort()
-      .map(
-        function(currency) {
-
-
-          return (
-            formatMoney(
-              totals[currency]
-            )
-            +
-            " "
-            +
-            currency
-          );
-
-
-        }
-      );
-
-
-
-    document.getElementById(
-      "balanceSummary"
-    ).textContent =
-      parts.length
-      ?
-      parts.join(
-        " / "
-      )
-      :
-      "0.00 CNY";
-
-  }
-
-
-
-  function updateCurrencyFilter() {
-
-
-    const select =
-      document.getElementById(
-        "currencyFilter"
-      );
-
-
-    const current =
-      select.value;
-
-
-    const currencies =
-      Array.from(
-        new Set(
-          agents.map(
-            item =>
-              (
-                item.balance_currency ||
-                "CNY"
-              )
-              .toUpperCase()
-          )
-        )
-      )
-      .sort();
-
-
-
-    select.innerHTML =
-      `
-        <option value="all">
-          全部币种
-        </option>
-      `;
-
-
-
-    currencies.forEach(
-      function(currency) {
-
-
-        const option =
-          document.createElement(
-            "option"
-          );
-
-
-        option.value =
-          currency;
-
-
-        option.textContent =
-          currency;
-
-
-        select.appendChild(
-          option
-        );
-
-
-      }
-    );
-
-
-
-    if (
-      currencies.includes(
-        current
-      )
-    ) {
-
-      select.value =
-        current;
-
-    }
-
-  }
-
-
-
-  /* =====================================================
-     列表显示
-  ===================================================== */
-
-  function renderAgents() {
-
-
-    const keyword =
-      document.getElementById(
-        "searchInput"
-      )
-      .value
-      .trim()
-      .toLowerCase();
-
-
-    const status =
-      document.getElementById(
-        "statusFilter"
-      ).value;
-
-
-    const currency =
-      document.getElementById(
-        "currencyFilter"
-      ).value;
-
-
-
-    const filtered =
-      agents.filter(
-        function(item) {
-
-
-          const searchable =
-            [
-              item.agent_code,
-              item.agent_name,
-              item.agent_region,
-              item.contact_person,
-              item.phone,
-              item.email,
-              item.address,
-              item.bank_name,
-              item.bank_account,
-              item.tax_number
-            ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
-
-
-
-          const keywordMatched =
-            !keyword ||
-            searchable.includes(
-              keyword
-            );
-
-
-
-          let statusMatched =
-            true;
-
-
-
-          if (
-            status ===
-            "active"
-          ) {
-
-            statusMatched =
-              item.is_active ===
-              true;
-
-          }
-
-
-
-          if (
-            status ===
-            "disabled"
-          ) {
-
-            statusMatched =
-              item.is_active ===
-              false;
-
-          }
-
-
-
-          const itemCurrency =
-            (
-              item.balance_currency ||
-              "CNY"
-            )
-            .toUpperCase();
-
-
-
-          const currencyMatched =
-            currency ===
-            "all"
-            ||
-            currency ===
-            itemCurrency;
-
-
-
-          return (
-            keywordMatched &&
-            statusMatched &&
-            currencyMatched
-          );
-
-
-        }
-      );
-
-
-
-    const tbody =
-      document.getElementById(
-        "agentTableBody"
-      );
-
-
-    const emptyBox =
-      document.getElementById(
-        "emptyBox"
-      );
-
-
-
-    tbody.innerHTML =
-      "";
-
-
-
-    if (
-      filtered.length ===
-      0
-    ) {
-
-
-      emptyBox.style.display =
-        "block";
-
-
-      return;
-
-    }
-
-
-
-    emptyBox.style.display =
-      "none";
-
-
-
-    filtered.forEach(
-      function(item) {
-
-
-        const tr =
-          document.createElement(
-            "tr"
-          );
-
-
-
-        if (
-          item.is_active ===
-          false
-        ) {
-
-
-          tr.classList.add(
-            "agent-disabled"
-          );
-
-
-        }
-
-
-
-        const statusHTML =
-          item.is_active
-          ?
-          `
-            <span class="status status-active">
-              有效
-            </span>
-          `
-          :
-          `
-            <span class="status status-disabled">
-              无效
-            </span>
-          `;
-
-
-
-        const loginHTML =
-          item.auth_user_id
-          ?
-          `
-            <span class="login-linked">
-              已建立
-            </span>
-          `
-          :
-          `
-            <span class="login-unlinked">
-              未绑定
-            </span>
-          `;
-
-
-
-        const statusButton =
-          item.is_active
-          ?
-          `
-            <button
-              class="btn btn-red btn-small"
-              type="button"
-              onclick="changeAgentStatus('${item.id}', false)"
-            >
-              设为无效
-            </button>
-          `
-          :
-          `
-            <button
-              class="btn btn-green btn-small"
-              type="button"
-              onclick="changeAgentStatus('${item.id}', true)"
-            >
-              恢复有效
-            </button>
-          `;
-
-
-
-        tr.innerHTML =
-          `
-
-            <td class="agent-code">
-
-              ${escapeHTML(item.agent_code)}
-
-            </td>
-
-
-            <td class="agent-name">
-
-              ${escapeHTML(item.agent_name)}
-
-            </td>
-
-
-            <td>
-
-              ${escapeHTML(item.agent_region || "-")}
-
-            </td>
-
-
-            <td class="money">
-
-              ${formatMoney(item.account_balance || 0)}
-
-              ${
-                escapeHTML(
-                  (
-                    item.balance_currency ||
-                    "CNY"
-                  )
-                  .toUpperCase()
-                )
-              }
-
-            </td>
-
-
-            <td>
-
-              ${escapeHTML(item.contact_person || "-")}
-
-            </td>
-
-
-            <td>
-
-              ${loginHTML}
-
-            </td>
-
-
-            <td>
-
-              ${statusHTML}
-
-            </td>
-
-
-            <td>
-
-              ${formatDate(item.created_at)}
-
-            </td>
-
-
-            <td>
-
-              <div class="row-actions">
-
-
-                <button
-                  class="btn btn-dark btn-small"
-                  type="button"
-                  onclick="openDetailModal('${item.id}')"
-                >
-                  查看详情
-                </button>
-
-
-                <button
-                  class="btn btn-edit btn-small"
-                  type="button"
-                  onclick="openEditAgentModal('${item.id}')"
-                >
-                  修改信息
-                </button>
-
-
-                ${statusButton}
-
-
-              </div>
-
-            </td>
-
-          `;
-
-
-
-        tbody.appendChild(
-          tr
-        );
-
-
-      }
-    );
-
-  }
-
-
-
-  /* =====================================================
-     查看详情
-  ===================================================== */
-
-  function openDetailModal(
-    id
-  ) {
-
 
     const agent =
       agents.find(
         item =>
           String(item.id) ===
-          String(id)
+          String(agentId)
       );
 
 
-    if (
-      !agent
-    ) {
+    if (!agent) {
 
       showNotice(
-        "没有找到代理商资料。",
+        "没有找到该代理商。",
         "error"
       );
 
@@ -4415,33 +5003,61 @@
     }
 
 
+    if (
+      agent.is_active !==
+      true
+    ) {
+
+      showNotice(
+        "该代理商已经是无效状态。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const existingRefund =
+      getOpenRefundCase(
+        agent.id
+      );
+
+
+    if (existingRefund) {
+
+      showNotice(
+        "该代理商已有未完成退款记录，不能重复停用。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    document.getElementById(
+      "deactivateAgentId"
+    ).value =
+      agent.id;
+
 
     setText(
-      "detailCode",
-      agent.agent_code ||
-      "-"
-    );
-
-
-    setText(
-      "detailName",
+      "deactivateAgentName",
       agent.agent_name ||
       "-"
     );
 
 
     setText(
-      "detailRegion",
-      agent.agent_region ||
+      "deactivateAgentCode",
+      agent.agent_code ||
       "-"
     );
 
 
     setText(
-      "detailBalance",
+      "deactivateRefundAmount",
       formatMoney(
-        agent.account_balance ||
-        0
+        agent.account_balance
       )
       +
       " "
@@ -4450,214 +5066,1163 @@
         agent.balance_currency ||
         "CNY"
       )
-      .toUpperCase()
     );
-
-
-    setText(
-      "detailContact",
-      agent.contact_person ||
-      "-"
-    );
-
-
-    setText(
-      "detailPhone",
-      agent.phone ||
-      "-"
-    );
-
-
-    setText(
-      "detailEmail",
-      agent.email ||
-      "-"
-    );
-
-
-    setText(
-      "detailStatus",
-      agent.is_active
-      ?
-      "有效"
-      :
-      "无效"
-    );
-
-
-    setText(
-      "detailAddress",
-      agent.address ||
-      "-"
-    );
-
-
-    setText(
-      "detailBankName",
-      agent.bank_name ||
-      "-"
-    );
-
-
-    setText(
-      "detailBankAccount",
-      agent.bank_account ||
-      "-"
-    );
-
-
-    setText(
-      "detailTaxNumber",
-      agent.tax_number ||
-      "-"
-    );
-
-
-    setText(
-      "detailNotes",
-      agent.notes ||
-      "-"
-    );
-
-
-    setText(
-      "detailAuthUserId",
-      agent.auth_user_id ||
-      "尚未绑定登录账号"
-    );
-
-
-    setText(
-      "detailId",
-      agent.id ||
-      "-"
-    );
-
-
-    setText(
-      "detailCreatedAt",
-      formatDate(
-        agent.created_at
-      )
-    );
-
-
-    setText(
-      "detailUpdatedAt",
-      formatDate(
-        agent.updated_at
-      )
-    );
-
 
 
     document
       .getElementById(
-        "detailModal"
+        "deactivateModal"
       )
       .classList
-      .add(
-        "show"
-      );
-
+      .add("show");
   }
 
 
 
-  function closeDetailModal() {
-
+  function closeDeactivateModal() {
 
     document
       .getElementById(
-        "detailModal"
+        "deactivateModal"
       )
       .classList
-      .remove(
-        "show"
-      );
+      .remove("show");
 
+
+    document.getElementById(
+      "deactivateAgentId"
+    ).value =
+      "";
   }
 
 
 
   /* =====================================================
-     点击遮罩关闭窗口
+     正式设为无效
   ===================================================== */
 
-  document
-    .getElementById(
-      "createAgentModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
+  async function confirmDeactivateAgent() {
+
+    const agentId =
+      document.getElementById(
+        "deactivateAgentId"
+      ).value;
 
 
-        if (
-          event.target ===
-          this
-        ) {
-
-          closeCreateAgentModal();
-
-        }
+    if (!agentId) {
+      return;
+    }
 
 
+    const agent =
+      agents.find(
+        item =>
+          String(item.id) ===
+          String(agentId)
+      );
+
+
+    if (!agent) {
+
+      showNotice(
+        "没有找到该代理商。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const amount =
+      Number(
+        agent.account_balance ||
+        0
+      );
+
+
+    const currency =
+      agent.balance_currency ||
+      "CNY";
+
+
+    const confirmed =
+      confirm(
+        "确定将该代理商设为无效吗？\n\n"
+        +
+        "代理商："
+        +
+        (
+          agent.agent_code ||
+          ""
+        )
+        +
+        " · "
+        +
+        (
+          agent.agent_name ||
+          ""
+        )
+        +
+        "\n\n"
+        +
+        "当前余额："
+        +
+        formatMoney(amount)
+        +
+        " "
+        +
+        currency
+        +
+        "\n\n"
+        +
+        "确认后：\n"
+        +
+        "1. 代理商立即设为无效；\n"
+        +
+        "2. 登录权限立即关闭；\n"
+        +
+        "3. 代理商账户余额归零；\n"
+        +
+        "4. 系统自动生成 "
+        +
+        formatMoney(amount)
+        +
+        " "
+        +
+        currency
+        +
+        " 的退款责任记录。"
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    const button =
+      document.getElementById(
+        "confirmDeactivateButton"
+      );
+
+
+    button.disabled =
+      true;
+
+
+    button.textContent =
+      "正在处理……";
+
+
+    showLoading(true);
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .rpc(
+            "deactivate_agent_with_refund",
+            {
+              p_agent_id:
+                Number(agentId)
+            }
+          );
+
+
+      if (error) {
+        throw error;
       }
-    );
 
 
-
-  document
-    .getElementById(
-      "editAgentModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
+      closeDeactivateModal();
 
 
-        if (
-          event.target ===
-          this
-        ) {
-
-          closeEditAgentModal();
-
-        }
+      const due =
+        Number(
+          data?.refund_due_amount ??
+          amount
+        );
 
 
-      }
-    );
+      showNotice(
+        "代理商 "
+        +
+        (
+          data?.agent_code ||
+          agent.agent_code ||
+          ""
+        )
+        +
+        " 已设为无效。账户余额已归零，需退款金额："
+        +
+        formatMoney(due)
+        +
+        " "
+        +
+        (
+          data?.currency ||
+          currency
+        )
+        +
+        "。",
+        "success"
+      );
 
 
+      await loadAllData();
 
-  document
-    .getElementById(
-      "detailModal"
-    )
-    .addEventListener(
-      "click",
-      function(event) {
+    }
 
+    catch (error) {
 
-        if (
-          event.target ===
-          this
-        ) {
-
-          closeDetailModal();
-
-        }
+      console.error(
+        "设为无效失败：",
+        error
+      );
 
 
-      }
-    );
+      showNotice(
+        "设为无效失败："
+        +
+        (
+          error.message ||
+          "未知错误"
+        ),
+        "error"
+      );
+
+    }
+
+    finally {
+
+      showLoading(false);
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "确认设为无效";
+    }
+  }
 
 
 
   /* =====================================================
-     工具
+     恢复代理商
+  ===================================================== */
+
+  async function reactivateAgent(
+    agentId
+  ) {
+
+    const agent =
+      agents.find(
+        item =>
+          String(item.id) ===
+          String(agentId)
+      );
+
+
+    if (!agent) {
+      return;
+    }
+
+
+    const openRefund =
+      getOpenRefundCase(
+        agent.id
+      );
+
+
+    if (openRefund) {
+
+      alert(
+        "该代理商仍有未完成退款。\n\n"
+        +
+        "当前需退款："
+        +
+        formatMoney(
+          openRefund.refund_due_amount
+        )
+        +
+        " "
+        +
+        (
+          openRefund.currency ||
+          "CNY"
+        )
+        +
+        "\n\n"
+        +
+        "必须完成退款以后才能恢复有效。"
+      );
+
+      return;
+    }
+
+
+    if (
+      !confirm(
+        "确定恢复代理商“"
+        +
+        (
+          agent.agent_name ||
+          ""
+        )
+        +
+        "”为有效状态吗？\n\n"
+        +
+        "恢复后代理商登录权限将重新开启，账户余额保持当前数据库金额。"
+      )
+    ) {
+
+      return;
+    }
+
+
+    showLoading(true);
+
+
+    try {
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .rpc(
+            "reactivate_agent",
+            {
+              p_agent_id:
+                Number(agent.id)
+            }
+          );
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      showNotice(
+        "代理商已恢复为有效状态。",
+        "success"
+      );
+
+
+      await loadAllData();
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "恢复代理商失败：",
+        error
+      );
+
+
+      showNotice(
+        "恢复代理商失败："
+        +
+        (
+          error.message ||
+          "未知错误"
+        ),
+        "error"
+      );
+
+    }
+
+    finally {
+
+      showLoading(false);
+    }
+  }
+
+
+
+  /* =====================================================
+     打开退款管理
+  ===================================================== */
+
+  function openRefundModal(
+    agentId
+  ) {
+
+    const agent =
+      agents.find(
+        item =>
+          String(item.id) ===
+          String(agentId)
+      );
+
+
+    if (!agent) {
+
+      showNotice(
+        "没有找到该代理商。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const refundCase =
+      getLatestRefundCase(
+        agent.id
+      );
+
+
+    if (!refundCase) {
+
+      showNotice(
+        "该代理商没有退款记录。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const currency =
+      refundCase.currency ||
+      "CNY";
+
+
+    document.getElementById(
+      "refundCaseId"
+    ).value =
+      refundCase.id;
+
+
+    document.getElementById(
+      "refundAgentId"
+    ).value =
+      agent.id;
+
+
+    document.getElementById(
+      "refundAgentBox"
+    ).innerHTML =
+      `
+        <strong>
+          ${escapeHTML(
+            agent.agent_code ||
+            "-"
+          )}
+          ·
+          ${escapeHTML(
+            agent.agent_name ||
+            "-"
+          )}
+        </strong>
+
+        <br>
+
+        ${
+          agent.bank_name
+          ?
+          "开户行："
+          +
+          escapeHTML(
+            agent.bank_name
+          )
+          +
+          "<br>"
+          :
+          ""
+        }
+
+        ${
+          agent.bank_account
+          ?
+          "银行账号："
+          +
+          escapeHTML(
+            agent.bank_account
+          )
+          :
+          ""
+        }
+      `;
+
+
+    setText(
+      "refundOriginalBalance",
+      formatMoney(
+        refundCase.original_balance
+      )
+      +
+      " "
+      +
+      currency
+    );
+
+
+    setText(
+      "refundTotal",
+      formatMoney(
+        refundCase.refund_total
+      )
+      +
+      " "
+      +
+      currency
+    );
+
+
+    setText(
+      "refundedAmount",
+      formatMoney(
+        refundCase.refunded_amount
+      )
+      +
+      " "
+      +
+      currency
+    );
+
+
+    setText(
+      "refundDueAmount",
+      formatMoney(
+        refundCase.refund_due_amount
+      )
+      +
+      " "
+      +
+      currency
+    );
+
+
+    setText(
+      "refundCaseStatus",
+      refundStatusText(
+        refundCase.status
+      )
+    );
+
+
+    setText(
+      "refundCaseCreatedAt",
+      formatDateTime(
+        refundCase.created_at
+      )
+    );
+
+
+    const executionForm =
+      document.getElementById(
+        "refundExecutionForm"
+      );
+
+
+    if (
+      refundCase.status ===
+      "completed"
+      ||
+      Number(
+        refundCase.refund_due_amount ||
+        0
+      ) <= 0
+    ) {
+
+      executionForm.style.display =
+        "none";
+
+    }
+
+    else {
+
+      executionForm.style.display =
+        "block";
+
+
+      /*
+        默认退款金额 =
+        当前剩余全部需退款金额
+      */
+
+      document.getElementById(
+        "refundExecutionAmount"
+      ).value =
+        Number(
+          refundCase.refund_due_amount ||
+          0
+        ).toFixed(2);
+
+
+      document.getElementById(
+        "refundExecutionAmount"
+      ).max =
+        Number(
+          refundCase.refund_due_amount ||
+          0
+        ).toFixed(2);
+
+
+      document.getElementById(
+        "refundMethod"
+      ).value =
+        "银行转账";
+
+
+      document.getElementById(
+        "refundReferenceNo"
+      ).value =
+        "";
+
+
+      document.getElementById(
+        "refundExecutionNotes"
+      ).value =
+        "";
+    }
+
+
+    renderRefundExecutionHistory(
+      refundCase.id
+    );
+
+
+    document
+      .getElementById(
+        "refundModal"
+      )
+      .classList
+      .add("show");
+  }
+
+
+
+  function closeRefundModal() {
+
+    document
+      .getElementById(
+        "refundModal"
+      )
+      .classList
+      .remove("show");
+
+
+    document.getElementById(
+      "refundCaseId"
+    ).value =
+      "";
+
+
+    document.getElementById(
+      "refundAgentId"
+    ).value =
+      "";
+  }
+
+
+
+  /* =====================================================
+     退款执行历史
+  ===================================================== */
+
+  function renderRefundExecutionHistory(
+    refundCaseId
+  ) {
+
+    const tbody =
+      document.getElementById(
+        "refundExecutionTableBody"
+      );
+
+
+    const empty =
+      document.getElementById(
+        "refundExecutionEmpty"
+      );
+
+
+    tbody.innerHTML =
+      "";
+
+
+    const rows =
+      getRefundExecutionsForCase(
+        refundCaseId
+      );
+
+
+    if (
+      rows.length ===
+      0
+    ) {
+
+      empty.style.display =
+        "block";
+
+      return;
+    }
+
+
+    empty.style.display =
+      "none";
+
+
+    rows.forEach(
+      function(item) {
+
+        const tr =
+          document.createElement(
+            "tr"
+          );
+
+
+        tr.innerHTML =
+          `
+
+            <td>
+              ${formatDateTime(
+                item.executed_at
+              )}
+            </td>
+
+
+            <td class="refund-money">
+
+              ${formatMoney(
+                item.amount
+              )}
+
+              ${escapeHTML(
+                item.currency ||
+                ""
+              )}
+
+            </td>
+
+
+            <td>
+              ${escapeHTML(
+                item.refund_method ||
+                "-"
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHTML(
+                item.reference_no ||
+                "-"
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHTML(
+                getProfileName(
+                  item.executed_by
+                )
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHTML(
+                item.notes ||
+                "-"
+              )}
+            </td>
+
+          `;
+
+
+        tbody.appendChild(
+          tr
+        );
+      }
+    );
+  }
+
+
+
+  /* =====================================================
+     执行退款
+  ===================================================== */
+
+  async function executeRefund() {
+
+    const refundCaseId =
+      document.getElementById(
+        "refundCaseId"
+      ).value;
+
+
+    if (!refundCaseId) {
+      return;
+    }
+
+
+    const refundCase =
+      refundCases.find(
+        item =>
+          String(item.id) ===
+          String(refundCaseId)
+      );
+
+
+    if (!refundCase) {
+
+      showNotice(
+        "退款责任记录不存在，请刷新页面。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const amount =
+      Number(
+        document.getElementById(
+          "refundExecutionAmount"
+        ).value
+      );
+
+
+    const due =
+      Number(
+        refundCase.refund_due_amount ||
+        0
+      );
+
+
+    const refundMethod =
+      document.getElementById(
+        "refundMethod"
+      ).value;
+
+
+    const referenceNo =
+      document.getElementById(
+        "refundReferenceNo"
+      ).value.trim();
+
+
+    const notes =
+      document.getElementById(
+        "refundExecutionNotes"
+      ).value.trim();
+
+
+    if (
+      !Number.isFinite(
+        amount
+      )
+      ||
+      amount <= 0
+    ) {
+
+      alert(
+        "请输入正确的退款金额。"
+      );
+
+      return;
+    }
+
+
+    if (
+      amount > due
+    ) {
+
+      alert(
+        "本次退款金额不能超过当前需退款金额。\n\n"
+        +
+        "当前需退款："
+        +
+        formatMoney(due)
+        +
+        " "
+        +
+        (
+          refundCase.currency ||
+          "CNY"
+        )
+      );
+
+      return;
+    }
+
+
+    if (
+      refundMethod ===
+      "银行转账"
+      &&
+      !referenceNo
+    ) {
+
+      const continueWithoutReference =
+        confirm(
+          "当前选择的是“银行转账”，但尚未填写银行流水号 / 退款凭证号。\n\n"
+          +
+          "仍然继续执行退款吗？"
+        );
+
+
+      if (
+        !continueWithoutReference
+      ) {
+
+        return;
+      }
+    }
+
+
+    const agent =
+      agents.find(
+        item =>
+          String(item.id) ===
+          String(
+            refundCase.agent_id
+          )
+      );
+
+
+    const confirmed =
+      confirm(
+        "请确认本次实际退款：\n\n"
+        +
+        "代理商："
+        +
+        (
+          agent?.agent_code ||
+          ""
+        )
+        +
+        " · "
+        +
+        (
+          agent?.agent_name ||
+          ""
+        )
+        +
+        "\n\n"
+        +
+        "本次退款："
+        +
+        formatMoney(amount)
+        +
+        " "
+        +
+        (
+          refundCase.currency ||
+          "CNY"
+        )
+        +
+        "\n"
+        +
+        "退款方式："
+        +
+        refundMethod
+        +
+        "\n"
+        +
+        "凭证号："
+        +
+        (
+          referenceNo ||
+          "未填写"
+        )
+        +
+        "\n\n"
+        +
+        "退款记录一旦生成将永久保留。"
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    const button =
+      document.getElementById(
+        "executeRefundButton"
+      );
+
+
+    button.disabled =
+      true;
+
+
+    button.textContent =
+      "正在执行……";
+
+
+    showLoading(true);
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .rpc(
+            "execute_agent_refund",
+            {
+
+              p_refund_case_id:
+                Number(
+                  refundCaseId
+                ),
+
+              p_amount:
+                amount,
+
+              p_refund_method:
+                refundMethod,
+
+              p_reference_no:
+                referenceNo ||
+                null,
+
+              p_notes:
+                notes ||
+                null
+            }
+          );
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      const remaining =
+        Number(
+          data?.refund_due_amount ??
+          (
+            due - amount
+          )
+        );
+
+
+      const status =
+        data?.status ||
+        (
+          remaining <= 0
+          ?
+          "completed"
+          :
+          "partial"
+        );
+
+
+      closeRefundModal();
+
+
+      showNotice(
+        "退款执行成功。本次退款 "
+        +
+        formatMoney(amount)
+        +
+        " "
+        +
+        (
+          refundCase.currency ||
+          "CNY"
+        )
+        +
+        "；当前剩余需退款 "
+        +
+        formatMoney(
+          remaining
+        )
+        +
+        " "
+        +
+        (
+          refundCase.currency ||
+          "CNY"
+        )
+        +
+        "；状态："
+        +
+        refundStatusText(
+          status
+        )
+        +
+        "。",
+        "success"
+      );
+
+
+      await loadAllData();
+
+
+      /*
+        如果仍有剩余退款，
+        自动重新打开退款窗口，
+        方便继续查看。
+      */
+
+      if (
+        remaining > 0
+      ) {
+
+        setTimeout(
+          function() {
+
+            openRefundModal(
+              refundCase.agent_id
+            );
+
+          },
+          250
+        );
+      }
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "执行退款失败：",
+        error
+      );
+
+
+      showNotice(
+        "执行退款失败："
+        +
+        (
+          error.message ||
+          "未知错误"
+        ),
+        "error"
+      );
+
+    }
+
+    finally {
+
+      showLoading(false);
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "执行退款";
+    }
+  }
+
+
+
+  /* =====================================================
+     工具函数
   ===================================================== */
 
   function setText(
@@ -4665,12 +6230,38 @@
     value
   ) {
 
+    const element =
+      document.getElementById(
+        id
+      );
 
-    document.getElementById(
-      id
-    ).textContent =
-      value;
 
+    if (element) {
+
+      element.textContent =
+        value;
+    }
+  }
+
+
+
+  function emptyToNull(
+    value
+  ) {
+
+    const text =
+      String(
+        value ?? ""
+      ).trim();
+
+
+    return (
+      text === ""
+      ?
+      null
+      :
+      text
+    );
   }
 
 
@@ -4679,24 +6270,120 @@
     value
   ) {
 
+    const number =
+      Number(
+        value ||
+        0
+      );
 
-    return Number(
-      value ||
-      0
-    )
-    .toLocaleString(
+
+    return number.toLocaleString(
       "zh-CN",
       {
-
         minimumFractionDigits:
           2,
 
         maximumFractionDigits:
           2
-
       }
     );
+  }
 
+
+
+  function formatCurrencySummary(
+    map
+  ) {
+
+    const entries =
+      Object.entries(
+        map || {}
+      )
+      .filter(
+        ([, value]) =>
+          Math.abs(
+            Number(value)
+          ) > 0.000001
+      )
+      .sort(
+        (a, b) =>
+          a[0].localeCompare(
+            b[0]
+          )
+      );
+
+
+    if (
+      entries.length ===
+      0
+    ) {
+
+      return "0.00 CNY";
+    }
+
+
+    return entries
+      .map(
+        ([currency, amount]) =>
+          formatMoney(
+            amount
+          )
+          +
+          " "
+          +
+          currency
+      )
+      .join(" / ");
+  }
+
+
+
+  function formatDateTime(
+    value
+  ) {
+
+    if (!value) {
+      return "-";
+    }
+
+
+    const date =
+      new Date(
+        value
+      );
+
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return String(
+        value
+      );
+    }
+
+
+    return date.toLocaleString(
+      "zh-CN",
+      {
+        year:
+          "numeric",
+
+        month:
+          "2-digit",
+
+        day:
+          "2-digit",
+
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit"
+      }
+    );
   }
 
 
@@ -4705,14 +6392,13 @@
     value
   ) {
 
-
     if (
-      value === null ||
+      value === null
+      ||
       value === undefined
     ) {
 
       return "";
-
     }
 
 
@@ -4739,112 +6425,28 @@
       "'",
       "&#039;"
     );
-
   }
 
 
 
-  function formatDate(
-    value
-  ) {
-
-
-    if (
-      !value
-    ) {
-
-      return "-";
-
-    }
-
-
-    const date =
-      new Date(
-        value
-      );
-
-
-    if (
-      isNaN(
-        date.getTime()
-      )
-    ) {
-
-      return value;
-
-    }
-
-
-    return date
-      .toLocaleString(
-        "zh-CN",
-        {
-
-          year:
-            "numeric",
-
-          month:
-            "2-digit",
-
-          day:
-            "2-digit",
-
-          hour:
-            "2-digit",
-
-          minute:
-            "2-digit"
-
-        }
-      );
-
-  }
-
-
-
-  function showLoading(
-    show
-  ) {
-
-
-    const mask =
-      document.getElementById(
-        "loadingMask"
-      );
-
-
-    if (
-      show
-    ) {
-
-      mask.classList.add(
-        "show"
-      );
-
-    }
-
-    else {
-
-      mask.classList.remove(
-        "show"
-      );
-
-    }
-
-  }
-
-
+  /* =====================================================
+     Notice
+  ===================================================== */
 
   function showNotice(
     message,
     type = "success"
   ) {
 
-
     const notice =
       document.getElementById(
         "notice"
       );
+
+
+    if (!notice) {
+      return;
+    }
 
 
     notice.textContent =
@@ -4855,8 +6457,7 @@
       "notice show "
       +
       (
-        type ===
-        "error"
+        type === "error"
         ?
         "notice-error"
         :
@@ -4867,26 +6468,137 @@
     setTimeout(
       function() {
 
-
         notice.classList.remove(
           "show"
         );
 
-
       },
-      5000
+      6500
     );
-
   }
 
 
 
-  function goBack() {
+  /* =====================================================
+     Loading
+  ===================================================== */
 
+  function showLoading(
+    show
+  ) {
+
+    document
+      .getElementById(
+        "loadingMask"
+      )
+      .classList
+      .toggle(
+        "show",
+        show
+      );
+  }
+
+
+
+  /* =====================================================
+     Modal点击遮罩关闭
+  ===================================================== */
+
+  [
+    [
+      "createAgentModal",
+      closeCreateAgentModal
+    ],
+
+    [
+      "editAgentModal",
+      closeEditAgentModal
+    ],
+
+    [
+      "detailModal",
+      closeDetailModal
+    ],
+
+    [
+      "deactivateModal",
+      closeDeactivateModal
+    ],
+
+    [
+      "refundModal",
+      closeRefundModal
+    ]
+
+  ]
+  .forEach(
+    function(
+      [
+        modalId,
+        closeFunction
+      ]
+    ) {
+
+      const modal =
+        document.getElementById(
+          modalId
+        );
+
+
+      modal.addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target ===
+            modal
+          ) {
+
+            closeFunction();
+          }
+        }
+      );
+    }
+  );
+
+
+
+  /* =====================================================
+     ESC关闭窗口
+  ===================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key ===
+        "Escape"
+      ) {
+
+        closeCreateAgentModal();
+
+        closeEditAgentModal();
+
+        closeDetailModal();
+
+        closeDeactivateModal();
+
+        closeRefundModal();
+      }
+    }
+  );
+
+
+
+  /* =====================================================
+     返回工作台
+  ===================================================== */
+
+  function goBack() {
 
     window.location.href =
       "wholemanagement.html";
-
   }
 
 
@@ -4896,13 +6608,16 @@
   ===================================================== */
 
   const IDLE_LIMIT =
-    10 *
-    60 *
+    10
+    *
+    60
+    *
     1000;
 
 
   const WARNING_TIME =
-    60 *
+    60
+    *
     1000;
 
 
@@ -4914,8 +6629,19 @@
     false;
 
 
+  let logoutInProgress =
+    false;
+
+
 
   function userActivity() {
+
+    if (
+      logoutInProgress
+    ) {
+
+      return;
+    }
 
 
     lastActivityTime =
@@ -4932,42 +6658,31 @@
       );
 
 
-    if (
-      warning
-    ) {
+    if (warning) {
 
       warning.style.display =
         "none";
-
     }
-
   }
 
 
 
-  const activityEvents =
-    [
-      "mousedown",
-      "mousemove",
-      "keydown",
-      "scroll",
-      "touchstart",
-      "click"
-    ];
-
-
-
-  activityEvents.forEach(
+  [
+    "mousedown",
+    "mousemove",
+    "keydown",
+    "scroll",
+    "touchstart",
+    "click"
+  ]
+  .forEach(
     function(eventName) {
-
 
       document.addEventListener(
         eventName,
         userActivity,
         true
       );
-
-
     }
   );
 
@@ -4976,65 +6691,61 @@
   setInterval(
     function() {
 
+      if (
+        logoutInProgress
+      ) {
 
-      const inactiveTime =
+        return;
+      }
+
+
+      const inactive =
         Date.now()
         -
         lastActivityTime;
 
 
-
       if (
-        inactiveTime >=
-        IDLE_LIMIT -
-        WARNING_TIME
-        &&
-        inactiveTime <
+        inactive >=
         IDLE_LIMIT
+        -
+        WARNING_TIME
+
+        &&
+
+        inactive <
+        IDLE_LIMIT
+
+        &&
+
+        !warningShown
       ) {
 
-
-        if (
-          !warningShown
-        ) {
-
-
-          const warning =
-            document.getElementById(
-              "timeoutWarning"
-            );
+        const warning =
+          document.getElementById(
+            "timeoutWarning"
+          );
 
 
-          if (
-            warning
-          ) {
+        if (warning) {
 
-            warning.style.display =
-              "block";
-
-          }
-
-
-          warningShown =
-            true;
-
-
+          warning.style.display =
+            "block";
         }
 
 
+        warningShown =
+          true;
       }
 
 
-
       if (
-        inactiveTime >=
+        inactive >=
         IDLE_LIMIT
       ) {
 
         autoLogout();
-
       }
-
 
     },
     1000
@@ -5042,108 +6753,98 @@
 
 
 
-  function clearOldLoginData() {
-
-
-    sessionStorage.clear();
-
-
-    localStorage.removeItem(
-      "managementLogin"
-    );
-
-
-    localStorage.removeItem(
-      "managementUser"
-    );
-
-
-    localStorage.removeItem(
-      "managementRole"
-    );
-
-
-    localStorage.removeItem(
-      "loginTime"
-    );
-
-  }
-
-
+  /* =====================================================
+     自动退出
+  ===================================================== */
 
   async function autoLogout() {
 
+    if (
+      logoutInProgress
+    ) {
+
+      return;
+    }
+
+
+    logoutInProgress =
+      true;
+
 
     try {
-
 
       await supabaseClient
         .auth
         .signOut();
 
-
     }
 
     catch (error) {
-
 
       console.error(
         "自动退出失败：",
         error
       );
-
-
     }
-
-
-
-    clearOldLoginData();
-
 
 
     window.location.replace(
       "page10.html"
     );
-
   }
 
 
 
+  /* =====================================================
+     手工退出
+  ===================================================== */
+
   async function logout() {
+
+    if (
+      logoutInProgress
+    ) {
+
+      return;
+    }
+
+
+    if (
+      !confirm(
+        "确定退出代理商管理吗？"
+      )
+    ) {
+
+      return;
+    }
+
+
+    logoutInProgress =
+      true;
 
 
     try {
-
 
       await supabaseClient
         .auth
         .signOut();
 
-
     }
 
     catch (error) {
 
-
       console.error(
-        "退出失败：",
+        "退出登录失败：",
         error
       );
-
-
     }
-
-
-
-    clearOldLoginData();
-
 
 
     window.location.replace(
       "page10.html"
     );
-
   }
+
 
 </script>
 
