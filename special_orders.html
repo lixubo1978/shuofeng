@@ -3633,14 +3633,17 @@ function renderSummary() {
   );
 
 
-  setText(
-    "shippedCount",
-    specialOrders.filter(
-      item =>
-        item.status ===
-        "shipped"
-    ).length
-  );
+setText(
+  "shippedCount",
+  specialOrders.filter(
+    item =>
+      [
+        "confirmed",
+        "shipped",
+        "completed"
+      ].includes(item.status)
+  ).length
+);
 
 
   setText(
