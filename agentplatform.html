@@ -234,7 +234,7 @@
 
 
     /* =====================================================
-       通用 Panel
+       Panel
     ===================================================== */
 
     .panel {
@@ -677,7 +677,7 @@
 
 
     /* =====================================================
-       余额与充值
+       财务
     ===================================================== */
 
     .finance-grid {
@@ -732,7 +732,7 @@
 
 
     /* =====================================================
-       充值申请
+       表单
     ===================================================== */
 
     .recharge-form-grid {
@@ -977,6 +977,54 @@
       word-break: break-word;
     }
 
+    .shipping-detail-box {
+      margin:
+        6px 0 22px;
+
+      padding: 17px;
+
+      background: #eff6ff;
+
+      border:
+        1px solid #bfdbfe;
+
+      border-radius: 10px;
+    }
+
+    .shipping-detail-title {
+      margin-bottom: 14px;
+
+      color: #1e40af;
+
+      font-size: 15px;
+
+      font-weight: 700;
+    }
+
+    .invoice-detail-box {
+      margin:
+        0 0 22px;
+
+      padding: 17px;
+
+      background: #fff7ed;
+
+      border:
+        1px solid #fed7aa;
+
+      border-radius: 10px;
+    }
+
+    .invoice-detail-title {
+      margin-bottom: 14px;
+
+      color: #9a3412;
+
+      font-size: 15px;
+
+      font-weight: 700;
+    }
+
 
     /* =====================================================
        Loading / 超时
@@ -1041,10 +1089,6 @@
       font-size: 13px;
     }
 
-
-    /* =====================================================
-       响应式
-    ===================================================== */
 
     @media (max-width: 950px) {
 
@@ -1122,10 +1166,6 @@
 </div>
 
 
-<!-- =====================================================
-     顶部
-====================================================== -->
-
 <header class="topbar">
 
   <div class="brand">
@@ -1150,8 +1190,6 @@
       代理商
     </div>
 
-
-    <!-- 新增：修改密码 -->
 
     <button
       class="logout-btn"
@@ -1178,10 +1216,6 @@
 <main class="container">
 
 
-  <!-- ===================================================
-       欢迎
-  ==================================================== -->
-
   <section class="welcome">
 
     <div>
@@ -1191,7 +1225,7 @@
       </h1>
 
       <p>
-        产品订购、历史订单打印、账户余额及充值申请统一管理。
+        产品订购、历史订单打印、订单处理结果、账户余额及充值申请统一管理。
       </p>
 
     </div>
@@ -1221,9 +1255,8 @@
   ></div>
 
 
-
   <!-- ===================================================
-       1. 产品与定价
+       1 产品
   ==================================================== -->
 
   <section class="panel">
@@ -1243,7 +1276,6 @@
 
 
     <div class="panel-body">
-
 
       <div class="toolbar">
 
@@ -1278,10 +1310,7 @@
 
           </thead>
 
-
-          <tbody
-            id="productTableBody"
-          ></tbody>
+          <tbody id="productTableBody"></tbody>
 
         </table>
 
@@ -1301,9 +1330,8 @@
   </section>
 
 
-
   <!-- ===================================================
-       2. 下单区域
+       2 下单
   ==================================================== -->
 
   <section class="panel">
@@ -1324,7 +1352,6 @@
 
     <div class="panel-body">
 
-
       <div class="table-scroll">
 
         <table class="cart-table">
@@ -1344,10 +1371,7 @@
 
           </thead>
 
-
-          <tbody
-            id="cartTableBody"
-          ></tbody>
+          <tbody id="cartTableBody"></tbody>
 
         </table>
 
@@ -1363,7 +1387,6 @@
 
 
       <div class="order-summary">
-
 
         <div class="summary-box">
 
@@ -1412,12 +1435,10 @@
 
         </div>
 
-
       </div>
 
 
       <div class="order-bottom">
-
 
         <div>
 
@@ -1464,7 +1485,6 @@
 
         </div>
 
-
       </div>
 
     </div>
@@ -1472,9 +1492,8 @@
   </section>
 
 
-
   <!-- ===================================================
-       3. 历史订单 / 打印
+       3 历史订单
   ==================================================== -->
 
   <section class="panel">
@@ -1487,14 +1506,13 @@
 
       <p>
         这里只显示当前代理商自己的历史订单。
-        历史订单读取下单时保存的价格快照。
+        公司处理完成以后，可在“查看详情”中查看发货资料及开票信息。
       </p>
 
     </div>
 
 
     <div class="panel-body">
-
 
       <div class="toolbar">
 
@@ -1516,23 +1534,27 @@
           </option>
 
           <option value="pending">
-            pending
+            待确认
           </option>
 
           <option value="confirmed">
-            confirmed
+            已确认
           </option>
 
           <option value="processing">
-            processing
+            处理中
+          </option>
+
+          <option value="shipped">
+            已发货
           </option>
 
           <option value="completed">
-            completed
+            已完成
           </option>
 
           <option value="cancelled">
-            cancelled
+            已取消
           </option>
 
         </select>
@@ -1560,10 +1582,7 @@
 
           </thead>
 
-
-          <tbody
-            id="orderTableBody"
-          ></tbody>
+          <tbody id="orderTableBody"></tbody>
 
         </table>
 
@@ -1583,9 +1602,8 @@
   </section>
 
 
-
   <!-- ===================================================
-       4. 余额与充值记录
+       4 余额
   ==================================================== -->
 
   <section class="panel">
@@ -1606,9 +1624,7 @@
 
     <div class="panel-body">
 
-
       <div class="finance-grid">
-
 
         <div class="balance-card">
 
@@ -1624,17 +1640,14 @@
           </div>
 
           <div class="balance-card-sub">
-
             账户余额只能通过正式充值审批增加，
             或在订单提交成功以后自动扣减。
-
           </div>
 
         </div>
 
 
         <div>
-
 
           <div class="table-scroll">
 
@@ -1655,10 +1668,7 @@
 
               </thead>
 
-
-              <tbody
-                id="rechargeTableBody"
-              ></tbody>
+              <tbody id="rechargeTableBody"></tbody>
 
             </table>
 
@@ -1673,9 +1683,7 @@
             暂无正式充值记录
           </div>
 
-
         </div>
-
 
       </div>
 
@@ -1684,9 +1692,8 @@
   </section>
 
 
-
   <!-- ===================================================
-       5. 充值申请
+       5 充值
   ==================================================== -->
 
   <section class="panel">
@@ -1707,7 +1714,6 @@
 
     <div class="panel-body">
 
-
       <div
         id="pendingRequestSummary"
         class="pending-request-box"
@@ -1716,7 +1722,6 @@
 
 
       <div class="recharge-form-grid">
-
 
         <div class="form-group">
 
@@ -1756,9 +1761,7 @@
             付款方式
           </label>
 
-          <select
-            id="rechargePaymentMethod"
-          >
+          <select id="rechargePaymentMethod">
 
             <option value="银行转账">
               银行转账
@@ -1824,7 +1827,6 @@
 
         </div>
 
-
       </div>
 
 
@@ -1847,9 +1849,8 @@
 </main>
 
 
-
 <!-- =====================================================
-     历史订单详情
+     订单详情
 ====================================================== -->
 
 <div
@@ -1858,7 +1859,6 @@
 >
 
   <div class="modal">
-
 
     <div class="modal-header">
 
@@ -1880,8 +1880,9 @@
     <div class="modal-body">
 
 
-      <div class="detail-grid">
+      <!-- 基础资料 -->
 
+      <div class="detail-grid">
 
         <div class="detail-item">
 
@@ -1934,7 +1935,7 @@
         <div class="detail-item">
 
           <div class="detail-label">
-            状态
+            订单状态
           </div>
 
           <div
@@ -1946,11 +1947,209 @@
 
         </div>
 
+      </div>
+
+
+      <!-- 公司处理结果 -->
+
+      <div class="shipping-detail-box">
+
+        <div class="shipping-detail-title">
+          公司处理及发货信息
+        </div>
+
+
+        <div class="detail-grid">
+
+
+          <div class="detail-item full">
+
+            <div class="detail-label">
+              发货地址
+            </div>
+
+            <div
+              id="detailShippingAddress"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              预计发货日期
+            </div>
+
+            <div
+              id="detailExpectedShippingDate"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              物流公司
+            </div>
+
+            <div
+              id="detailShippingCompany"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              发货单号 / 运单号
+            </div>
+
+            <div
+              id="detailTrackingNumber"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              公司处理状态
+            </div>
+
+            <div
+              id="detailProcessedStatus"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              公司处理时间
+            </div>
+
+            <div
+              id="detailProcessedAt"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              当前订单状态
+            </div>
+
+            <div
+              id="detailProcessedOrderStatus"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- 开票结果 -->
+
+      <div class="invoice-detail-box">
+
+        <div class="invoice-detail-title">
+          开票信息
+        </div>
+
+
+        <div class="detail-grid">
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              开票状态
+            </div>
+
+            <div
+              id="detailInvoiceStatus"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              发票号
+            </div>
+
+            <div
+              id="detailInvoiceNumber"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              开票时间
+            </div>
+
+            <div
+              id="detailInvoicedAt"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 备注 -->
+
+      <div class="detail-grid">
 
         <div class="detail-item full">
 
           <div class="detail-label">
-            备注
+            订单备注
           </div>
 
           <div
@@ -1962,9 +2161,10 @@
 
         </div>
 
-
       </div>
 
+
+      <!-- 产品明细 -->
 
       <div class="table-scroll">
 
@@ -1986,15 +2186,11 @@
 
           </thead>
 
-
-          <tbody
-            id="detailOrderItemsBody"
-          ></tbody>
+          <tbody id="detailOrderItemsBody"></tbody>
 
         </table>
 
       </div>
-
 
     </div>
 
@@ -2024,9 +2220,8 @@
 </div>
 
 
-
 <!-- =====================================================
-     新增：修改密码窗口
+     修改密码
 ====================================================== -->
 
 <div
@@ -2139,11 +2334,6 @@
 </div>
 
 
-
-<!-- =====================================================
-     自动退出提醒
-====================================================== -->
-
 <div
   id="timeoutWarning"
   class="timeout-warning"
@@ -2152,13 +2342,8 @@
 </div>
 
 
-
 <script>
 
-
-/* ==========================================================
-   Supabase
-========================================================== */
 
 const SUPABASE_URL =
   "https://icmifhjjhgjrhkunjbmu.supabase.co";
@@ -2175,68 +2360,38 @@ const supabaseClient =
   );
 
 
+let currentUserId = null;
 
-/* ==========================================================
-   全局变量
-========================================================== */
+let currentProfile = null;
 
-let currentUserId =
-  null;
+let currentAgent = null;
 
+let products = [];
 
-let currentProfile =
-  null;
+let salesPrices = [];
 
+let orders = [];
 
-let currentAgent =
-  null;
+let orderItemsHistory = [];
 
+let recharges = [];
 
-let products =
-  [];
+let rechargeRequests = [];
 
+let cartItems = [];
 
-let salesPrices =
-  [];
+let currentDetailOrderId = null;
 
-
-let orders =
-  [];
-
-
-let orderItemsHistory =
-  [];
-
-
-let recharges =
-  [];
-
-
-let rechargeRequests =
-  [];
-
-
-let cartItems =
-  [];
-
-
-let currentDetailOrderId =
-  null;
-
-
-let accessVerified =
-  false;
-
+let accessVerified = false;
 
 
 /* ==========================================================
-   代理商身份验证
+   身份验证
 ========================================================== */
 
 async function verifyAgentAccess() {
 
   try {
-
 
     const {
       data: sessionData,
@@ -2258,7 +2413,6 @@ async function verifyAgentAccess() {
       );
 
       return false;
-
     }
 
 
@@ -2307,7 +2461,6 @@ async function verifyAgentAccess() {
 
 
       return false;
-
     }
 
 
@@ -2346,7 +2499,6 @@ async function verifyAgentAccess() {
 
 
       return false;
-
     }
 
 
@@ -2379,7 +2531,6 @@ async function verifyAgentAccess() {
 
   catch (error) {
 
-
     console.error(
       "代理商权限验证失败：",
       error
@@ -2397,7 +2548,6 @@ async function verifyAgentAccess() {
     catch (signOutError) {
 
       console.error(
-        "退出登录失败：",
         signOutError
       );
 
@@ -2410,13 +2560,13 @@ async function verifyAgentAccess() {
 
 
     return false;
-
   }
 
 }
 
 
-/* ===== 第1段结束，第2段从这里继续 ===== */
+/* ===== 第1段结束，第2段紧接下面 ===== */
+
   /* ==========================================================
    页面启动
 ========================================================== */
@@ -2428,9 +2578,8 @@ document.addEventListener(
     const allowed =
       await verifyAgentAccess();
 
-    if (
-      allowed
-    ) {
+
+    if (allowed) {
 
       await loadAllData();
 
@@ -2440,24 +2589,21 @@ document.addEventListener(
 );
 
 
-
 window.addEventListener(
   "pageshow",
   async function(event) {
 
-    if (
-      event.persisted
-    ) {
+    if (event.persisted) {
 
       accessVerified =
         false;
 
+
       const allowed =
         await verifyAgentAccess();
 
-      if (
-        allowed
-      ) {
+
+      if (allowed) {
 
         await loadAllData();
 
@@ -2469,19 +2615,14 @@ window.addEventListener(
 );
 
 
-
 /* ==========================================================
-   顶部代理商信息
+   顶部信息
 ========================================================== */
 
 function updateAgentHeader() {
 
-  if (
-    !currentAgent
-  ) {
-
+  if (!currentAgent) {
     return;
-
   }
 
 
@@ -2517,9 +2658,8 @@ function updateAgentHeader() {
 }
 
 
-
 /* ==========================================================
-   读取全部数据
+   读取数据
 ========================================================== */
 
 async function loadAllData() {
@@ -2531,21 +2671,13 @@ async function loadAllData() {
   ) {
 
     return;
-
   }
 
 
-  showLoading(
-    true
-  );
+  showLoading(true);
 
 
   try {
-
-
-    /*
-      重新读取代理商余额
-    */
 
     const {
       data: latestAgent,
@@ -2585,7 +2717,6 @@ async function loadAllData() {
 
 
     updateAgentHeader();
-
 
 
     const [
@@ -2649,6 +2780,20 @@ async function loadAllData() {
           ),
 
 
+        /*
+          使用 select("*")
+          这样管理端保存到 orders 的：
+          shipping_address
+          expected_shipping_date
+          shipping_company
+          tracking_number
+          processed_at
+          invoice_status
+          invoice_number
+          invoiced_at
+          都会一起读取。
+        */
+
         supabaseClient
           .from("orders")
           .select("*")
@@ -2696,82 +2841,46 @@ async function loadAllData() {
       ]);
 
 
-
-    if (
-      productResult.error
-    ) {
-
+    if (productResult.error) {
       throw productResult.error;
-
     }
 
-
-    if (
-      priceResult.error
-    ) {
-
+    if (priceResult.error) {
       throw priceResult.error;
-
     }
 
-
-    if (
-      orderResult.error
-    ) {
-
+    if (orderResult.error) {
       throw orderResult.error;
-
     }
 
-
-    if (
-      rechargeResult.error
-    ) {
-
+    if (rechargeResult.error) {
       throw rechargeResult.error;
-
     }
 
-
-    if (
-      requestResult.error
-    ) {
-
+    if (requestResult.error) {
       throw requestResult.error;
-
     }
-
 
 
     products =
-      productResult.data ||
-      [];
+      productResult.data || [];
 
 
     salesPrices =
-      priceResult.data ||
-      [];
+      priceResult.data || [];
 
 
     orders =
-      orderResult.data ||
-      [];
+      orderResult.data || [];
 
 
     recharges =
-      rechargeResult.data ||
-      [];
+      rechargeResult.data || [];
 
 
     rechargeRequests =
-      requestResult.data ||
-      [];
+      requestResult.data || [];
 
-
-
-    /*
-      读取当前代理商订单明细
-    */
 
     const orderIds =
       orders.map(
@@ -2784,7 +2893,6 @@ async function loadAllData() {
       orderIds.length >
       0
     ) {
-
 
       const {
         data: itemData,
@@ -2805,18 +2913,13 @@ async function loadAllData() {
           );
 
 
-      if (
-        itemError
-      ) {
-
+      if (itemError) {
         throw itemError;
-
       }
 
 
       orderItemsHistory =
-        itemData ||
-        [];
+        itemData || [];
 
     }
 
@@ -2826,7 +2929,6 @@ async function loadAllData() {
         [];
 
     }
-
 
 
     updateBalanceDisplays();
@@ -2841,11 +2943,9 @@ async function loadAllData() {
 
     renderPendingRechargeRequests();
 
-
   }
 
   catch (error) {
-
 
     console.error(
       "读取代理商平台数据失败：",
@@ -2863,21 +2963,15 @@ async function loadAllData() {
       "error"
     );
 
-
   }
 
   finally {
 
-
-    showLoading(
-      false
-    );
-
+    showLoading(false);
 
   }
 
 }
-
 
 
 /* ==========================================================
@@ -2900,14 +2994,11 @@ function getCurrentSalesPrice(
           productId
         )
         &&
-        item.is_active ===
-        true
+        item.is_active === true
         &&
-        item.is_defined ===
-        true
+        item.is_defined === true
         &&
-        item.price !==
-        null
+        item.price !== null
         &&
         item.currency
       );
@@ -2918,9 +3009,8 @@ function getCurrentSalesPrice(
 }
 
 
-
 /* ==========================================================
-   产品列表
+   产品
 ========================================================== */
 
 function renderProducts() {
@@ -2946,14 +3036,12 @@ function renderProducts() {
     .toLowerCase();
 
 
-  tbody.innerHTML =
-    "";
+  tbody.innerHTML = "";
 
 
   const availableProducts =
     products.filter(
       function(product) {
-
 
         const price =
           getCurrentSalesPrice(
@@ -2961,12 +3049,8 @@ function renderProducts() {
           );
 
 
-        if (
-          !price
-        ) {
-
+        if (!price) {
           return false;
-
         }
 
 
@@ -2996,15 +3080,13 @@ function renderProducts() {
 
 
   if (
-    availableProducts.length ===
-    0
+    availableProducts.length === 0
   ) {
 
     empty.style.display =
       "block";
 
     return;
-
   }
 
 
@@ -3014,7 +3096,6 @@ function renderProducts() {
 
   availableProducts.forEach(
     function(product) {
-
 
       const price =
         getCurrentSalesPrice(
@@ -3078,6 +3159,7 @@ function renderProducts() {
           </td>
 
           <td class="money retail-price">
+
             ${
               price.national_retail_price !== null
               ?
@@ -3091,6 +3173,7 @@ function renderProducts() {
               :
               "-"
             }
+
           </td>
 
           <td>
@@ -3124,12 +3207,10 @@ function renderProducts() {
         tr
       );
 
-
     }
   );
 
 }
-
 
 
 /* ==========================================================
@@ -3166,7 +3247,6 @@ function addProductToCart(
     );
 
     return;
-
   }
 
 
@@ -3197,7 +3277,6 @@ function addProductToCart(
     );
 
     return;
-
   }
 
 
@@ -3209,9 +3288,7 @@ function addProductToCart(
     );
 
 
-  if (
-    existing
-  ) {
+  if (existing) {
 
     existing.quantity =
       Number(existing.quantity)
@@ -3221,7 +3298,6 @@ function addProductToCart(
   }
 
   else {
-
 
     cartItems.push({
 
@@ -3270,7 +3346,6 @@ function addProductToCart(
 }
 
 
-
 /* ==========================================================
    购物车
 ========================================================== */
@@ -3289,13 +3364,11 @@ function renderCart() {
     );
 
 
-  tbody.innerHTML =
-    "";
+  tbody.innerHTML = "";
 
 
   if (
-    cartItems.length ===
-    0
+    cartItems.length === 0
   ) {
 
     empty.style.display =
@@ -3313,7 +3386,6 @@ function renderCart() {
 
   cartItems.forEach(
     function(item) {
-
 
       const lineTotal =
         Number(
@@ -3347,7 +3419,9 @@ function renderCart() {
                 font-size:11px;
               "
             >
+
               ${escapeHTML(item.product_code)}
+
               ${
                 item.specification
                 ?
@@ -3357,13 +3431,17 @@ function renderCart() {
                 :
                 ""
               }
+
             </div>
 
           </td>
 
           <td class="money sale-price">
+
             ${formatMoney(item.unit_price)}
+
             ${escapeHTML(item.currency)}
+
           </td>
 
           <td>
@@ -3389,8 +3467,11 @@ function renderCart() {
           </td>
 
           <td class="money">
+
             ${formatMoney(lineTotal)}
+
             ${escapeHTML(item.currency)}
+
           </td>
 
           <td>
@@ -3412,7 +3493,6 @@ function renderCart() {
         tr
       );
 
-
     }
   );
 
@@ -3421,11 +3501,6 @@ function renderCart() {
 
 }
 
-
-
-/* ==========================================================
-   修改数量
-========================================================== */
 
 function changeCartQuantity(
   productId,
@@ -3439,12 +3514,9 @@ function changeCartQuantity(
 
 
   if (
-    !Number.isFinite(
-      quantity
-    )
+    !Number.isFinite(quantity)
     ||
-    quantity <=
-    0
+    quantity <= 0
   ) {
 
     alert(
@@ -3455,7 +3527,6 @@ function changeCartQuantity(
     renderCart();
 
     return;
-
   }
 
 
@@ -3467,9 +3538,7 @@ function changeCartQuantity(
     );
 
 
-  if (
-    item
-  ) {
+  if (item) {
 
     item.quantity =
       quantity;
@@ -3481,11 +3550,6 @@ function changeCartQuantity(
 
 }
 
-
-
-/* ==========================================================
-   删除产品
-========================================================== */
 
 function removeCartItem(
   productId
@@ -3504,11 +3568,6 @@ function removeCartItem(
 }
 
 
-
-/* ==========================================================
-   清空订单
-========================================================== */
-
 function clearCart() {
 
   if (
@@ -3522,25 +3581,19 @@ function clearCart() {
       );
 
 
-    if (
-      !confirmed
-    ) {
-
+    if (!confirmed) {
       return;
-
     }
 
   }
 
 
-  cartItems =
-    [];
+  cartItems = [];
 
 
   document.getElementById(
     "orderRemarks"
-  ).value =
-    "";
+  ).value = "";
 
 
   renderCart();
@@ -3548,15 +3601,8 @@ function clearCart() {
 }
 
 
-
 /* ==========================================================
    订单汇总
-
-   如果订单金额超过余额：
-   预计余额显示红色，
-   提交订单按钮禁止使用。
-
-   数据库 RPC 仍会再次检查余额。
 ========================================================== */
 
 function updateCartSummary() {
@@ -3578,7 +3624,7 @@ function updateCartSummary() {
 
   const total =
     cartItems.reduce(
-      function(sum, item) {
+      function(sum,item) {
 
         return (
           sum
@@ -3633,14 +3679,12 @@ function updateCartSummary() {
 
 
   if (
-    afterBalance <
-    0
+    afterBalance < 0
   ) {
 
     afterElement.classList.remove(
       "green"
     );
-
 
     afterElement.classList.add(
       "red"
@@ -3654,7 +3698,6 @@ function updateCartSummary() {
       "red"
     );
 
-
     afterElement.classList.add(
       "green"
     );
@@ -3662,34 +3705,26 @@ function updateCartSummary() {
   }
 
 
-  const button =
-    document.getElementById(
-      "submitOrderButton"
-    );
-
-
-  button.disabled =
+  document.getElementById(
+    "submitOrderButton"
+  ).disabled =
     (
-      cartItems.length ===
-      0
+      cartItems.length === 0
       ||
-      afterBalance <
-      0
+      afterBalance < 0
     );
 
 }
 
 
-
 /* ==========================================================
-   正式提交订单
+   提交订单
 ========================================================== */
 
 async function submitAgentOrder() {
 
   if (
-    cartItems.length ===
-    0
+    cartItems.length === 0
   ) {
 
     alert(
@@ -3697,7 +3732,6 @@ async function submitAgentOrder() {
     );
 
     return;
-
   }
 
 
@@ -3710,7 +3744,7 @@ async function submitAgentOrder() {
 
   const total =
     cartItems.reduce(
-      function(sum, item) {
+      function(sum,item) {
 
         return (
           sum
@@ -3725,56 +3759,20 @@ async function submitAgentOrder() {
     );
 
 
-  /*
-    前端余额提示。
-
-    真正安全检查仍由数据库 RPC 完成。
-  */
-
   if (
-    total >
-    balance
+    total > balance
   ) {
 
     alert(
-      "订单金额超过当前账户余额，无法提交订单。\n\n"
-      +
-      "当前余额："
-      +
-      formatMoney(balance)
-      +
-      " "
-      +
-      (
-        currentAgent.balance_currency ||
-        "CNY"
-      )
-      +
-      "\n"
-      +
-      "订单金额："
-      +
-      formatMoney(total)
-      +
-      " "
-      +
-      (
-        currentAgent.balance_currency ||
-        "CNY"
-      )
-      +
-      "\n\n"
-      +
-      "请先提交充值申请，待公司确认充值后再下单。"
+      "订单金额超过当前账户余额，无法提交订单。"
     );
 
     return;
-
   }
 
 
-  const confirmed =
-    confirm(
+  if (
+    !confirm(
       "确定提交当前订单吗？\n\n"
       +
       "订单金额："
@@ -3788,35 +3786,18 @@ async function submitAgentOrder() {
         "CNY"
       )
       +
-      "\n\n"
-      +
-      "订单提交成功后，系统将自动扣减账户余额。"
-    );
-
-
-  if (
-    !confirmed
+      "\n\n订单提交成功后系统自动扣减账户余额。"
+    )
   ) {
 
     return;
-
   }
 
 
-  showLoading(
-    true
-  );
+  showLoading(true);
 
 
   try {
-
-
-    /*
-      只向数据库提交产品ID和数量。
-
-      不提交浏览器显示的价格。
-      数据库重新读取官方有效销售价格。
-    */
 
     const rpcItems =
       cartItems.map(
@@ -3868,91 +3849,42 @@ async function submitAgentOrder() {
         );
 
 
-    if (
-      error
-    ) {
-
+    if (error) {
       throw error;
-
     }
 
 
-    cartItems =
-      [];
+    cartItems = [];
 
 
     document.getElementById(
       "orderRemarks"
-    ).value =
-      "";
-
-
-    let successMessage =
-      "订单提交成功。";
-
-
-    if (
-      data
-    ) {
-
-
-      if (
-        data.order_no
-      ) {
-
-        successMessage +=
-          " 订单号："
-          +
-          data.order_no
-          +
-          "。";
-
-      }
-
-
-      if (
-        data.total_amount !==
-        undefined
-      ) {
-
-        successMessage +=
-          " 订单金额："
-          +
-          formatMoney(
-            data.total_amount
-          )
-          +
-          " "
-          +
-          (
-            data.currency ||
-            currentAgent.balance_currency ||
-            "CNY"
-          )
-          +
-          "。";
-
-      }
-
-    }
+    ).value = "";
 
 
     showNotice(
-      successMessage,
+      "订单提交成功。"
+      +
+      (
+        data?.order_no
+        ?
+        " 订单号："
+        +
+        data.order_no
+        :
+        ""
+      ),
       "success"
     );
 
 
     await loadAllData();
 
-
   }
 
   catch (error) {
 
-
     console.error(
-      "提交订单失败：",
       error
     );
 
@@ -3962,35 +3894,18 @@ async function submitAgentOrder() {
       "订单提交失败。";
 
 
-    /*
-      如果数据库判断余额不足，
-      给代理商更清楚的中文提示。
-    */
-
     if (
       message
-      .toLowerCase()
-      .includes(
-        "balance"
-      )
+        .toLowerCase()
+        .includes("balance")
       ||
-      message.includes(
-        "余额"
-      )
+      message.includes("余额")
     ) {
 
       message =
         "当前账户余额不足，订单无法提交。请先充值后再下单。";
 
     }
-
-
-    showNotice(
-      "订单提交失败："
-      +
-      message,
-      "error"
-    );
 
 
     alert(
@@ -4000,28 +3915,17 @@ async function submitAgentOrder() {
     );
 
 
-    /*
-      重新读取最新余额，
-      防止另一个页面刚刚下单导致余额变化。
-    */
-
     await loadAllData();
-
 
   }
 
   finally {
 
-
-    showLoading(
-      false
-    );
-
+    showLoading(false);
 
   }
 
 }
-
 
 
 /* ==========================================================
@@ -4057,14 +3961,12 @@ function renderOrders() {
     ).value;
 
 
-  tbody.innerHTML =
-    "";
+  tbody.innerHTML = "";
 
 
   const filtered =
     orders.filter(
       function(order) {
-
 
         const keywordMatched =
           (
@@ -4083,11 +3985,9 @@ function renderOrders() {
 
         const statusMatched =
           (
-            status ===
-            "all"
+            status === "all"
             ||
-            order.status ===
-            status
+            order.status === status
           );
 
 
@@ -4102,15 +4002,13 @@ function renderOrders() {
 
 
   if (
-    filtered.length ===
-    0
+    filtered.length === 0
   ) {
 
     empty.style.display =
       "block";
 
     return;
-
   }
 
 
@@ -4120,7 +4018,6 @@ function renderOrders() {
 
   filtered.forEach(
     function(order) {
-
 
       const tr =
         document.createElement(
@@ -4186,12 +4083,10 @@ function renderOrders() {
         tr
       );
 
-
     }
   );
 
 }
-
 
 
 /* ==========================================================
@@ -4210,9 +4105,7 @@ function openOrderDetail(
     );
 
 
-  if (
-    !order
-  ) {
+  if (!order) {
 
     showNotice(
       "没有找到该订单。",
@@ -4220,7 +4113,6 @@ function openOrderDetail(
     );
 
     return;
-
   }
 
 
@@ -4245,6 +4137,7 @@ function openOrderDetail(
 
   setText(
     "detailOrderTotal",
+
     formatMoney(
       order.total_amount
     )
@@ -4255,6 +4148,7 @@ function openOrderDetail(
       order.currency ||
       ""
     )
+
   );
 
 
@@ -4263,6 +4157,125 @@ function openOrderDetail(
     statusToChinese(
       order.status
     )
+  );
+
+
+  /* ========================================================
+     新增：
+     管理端处理后的发货信息
+  ======================================================== */
+
+  setText(
+    "detailShippingAddress",
+
+    order.shipping_address
+    ||
+    currentAgent?.address
+    ||
+    "-"
+
+  );
+
+
+  setText(
+    "detailExpectedShippingDate",
+
+    formatDateOnly(
+      order.expected_shipping_date
+    )
+
+  );
+
+
+  setText(
+    "detailShippingCompany",
+
+    order.shipping_company
+    ||
+    "-"
+
+  );
+
+
+  setText(
+    "detailTrackingNumber",
+
+    order.tracking_number
+    ||
+    "-"
+
+  );
+
+
+  setText(
+    "detailProcessedStatus",
+
+    order.processed_at
+    ?
+    "硕丰科技已处理"
+    :
+    "等待硕丰科技处理"
+
+  );
+
+
+  setText(
+    "detailProcessedAt",
+
+    formatDate(
+      order.processed_at
+    )
+
+  );
+
+
+  setText(
+    "detailProcessedOrderStatus",
+
+    statusToChinese(
+      order.status
+    )
+
+  );
+
+
+  /* ========================================================
+     新增：
+     开票结果
+  ======================================================== */
+
+  setText(
+    "detailInvoiceStatus",
+
+    order.invoice_status ===
+    "issued"
+
+    ?
+    "已开票"
+
+    :
+    "未开票"
+
+  );
+
+
+  setText(
+    "detailInvoiceNumber",
+
+    order.invoice_number
+    ||
+    "-"
+
+  );
+
+
+  setText(
+    "detailInvoicedAt",
+
+    formatDate(
+      order.invoiced_at
+    )
+
   );
 
 
@@ -4279,8 +4292,7 @@ function openOrderDetail(
     );
 
 
-  tbody.innerHTML =
-    "";
+  tbody.innerHTML = "";
 
 
   const items =
@@ -4291,59 +4303,85 @@ function openOrderDetail(
     );
 
 
-  items.forEach(
-    function(item) {
+  if (
+    items.length === 0
+  ) {
+
+    tbody.innerHTML =
+      `
+        <tr>
+          <td
+            colspan="7"
+            class="empty"
+          >
+            暂无订单产品明细
+          </td>
+        </tr>
+      `;
+
+  }
+
+  else {
+
+    items.forEach(
+      function(item) {
+
+        const tr =
+          document.createElement(
+            "tr"
+          );
 
 
-      const tr =
-        document.createElement(
-          "tr"
+        tr.innerHTML =
+          `
+
+            <td>
+              ${escapeHTML(item.product_code_snapshot || "-")}
+            </td>
+
+            <td class="product-name">
+              ${escapeHTML(item.product_name_snapshot || "-")}
+            </td>
+
+            <td>
+              ${escapeHTML(item.specification_snapshot || "-")}
+            </td>
+
+            <td>
+              ${escapeHTML(item.unit_snapshot || "-")}
+            </td>
+
+            <td class="money">
+
+              ${formatMoney(item.unit_price)}
+
+              ${escapeHTML(order.currency || "")}
+
+            </td>
+
+            <td>
+              ${formatQuantity(item.quantity)}
+            </td>
+
+            <td class="money">
+
+              ${formatMoney(item.line_total)}
+
+              ${escapeHTML(order.currency || "")}
+
+            </td>
+
+          `;
+
+
+        tbody.appendChild(
+          tr
         );
 
+      }
+    );
 
-      tr.innerHTML =
-        `
-
-          <td>
-            ${escapeHTML(item.product_code_snapshot || "-")}
-          </td>
-
-          <td class="product-name">
-            ${escapeHTML(item.product_name_snapshot || "-")}
-          </td>
-
-          <td>
-            ${escapeHTML(item.specification_snapshot || "-")}
-          </td>
-
-          <td>
-            ${escapeHTML(item.unit_snapshot || "-")}
-          </td>
-
-          <td class="money">
-            ${formatMoney(item.unit_price)}
-            ${escapeHTML(order.currency || "")}
-          </td>
-
-          <td>
-            ${formatQuantity(item.quantity)}
-          </td>
-
-          <td class="money">
-            ${formatMoney(item.line_total)}
-            ${escapeHTML(order.currency || "")}
-          </td>
-
-        `;
-
-
-      tbody.appendChild(
-        tr
-      );
-
-
-    }
-  );
+  }
 
 
   document
@@ -4356,7 +4394,6 @@ function openOrderDetail(
     );
 
 }
-
 
 
 function closeOrderDetailModal() {
@@ -4377,19 +4414,14 @@ function closeOrderDetailModal() {
 }
 
 
-
 /* ==========================================================
-   打印
+   打印订单
 ========================================================== */
 
 function printCurrentOrder() {
 
-  if (
-    !currentDetailOrderId
-  ) {
-
+  if (!currentDetailOrderId) {
     return;
-
   }
 
 
@@ -4398,7 +4430,6 @@ function printCurrentOrder() {
   );
 
 }
-
 
 
 function printOrder(
@@ -4413,16 +4444,13 @@ function printOrder(
     );
 
 
-  if (
-    !order
-  ) {
+  if (!order) {
 
     alert(
       "没有找到该订单。"
     );
 
     return;
-
   }
 
 
@@ -4436,24 +4464,43 @@ function printOrder(
 
   const rows =
     items.map(
-      function(item, index) {
+      function(item,index) {
 
         return `
           <tr>
-            <td>${index + 1}</td>
-            <td>${escapeHTML(item.product_code_snapshot || "-")}</td>
-            <td>${escapeHTML(item.product_name_snapshot || "-")}</td>
-            <td>${escapeHTML(item.specification_snapshot || "-")}</td>
-            <td>${escapeHTML(item.unit_snapshot || "-")}</td>
+
+            <td>
+              ${index + 1}
+            </td>
+
+            <td>
+              ${escapeHTML(item.product_code_snapshot || "-")}
+            </td>
+
+            <td>
+              ${escapeHTML(item.product_name_snapshot || "-")}
+            </td>
+
+            <td>
+              ${escapeHTML(item.specification_snapshot || "-")}
+            </td>
+
+            <td>
+              ${escapeHTML(item.unit_snapshot || "-")}
+            </td>
+
             <td style="text-align:right;">
               ${formatMoney(item.unit_price)}
             </td>
+
             <td style="text-align:right;">
               ${formatQuantity(item.quantity)}
             </td>
+
             <td style="text-align:right;">
               ${formatMoney(item.line_total)}
             </td>
+
           </tr>
         `;
 
@@ -4462,24 +4509,46 @@ function printOrder(
     .join("");
 
 
+  const shippingAddress =
+    order.shipping_address
+    ||
+    currentAgent?.address
+    ||
+    "-";
+
+
+  const invoiceStatus =
+    order.invoice_status ===
+    "issued"
+    ?
+    "已开票"
+    :
+    "未开票";
+
+
+  const processStatus =
+    order.processed_at
+    ?
+    "硕丰科技已处理"
+    :
+    "等待硕丰科技处理";
+
+
   const printWindow =
     window.open(
       "",
       "_blank",
-      "width=1000,height=760"
+      "width=1000,height=820"
     );
 
 
-  if (
-    !printWindow
-  ) {
+  if (!printWindow) {
 
     alert(
       "浏览器阻止了打印窗口，请允许本网站打开弹出窗口后重新打印。"
     );
 
     return;
-
   }
 
 
@@ -4495,97 +4564,165 @@ function printOrder(
 <meta charset="UTF-8">
 
 <title>
-  ${escapeHTML(order.order_no || "代理商订货单")}
+${escapeHTML(order.order_no || "代理商订货单")}
 </title>
 
 <style>
 
+body {
+
+  font-family:
+    Arial,
+    "Microsoft YaHei",
+    sans-serif;
+
+  color:#111;
+
+  padding:30px;
+
+}
+
+h1 {
+
+  text-align:center;
+
+  margin-bottom:6px;
+
+  font-size:25px;
+
+}
+
+.subtitle {
+
+  text-align:center;
+
+  color:#555;
+
+  margin-bottom:25px;
+
+}
+
+.info {
+
+  width:100%;
+
+  margin-bottom:20px;
+
+  border-collapse:collapse;
+
+}
+
+.info td {
+
+  border:1px solid #999;
+
+  padding:8px;
+
+  font-size:12px;
+
+}
+
+.info-label {
+
+  width:120px;
+
+  background:#f3f4f6;
+
+  font-weight:bold;
+
+}
+
+.shipping-title {
+
+  margin:
+    22px 0 8px;
+
+  font-size:15px;
+
+  font-weight:bold;
+
+}
+
+table.items {
+
+  width:100%;
+
+  border-collapse:collapse;
+
+}
+
+table.items th,
+table.items td {
+
+  border:1px solid #777;
+
+  padding:8px;
+
+  font-size:12px;
+
+}
+
+table.items th {
+
+  background:#f3f4f6;
+
+}
+
+.total {
+
+  margin-top:18px;
+
+  text-align:right;
+
+  font-size:16px;
+
+  font-weight:bold;
+
+}
+
+.remarks {
+
+  margin-top:24px;
+
+  font-size:13px;
+
+  line-height:1.8;
+
+}
+
+.signatures {
+
+  margin-top:70px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:60px;
+
+}
+
+.signature {
+
+  flex:1;
+
+  border-top:1px solid #777;
+
+  padding-top:8px;
+
+  text-align:center;
+
+  font-size:12px;
+
+}
+
+@media print {
+
   body {
-    font-family:
-      Arial,
-      "Microsoft YaHei",
-      sans-serif;
-
-    color: #111;
-
-    padding: 30px;
+    padding:0;
   }
 
-  h1 {
-    text-align: center;
-    margin-bottom: 6px;
-    font-size: 25px;
-  }
-
-  .subtitle {
-    text-align: center;
-    color: #555;
-    margin-bottom: 30px;
-  }
-
-  .info {
-    width: 100%;
-    margin-bottom: 20px;
-    border-collapse: collapse;
-  }
-
-  .info td {
-    border: none;
-    padding: 5px 4px;
-    font-size: 13px;
-  }
-
-  table.items {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  table.items th,
-  table.items td {
-    border: 1px solid #777;
-    padding: 8px;
-    font-size: 12px;
-  }
-
-  table.items th {
-    background: #f3f4f6;
-  }
-
-  .total {
-    margin-top: 18px;
-    text-align: right;
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  .remarks {
-    margin-top: 24px;
-    font-size: 13px;
-    line-height: 1.8;
-  }
-
-  .signatures {
-    margin-top: 70px;
-    display: flex;
-    justify-content: space-between;
-    gap: 60px;
-  }
-
-  .signature {
-    flex: 1;
-    border-top: 1px solid #777;
-    padding-top: 8px;
-    text-align: center;
-    font-size: 12px;
-  }
-
-  @media print {
-
-    body {
-      padding: 0;
-    }
-
-  }
+}
 
 </style>
 
@@ -4594,139 +4731,288 @@ function printOrder(
 
 <body>
 
+
 <h1>
-  硕丰科技 代理商订货单
+硕丰科技 代理商订货单
 </h1>
 
+
 <div class="subtitle">
-  ShuoFeng Technology
+ShuoFeng Technology
 </div>
 
 
 <table class="info">
 
-  <tr>
+<tr>
 
-    <td>
-      <strong>订单号：</strong>
-      ${escapeHTML(order.order_no || "-")}
-    </td>
+<td class="info-label">
+订单号
+</td>
 
-    <td>
-      <strong>下单日期：</strong>
-      ${escapeHTML(formatDateOnly(order.order_date))}
-    </td>
+<td>
+${escapeHTML(order.order_no || "-")}
+</td>
 
-  </tr>
+<td class="info-label">
+下单日期
+</td>
 
-  <tr>
+<td>
+${escapeHTML(formatDateOnly(order.order_date))}
+</td>
 
-    <td>
-      <strong>代理商代码：</strong>
-      ${escapeHTML(currentAgent.agent_code || "-")}
-    </td>
+</tr>
 
-    <td>
-      <strong>代理商名称：</strong>
-      ${escapeHTML(currentAgent.agent_name || "-")}
-    </td>
 
-  </tr>
+<tr>
 
-  <tr>
+<td class="info-label">
+代理商代码
+</td>
 
-    <td>
-      <strong>订单状态：</strong>
-      ${escapeHTML(statusToChinese(order.status))}
-    </td>
+<td>
+${escapeHTML(currentAgent.agent_code || "-")}
+</td>
 
-    <td>
-      <strong>币种：</strong>
-      ${escapeHTML(order.currency || "-")}
-    </td>
+<td class="info-label">
+代理商名称
+</td>
 
-  </tr>
+<td>
+${escapeHTML(currentAgent.agent_name || "-")}
+</td>
 
-  <tr>
+</tr>
 
-    <td colspan="2">
-      <strong>创建时间：</strong>
-      ${escapeHTML(formatDate(order.created_at))}
-    </td>
 
-  </tr>
+<tr>
+
+<td class="info-label">
+订单状态
+</td>
+
+<td>
+${escapeHTML(statusToChinese(order.status))}
+</td>
+
+<td class="info-label">
+币种
+</td>
+
+<td>
+${escapeHTML(order.currency || "-")}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="info-label">
+创建时间
+</td>
+
+<td colspan="3">
+${escapeHTML(formatDate(order.created_at))}
+</td>
+
+</tr>
+
+</table>
+
+
+<div class="shipping-title">
+公司处理及发货资料
+</div>
+
+
+<table class="info">
+
+<tr>
+
+<td class="info-label">
+发货地址
+</td>
+
+<td colspan="3">
+${escapeHTML(shippingAddress)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="info-label">
+预计发货日期
+</td>
+
+<td>
+${escapeHTML(formatDateOnly(order.expected_shipping_date))}
+</td>
+
+<td class="info-label">
+物流公司
+</td>
+
+<td>
+${escapeHTML(order.shipping_company || "-")}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="info-label">
+运单号
+</td>
+
+<td>
+${escapeHTML(order.tracking_number || "-")}
+</td>
+
+<td class="info-label">
+处理状态
+</td>
+
+<td>
+${escapeHTML(processStatus)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="info-label">
+处理时间
+</td>
+
+<td colspan="3">
+${escapeHTML(formatDate(order.processed_at))}
+</td>
+
+</tr>
+
+</table>
+
+
+<div class="shipping-title">
+开票资料
+</div>
+
+
+<table class="info">
+
+<tr>
+
+<td class="info-label">
+开票状态
+</td>
+
+<td>
+${escapeHTML(invoiceStatus)}
+</td>
+
+<td class="info-label">
+发票号
+</td>
+
+<td>
+${escapeHTML(order.invoice_number || "-")}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="info-label">
+开票时间
+</td>
+
+<td colspan="3">
+${escapeHTML(formatDate(order.invoiced_at))}
+</td>
+
+</tr>
 
 </table>
 
 
 <table class="items">
 
-  <thead>
+<thead>
 
-    <tr>
+<tr>
 
-      <th>序号</th>
-      <th>产品代码</th>
-      <th>产品名称</th>
-      <th>规格</th>
-      <th>单位</th>
-      <th>单价</th>
-      <th>数量</th>
-      <th>金额</th>
+<th>序号</th>
+<th>产品代码</th>
+<th>产品名称</th>
+<th>规格</th>
+<th>单位</th>
+<th>单价</th>
+<th>数量</th>
+<th>金额</th>
 
-    </tr>
+</tr>
 
-  </thead>
+</thead>
 
+<tbody>
 
-  <tbody>
+${rows}
 
-    ${rows}
-
-  </tbody>
+</tbody>
 
 </table>
 
 
 <div class="total">
 
-  订单总金额：
-  ${formatMoney(order.total_amount)}
-  ${escapeHTML(order.currency || "")}
+订单总金额：
+
+${formatMoney(order.total_amount)}
+
+${escapeHTML(order.currency || "")}
 
 </div>
 
 
 <div class="remarks">
 
-  <strong>订单备注：</strong>
+<strong>
+订单备注：
+</strong>
 
-  ${escapeHTML(order.remarks || "无")}
+${escapeHTML(order.remarks || "无")}
 
 </div>
 
 
 <div class="signatures">
 
-  <div class="signature">
-    代理商确认
-  </div>
+<div class="signature">
+代理商确认
+</div>
 
-  <div class="signature">
-    硕丰科技确认
-  </div>
+<div class="signature">
+硕丰科技确认
+</div>
 
 </div>
 
 
 <script>
 
-  window.onload =
-    function() {
+window.onload =
+function() {
 
-      window.print();
+  window.print();
 
-    };
+};
 
 <\/script>
 
@@ -4744,9 +5030,8 @@ function printOrder(
 }
 
 
-
 /* ==========================================================
-   正式充值记录
+   充值记录
 ========================================================== */
 
 function renderRecharges() {
@@ -4763,20 +5048,17 @@ function renderRecharges() {
     );
 
 
-  tbody.innerHTML =
-    "";
+  tbody.innerHTML = "";
 
 
   if (
-    recharges.length ===
-    0
+    recharges.length === 0
   ) {
 
     empty.style.display =
       "block";
 
     return;
-
   }
 
 
@@ -4786,7 +5068,6 @@ function renderRecharges() {
 
   recharges.forEach(
     function(item) {
-
 
       const typeText =
         item.recharge_type ===
@@ -4828,8 +5109,11 @@ function renderRecharges() {
           </td>
 
           <td class="money">
+
             ${formatMoney(item.amount)}
+
             ${escapeHTML(item.currency || "")}
+
           </td>
 
           <td>
@@ -4851,16 +5135,14 @@ function renderRecharges() {
         tr
       );
 
-
     }
   );
 
 }
 
 
-
 /* ==========================================================
-   待处理充值申请
+   待处理充值
 ========================================================== */
 
 function renderPendingRechargeRequests() {
@@ -4880,24 +5162,21 @@ function renderPendingRechargeRequests() {
 
 
   if (
-    pending.length ===
-    0
+    pending.length === 0
   ) {
 
     box.style.display =
       "none";
 
-    box.textContent =
-      "";
+    box.textContent = "";
 
     return;
-
   }
 
 
   const total =
     pending.reduce(
-      function(sum, item) {
+      function(sum,item) {
 
         return (
           sum
@@ -4933,9 +5212,8 @@ function renderPendingRechargeRequests() {
 }
 
 
-
 /* ==========================================================
-   提交充值申请
+   提交充值
 ========================================================== */
 
 async function submitRechargeRequest() {
@@ -4951,34 +5229,25 @@ async function submitRechargeRequest() {
   const paymentMethod =
     document.getElementById(
       "rechargePaymentMethod"
-    )
-    .value
-    .trim();
+    ).value.trim();
 
 
   const reference =
     document.getElementById(
       "rechargeReference"
-    )
-    .value
-    .trim();
+    ).value.trim();
 
 
   const notes =
     document.getElementById(
       "rechargeNotes"
-    )
-    .value
-    .trim();
+    ).value.trim();
 
 
   if (
-    !Number.isFinite(
-      amount
-    )
+    !Number.isFinite(amount)
     ||
-    amount <=
-    0
+    amount <= 0
   ) {
 
     alert(
@@ -4986,12 +5255,11 @@ async function submitRechargeRequest() {
     );
 
     return;
-
   }
 
 
-  const confirmed =
-    confirm(
+  if (
+    !confirm(
       "确定提交充值申请吗？\n\n"
       +
       "申请金额："
@@ -5004,19 +5272,10 @@ async function submitRechargeRequest() {
         currentAgent.balance_currency ||
         "CNY"
       )
-      +
-      "\n\n"
-      +
-      "提交以后需要公司管理人员确认到账，账户余额才会增加。"
-    );
-
-
-  if (
-    !confirmed
+    )
   ) {
 
     return;
-
   }
 
 
@@ -5034,16 +5293,12 @@ async function submitRechargeRequest() {
     "正在提交……";
 
 
-  showLoading(
-    true
-  );
+  showLoading(true);
 
 
   try {
 
-
     const {
-      data,
       error
     } =
       await supabaseClient
@@ -5070,31 +5325,24 @@ async function submitRechargeRequest() {
         );
 
 
-    if (
-      error
-    ) {
-
+    if (error) {
       throw error;
-
     }
 
 
     document.getElementById(
       "rechargeAmount"
-    ).value =
-      "";
+    ).value = "";
 
 
     document.getElementById(
       "rechargeReference"
-    ).value =
-      "";
+    ).value = "";
 
 
     document.getElementById(
       "rechargeNotes"
-    ).value =
-      "";
+    ).value = "";
 
 
     showNotice(
@@ -5105,14 +5353,11 @@ async function submitRechargeRequest() {
 
     await loadAllData();
 
-
   }
 
   catch (error) {
 
-
     console.error(
-      "提交充值申请失败：",
       error
     );
 
@@ -5127,15 +5372,11 @@ async function submitRechargeRequest() {
       "error"
     );
 
-
   }
 
   finally {
 
-
-    showLoading(
-      false
-    );
+    showLoading(false);
 
 
     button.disabled =
@@ -5145,25 +5386,19 @@ async function submitRechargeRequest() {
     button.textContent =
       "提交充值申请";
 
-
   }
 
 }
 
 
-
 /* ==========================================================
-   更新所有余额显示
+   余额显示
 ========================================================== */
 
 function updateBalanceDisplays() {
 
-  if (
-    !currentAgent
-  ) {
-
+  if (!currentAgent) {
     return;
-
   }
 
 
@@ -5208,9 +5443,7 @@ function updateBalanceDisplays() {
     );
 
 
-  if (
-    rechargeCurrency
-  ) {
+  if (rechargeCurrency) {
 
     rechargeCurrency.value =
       currency;
@@ -5223,23 +5456,20 @@ function updateBalanceDisplays() {
 }
 
 
-
 /* ==========================================================
-   新增：打开修改密码窗口
+   修改密码
 ========================================================== */
 
 function openPasswordModal() {
 
   document.getElementById(
     "newPassword"
-  ).value =
-    "";
+  ).value = "";
 
 
   document.getElementById(
     "confirmNewPassword"
-  ).value =
-    "";
+  ).value = "";
 
 
   document
@@ -5251,25 +5481,8 @@ function openPasswordModal() {
       "show"
     );
 
-
-  setTimeout(
-    function() {
-
-      document.getElementById(
-        "newPassword"
-      ).focus();
-
-    },
-    100
-  );
-
 }
 
-
-
-/* ==========================================================
-   新增：关闭修改密码窗口
-========================================================== */
 
 function closePasswordModal() {
 
@@ -5285,22 +5498,15 @@ function closePasswordModal() {
 
   document.getElementById(
     "newPassword"
-  ).value =
-    "";
+  ).value = "";
 
 
   document.getElementById(
     "confirmNewPassword"
-  ).value =
-    "";
+  ).value = "";
 
 }
 
-
-
-/* ==========================================================
-   新增：修改当前代理商自己的密码
-========================================================== */
 
 async function changePassword() {
 
@@ -5327,13 +5533,11 @@ async function changePassword() {
     );
 
     return;
-
   }
 
 
   if (
-    newPassword.length <
-    8
+    newPassword.length < 8
   ) {
 
     alert(
@@ -5341,7 +5545,6 @@ async function changePassword() {
     );
 
     return;
-
   }
 
 
@@ -5351,30 +5554,20 @@ async function changePassword() {
   ) {
 
     alert(
-      "两次输入的新密码不一致，请重新输入。"
+      "两次输入的新密码不一致。"
     );
 
     return;
-
   }
 
 
-  const confirmed =
-    confirm(
-      "确定修改登录密码吗？\n\n"
-      +
-      "修改成功后系统将自动退出，"
-      +
-      "请使用新密码重新登录。"
-    );
-
-
   if (
-    !confirmed
+    !confirm(
+      "确定修改登录密码吗？\n\n修改成功后系统将自动退出。"
+    )
   ) {
 
     return;
-
   }
 
 
@@ -5392,18 +5585,10 @@ async function changePassword() {
     "正在修改……";
 
 
-  showLoading(
-    true
-  );
+  showLoading(true);
 
 
   try {
-
-
-    /*
-      Supabase Auth：
-      当前已登录用户只能修改自己的密码。
-    */
 
     const {
       data,
@@ -5419,21 +5604,15 @@ async function changePassword() {
         });
 
 
-    if (
-      error
-    ) {
-
+    if (error) {
       throw error;
-
     }
 
 
-    if (
-      !data?.user
-    ) {
+    if (!data?.user) {
 
       throw new Error(
-        "密码修改没有成功，请重新操作。"
+        "密码修改没有成功。"
       );
 
     }
@@ -5443,34 +5622,13 @@ async function changePassword() {
 
 
     alert(
-      "密码修改成功。\n\n"
-      +
-      "系统现在将退出登录，"
-      +
-      "请使用新密码重新登录。"
+      "密码修改成功。\n\n请使用新密码重新登录。"
     );
 
 
-    /*
-      修改成功以后立即退出。
-    */
-
-    try {
-
-      await supabaseClient
-        .auth
-        .signOut();
-
-    }
-
-    catch (signOutError) {
-
-      console.error(
-        "修改密码后退出失败：",
-        signOutError
-      );
-
-    }
+    await supabaseClient
+      .auth
+      .signOut();
 
 
     clearAgentLocalData();
@@ -5480,36 +5638,24 @@ async function changePassword() {
       "page11.html"
     );
 
-
   }
 
   catch (error) {
-
-
-    console.error(
-      "修改密码失败：",
-      error
-    );
-
 
     alert(
       "修改密码失败：\n\n"
       +
       (
         error.message ||
-        "请稍后重新尝试。"
+        "未知错误"
       )
     );
-
 
   }
 
   finally {
 
-
-    showLoading(
-      false
-    );
+    showLoading(false);
 
 
     button.disabled =
@@ -5519,15 +5665,13 @@ async function changePassword() {
     button.textContent =
       "确认修改密码";
 
-
   }
 
 }
 
 
-
 /* ==========================================================
-   点击订单详情遮罩关闭
+   Modal
 ========================================================== */
 
 document
@@ -5551,12 +5695,6 @@ document
   );
 
 
-
-/* ==========================================================
-   新增：
-   点击修改密码遮罩关闭
-========================================================== */
-
 document
   .getElementById(
     "passwordModal"
@@ -5578,11 +5716,6 @@ document
   );
 
 
-
-/* ==========================================================
-   ESC关闭弹窗
-========================================================== */
-
 document.addEventListener(
   "keydown",
   function(event) {
@@ -5602,9 +5735,8 @@ document.addEventListener(
 );
 
 
-
 /* ==========================================================
-   工具函数
+   工具
 ========================================================== */
 
 function setText(
@@ -5618,9 +5750,7 @@ function setText(
     );
 
 
-  if (
-    element
-  ) {
+  if (element) {
 
     element.textContent =
       value;
@@ -5628,7 +5758,6 @@ function setText(
   }
 
 }
-
 
 
 function formatMoney(
@@ -5658,7 +5787,6 @@ function formatMoney(
 }
 
 
-
 function formatQuantity(
   value
 ) {
@@ -5686,17 +5814,12 @@ function formatQuantity(
 }
 
 
-
 function formatDate(
   value
 ) {
 
-  if (
-    !value
-  ) {
-
+  if (!value) {
     return "-";
-
   }
 
 
@@ -5744,29 +5867,18 @@ function formatDate(
 }
 
 
-
 function formatDateOnly(
   value
 ) {
 
-  if (
-    !value
-  ) {
-
+  if (!value) {
     return "-";
-
   }
 
 
-  /*
-    数据库 order_date 本身就是 YYYY-MM-DD，
-    直接显示避免时区转换。
-  */
-
   return String(
     value
-  )
-  .slice(
+  ).slice(
     0,
     10
   );
@@ -5774,17 +5886,14 @@ function formatDateOnly(
 }
 
 
-
 function escapeHTML(
   value
 ) {
 
   if (
-    value ===
-    null
+    value === null
     ||
-    value ===
-    undefined
+    value === undefined
   ) {
 
     return "";
@@ -5819,9 +5928,8 @@ function escapeHTML(
 }
 
 
-
 /* ==========================================================
-   订单状态
+   状态
 ========================================================== */
 
 function statusToChinese(
@@ -5860,7 +5968,6 @@ function statusToChinese(
   );
 
 }
-
 
 
 function statusBadge(
@@ -5936,9 +6043,8 @@ function statusBadge(
 }
 
 
-
 /* ==========================================================
-   Notice
+   Notice / Loading
 ========================================================== */
 
 function showNotice(
@@ -5983,11 +6089,6 @@ function showNotice(
 }
 
 
-
-/* ==========================================================
-   Loading
-========================================================== */
-
 function showLoading(
   show
 ) {
@@ -5998,30 +6099,16 @@ function showLoading(
     );
 
 
-  if (
-    show
-  ) {
-
-    mask.classList.add(
-      "show"
-    );
-
-  }
-
-  else {
-
-    mask.classList.remove(
-      "show"
-    );
-
-  }
+  mask.classList.toggle(
+    "show",
+    Boolean(show)
+  );
 
 }
 
 
-
 /* ==========================================================
-   清除代理商旧前端数据
+   清理前端数据
 ========================================================== */
 
 function clearAgentLocalData() {
@@ -6067,9 +6154,8 @@ function clearAgentLocalData() {
 }
 
 
-
 /* ==========================================================
-   10分钟无操作自动退出
+   10分钟无操作退出
 ========================================================== */
 
 const IDLE_LIMIT =
@@ -6095,15 +6181,10 @@ let logoutInProgress =
   false;
 
 
-
 function userActivity() {
 
-  if (
-    logoutInProgress
-  ) {
-
+  if (logoutInProgress) {
     return;
-
   }
 
 
@@ -6115,23 +6196,12 @@ function userActivity() {
     false;
 
 
-  const warning =
-    document.getElementById(
-      "timeoutWarning"
-    );
-
-
-  if (
-    warning
-  ) {
-
-    warning.style.display =
-      "none";
-
-  }
+  document.getElementById(
+    "timeoutWarning"
+  ).style.display =
+    "none";
 
 }
-
 
 
 [
@@ -6155,16 +6225,11 @@ function userActivity() {
 );
 
 
-
 setInterval(
   function() {
 
-    if (
-      logoutInProgress
-    ) {
-
+    if (logoutInProgress) {
       return;
-
     }
 
 
@@ -6183,24 +6248,12 @@ setInterval(
       IDLE_LIMIT
     ) {
 
-      if (
-        !warningShown
-      ) {
+      if (!warningShown) {
 
-        const warning =
-          document.getElementById(
-            "timeoutWarning"
-          );
-
-
-        if (
-          warning
-        ) {
-
-          warning.style.display =
-            "block";
-
-        }
+        document.getElementById(
+          "timeoutWarning"
+        ).style.display =
+          "block";
 
 
         warningShown =
@@ -6225,19 +6278,14 @@ setInterval(
 );
 
 
-
 /* ==========================================================
    自动退出
 ========================================================== */
 
 async function autoLogout() {
 
-  if (
-    logoutInProgress
-  ) {
-
+  if (logoutInProgress) {
     return;
-
   }
 
 
@@ -6256,7 +6304,6 @@ async function autoLogout() {
   catch (error) {
 
     console.error(
-      "自动退出失败：",
       error
     );
 
@@ -6273,34 +6320,24 @@ async function autoLogout() {
 }
 
 
-
 /* ==========================================================
    手工退出
 ========================================================== */
 
 async function logout() {
 
-  if (
-    logoutInProgress
-  ) {
-
+  if (logoutInProgress) {
     return;
-
   }
 
 
-  const confirmed =
-    confirm(
-      "确定退出代理商系统吗？"
-    );
-
-
   if (
-    !confirmed
+    !confirm(
+      "确定退出代理商系统吗？"
+    )
   ) {
 
     return;
-
   }
 
 
@@ -6308,9 +6345,7 @@ async function logout() {
     true;
 
 
-  showLoading(
-    true
-  );
+  showLoading(true);
 
 
   try {
@@ -6324,7 +6359,6 @@ async function logout() {
   catch (error) {
 
     console.error(
-      "退出登录失败：",
       error
     );
 
@@ -6344,5 +6378,4 @@ async function logout() {
 </script>
 
 </body>
-
 </html>
