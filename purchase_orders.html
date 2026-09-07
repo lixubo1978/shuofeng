@@ -2,1081 +2,861 @@
 <html lang="zh-CN">
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+<title>采购管理｜硕丰科技</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  visibility:hidden;
+}
+
+html.auth-ready{
+  visibility:visible;
+}
+
+body{
+  margin:0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Microsoft YaHei",
+    Arial,
+    sans-serif;
+
+  background:#f4f6f8;
+  color:#1f2937;
+  min-height:100vh;
+}
+
+
+/* =========================
+   顶部
+========================= */
+
+.topbar{
+  background:#0f172a;
+  color:#fff;
+  padding:18px 28px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
+}
+
+.brand-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+.brand-subtitle{
+  margin-top:3px;
+  color:#cbd5e1;
+  font-size:12px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.user-info{
+  color:#cbd5e1;
+  font-size:13px;
+}
+
+.top-btn{
+  border:1px solid rgba(255,255,255,.35);
+  background:transparent;
+  color:#fff;
+  padding:8px 13px;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.top-btn:hover{
+  background:rgba(255,255,255,.1);
+}
+
+
+/* =========================
+   页面
+========================= */
+
+.container{
+  width:100%;
+  max-width:1800px;
+  margin:auto;
+  padding:28px 22px 60px;
+}
+
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:25px;
+  margin-bottom:20px;
+}
+
+.page-head h1{
+  margin:0 0 7px;
+  font-size:28px;
+}
+
+.page-head p{
+  margin:0;
+  color:#6b7280;
+  font-size:14px;
+}
+
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    http-equiv="Cache-Control"
-    content="no-store, no-cache, must-revalidate, max-age=0"
-  >
-
-  <meta
-    http-equiv="Pragma"
-    content="no-cache"
-  >
-
-  <meta
-    http-equiv="Expires"
-    content="0"
-  >
-
-  <title>采购管理｜硕丰科技</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      visibility: hidden;
-    }
-
-    html.auth-ready {
-      visibility: visible;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Microsoft YaHei",
-        Arial,
-        sans-serif;
-
-      background: #f4f6f8;
-
-      color: #1f2937;
-
-      min-height: 100vh;
-    }
-
-
-    /* =====================================================
-       顶部
-    ===================================================== */
-
-    .topbar {
-      background: #0f172a;
-      color: white;
-
-      padding: 18px 28px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      gap: 20px;
-
-      box-shadow:
-        0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .brand-title {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .brand-subtitle {
-      font-size: 12px;
-      color: #cbd5e1;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .user-info {
-      color: #cbd5e1;
-      font-size: 13px;
-    }
-
-    .top-btn {
-      border:
-        1px solid rgba(255,255,255,0.35);
-
-      background: transparent;
-
-      color: white;
-
-      padding: 8px 13px;
-
-      border-radius: 7px;
-
-      cursor: pointer;
-
-      font-family: inherit;
-
-      font-size: 13px;
-    }
-
-    .top-btn:hover {
-      background:
-        rgba(255,255,255,0.10);
-    }
-
-
-    /* =====================================================
-       主区域
-    ===================================================== */
-
-    .container {
-      width: 100%;
-      max-width: 1800px;
-
-      margin: 0 auto;
-
-      padding:
-        28px 22px 60px;
-    }
-
-    .page-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: flex-start;
-
-      margin-bottom: 20px;
-    }
-
-    .page-head h1 {
-      margin:
-        0 0 7px;
-
-      font-size: 28px;
-
-      color: #111827;
-    }
-
-    .page-head p {
-      margin: 0;
-
-      font-size: 14px;
-      line-height: 1.8;
-
-      color: #6b7280;
-    }
-
-    .page-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-
-    /* =====================================================
-       提示
-    ===================================================== */
-
-    .notice {
-      display: none;
-
-      margin-bottom: 18px;
-
-      padding:
-        13px 16px;
-
-      border-radius: 9px;
-
-      font-size: 14px;
-    }
-
-    .notice.show {
-      display: block;
-    }
-
-    .notice-success {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .notice-error {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-
-    /* =====================================================
-       两栏
-    ===================================================== */
-
-    .main-grid {
-      display: grid;
-
-      grid-template-columns:
-        minmax(0, 1fr)
-        minmax(0, 1fr);
-
-      gap: 18px;
-
-      align-items: start;
-
-      margin-bottom: 18px;
-    }
-
-
-    /* =====================================================
-       Panel
-    ===================================================== */
-
-    .panel {
-      background: white;
-
-      border:
-        1px solid #e5e7eb;
-
-      border-radius: 14px;
-
-      box-shadow:
-        0 2px 12px rgba(0,0,0,0.04);
-
-      overflow: hidden;
-    }
-
-    .panel-header {
-      padding:
-        20px 20px 16px;
-
-      border-bottom:
-        1px solid #e5e7eb;
-    }
-
-    .panel-header h2 {
-      margin:
-        0 0 6px;
-
-      font-size: 20px;
-
-      color: #111827;
-    }
-
-    .panel-header p {
-      margin: 0;
-
-      font-size: 13px;
-      line-height: 1.7;
-
-      color: #6b7280;
-    }
-
-    .panel-body {
-      padding: 18px;
-    }
-
-
-    /* =====================================================
-       按钮
-    ===================================================== */
-
-    .btn {
-      border: none;
-
-      border-radius: 8px;
-
-      padding:
-        9px 14px;
-
-      font-family: inherit;
-
-      font-size: 13px;
-
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
-    .btn:disabled {
-      opacity: 0.48;
-      cursor: not-allowed;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: white;
-    }
-
-    .btn-dark {
-      background: #111827;
-      color: white;
-    }
-
-    .btn-red {
-      background: #dc2626;
-      color: white;
-    }
-
-    .btn-green {
-      background: #16a34a;
-      color: white;
-    }
-
-    .btn-purple {
-      background: #7c3aed;
-      color: white;
-    }
-
-    .btn-light {
-      background: white;
-
-      color: #374151;
-
-      border:
-        1px solid #d1d5db;
-    }
-
-    .btn-orange {
-      background: #ea580c;
-      color: white;
-    }
-
-    .btn-small {
-      padding:
-        6px 10px;
-
-      font-size: 12px;
-    }
-
-
-    /* =====================================================
-       左侧价格摘要
-    ===================================================== */
-
-    .price-summary {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 10px;
-
-      margin-bottom: 14px;
-    }
-
-    .mini-card {
-      background: #f8fafc;
-
-      border:
-        1px solid #e5e7eb;
-
-      border-radius: 10px;
-
-      padding: 13px;
-    }
-
-    .mini-label {
-      font-size: 11px;
-      color: #64748b;
-      margin-bottom: 5px;
-    }
-
-    .mini-value {
-      font-size: 22px;
-      font-weight: 700;
-      color: #111827;
-    }
-
-
-    /* =====================================================
-       搜索筛选
-    ===================================================== */
-
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-
-      margin-bottom: 13px;
-    }
-
-    .toolbar input,
-    .toolbar select {
-      border:
-        1px solid #d1d5db;
-
-      border-radius: 8px;
-
-      padding:
-        9px 10px;
-
-      font-size: 13px;
-
-      outline: none;
-
-      background: white;
-    }
-
-    .toolbar input {
-      flex: 1;
-      min-width: 180px;
-    }
-
-    .toolbar input:focus,
-    .toolbar select:focus {
-      border-color: #2563eb;
-    }
-
-    .history-filter-grid {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 10px;
-
-      margin-bottom: 14px;
-    }
-
-
-    /* =====================================================
-       表格
-    ===================================================== */
-
-    .table-scroll {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .price-table {
-      min-width: 900px;
-    }
-
-    .cart-table {
-      min-width: 720px;
-    }
-
-    .history-table {
-      min-width: 1050px;
-    }
-
-    th {
-      padding:
-        11px 10px;
-
-      background: #f8fafc;
-
-      color: #475569;
-
-      text-align: left;
-
-      font-size: 11px;
-
-      white-space: nowrap;
-
-      border-bottom:
-        1px solid #e5e7eb;
-    }
-
-    td {
-      padding:
-        11px 10px;
-
-      font-size: 12px;
-
-      border-bottom:
-        1px solid #eef2f7;
-
-      vertical-align: middle;
-    }
-
-    tr:hover td {
-      background: #fafafa;
-    }
-
-    .price-history td {
-      background: #f1f3f5 !important;
-      color: #9ca3af !important;
-    }
-
-    .product-code {
-      font-weight: 700;
-      color: #475569;
-    }
-
-    .product-name {
-      font-weight: 700;
-      color: #111827;
-    }
-
-    .money {
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .undefined {
-      color: #c2410c;
-      font-weight: 700;
-    }
-
-    .actions {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-
-
-    /* =====================================================
-       Badge
-    ===================================================== */
-
-    .badge {
-      display: inline-block;
-
-      padding:
-        4px 8px;
-
-      border-radius: 999px;
-
-      font-size: 11px;
-
-      font-weight: 700;
-
-      white-space: nowrap;
-    }
-
-    .badge-active {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .badge-disabled {
-      background: #e5e7eb;
-      color: #6b7280;
-    }
-
-    .badge-defined {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    .badge-undefined {
-      background: #ffedd5;
-      color: #c2410c;
-    }
-
-    .badge-confirmed {
-      background: #ede9fe;
-      color: #6d28d9;
-    }
-
-    .locked {
-      color: #6b7280;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .empty {
-      padding:
-        35px 10px;
-
-      text-align: center;
-
-      font-size: 13px;
-
-      color: #94a3b8;
-    }
-
-
-    /* =====================================================
-       表单
-    ===================================================== */
-
-    .form-grid {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 13px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group.full {
-      grid-column:
-        1 / -1;
-    }
-
-    .form-group label {
-      color: #374151;
-
-      font-size: 12px;
-
-      font-weight: 600;
-    }
-
-    .required {
-      color: #dc2626;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-
-      padding:
-        10px 11px;
-
-      border:
-        1px solid #d1d5db;
-
-      border-radius: 8px;
-
-      font-size: 13px;
-
-      font-family: inherit;
-
-      background: white;
-
-      outline: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: #2563eb;
-    }
-
-    .form-group textarea {
-      min-height: 78px;
-      resize: vertical;
-    }
-
-    .readonly {
-      background: #f3f4f6 !important;
-      color: #6b7280 !important;
-    }
-
-
-    /* =====================================================
-       新建采购单
-    ===================================================== */
-
-    .selected-price-box {
-      margin-top: 13px;
-
-      background: #f8fafc;
-
-      border:
-        1px solid #e5e7eb;
-
-      border-radius: 10px;
-
-      padding: 13px;
-
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr 1fr;
-
-      gap: 10px;
-    }
-
-    .selected-label {
-      font-size: 11px;
-      color: #64748b;
-      margin-bottom: 4px;
-    }
-
-    .selected-value {
-      font-size: 14px;
-      font-weight: 700;
-      color: #111827;
-    }
-
-    .cart-section {
-      margin-top: 18px;
-
-      border-top:
-        1px solid #e5e7eb;
-
-      padding-top: 16px;
-    }
-
-    .cart-title {
-      font-size: 15px;
-      font-weight: 700;
-
-      margin-bottom: 10px;
-
-      color: #111827;
-    }
-
-    .total-box {
-      margin-top: 14px;
-
-      padding: 14px;
-
-      background: #eff6ff;
-
-      border:
-        1px solid #bfdbfe;
-
-      border-radius: 10px;
-
-      display: flex;
-
-      justify-content: space-between;
-      align-items: center;
-
-      gap: 12px;
-    }
-
-    .total-label {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1e3a8a;
-    }
-
-    .total-value {
-      font-size: 22px;
-      font-weight: 800;
-      color: #1d4ed8;
-    }
-
-    .order-help {
-      margin-top: 12px;
-
-      font-size: 12px;
-
-      color: #6b7280;
-
-      line-height: 1.7;
-    }
-
-    .warning {
-      margin-top: 12px;
-
-      padding:
-        10px 12px;
-
-      border-radius: 8px;
-
-      background: #fff7ed;
-
-      border:
-        1px solid #fdba74;
-
-      color: #9a3412;
-
-      font-size: 12px;
-
-      line-height: 1.7;
-    }
-
-
-    /* =====================================================
-       Modal
-    ===================================================== */
-
-    .modal-mask {
-      display: none;
-
-      position: fixed;
-
-      inset: 0;
-
-      background:
-        rgba(0,0,0,0.48);
-
-      z-index: 10000;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 20px;
-    }
-
-    .modal-mask.show {
-      display: flex;
-    }
-
-    .modal {
-      width: 100%;
-
-      max-width: 650px;
-
-      max-height: 92vh;
-
-      overflow-y: auto;
-
-      background: white;
-
-      border-radius: 14px;
-
-      box-shadow:
-        0 25px 70px rgba(0,0,0,0.28);
-    }
-
-    .modal.large {
-      max-width: 1100px;
-    }
-
-    .modal-header {
-      padding:
-        19px 22px;
-
-      border-bottom:
-        1px solid #e5e7eb;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-header h3 {
-      margin: 0;
-      font-size: 19px;
-    }
-
-    .modal-close {
-      border: none;
-
-      background: transparent;
-
-      font-size: 25px;
-
-      cursor: pointer;
-
-      color: #64748b;
-    }
-
-    .modal-body {
-      padding: 22px;
-    }
-
-    .modal-footer {
-      padding:
-        16px 22px;
-
-      border-top:
-        1px solid #e5e7eb;
-
-      display: flex;
-
-      justify-content: flex-end;
-
-      gap: 8px;
-
-      flex-wrap: wrap;
-    }
-
-    .define-warning {
-      grid-column:
-        1 / -1;
-
-      background: #fff7ed;
-
-      color: #9a3412;
-
-      border:
-        1px solid #fdba74;
-
-      border-radius: 8px;
-
-      padding: 12px;
-
-      font-size: 12px;
-
-      line-height: 1.7;
-    }
-
-
-    /* =====================================================
-       详情
-    ===================================================== */
-
-    .detail-grid {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap:
-        14px 22px;
-    }
-
-    .detail-item {
-      border-bottom:
-        1px solid #eef2f7;
-
-      padding-bottom: 10px;
-    }
-
-    .detail-item.full {
-      grid-column:
-        1 / -1;
-    }
-
-    .detail-label {
-      font-size: 11px;
-      color: #6b7280;
-      margin-bottom: 5px;
-    }
-
-    .detail-value {
-      font-size: 14px;
-      color: #111827;
-      line-height: 1.7;
-      word-break: break-word;
-    }
-
-    .detail-section-title {
-      margin:
-        22px 0 12px;
-
-      font-size: 15px;
-
-      font-weight: 700;
-
-      color: #111827;
-    }
-
-
-    /* =====================================================
-       Loading
-    ===================================================== */
-
-    .loading-mask {
-      display: none;
-
-      position: fixed;
-
-      inset: 0;
-
-      background:
-        rgba(255,255,255,0.76);
-
-      z-index: 20000;
-
-      align-items: center;
-      justify-content: center;
-
-      color: #334155;
-
-      font-size: 15px;
-
-      font-weight: 700;
-    }
-
-    .loading-mask.show {
-      display: flex;
-    }
-
-
-    /* =====================================================
-       超时
-    ===================================================== */
-
-    .timeout-warning {
-      position: fixed;
-
-      left: 50%;
-
-      bottom: 28px;
-
-      transform:
-        translateX(-50%);
-
-      display: none;
-
-      padding:
-        11px 18px;
-
-      background: #fff7ed;
-
-      color: #9a3412;
-
-      border:
-        1px solid #fdba74;
-
-      border-radius: 8px;
-
-      z-index: 30000;
-
-      box-shadow:
-        0 6px 20px rgba(0,0,0,0.12);
-
-      font-size: 13px;
-    }
-
-
-    /* =====================================================
-       手机适配
-    ===================================================== */
-
-    @media (max-width: 1150px) {
-
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-    @media (max-width: 700px) {
-
-      .page-head {
-        flex-direction: column;
-      }
-
-      .price-summary {
-        grid-template-columns: 1fr;
-      }
-
-      .toolbar {
-        flex-direction: column;
-      }
-
-      .history-filter-grid,
-      .form-grid,
-      .selected-price-box,
-      .detail-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-group.full,
-      .define-warning,
-      .detail-item.full {
-        grid-column: auto;
-      }
-
-      .user-info {
-        display: none;
-      }
-
-    }
-
-  </style>
+/* =========================
+   顶部采购资金余额
+========================= */
+
+.fund-head-card{
+  min-width:330px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f766e,
+      #115e59
+    );
+
+  color:#fff;
+
+  border-radius:14px;
+
+  padding:18px 20px;
+
+  box-shadow:
+    0 6px 18px rgba(15,118,110,.20);
+}
+
+.fund-head-label{
+  color:#ccfbf1;
+  font-size:12px;
+}
+
+.fund-head-value{
+  margin-top:6px;
+
+  font-size:25px;
+  font-weight:800;
+
+  line-height:1.4;
+}
+
+.fund-head-actions{
+  margin-top:12px;
+}
+
+.fund-recharge-btn{
+  border:1px solid rgba(255,255,255,.55);
+  background:rgba(255,255,255,.12);
+  color:white;
+  padding:8px 15px;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+
+/* =========================
+   Notice
+========================= */
+
+.notice{
+  display:none;
+  margin-bottom:18px;
+  padding:13px 16px;
+  border-radius:9px;
+  font-size:14px;
+}
+
+.notice.show{
+  display:block;
+}
+
+.notice-success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.notice-error{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+
+/* =========================
+   两栏
+========================= */
+
+.main-grid{
+  display:grid;
+  grid-template-columns:
+    minmax(0,1fr)
+    minmax(0,1fr);
+
+  gap:18px;
+
+  align-items:start;
+}
+
+
+/* =========================
+   Panel
+========================= */
+
+.panel{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:
+    0 2px 12px rgba(0,0,0,.04);
+
+  overflow:hidden;
+
+  margin-bottom:18px;
+}
+
+.panel-header{
+  padding:20px 20px 16px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.panel-header h2{
+  margin:0 0 6px;
+  font-size:20px;
+}
+
+.panel-header p{
+  margin:0;
+  color:#6b7280;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.panel-body{
+  padding:18px;
+}
+
+
+/* =========================
+   按钮
+========================= */
+
+.btn{
+  border:none;
+  border-radius:8px;
+  padding:9px 14px;
+  cursor:pointer;
+  font-size:13px;
+  font-family:inherit;
+}
+
+.btn:hover{
+  opacity:.9;
+}
+
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.btn-primary{
+  background:#2563eb;
+  color:#fff;
+}
+
+.btn-green{
+  background:#16a34a;
+  color:#fff;
+}
+
+.btn-red{
+  background:#dc2626;
+  color:#fff;
+}
+
+.btn-dark{
+  background:#111827;
+  color:#fff;
+}
+
+.btn-orange{
+  background:#ea580c;
+  color:#fff;
+}
+
+.btn-light{
+  background:#fff;
+  color:#374151;
+  border:1px solid #d1d5db;
+}
+
+.btn-small{
+  padding:6px 10px;
+  font-size:12px;
+}
+
+
+/* =========================
+   价格摘要
+========================= */
+
+.price-summary{
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.mini-card{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:13px;
+}
+
+.mini-label{
+  color:#64748b;
+  font-size:11px;
+  margin-bottom:5px;
+}
+
+.mini-value{
+  font-size:22px;
+  font-weight:700;
+}
+
+
+/* =========================
+   Toolbar
+========================= */
+
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:13px;
+}
+
+.toolbar input,
+.toolbar select{
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  padding:9px 10px;
+  font-size:13px;
+  background:#fff;
+}
+
+.toolbar input{
+  flex:1;
+  min-width:180px;
+}
+
+
+/* =========================
+   表格
+========================= */
+
+.table-scroll{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.price-table{
+  min-width:900px;
+}
+
+.cart-table{
+  min-width:750px;
+}
+
+.history-table{
+  min-width:1050px;
+}
+
+.ledger-table{
+  min-width:1100px;
+}
+
+th{
+  background:#f8fafc;
+  padding:11px 10px;
+  color:#475569;
+  font-size:11px;
+  text-align:left;
+  border-bottom:1px solid #e5e7eb;
+  white-space:nowrap;
+}
+
+td{
+  padding:11px 10px;
+  font-size:12px;
+  border-bottom:1px solid #eef2f7;
+}
+
+tr:hover td{
+  background:#fafafa;
+}
+
+.price-history td{
+  background:#f1f3f5 !important;
+  color:#9ca3af !important;
+}
+
+.product-code{
+  font-weight:700;
+  color:#475569;
+}
+
+.product-name{
+  font-weight:700;
+}
+
+.money{
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.undefined{
+  color:#c2410c;
+  font-weight:700;
+}
+
+
+/* =========================
+   Badge
+========================= */
+
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.badge-green{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-blue{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.badge-red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.badge-orange{
+  background:#ffedd5;
+  color:#c2410c;
+}
+
+.badge-gray{
+  background:#e5e7eb;
+  color:#6b7280;
+}
+
+.empty{
+  padding:35px 10px;
+  text-align:center;
+  color:#94a3b8;
+}
+
+
+/* =========================
+   表单
+========================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  font-size:12px;
+  font-weight:600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:10px 11px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  background:white;
+  font-family:inherit;
+}
+
+.form-group textarea{
+  min-height:78px;
+  resize:vertical;
+}
+
+.readonly{
+  background:#f3f4f6 !important;
+  color:#6b7280;
+}
+
+
+/* =========================
+   当前产品价格
+========================= */
+
+.selected-price-box{
+  margin-top:13px;
+  padding:13px;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  background:#f8fafc;
+
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:10px;
+}
+
+.selected-label{
+  font-size:11px;
+  color:#64748b;
+}
+
+.selected-value{
+  margin-top:4px;
+  font-weight:700;
+}
+
+
+/* =========================
+   采购订单购物车
+========================= */
+
+.cart-section{
+  margin-top:18px;
+  border-top:1px solid #e5e7eb;
+  padding-top:16px;
+}
+
+.cart-title{
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.total-box{
+  margin-top:14px;
+  padding:14px;
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  border-radius:10px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.total-value{
+  color:#1d4ed8;
+  font-size:22px;
+  font-weight:800;
+}
+
+
+/* =========================
+   采购余额实时检查
+========================= */
+
+.order-fund-box{
+  margin-top:12px;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:10px;
+}
+
+.order-fund-item{
+  padding:13px;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.order-fund-label{
+  color:#64748b;
+  font-size:11px;
+}
+
+.order-fund-value{
+  margin-top:5px;
+  font-size:18px;
+  font-weight:800;
+}
+
+.fund-good{
+  color:#0f766e;
+}
+
+.fund-bad{
+  color:#dc2626;
+}
+
+.balance-warning{
+  display:none;
+
+  margin-top:12px;
+  padding:11px 13px;
+
+  background:#fee2e2;
+  color:#991b1b;
+
+  border:1px solid #fecaca;
+  border-radius:8px;
+
+  font-size:13px;
+  font-weight:700;
+}
+
+
+/* =========================
+   资金账户
+========================= */
+
+.fund-account-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+  gap:12px;
+
+  margin-bottom:16px;
+}
+
+.fund-account-card{
+  padding:18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1e3a8a,
+      #1d4ed8
+    );
+
+  color:#fff;
+
+  border-radius:12px;
+}
+
+.fund-account-currency{
+  color:#dbeafe;
+  font-size:12px;
+}
+
+.fund-account-balance{
+  margin-top:8px;
+  font-size:25px;
+  font-weight:800;
+}
+
+
+/* =========================
+   Modal
+========================= */
+
+.modal-mask{
+  display:none;
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.48);
+
+  z-index:10000;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+}
+
+.modal-mask.show{
+  display:flex;
+}
+
+.modal{
+  width:100%;
+  max-width:650px;
+  max-height:92vh;
+  overflow-y:auto;
+
+  background:#fff;
+
+  border-radius:14px;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.28);
+}
+
+.modal.large{
+  max-width:1100px;
+}
+
+.modal-header{
+  padding:19px 22px;
+  border-bottom:1px solid #e5e7eb;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.modal-header h3{
+  margin:0;
+}
+
+.modal-close{
+  border:none;
+  background:transparent;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.modal-body{
+  padding:22px;
+}
+
+.modal-footer{
+  padding:16px 22px;
+  border-top:1px solid #e5e7eb;
+
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+
+
+/* =========================
+   Loading / timeout
+========================= */
+
+.loading-mask{
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  z-index:20000;
+
+  background:rgba(255,255,255,.76);
+
+  align-items:center;
+  justify-content:center;
+
+  font-weight:700;
+}
+
+.loading-mask.show{
+  display:flex;
+}
+
+.timeout-warning{
+  position:fixed;
+
+  left:50%;
+  bottom:28px;
+
+  transform:translateX(-50%);
+
+  display:none;
+
+  padding:11px 18px;
+
+  background:#fff7ed;
+  color:#9a3412;
+
+  border:1px solid #fdba74;
+
+  border-radius:8px;
+
+  z-index:30000;
+}
+
+
+@media(max-width:1150px){
+
+  .main-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:750px){
+
+  .page-head{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .fund-head-card{
+    min-width:0;
+  }
+
+  .price-summary,
+  .form-grid,
+  .selected-price-box,
+  .order-fund-box{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
 
 </head>
 
@@ -1092,13 +872,9 @@
 </div>
 
 
-<!-- =====================================================
-     顶部
-====================================================== -->
-
 <header class="topbar">
 
-  <div class="brand">
+  <div>
 
     <div class="brand-title">
       硕丰科技 · 采购管理
@@ -1117,14 +893,13 @@
       id="currentUser"
       class="user-info"
     >
-      创始人
+      公司管理人员
     </div>
 
 
     <button
       class="top-btn"
-      type="button"
-      onclick="window.location.href='suppliers.html'"
+      onclick="location.href='suppliers.html'"
     >
       供应商管理
     </button>
@@ -1132,7 +907,6 @@
 
     <button
       class="top-btn"
-      type="button"
       onclick="goBack()"
     >
       返回工作台
@@ -1141,7 +915,6 @@
 
     <button
       class="top-btn"
-      type="button"
       onclick="logout()"
     >
       退出登录
@@ -1152,582 +925,249 @@
 </header>
 
 
+
 <main class="container">
 
 
-  <!-- ===================================================
-       页面标题
-  ==================================================== -->
+<section class="page-head">
 
-  <div class="page-head">
+  <div>
 
-    <div>
+    <h1>
+      采购管理
+    </h1>
 
-      <h1>
-        采购管理
-      </h1>
+    <p>
+      采购价格、采购订单、采购资金余额及充值流水统一管理。
+      创建采购订单成功后，采购资金余额自动扣减。
+    </p>
 
-      <p>
-        左侧负责采购价格定义与历史换代；
-        右侧负责新建采购订单；
-        下方可以查询、查看和打印全部历史采购订单。
-      </p>
+  </div>
 
+
+  <div class="fund-head-card">
+
+    <div class="fund-head-label">
+      当前采购资金可用余额
     </div>
 
+    <div
+      id="headerFundBalance"
+      class="fund-head-value"
+    >
+      0.00 CNY
+    </div>
 
-    <div class="page-buttons">
+    <div class="fund-head-actions">
 
       <button
-        class="btn btn-light"
-        type="button"
-        onclick="loadAllData()"
+        class="fund-recharge-btn"
+        onclick="openRechargeModal()"
       >
-        刷新全部数据
+        ＋ 采购资金充值
       </button>
 
     </div>
 
   </div>
 
-
-  <div
-    id="notice"
-    class="notice"
-  ></div>
+</section>
 
 
-  <!-- ===================================================
-       上方左右两区
-  ==================================================== -->
-
-  <section class="main-grid">
-
-
-    <!-- =================================================
-         ① 采购价格管理
-    ================================================== -->
-
-    <div class="panel">
-
-      <div class="panel-header">
-
-        <h2>
-          ① 采购价格管理
-        </h2>
-
-        <p>
-          新产品建立后自动生成未定义采购价格。
-          每条价格只能定义一次，定义完成以后永久锁定。
-        </p>
-
-      </div>
+<div
+  id="notice"
+  class="notice"
+></div>
 
 
-      <div class="panel-body">
+
+<section class="main-grid">
 
 
-        <div class="price-summary">
+<!-- =====================================================
+     ① 采购价格
+===================================================== -->
+
+<div class="panel">
+
+  <div class="panel-header">
+
+    <h2>
+      ① 采购价格管理
+    </h2>
+
+    <p>
+      每条采购价格只允许定义一次。
+      价格变化时将旧价格设为无效，再定义新价格。
+    </p>
+
+  </div>
 
 
-          <div class="mini-card">
-
-            <div class="mini-label">
-              当前有效价格对象
-            </div>
-
-            <div
-              id="activePriceCount"
-              class="mini-value"
-            >
-              0
-            </div>
-
-          </div>
+  <div class="panel-body">
 
 
-          <div class="mini-card">
+    <div class="price-summary">
 
-            <div class="mini-label">
-              待定义
-            </div>
-
-            <div
-              id="undefinedPriceCount"
-              class="mini-value"
-            >
-              0
-            </div>
-
-          </div>
-
-
-          <div class="mini-card">
-
-            <div class="mini-label">
-              历史价格
-            </div>
-
-            <div
-              id="historyPriceCount"
-              class="mini-value"
-            >
-              0
-            </div>
-
-          </div>
-
+      <div class="mini-card">
+        <div class="mini-label">
+          当前有效价格对象
         </div>
-
-
-        <div class="toolbar">
-
-          <input
-            id="priceSearch"
-            type="text"
-            placeholder="搜索产品代码或名称……"
-            oninput="renderPurchasePrices()"
-          >
-
-
-          <select
-            id="priceFilter"
-            onchange="renderPurchasePrices()"
-          >
-
-            <option value="current">
-              当前有效
-            </option>
-
-            <option value="undefined">
-              仅未定义
-            </option>
-
-            <option value="defined">
-              仅已定义
-            </option>
-
-            <option value="history">
-              历史价格
-            </option>
-
-            <option value="all">
-              全部
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="table-scroll">
-
-          <table class="price-table">
-
-            <thead>
-
-              <tr>
-
-                <th>产品代码</th>
-                <th>产品名称</th>
-                <th>采购价格</th>
-                <th>币种</th>
-                <th>定义状态</th>
-                <th>状态</th>
-                <th>生效日期</th>
-                <th>操作</th>
-
-              </tr>
-
-            </thead>
-
-
-            <tbody
-              id="priceTableBody"
-            ></tbody>
-
-          </table>
-
-        </div>
-
-
         <div
-          id="priceEmpty"
-          class="empty"
-          style="display:none;"
+          id="activePriceCount"
+          class="mini-value"
         >
-          暂无采购价格记录
+          0
         </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- =================================================
-         ② 新建采购订单
-    ================================================== -->
-
-    <div class="panel">
-
-      <div class="panel-header">
-
-        <h2>
-          ② 新建采购订单
-        </h2>
-
-        <p>
-          选择供应商和已定义采购价格的产品。
-          单价由系统读取，不允许人工修改。
-        </p>
-
       </div>
 
 
-      <div class="panel-body">
-
-
-        <div class="form-grid">
-
-
-          <div class="form-group full">
-
-            <label>
-              供应商
-              <span class="required">*</span>
-            </label>
-
-            <select
-              id="supplierSelect"
-            >
-
-              <option value="">
-                请选择供应商
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              采购日期
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="purchaseDate"
-              type="date"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              预计采购单号
-            </label>
-
-            <input
-              id="purchaseNoPreview"
-              class="readonly"
-              type="text"
-              readonly
-            >
-
-          </div>
-
-
-          <div class="form-group full">
-
-            <label>
-              产品
-              <span class="required">*</span>
-            </label>
-
-            <select
-              id="productSelect"
-              onchange="updateSelectedProductInfo()"
-            >
-
-              <option value="">
-                请选择产品
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              数量
-              <span class="required">*</span>
-            </label>
-
-            <input
-              id="quantityInput"
-              type="number"
-              min="0.001"
-              step="0.001"
-              value="1"
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              操作
-            </label>
-
-            <button
-              id="addItemButton"
-              class="btn btn-green"
-              type="button"
-              onclick="addItemToOrder()"
-              disabled
-            >
-              ＋ 加入采购单
-            </button>
-
-          </div>
-
+      <div class="mini-card">
+        <div class="mini-label">
+          待定义
         </div>
-
-
-        <div class="selected-price-box">
-
-
-          <div>
-
-            <div class="selected-label">
-              当前采购价
-            </div>
-
-            <div
-              id="selectedPrice"
-              class="selected-value"
-            >
-              -
-            </div>
-
-          </div>
-
-
-          <div>
-
-            <div class="selected-label">
-              币种
-            </div>
-
-            <div
-              id="selectedCurrency"
-              class="selected-value"
-            >
-              -
-            </div>
-
-          </div>
-
-
-          <div>
-
-            <div class="selected-label">
-              单位
-            </div>
-
-            <div
-              id="selectedUnit"
-              class="selected-value"
-            >
-              -
-            </div>
-
-          </div>
-
-        </div>
-
-
         <div
-          id="productWarning"
-          class="warning"
-          style="display:none;"
-        ></div>
-
-
-        <div class="cart-section">
-
-          <div class="cart-title">
-            当前采购单明细
-          </div>
-
-
-          <div class="table-scroll">
-
-            <table class="cart-table">
-
-              <thead>
-
-                <tr>
-
-                  <th>产品</th>
-                  <th>单价</th>
-                  <th>数量</th>
-                  <th>单位</th>
-                  <th>金额</th>
-                  <th>操作</th>
-
-                </tr>
-
-              </thead>
-
-
-              <tbody
-                id="cartTableBody"
-              ></tbody>
-
-            </table>
-
-          </div>
-
-
-          <div
-            id="cartEmpty"
-            class="empty"
-          >
-            尚未加入任何商品
-          </div>
-
-
-          <div class="total-box">
-
-            <div class="total-label">
-              采购单总金额
-            </div>
-
-            <div
-              id="orderTotal"
-              class="total-value"
-            >
-              0.00
-            </div>
-
-          </div>
-
-
-          <div
-            class="form-group full"
-            style="margin-top:14px;"
-          >
-
-            <label>
-              采购备注
-            </label>
-
-            <textarea
-              id="purchaseRemarks"
-              placeholder="交货、运输、付款等说明"
-            ></textarea>
-
-          </div>
-
-
-          <div style="margin-top:14px;">
-
-            <button
-              id="submitOrderButton"
-              class="btn btn-primary"
-              type="button"
-              style="width:100%; padding:13px;"
-              onclick="submitPurchaseOrder()"
-              disabled
-            >
-              确认创建采购订单
-            </button>
-
-          </div>
-
-
-          <div class="order-help">
-
-            一个采购订单只允许一种币种。
-
-            创建成功后，产品代码、名称、规格、单位、采购单价都会作为历史快照保存。
-
-          </div>
-
+          id="undefinedPriceCount"
+          class="mini-value"
+        >
+          0
         </div>
+      </div>
 
+
+      <div class="mini-card">
+        <div class="mini-label">
+          历史价格
+        </div>
+        <div
+          id="historyPriceCount"
+          class="mini-value"
+        >
+          0
+        </div>
       </div>
 
     </div>
 
-  </section>
+
+    <div class="toolbar">
+
+      <input
+        id="priceSearch"
+        placeholder="搜索产品代码或名称……"
+        oninput="renderPurchasePrices()"
+      >
 
 
-  <!-- ===================================================
-       ③ 历史采购订单
-  ==================================================== -->
+      <select
+        id="priceFilter"
+        onchange="renderPurchasePrices()"
+      >
 
-  <section class="panel">
+        <option value="current">
+          当前有效
+        </option>
 
-    <div class="panel-header">
+        <option value="undefined">
+          仅未定义
+        </option>
 
-      <h2>
-        ③ 历史采购订单
-      </h2>
+        <option value="defined">
+          仅已定义
+        </option>
 
-      <p>
-        查询已建立的采购订单。
-        历史采购订单读取订单创建时保存的快照，可以查看详情并打印。
-      </p>
+        <option value="history">
+          历史价格
+        </option>
+
+        <option value="all">
+          全部
+        </option>
+
+      </select>
 
     </div>
 
 
-    <div class="panel-body">
+    <div class="table-scroll">
+
+      <table class="price-table">
+
+        <thead>
+
+          <tr>
+            <th>产品代码</th>
+            <th>产品名称</th>
+            <th>采购价格</th>
+            <th>币种</th>
+            <th>定义状态</th>
+            <th>状态</th>
+            <th>生效日期</th>
+            <th>操作</th>
+          </tr>
+
+        </thead>
 
 
-      <div class="toolbar">
+        <tbody
+          id="priceTableBody"
+        ></tbody>
+
+      </table>
+
+    </div>
 
 
-        <input
-          id="historyOrderSearch"
-          type="text"
-          placeholder="搜索采购单号、供应商名称……"
-          oninput="renderHistoryOrders()"
-        >
+    <div
+      id="priceEmpty"
+      class="empty"
+      style="display:none;"
+    >
+      暂无采购价格
+    </div>
+
+  </div>
+
+</div>
 
 
-        <select
-          id="historyOrderStatus"
-          onchange="renderHistoryOrders()"
-        >
 
-          <option value="all">
-            全部状态
-          </option>
+<!-- =====================================================
+     ② 新采购订单
+===================================================== -->
 
-          <option value="pending">
-            pending
-          </option>
+<div class="panel">
 
-          <option value="confirmed">
-            confirmed
-          </option>
+  <div class="panel-header">
 
-          <option value="completed">
-            completed
-          </option>
+    <h2>
+      ② 新建采购订单
+    </h2>
 
-          <option value="cancelled">
-            cancelled
+    <p>
+      产品价格和账户余额由数据库正式核验。
+      订单创建成功后自动扣减采购账户余额。
+    </p>
+
+  </div>
+
+
+  <div class="panel-body">
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group full">
+
+        <label>
+          供应商 *
+        </label>
+
+        <select id="supplierSelect">
+
+          <option value="">
+            请选择供应商
           </option>
 
         </select>
@@ -1735,65 +1175,169 @@
       </div>
 
 
-      <div class="history-filter-grid">
+      <div class="form-group">
+
+        <label>
+          采购日期 *
+        </label>
+
+        <input
+          id="purchaseDate"
+          type="date"
+        >
+
+      </div>
 
 
-        <div class="form-group">
+      <div class="form-group">
 
-          <label>
-            开始日期
-          </label>
+        <label>
+          预计采购单号
+        </label>
 
-          <input
-            id="historyStartDate"
-            type="date"
-            onchange="renderHistoryOrders()"
-          >
+        <input
+          id="purchaseNoPreview"
+          class="readonly"
+          readonly
+        >
 
+      </div>
+
+
+      <div class="form-group full">
+
+        <label>
+          产品 *
+        </label>
+
+        <select
+          id="productSelect"
+          onchange="updateSelectedProductInfo()"
+        >
+
+          <option value="">
+            请选择产品
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          数量 *
+        </label>
+
+        <input
+          id="quantityInput"
+          type="number"
+          min="0.001"
+          step="0.001"
+          value="1"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          操作
+        </label>
+
+        <button
+          id="addItemButton"
+          class="btn btn-green"
+          onclick="addItemToOrder()"
+          disabled
+        >
+          ＋ 加入采购单
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="selected-price-box">
+
+      <div>
+
+        <div class="selected-label">
+          当前采购价
         </div>
 
-
-        <div class="form-group">
-
-          <label>
-            结束日期
-          </label>
-
-          <input
-            id="historyEndDate"
-            type="date"
-            onchange="renderHistoryOrders()"
-          >
-
+        <div
+          id="selectedPrice"
+          class="selected-value"
+        >
+          -
         </div>
 
       </div>
 
 
+      <div>
+
+        <div class="selected-label">
+          币种
+        </div>
+
+        <div
+          id="selectedCurrency"
+          class="selected-value"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="selected-label">
+          单位
+        </div>
+
+        <div
+          id="selectedUnit"
+          class="selected-value"
+        >
+          -
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="cart-section">
+
+
+      <div class="cart-title">
+        当前采购单明细
+      </div>
+
+
       <div class="table-scroll">
 
-        <table class="history-table">
+        <table class="cart-table">
 
           <thead>
-
             <tr>
-
-              <th>采购单号</th>
-              <th>采购日期</th>
-              <th>供应商</th>
-              <th>状态</th>
-              <th>总金额</th>
-              <th>币种</th>
-              <th>创建时间</th>
+              <th>产品</th>
+              <th>单价</th>
+              <th>数量</th>
+              <th>单位</th>
+              <th>金额</th>
               <th>操作</th>
-
             </tr>
-
           </thead>
 
-
           <tbody
-            id="historyOrderTableBody"
+            id="cartTableBody"
           ></tbody>
 
         </table>
@@ -1802,465 +1346,809 @@
 
 
       <div
-        id="historyOrderEmpty"
+        id="cartEmpty"
         class="empty"
-        style="display:none;"
       >
-        暂无历史采购订单
+        尚未加入任何商品
+      </div>
+
+
+      <div class="total-box">
+
+        <strong>
+          采购单总金额
+        </strong>
+
+        <div
+          id="orderTotal"
+          class="total-value"
+        >
+          0.00
+        </div>
+
+      </div>
+
+
+      <!-- 余额关联 -->
+
+      <div class="order-fund-box">
+
+
+        <div class="order-fund-item">
+
+          <div class="order-fund-label">
+            当前采购账户余额
+          </div>
+
+          <div
+            id="orderFundCurrent"
+            class="order-fund-value fund-good"
+          >
+            0.00
+          </div>
+
+        </div>
+
+
+        <div class="order-fund-item">
+
+          <div class="order-fund-label">
+            本采购单金额
+          </div>
+
+          <div
+            id="orderFundTotal"
+            class="order-fund-value"
+          >
+            0.00
+          </div>
+
+        </div>
+
+
+        <div class="order-fund-item">
+
+          <div class="order-fund-label">
+            下单后预计余额
+          </div>
+
+          <div
+            id="orderFundAfter"
+            class="order-fund-value fund-good"
+          >
+            0.00
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="balanceWarning"
+        class="balance-warning"
+      >
+        ⚠ 采购资金余额不足，当前采购订单不能提交，请先充值。
+      </div>
+
+
+      <div
+        class="form-group"
+        style="margin-top:14px;"
+      >
+
+        <label>
+          采购备注
+        </label>
+
+        <textarea
+          id="purchaseRemarks"
+          placeholder="交货、运输、付款等说明"
+        ></textarea>
+
+      </div>
+
+
+      <div style="margin-top:14px;">
+
+        <button
+          id="submitOrderButton"
+          class="btn btn-primary"
+          style="
+            width:100%;
+            padding:13px;
+          "
+          onclick="submitPurchaseOrder()"
+          disabled
+        >
+          确认创建采购订单并扣减余额
+        </button>
+
       </div>
 
     </div>
 
-  </section>
+  </div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ③ 采购资金账户
+===================================================== -->
+
+<section class="panel">
+
+  <div class="panel-header">
+
+    <h2>
+      ③ 采购资金账户及资金流水
+    </h2>
+
+    <p>
+      充值为正数；采购订单成功后自动产生负数扣款流水。
+      所有历史记录永久保留。
+    </p>
+
+  </div>
+
+
+  <div class="panel-body">
+
+
+    <div
+      id="fundAccountGrid"
+      class="fund-account-grid"
+    ></div>
+
+
+    <div class="toolbar">
+
+
+      <select
+        id="ledgerTypeFilter"
+        onchange="renderFundLedger()"
+      >
+
+        <option value="all">
+          全部资金流水
+        </option>
+
+        <option value="recharge">
+          仅充值
+        </option>
+
+        <option value="purchase_order">
+          仅采购订单扣款
+        </option>
+
+      </select>
+
+
+      <button
+        class="btn btn-green"
+        onclick="openRechargeModal()"
+      >
+        ＋ 新增充值
+      </button>
+
+    </div>
+
+
+    <div class="table-scroll">
+
+      <table class="ledger-table">
+
+        <thead>
+
+          <tr>
+            <th>日期</th>
+            <th>类型</th>
+            <th>金额</th>
+            <th>币种</th>
+            <th>发生前余额</th>
+            <th>发生后余额</th>
+            <th>关联采购单</th>
+            <th>付款方式</th>
+            <th>凭证号</th>
+            <th>备注</th>
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="ledgerTableBody"
+        ></tbody>
+
+      </table>
+
+    </div>
+
+
+    <div
+      id="ledgerEmpty"
+      class="empty"
+      style="display:none;"
+    >
+      暂无资金流水
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ④ 历史订单
+===================================================== -->
+
+<section class="panel">
+
+  <div class="panel-header">
+
+    <h2>
+      ④ 历史采购订单
+    </h2>
+
+    <p>
+      查看采购订单及订单创建时保存的正式采购价格快照。
+    </p>
+
+  </div>
+
+
+  <div class="panel-body">
+
+
+    <div class="toolbar">
+
+
+      <input
+        id="historyOrderSearch"
+        placeholder="搜索采购单号、供应商……"
+        oninput="renderHistoryOrders()"
+      >
+
+
+      <select
+        id="historyOrderStatus"
+        onchange="renderHistoryOrders()"
+      >
+
+        <option value="all">
+          全部状态
+        </option>
+
+        <option value="pending">
+          pending
+        </option>
+
+        <option value="confirmed">
+          confirmed
+        </option>
+
+        <option value="processing">
+          processing
+        </option>
+
+        <option value="received">
+          received
+        </option>
+
+        <option value="completed">
+          completed
+        </option>
+
+        <option value="cancelled">
+          cancelled
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="table-scroll">
+
+      <table class="history-table">
+
+        <thead>
+
+          <tr>
+            <th>采购单号</th>
+            <th>采购日期</th>
+            <th>供应商</th>
+            <th>状态</th>
+            <th>总金额</th>
+            <th>币种</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="historyOrderTableBody"
+        ></tbody>
+
+      </table>
+
+    </div>
+
+
+    <div
+      id="historyOrderEmpty"
+      class="empty"
+      style="display:none;"
+    >
+      暂无历史采购订单
+    </div>
+
+  </div>
+
+</section>
+
 
 </main>
 
 
+
 <!-- =====================================================
      定义采购价格
-====================================================== -->
+===================================================== -->
 
 <div
   id="defineModal"
   class="modal-mask"
 >
 
-  <div class="modal">
-
-    <div class="modal-header">
-
-      <h3>
-        定义采购价格
-      </h3>
-
-      <button
-        class="modal-close"
-        type="button"
-        onclick="closeDefineModal()"
-      >
-        ×
-      </button>
-
-    </div>
+<div class="modal">
 
 
-    <div class="modal-body">
+<div class="modal-header">
 
-      <input
-        id="definePriceId"
-        type="hidden"
-      >
+<h3>
+定义采购价格
+</h3>
 
-
-      <div class="form-grid">
-
-
-        <div class="form-group">
-
-          <label>
-            产品代码
-          </label>
-
-          <input
-            id="defineProductCode"
-            class="readonly"
-            type="text"
-            readonly
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            产品名称
-          </label>
-
-          <input
-            id="defineProductName"
-            class="readonly"
-            type="text"
-            readonly
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            采购价格
-            <span class="required">*</span>
-          </label>
-
-          <input
-            id="definePurchasePrice"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="请输入采购价格"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            币种
-            <span class="required">*</span>
-          </label>
-
-          <select
-            id="defineCurrency"
-          >
-
-            <option value="">
-              请选择币种
-            </option>
-
-            <option value="CNY">
-              CNY 人民币
-            </option>
-
-            <option value="EUR">
-              EUR 欧元
-            </option>
-
-            <option value="USD">
-              USD 美元
-            </option>
-
-            <option value="HUF">
-              HUF 匈牙利福林
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
-          <label>
-            生效日期
-          </label>
-
-          <input
-            id="defineEffectiveFrom"
-            type="date"
-          >
-
-        </div>
-
-
-        <div class="form-group full">
-
-          <label>
-            备注
-          </label>
-
-          <textarea
-            id="defineNotes"
-            placeholder="采购价格说明，可留空"
-          ></textarea>
-
-        </div>
-
-
-        <div class="define-warning">
-
-          <strong>注意：</strong>
-
-          每条采购价格只能定义一次。
-
-          保存成功后采购价格永久锁定，不允许再次修改。
-
-          如果以后采购价格变化，请将当前价格设为无效，
-          系统会自动生成新的未定义采购价格。
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="modal-footer">
-
-      <button
-        class="btn btn-light"
-        type="button"
-        onclick="closeDefineModal()"
-      >
-        取消
-      </button>
-
-
-      <button
-        id="saveDefineButton"
-        class="btn btn-primary"
-        type="button"
-        onclick="savePurchasePriceDefinition()"
-      >
-        确认定义
-      </button>
-
-    </div>
-
-  </div>
+<button
+  class="modal-close"
+  onclick="closeDefineModal()"
+>
+×
+</button>
 
 </div>
 
 
+<div class="modal-body">
+
+<input
+  id="definePriceId"
+  type="hidden"
+>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+产品代码
+</label>
+
+<input
+  id="defineProductCode"
+  class="readonly"
+  readonly
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+产品名称
+</label>
+
+<input
+  id="defineProductName"
+  class="readonly"
+  readonly
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+采购价格 *
+</label>
+
+<input
+  id="definePurchasePrice"
+  type="number"
+  min="0"
+  step="0.01"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+币种 *
+</label>
+
+<select id="defineCurrency">
+
+<option value="">
+请选择币种
+</option>
+
+<option value="CNY">
+CNY
+</option>
+
+<option value="EUR">
+EUR
+</option>
+
+<option value="USD">
+USD
+</option>
+
+<option value="HUF">
+HUF
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+生效日期
+</label>
+
+<input
+  id="defineEffectiveFrom"
+  type="date"
+>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+备注
+</label>
+
+<textarea
+  id="defineNotes"
+></textarea>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="modal-footer">
+
+<button
+  class="btn btn-light"
+  onclick="closeDefineModal()"
+>
+取消
+</button>
+
+<button
+  id="saveDefineButton"
+  class="btn btn-primary"
+  onclick="savePurchasePriceDefinition()"
+>
+确认定义
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
 <!-- =====================================================
-     历史采购订单详情
-====================================================== -->
+     采购资金充值
+===================================================== -->
+
+<div
+  id="rechargeModal"
+  class="modal-mask"
+>
+
+<div class="modal">
+
+
+<div class="modal-header">
+
+<h3>
+采购资金充值
+</h3>
+
+<button
+  class="modal-close"
+  onclick="closeRechargeModal()"
+>
+×
+</button>
+
+</div>
+
+
+<div class="modal-body">
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+充值金额 *
+</label>
+
+<input
+  id="fundRechargeAmount"
+  type="number"
+  min="0.01"
+  step="0.01"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+币种 *
+</label>
+
+<select id="fundRechargeCurrency">
+
+<option value="CNY">
+CNY 人民币
+</option>
+
+<option value="EUR">
+EUR 欧元
+</option>
+
+<option value="USD">
+USD 美元
+</option>
+
+<option value="HUF">
+HUF 匈牙利福林
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+充值日期 *
+</label>
+
+<input
+  id="fundRechargeDate"
+  type="date"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+付款方式
+</label>
+
+<select id="fundPaymentMethod">
+
+<option value="银行转账">
+银行转账
+</option>
+
+<option value="数字人民币">
+数字人民币
+</option>
+
+<option value="现金">
+现金
+</option>
+
+<option value="其他">
+其他
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+银行流水号 / 凭证号
+</label>
+
+<input
+  id="fundPaymentReference"
+>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+备注
+</label>
+
+<textarea
+  id="fundRechargeNotes"
+></textarea>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="modal-footer">
+
+<button
+  class="btn btn-light"
+  onclick="closeRechargeModal()"
+>
+取消
+</button>
+
+<button
+  id="fundRechargeButton"
+  class="btn btn-green"
+  onclick="submitFundRecharge()"
+>
+确认充值
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     订单详情
+===================================================== -->
 
 <div
   id="orderDetailModal"
   class="modal-mask"
 >
 
-  <div class="modal large">
+<div class="modal large">
 
 
-    <div class="modal-header">
+<div class="modal-header">
 
-      <h3>
-        采购订单详情
-      </h3>
+<h3>
+采购订单详情
+</h3>
 
-      <button
-        class="modal-close"
-        type="button"
-        onclick="closeOrderDetailModal()"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <div class="modal-body">
-
-
-      <div class="detail-grid">
-
-
-        <div class="detail-item">
-
-          <div class="detail-label">
-            采购单号
-          </div>
-
-          <div
-            id="detailPurchaseNo"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="detail-item">
-
-          <div class="detail-label">
-            采购日期
-          </div>
-
-          <div
-            id="detailPurchaseDate"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="detail-item">
-
-          <div class="detail-label">
-            供应商
-          </div>
-
-          <div
-            id="detailSupplier"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="detail-item">
-
-          <div class="detail-label">
-            状态
-          </div>
-
-          <div
-            id="detailOrderStatus"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="detail-item">
-
-          <div class="detail-label">
-            总金额
-          </div>
-
-          <div
-            id="detailOrderTotal"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="detail-item">
-
-          <div class="detail-label">
-            币种
-          </div>
-
-          <div
-            id="detailOrderCurrency"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="detail-item full">
-
-          <div class="detail-label">
-            备注
-          </div>
-
-          <div
-            id="detailOrderRemarks"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="detail-item full">
-
-          <div class="detail-label">
-            创建时间
-          </div>
-
-          <div
-            id="detailOrderCreatedAt"
-            class="detail-value"
-          >
-            -
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="detail-section-title">
-        采购商品明细
-      </div>
-
-
-      <div class="table-scroll">
-
-        <table
-          class="cart-table"
-          style="min-width:900px;"
-        >
-
-          <thead>
-
-            <tr>
-
-              <th>产品代码</th>
-              <th>产品名称</th>
-              <th>规格</th>
-              <th>单位</th>
-              <th>采购单价</th>
-              <th>数量</th>
-              <th>金额</th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody
-            id="orderDetailItemsBody"
-          ></tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-
-    <div class="modal-footer">
-
-
-      <button
-        id="detailPrintButton"
-        class="btn btn-orange"
-        type="button"
-        onclick="printCurrentDetailOrder()"
-      >
-        打印采购单
-      </button>
-
-
-      <button
-        class="btn btn-light"
-        type="button"
-        onclick="closeOrderDetailModal()"
-      >
-        关闭
-      </button>
-
-    </div>
-
-  </div>
+<button
+  class="modal-close"
+  onclick="closeOrderDetailModal()"
+>
+×
+</button>
 
 </div>
+
+
+<div class="modal-body">
+
+<div
+  id="orderDetailInfo"
+></div>
+
+<div class="table-scroll">
+
+<table class="cart-table">
+
+<thead>
+
+<tr>
+<th>产品代码</th>
+<th>产品名称</th>
+<th>规格</th>
+<th>单位</th>
+<th>采购单价</th>
+<th>数量</th>
+<th>金额</th>
+</tr>
+
+</thead>
+
+<tbody
+  id="orderDetailItemsBody"
+></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="modal-footer">
+
+<button
+  class="btn btn-orange"
+  onclick="printCurrentDetailOrder()"
+>
+打印采购单
+</button>
+
+<button
+  class="btn btn-light"
+  onclick="closeOrderDetailModal()"
+>
+关闭
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 
 
 <div
   id="timeoutWarning"
   class="timeout-warning"
 >
-  长时间未操作，系统即将自动退出。
+长时间未操作，系统即将自动退出。
 </div>
 
 
 <script>
 
-
-/* ==========================================================
-   Supabase
-========================================================== */
 
 const SUPABASE_URL =
   "https://icmifhjjhgjrhkunjbmu.supabase.co";
@@ -2277,79 +2165,56 @@ const supabaseClient =
   );
 
 
-let currentUserId =
-  null;
+let currentUserId = null;
 
+let products = [];
 
-let products =
-  [];
+let purchasePrices = [];
 
+let suppliers = [];
 
-let purchasePrices =
-  [];
+let purchaseOrders = [];
 
+let purchaseOrderItemsHistory = [];
 
-let suppliers =
-  [];
+let fundAccounts = [];
 
+let fundLedger = [];
 
-let purchaseOrders =
-  [];
+let orderItems = [];
 
+let currentDetailOrderId = null;
 
-/*
-  正在新建的采购订单明细
-*/
-let orderItems =
-  [];
-
-
-/*
-  历史采购订单明细
-*/
-let purchaseOrderItemsHistory =
-  [];
-
-
-let accessVerified =
-  false;
-
-
-/*
-  当前打开详情的采购订单ID
-*/
-let currentDetailOrderId =
-  null;
+let accessVerified = false;
 
 
 
-/* ==========================================================
-   Founder 权限验证
-========================================================== */
+/* =========================================================
+   公司管理人员权限
+========================================================= */
 
-async function verifyFounderAccess() {
+async function verifyManagementAccess(){
 
-  try {
+  try{
 
     const {
-      data: sessionData,
-      error: sessionError
+      data:sessionData,
+      error:sessionError
     } =
-      await supabaseClient
-        .auth
-        .getSession();
+      await supabaseClient.auth.getSession();
 
 
-    if (
+    if(
       sessionError ||
       !sessionData?.session?.user
-    ) {
+    ){
 
-      window.location.replace(
+      location.replace(
         "page10.html"
       );
 
       return false;
+
     }
 
 
@@ -2358,13 +2223,13 @@ async function verifyFounderAccess() {
 
 
     const {
-      data: profile,
-      error: profileError
+      data:profile,
+      error
     } =
       await supabaseClient
         .from("profiles")
         .select(
-          "id, display_name, role, is_active"
+          "id,display_name,role,is_active"
         )
         .eq(
           "id",
@@ -2373,24 +2238,26 @@ async function verifyFounderAccess() {
         .single();
 
 
-    if (
-      profileError ||
+    if(
+      error ||
       !profile ||
       profile.is_active !== true ||
-      profile.role !== "founder"
-    ) {
+      ![
+        "founder",
+        "admin"
+      ].includes(
+        profile.role
+      )
+    ){
 
-      alert(
-        "采购管理属于公司内部采购信息，目前仅创始人可以进入。"
+      await supabaseClient.auth.signOut();
+
+      location.replace(
+        "page10.html"
       );
-
-
-      window.location.replace(
-        "wholemanagement.html"
-      );
-
 
       return false;
+
     }
 
 
@@ -2403,10 +2270,10 @@ async function verifyFounderAccess() {
     ).textContent =
       (
         profile.display_name ||
-        "创始人"
+        "公司管理人员"
       )
       +
-      " · 创始人";
+      " · 公司管理人员";
 
 
     accessVerified =
@@ -2414,8 +2281,7 @@ async function verifyFounderAccess() {
 
 
     document.documentElement
-      .classList
-      .add(
+      .classList.add(
         "auth-ready"
       );
 
@@ -2424,34 +2290,29 @@ async function verifyFounderAccess() {
 
   }
 
-  catch (error) {
+  catch(error){
 
-    console.error(
-      "权限验证失败：",
-      error
-    );
+    console.error(error);
 
-
-    window.location.replace(
+    location.replace(
       "page10.html"
     );
 
-
     return false;
+
   }
 
 }
 
 
 
-/* ==========================================================
+/* =========================================================
    页面启动
-========================================================== */
+========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
-  async function() {
-
+  async function(){
 
     document.getElementById(
       "purchaseDate"
@@ -2459,11 +2320,17 @@ document.addEventListener(
       getToday();
 
 
+    document.getElementById(
+      "fundRechargeDate"
+    ).value =
+      getToday();
+
+
     const allowed =
-      await verifyFounderAccess();
+      await verifyManagementAccess();
 
 
-    if (allowed) {
+    if(allowed){
 
       await loadAllData();
 
@@ -2474,36 +2341,13 @@ document.addEventListener(
 
 
 
-window.addEventListener(
-  "pageshow",
-  async function(event) {
+/* =========================================================
+   全部数据
+========================================================= */
 
-    if (event.persisted) {
+async function loadAllData(){
 
-      const allowed =
-        await verifyFounderAccess();
-
-
-      if (allowed) {
-
-        await loadAllData();
-
-      }
-
-    }
-
-  }
-);
-
-
-
-/* ==========================================================
-   读取全部数据
-========================================================== */
-
-async function loadAllData() {
-
-  if (!accessVerified) {
+  if(!accessVerified){
     return;
   }
 
@@ -2511,15 +2355,16 @@ async function loadAllData() {
   showLoading(true);
 
 
-  try {
-
+  try{
 
     const [
-      productsResult,
-      pricesResult,
-      suppliersResult,
-      ordersResult,
-      historyItemsResult
+      productResult,
+      priceResult,
+      supplierResult,
+      orderResult,
+      itemResult,
+      accountResult,
+      ledgerResult
     ] =
       await Promise.all([
 
@@ -2527,25 +2372,20 @@ async function loadAllData() {
         supabaseClient
           .from("products")
           .select(
-            "id, product_code, product_name, specification, unit, is_active"
+            "id,product_code,product_name,specification,unit,is_active"
           )
           .order(
-            "product_code",
-            {
-              ascending: true
-            }
+            "product_code"
           ),
 
 
         supabaseClient
           .from("purchase_prices")
-          .select(
-            "id, product_id, purchase_price, currency, is_defined, is_active, effective_from, notes, created_at, updated_at"
-          )
+          .select("*")
           .order(
             "created_at",
             {
-              ascending: false
+              ascending:false
             }
           ),
 
@@ -2556,108 +2396,120 @@ async function loadAllData() {
           .order(
             "created_at",
             {
-              ascending: false
+              ascending:false
             }
           ),
 
 
         supabaseClient
           .from("purchase_orders")
-          .select(
-            "id, purchase_no, supplier_id, purchase_date, status, total_amount, currency, remarks, created_by, created_at, updated_at"
-          )
+          .select("*")
           .order(
             "created_at",
             {
-              ascending: false
+              ascending:false
             }
           ),
 
 
         supabaseClient
           .from("purchase_order_items")
-          .select(
-            "id, purchase_order_id, product_id, product_code_snapshot, product_name_snapshot, specification_snapshot, unit_snapshot, unit_price, quantity, line_total, created_at"
-          )
+          .select("*")
+          .order("id"),
+
+
+        supabaseClient
+          .from("purchase_fund_accounts")
+          .select("*")
+          .order("currency"),
+
+
+        supabaseClient
+          .from("purchase_fund_ledger")
+          .select("*")
           .order(
-            "id",
+            "created_at",
             {
-              ascending: true
+              ascending:false
             }
           )
 
       ]);
 
 
-    if (productsResult.error) {
-      throw productsResult.error;
-    }
+    const results = [
+      productResult,
+      priceResult,
+      supplierResult,
+      orderResult,
+      itemResult,
+      accountResult,
+      ledgerResult
+    ];
 
 
-    if (pricesResult.error) {
-      throw pricesResult.error;
-    }
+    for(const result of results){
 
+      if(result.error){
 
-    if (suppliersResult.error) {
-      throw suppliersResult.error;
-    }
+        throw result.error;
 
+      }
 
-    if (ordersResult.error) {
-      throw ordersResult.error;
-    }
-
-
-    if (historyItemsResult.error) {
-      throw historyItemsResult.error;
     }
 
 
     products =
-      productsResult.data || [];
+      productResult.data || [];
 
 
     purchasePrices =
-      pricesResult.data || [];
+      priceResult.data || [];
 
 
     suppliers =
-      suppliersResult.data || [];
+      supplierResult.data || [];
 
 
     purchaseOrders =
-      ordersResult.data || [];
+      orderResult.data || [];
 
 
     purchaseOrderItemsHistory =
-      historyItemsResult.data || [];
+      itemResult.data || [];
+
+
+    fundAccounts =
+      accountResult.data || [];
+
+
+    fundLedger =
+      ledgerResult.data || [];
 
 
     updatePriceSummary();
 
-
     renderPurchasePrices();
-
 
     renderSupplierSelect();
 
-
     renderProductSelect();
-
 
     renderCart();
 
+    renderFundAccounts();
+
+    renderFundLedger();
 
     renderHistoryOrders();
 
+    renderHeaderFundBalance();
 
     await refreshPurchaseNoPreview();
 
-
   }
 
-  catch (error) {
+  catch(error){
 
     console.error(
       "读取采购数据失败：",
@@ -2666,14 +2518,15 @@ async function loadAllData() {
 
 
     showNotice(
-      "读取采购数据失败：" +
+      "读取采购数据失败："
+      +
       error.message,
       "error"
     );
 
   }
 
-  finally {
+  finally{
 
     showLoading(false);
 
@@ -2683,43 +2536,35 @@ async function loadAllData() {
 
 
 
-/* ==========================================================
-   产品
-========================================================== */
+/* =========================================================
+   获取对象
+========================================================= */
 
-function getProduct(productId) {
+function getProduct(id){
 
   return products.find(
     item =>
       String(item.id) ===
-      String(productId)
+      String(id)
   ) || null;
 
 }
 
 
-
-/* ==========================================================
-   供应商
-========================================================== */
-
-function getSupplier(supplierId) {
+function getSupplier(id){
 
   return suppliers.find(
     item =>
       String(item.id) ===
-      String(supplierId)
+      String(id)
   ) || null;
 
 }
 
 
-
-/* ==========================================================
-   当前采购价格
-========================================================== */
-
-function getCurrentPurchasePrice(productId) {
+function getCurrentPurchasePrice(
+  productId
+){
 
   return purchasePrices.find(
     item =>
@@ -2732,31 +2577,159 @@ function getCurrentPurchasePrice(productId) {
 }
 
 
+function getFundBalance(currency){
 
-/* ==========================================================
+  const row =
+    fundAccounts.find(
+      item =>
+        String(item.currency)
+        .toUpperCase()
+        ===
+        String(currency || "")
+        .toUpperCase()
+    );
+
+
+  return Number(
+    row?.account_balance ||
+    0
+  );
+
+}
+
+
+
+/* =========================================================
+   顶部余额
+========================================================= */
+
+function renderHeaderFundBalance(){
+
+  const el =
+    document.getElementById(
+      "headerFundBalance"
+    );
+
+
+  if(
+    fundAccounts.length === 0
+  ){
+
+    el.textContent =
+      "0.00 CNY";
+
+    return;
+
+  }
+
+
+  el.innerHTML =
+    fundAccounts
+      .map(
+        row =>
+          `
+            ${formatMoney(row.account_balance)}
+            ${escapeHTML(row.currency)}
+          `
+      )
+      .join("<br>");
+
+}
+
+
+
+/* =========================================================
+   采购账户卡
+========================================================= */
+
+function renderFundAccounts(){
+
+  const container =
+    document.getElementById(
+      "fundAccountGrid"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  if(
+    fundAccounts.length === 0
+  ){
+
+    container.innerHTML =
+      `
+        <div class="fund-account-card">
+
+          <div class="fund-account-currency">
+            CNY
+          </div>
+
+          <div class="fund-account-balance">
+            0.00
+          </div>
+
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  fundAccounts.forEach(
+    function(row){
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+
+      div.className =
+        "fund-account-card";
+
+
+      div.innerHTML =
+        `
+
+          <div class="fund-account-currency">
+
+            ${escapeHTML(row.currency)}
+
+          </div>
+
+          <div class="fund-account-balance">
+
+            ${formatMoney(row.account_balance)}
+
+          </div>
+
+        `;
+
+
+      container.appendChild(
+        div
+      );
+
+    }
+  );
+
+}
+
+
+
+/* =========================================================
    采购价格摘要
-========================================================== */
+========================================================= */
 
-function updatePriceSummary() {
+function updatePriceSummary(){
 
   const active =
     purchasePrices.filter(
       item =>
         item.is_active === true
-    );
-
-
-  const undefinedRows =
-    active.filter(
-      item =>
-        item.is_defined !== true
-    );
-
-
-  const history =
-    purchasePrices.filter(
-      item =>
-        item.is_active === false
     );
 
 
@@ -2769,23 +2742,29 @@ function updatePriceSummary() {
   document.getElementById(
     "undefinedPriceCount"
   ).textContent =
-    undefinedRows.length;
+    active.filter(
+      item =>
+        item.is_defined !== true
+    ).length;
 
 
   document.getElementById(
     "historyPriceCount"
   ).textContent =
-    history.length;
+    purchasePrices.filter(
+      item =>
+        item.is_active === false
+    ).length;
 
 }
 
 
 
-/* ==========================================================
-   采购价格列表
-========================================================== */
+/* =========================================================
+   价格列表
+========================================================= */
 
-function renderPurchasePrices() {
+function renderPurchasePrices(){
 
   const keyword =
     document.getElementById(
@@ -2800,84 +2779,6 @@ function renderPurchasePrices() {
     document.getElementById(
       "priceFilter"
     ).value;
-
-
-  const rows =
-    purchasePrices.filter(
-      function(price) {
-
-        const product =
-          getProduct(
-            price.product_id
-          );
-
-
-        const searchText =
-          [
-            product?.product_code,
-            product?.product_name,
-            price.currency,
-            price.notes
-          ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-
-
-        const keywordOK =
-          !keyword ||
-          searchText.includes(
-            keyword
-          );
-
-
-        let statusOK =
-          true;
-
-
-        if (filter === "current") {
-
-          statusOK =
-            price.is_active === true;
-
-        }
-
-
-        if (filter === "undefined") {
-
-          statusOK =
-            price.is_active === true
-            &&
-            price.is_defined !== true;
-
-        }
-
-
-        if (filter === "defined") {
-
-          statusOK =
-            price.is_active === true
-            &&
-            price.is_defined === true;
-
-        }
-
-
-        if (filter === "history") {
-
-          statusOK =
-            price.is_active === false;
-
-        }
-
-
-        return (
-          keywordOK &&
-          statusOK
-        );
-
-      }
-    );
 
 
   const tbody =
@@ -2896,12 +2797,92 @@ function renderPurchasePrices() {
     "";
 
 
-  if (rows.length === 0) {
+  const rows =
+    purchasePrices.filter(
+      function(price){
+
+        const product =
+          getProduct(
+            price.product_id
+          );
+
+
+        const text =
+          [
+            product?.product_code,
+            product?.product_name
+          ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+
+        let ok =
+          !keyword ||
+          text.includes(
+            keyword
+          );
+
+
+        if(
+          filter === "current"
+        ){
+
+          ok =
+            ok &&
+            price.is_active === true;
+
+        }
+
+
+        if(
+          filter === "undefined"
+        ){
+
+          ok =
+            ok &&
+            price.is_active === true &&
+            price.is_defined !== true;
+
+        }
+
+
+        if(
+          filter === "defined"
+        ){
+
+          ok =
+            ok &&
+            price.is_active === true &&
+            price.is_defined === true;
+
+        }
+
+
+        if(
+          filter === "history"
+        ){
+
+          ok =
+            ok &&
+            price.is_active === false;
+
+        }
+
+
+        return ok;
+
+      }
+    );
+
+
+  if(rows.length === 0){
 
     empty.style.display =
       "block";
 
     return;
+
   }
 
 
@@ -2910,7 +2891,7 @@ function renderPurchasePrices() {
 
 
   rows.forEach(
-    function(price) {
+    function(price){
 
       const product =
         getProduct(
@@ -2924,9 +2905,9 @@ function renderPurchasePrices() {
         );
 
 
-      if (
+      if(
         price.is_active === false
-      ) {
+      ){
 
         tr.classList.add(
           "price-history"
@@ -2935,58 +2916,19 @@ function renderPurchasePrices() {
       }
 
 
-      const priceText =
-        price.purchase_price === null ||
-        price.purchase_price === undefined
-          ?
-          `<span class="undefined">未定义</span>`
-          :
-          `<span class="money">${formatMoney(price.purchase_price)}</span>`;
+      let actions = "";
 
 
-      const currencyText =
-        price.currency
-          ?
-          escapeHTML(
-            price.currency
-          )
-          :
-          `<span class="undefined">未定义</span>`;
-
-
-      const definedText =
-        price.is_defined === true
-          ?
-          `<span class="badge badge-defined">已定义 · 锁定</span>`
-          :
-          `<span class="badge badge-undefined">未定义</span>`;
-
-
-      const statusText =
-        price.is_active === true
-          ?
-          `<span class="badge badge-active">有效</span>`
-          :
-          `<span class="badge badge-disabled">无效</span>`;
-
-
-      let actionHTML =
-        "";
-
-
-      if (
-        price.is_active === true
-        &&
-        price.is_defined !== true
-        &&
+      if(
+        price.is_active === true &&
+        price.is_defined !== true &&
         product?.is_active === true
-      ) {
+      ){
 
-        actionHTML =
+        actions =
           `
             <button
               class="btn btn-primary btn-small"
-              type="button"
               onclick="openDefineModal('${price.id}')"
             >
               定义价格
@@ -2995,36 +2937,29 @@ function renderPurchasePrices() {
 
       }
 
-      else if (
-        price.is_active === true
-        &&
-        price.is_defined === true
-        &&
+      else if(
+        price.is_active === true &&
+        price.is_defined === true &&
         product?.is_active === true
-      ) {
+      ){
 
-        actionHTML =
+        actions =
           `
             <button
               class="btn btn-red btn-small"
-              type="button"
               onclick="disablePurchasePrice('${price.id}')"
             >
               设为无效
             </button>
-
-            <span class="locked">
-              已锁定
-            </span>
           `;
 
       }
 
-      else {
+      else{
 
-        actionHTML =
+        actions =
           `
-            <span class="locked">
+            <span class="badge badge-gray">
               历史锁定
             </span>
           `;
@@ -3036,51 +2971,56 @@ function renderPurchasePrices() {
         `
 
           <td class="product-code">
-            ${
-              escapeHTML(
-                product?.product_code ||
-                "-"
-              )
-            }
+            ${escapeHTML(product?.product_code || "-")}
           </td>
 
           <td class="product-name">
-            ${
-              escapeHTML(
-                product?.product_name ||
-                "未知产品"
-              )
-            }
-          </td>
-
-          <td>
-            ${priceText}
-          </td>
-
-          <td>
-            ${currencyText}
-          </td>
-
-          <td>
-            ${definedText}
-          </td>
-
-          <td>
-            ${statusText}
+            ${escapeHTML(product?.product_name || "-")}
           </td>
 
           <td>
             ${
-              formatDateOnly(
-                price.effective_from
-              )
+              price.purchase_price === null
+              ?
+              `<span class="undefined">未定义</span>`
+              :
+              formatMoney(price.purchase_price)
             }
           </td>
 
           <td>
-            <div class="actions">
-              ${actionHTML}
-            </div>
+            ${
+              price.currency ||
+              `<span class="undefined">未定义</span>`
+            }
+          </td>
+
+          <td>
+            ${
+              price.is_defined
+              ?
+              `<span class="badge badge-blue">已定义 · 锁定</span>`
+              :
+              `<span class="badge badge-orange">未定义</span>`
+            }
+          </td>
+
+          <td>
+            ${
+              price.is_active
+              ?
+              `<span class="badge badge-green">有效</span>`
+              :
+              `<span class="badge badge-gray">无效</span>`
+            }
+          </td>
+
+          <td>
+            ${formatDateOnly(price.effective_from)}
+          </td>
+
+          <td>
+            ${actions}
           </td>
 
         `;
@@ -3097,28 +3037,28 @@ function renderPurchasePrices() {
 
 
 
-/* ==========================================================
-   打开定义采购价格
-========================================================== */
+/* =========================================================
+   定义价格窗口
+========================================================= */
 
-function openDefineModal(priceId) {
+function openDefineModal(id){
 
   const price =
     purchasePrices.find(
       item =>
         String(item.id) ===
-        String(priceId)
+        String(id)
     );
 
 
-  if (!price) {
-
-    showNotice(
-      "没有找到采购价格记录。",
-      "error"
-    );
+  if(
+    !price ||
+    price.is_active !== true ||
+    price.is_defined === true
+  ){
 
     return;
+
   }
 
 
@@ -3126,46 +3066,6 @@ function openDefineModal(priceId) {
     getProduct(
       price.product_id
     );
-
-
-  if (
-    !product ||
-    product.is_active !== true
-  ) {
-
-    showNotice(
-      "对应产品已经无效。",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (
-    price.is_active !== true
-  ) {
-
-    showNotice(
-      "该采购价格已经无效。",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (
-    price.is_defined === true
-  ) {
-
-    showNotice(
-      "该采购价格已经定义完成，不能再次修改。",
-      "error"
-    );
-
-    return;
-  }
 
 
   document.getElementById(
@@ -3177,38 +3077,37 @@ function openDefineModal(priceId) {
   document.getElementById(
     "defineProductCode"
   ).value =
-    product.product_code || "";
+    product?.product_code || "";
 
 
   document.getElementById(
     "defineProductName"
   ).value =
-    product.product_name || "";
+    product?.product_name || "";
 
 
   document.getElementById(
     "definePurchasePrice"
   ).value =
-    price.purchase_price ?? "";
+    "";
 
 
   document.getElementById(
     "defineCurrency"
   ).value =
-    price.currency || "";
+    "";
 
 
   document.getElementById(
     "defineEffectiveFrom"
   ).value =
-    price.effective_from ||
     getToday();
 
 
   document.getElementById(
     "defineNotes"
   ).value =
-    price.notes || "";
+    "";
 
 
   document.getElementById(
@@ -3220,8 +3119,7 @@ function openDefineModal(priceId) {
 }
 
 
-
-function closeDefineModal() {
+function closeDefineModal(){
 
   document.getElementById(
     "defineModal"
@@ -3232,12 +3130,12 @@ function closeDefineModal() {
 }
 
 
+/* ===== 第1段结束，第2段直接从这里继续 ===== */
+  /* =========================================================
+   保存采购价格第一次定义
+========================================================= */
 
-/* ==========================================================
-   保存唯一一次采购价格定义
-========================================================== */
-
-async function savePurchasePriceDefinition() {
+async function savePurchasePriceDefinition(){
 
   const priceId =
     document.getElementById(
@@ -3253,14 +3151,14 @@ async function savePurchasePriceDefinition() {
     );
 
 
-  if (
+  if(
     !record ||
     record.is_active !== true ||
     record.is_defined === true
-  ) {
+  ){
 
     showNotice(
-      "该采购价格状态已经变化，请刷新页面。",
+      "该采购价格状态已经发生变化，请刷新页面。",
       "error"
     );
 
@@ -3269,26 +3167,7 @@ async function savePurchasePriceDefinition() {
     await loadAllData();
 
     return;
-  }
 
-
-  const product =
-    getProduct(
-      record.product_id
-    );
-
-
-  if (
-    !product ||
-    product.is_active !== true
-  ) {
-
-    showNotice(
-      "对应产品已经无效。",
-      "error"
-    );
-
-    return;
   }
 
 
@@ -3303,7 +3182,10 @@ async function savePurchasePriceDefinition() {
   const currency =
     document.getElementById(
       "defineCurrency"
-    ).value;
+    )
+    .value
+    .trim()
+    .toUpperCase();
 
 
   const effectiveFrom =
@@ -3320,13 +3202,16 @@ async function savePurchasePriceDefinition() {
     .trim();
 
 
-  if (priceValue === "") {
+  if(
+    priceValue === ""
+  ){
 
     alert(
       "请输入采购价格。"
     );
 
     return;
+
   }
 
 
@@ -3336,52 +3221,92 @@ async function savePurchasePriceDefinition() {
     );
 
 
-  if (
+  if(
     !Number.isFinite(
       numericPrice
     )
     ||
     numericPrice < 0
-  ) {
+  ){
 
     alert(
       "采购价格格式不正确。"
     );
 
     return;
+
   }
 
 
-  if (!currency) {
+  if(
+    !currency
+  ){
 
     alert(
       "请选择币种。"
     );
 
     return;
+
+  }
+
+
+  const product =
+    getProduct(
+      record.product_id
+    );
+
+
+  if(
+    !product ||
+    product.is_active !== true
+  ){
+
+    alert(
+      "对应产品已经无效。"
+    );
+
+    return;
+
   }
 
 
   const confirmed =
     confirm(
-      "请确认采购价格：\n\n" +
-      "产品：" +
-      product.product_code +
-      " " +
-      product.product_name +
-      "\n\n" +
-      "采购价格：" +
-      numericPrice +
-      " " +
-      currency +
-      "\n\n" +
-      "保存成功后该价格永久锁定，不能再次修改。\n\n" +
-      "确认继续吗？"
+      "确定定义当前采购价格吗？\n\n"
+      +
+      "产品："
+      +
+      product.product_code
+      +
+      " "
+      +
+      product.product_name
+      +
+      "\n"
+      +
+      "采购价格："
+      +
+      formatMoney(
+        numericPrice
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n\n"
+      +
+      "保存成功后该价格永久锁定，不能直接修改。"
     );
 
 
-  if (!confirmed) {
+  if(
+    !confirmed
+  ){
+
     return;
+
   }
 
 
@@ -3399,17 +3324,22 @@ async function savePurchasePriceDefinition() {
     "正在保存……";
 
 
-  showLoading(true);
+  showLoading(
+    true
+  );
 
 
-  try {
+  try{
+
 
     const {
       data,
       error
     } =
       await supabaseClient
-        .from("purchase_prices")
+        .from(
+          "purchase_prices"
+        )
         .update({
 
           purchase_price:
@@ -3423,7 +3353,8 @@ async function savePurchasePriceDefinition() {
             getToday(),
 
           notes:
-            notes || null
+            notes ||
+            null
 
         })
         .eq(
@@ -3441,18 +3372,22 @@ async function savePurchasePriceDefinition() {
         .select();
 
 
-    if (error) {
+    if(
+      error
+    ){
+
       throw error;
+
     }
 
 
-    if (
+    if(
       !data ||
       data.length !== 1
-    ) {
+    ){
 
       throw new Error(
-        "该采购价格已被其他操作修改，请重新刷新。"
+        "采购价格已经被其他操作修改，请刷新以后重新操作。"
       );
 
     }
@@ -3462,7 +3397,7 @@ async function savePurchasePriceDefinition() {
 
 
     showNotice(
-      "采购价格定义成功。该价格现已永久锁定。",
+      "采购价格定义成功，当前价格已经永久锁定。",
       "success"
     );
 
@@ -3471,25 +3406,28 @@ async function savePurchasePriceDefinition() {
 
   }
 
-  catch (error) {
+  catch(error){
 
     console.error(
-      "定义采购价格失败：",
+      "采购价格定义失败：",
       error
     );
 
 
     showNotice(
-      "定义采购价格失败：" +
+      "采购价格定义失败："
+      +
       error.message,
       "error"
     );
 
   }
 
-  finally {
+  finally{
 
-    showLoading(false);
+    showLoading(
+      false
+    );
 
 
     button.disabled =
@@ -3505,11 +3443,13 @@ async function savePurchasePriceDefinition() {
 
 
 
-/* ==========================================================
-   采购价格永久失效
-========================================================== */
+/* =========================================================
+   当前采购价格设为无效
+========================================================= */
 
-async function disablePurchasePrice(priceId) {
+async function disablePurchasePrice(
+  priceId
+){
 
   const price =
     purchasePrices.find(
@@ -3519,18 +3459,19 @@ async function disablePurchasePrice(priceId) {
     );
 
 
-  if (
+  if(
     !price ||
     price.is_active !== true ||
     price.is_defined !== true
-  ) {
+  ){
 
     showNotice(
-      "当前采购价格不能执行该操作。",
+      "该采购价格当前不能执行此操作。",
       "error"
     );
 
     return;
+
   }
 
 
@@ -3540,10 +3481,10 @@ async function disablePurchasePrice(priceId) {
     );
 
 
-  if (
+  if(
     !product ||
     product.is_active !== true
-  ) {
+  ){
 
     showNotice(
       "对应产品已经无效。",
@@ -3551,48 +3492,76 @@ async function disablePurchasePrice(priceId) {
     );
 
     return;
+
   }
 
 
   const confirmed =
     confirm(
-      "确定将当前采购价格永久设为无效吗？\n\n" +
-      "产品：" +
-      product.product_code +
-      " " +
-      product.product_name +
-      "\n\n" +
-      "当前采购价格：" +
+      "确定将当前采购价格设为无效吗？\n\n"
+      +
+      "产品："
+      +
+      product.product_code
+      +
+      " "
+      +
+      product.product_name
+      +
+      "\n"
+      +
+      "当前价格："
+      +
       formatMoney(
         price.purchase_price
-      ) +
-      " " +
-      (price.currency || "") +
-      "\n\n" +
-      "原价格会永久保留为历史记录，不能恢复。\n" +
-      "系统会自动生成一条新的未定义采购价格。"
+      )
+      +
+      " "
+      +
+      (
+        price.currency ||
+        ""
+      )
+      +
+      "\n\n"
+      +
+      "旧价格将永久作为历史记录保留。\n"
+      +
+      "数据库会自动建立新的未定义采购价格对象。"
     );
 
 
-  if (!confirmed) {
+  if(
+    !confirmed
+  ){
+
     return;
+
   }
 
 
-  showLoading(true);
+  showLoading(
+    true
+  );
 
 
-  try {
+  try{
+
 
     const {
       data,
       error
     } =
       await supabaseClient
-        .from("purchase_prices")
+        .from(
+          "purchase_prices"
+        )
         .update({
 
           is_active:
+            false,
+
+          disabled_by_product:
             false
 
         })
@@ -3607,35 +3576,39 @@ async function disablePurchasePrice(priceId) {
         .select();
 
 
-    if (error) {
+    if(
+      error
+    ){
+
       throw error;
+
     }
 
 
-    if (
+    if(
       !data ||
       data.length !== 1
-    ) {
+    ){
 
       throw new Error(
-        "采购价格状态已经变化，请刷新后重试。"
+        "价格状态已经发生变化，请刷新页面。"
       );
 
     }
 
 
     /*
-      如果当前正在建立的采购单用了这个价格，
-      清除购物车。
+      如果当前采购单已经使用这个旧价格，
+      直接清空当前采购单，避免继续使用过期价格。
     */
 
-    if (
+    if(
       orderItems.some(
         item =>
           String(item.price_id) ===
           String(price.id)
       )
-    ) {
+    ){
 
       orderItems =
         [];
@@ -3644,7 +3617,7 @@ async function disablePurchasePrice(priceId) {
 
 
     showNotice(
-      "原采购价格已经失效，系统已自动生成新的未定义采购价格。",
+      "当前采购价格已经失效，新的未定义价格已生成。",
       "success"
     );
 
@@ -3653,7 +3626,7 @@ async function disablePurchasePrice(priceId) {
 
   }
 
-  catch (error) {
+  catch(error){
 
     console.error(
       "采购价格失效失败：",
@@ -3662,16 +3635,19 @@ async function disablePurchasePrice(priceId) {
 
 
     showNotice(
-      "采购价格失效失败：" +
+      "采购价格失效失败："
+      +
       error.message,
       "error"
     );
 
   }
 
-  finally {
+  finally{
 
-    showLoading(false);
+    showLoading(
+      false
+    );
 
   }
 
@@ -3679,11 +3655,11 @@ async function disablePurchasePrice(priceId) {
 
 
 
-/* ==========================================================
-   供应商下拉
-========================================================== */
+/* =========================================================
+   供应商下拉框
+========================================================= */
 
-function renderSupplierSelect() {
+function renderSupplierSelect(){
 
   const select =
     document.getElementById(
@@ -3691,12 +3667,16 @@ function renderSupplierSelect() {
     );
 
 
-  const previous =
+  const oldValue =
     select.value;
 
 
   select.innerHTML =
-    `<option value="">请选择供应商</option>`;
+    `
+      <option value="">
+        请选择供应商
+      </option>
+    `;
 
 
   const activeSuppliers =
@@ -3707,7 +3687,7 @@ function renderSupplierSelect() {
 
 
   activeSuppliers.forEach(
-    function(supplier) {
+    function(supplier){
 
       const option =
         document.createElement(
@@ -3719,17 +3699,16 @@ function renderSupplierSelect() {
         supplier.id;
 
 
-      const code =
-        supplier.supplier_code
+      option.textContent =
+        (
+          supplier.supplier_code
           ?
-          supplier.supplier_code +
+          supplier.supplier_code
+          +
           " · "
           :
-          "";
-
-
-      option.textContent =
-        code
+          ""
+        )
         +
         (
           supplier.supplier_name ||
@@ -3745,18 +3724,18 @@ function renderSupplierSelect() {
   );
 
 
-  if (
-    previous
+  if(
+    oldValue
     &&
     activeSuppliers.some(
       item =>
         String(item.id) ===
-        String(previous)
+        String(oldValue)
     )
-  ) {
+  ){
 
     select.value =
-      previous;
+      oldValue;
 
   }
 
@@ -3764,11 +3743,11 @@ function renderSupplierSelect() {
 
 
 
-/* ==========================================================
+/* =========================================================
    可采购产品下拉
-========================================================== */
+========================================================= */
 
-function renderProductSelect() {
+function renderProductSelect(){
 
   const select =
     document.getElementById(
@@ -3776,23 +3755,28 @@ function renderProductSelect() {
     );
 
 
-  const previous =
+  const oldValue =
     select.value;
 
 
   select.innerHTML =
-    `<option value="">请选择产品</option>`;
+    `
+      <option value="">
+        请选择产品
+      </option>
+    `;
 
 
-  const available =
+  const availableProducts =
     products.filter(
-      function(product) {
+      function(product){
 
-        if (
+        if(
           product.is_active !== true
-        ) {
+        ){
 
           return false;
+
         }
 
 
@@ -3818,8 +3802,8 @@ function renderProductSelect() {
     );
 
 
-  available.forEach(
-    function(product) {
+  availableProducts.forEach(
+    function(product){
 
       const price =
         getCurrentPurchasePrice(
@@ -3863,18 +3847,18 @@ function renderProductSelect() {
   );
 
 
-  if (
-    previous
+  if(
+    oldValue
     &&
-    available.some(
+    availableProducts.some(
       item =>
         String(item.id) ===
-        String(previous)
+        String(oldValue)
     )
-  ) {
+  ){
 
     select.value =
-      previous;
+      oldValue;
 
   }
 
@@ -3885,11 +3869,11 @@ function renderProductSelect() {
 
 
 
-/* ==========================================================
-   选中产品
-========================================================== */
+/* =========================================================
+   显示当前选择产品价格
+========================================================= */
 
-function updateSelectedProductInfo() {
+function updateSelectedProductInfo(){
 
   const productId =
     document.getElementById(
@@ -3903,34 +3887,26 @@ function updateSelectedProductInfo() {
     );
 
 
-  const warning =
-    document.getElementById(
-      "productWarning"
+  if(
+    !productId
+  ){
+
+    setText(
+      "selectedPrice",
+      "-"
     );
 
 
-  warning.style.display =
-    "none";
+    setText(
+      "selectedCurrency",
+      "-"
+    );
 
 
-  if (!productId) {
-
-    document.getElementById(
-      "selectedPrice"
-    ).textContent =
-      "-";
-
-
-    document.getElementById(
-      "selectedCurrency"
-    ).textContent =
-      "-";
-
-
-    document.getElementById(
-      "selectedUnit"
-    ).textContent =
-      "-";
+    setText(
+      "selectedUnit",
+      "-"
+    );
 
 
     addButton.disabled =
@@ -3938,6 +3914,7 @@ function updateSelectedProductInfo() {
 
 
     return;
+
   }
 
 
@@ -3953,7 +3930,7 @@ function updateSelectedProductInfo() {
     );
 
 
-  if (
+  if(
     !product ||
     product.is_active !== true ||
     !price ||
@@ -3961,42 +3938,36 @@ function updateSelectedProductInfo() {
     price.is_defined !== true ||
     price.purchase_price === null ||
     !price.currency
-  ) {
-
-    warning.textContent =
-      "该产品当前采购价格尚未完成定义，不能加入采购订单。";
-
-
-    warning.style.display =
-      "block";
-
+  ){
 
     addButton.disabled =
       true;
 
 
     return;
+
   }
 
 
-  document.getElementById(
-    "selectedPrice"
-  ).textContent =
+  setText(
+    "selectedPrice",
     formatMoney(
       price.purchase_price
-    );
+    )
+  );
 
 
-  document.getElementById(
-    "selectedCurrency"
-  ).textContent =
-    price.currency;
+  setText(
+    "selectedCurrency",
+    price.currency
+  );
 
 
-  document.getElementById(
-    "selectedUnit"
-  ).textContent =
-    product.unit || "-";
+  setText(
+    "selectedUnit",
+    product.unit ||
+    "-"
+  );
 
 
   addButton.disabled =
@@ -4006,11 +3977,11 @@ function updateSelectedProductInfo() {
 
 
 
-/* ==========================================================
-   加入采购单
-========================================================== */
+/* =========================================================
+   加入采购订单
+========================================================= */
 
-function addItemToOrder() {
+function addItemToOrder(){
 
   const productId =
     document.getElementById(
@@ -4018,41 +3989,41 @@ function addItemToOrder() {
     ).value;
 
 
-  const quantityValue =
-    document.getElementById(
-      "quantityInput"
-    ).value;
+  const quantity =
+    Number(
+      document.getElementById(
+        "quantityInput"
+      ).value
+    );
 
 
-  if (!productId) {
+  if(
+    !productId
+  ){
 
     alert(
       "请选择产品。"
     );
 
     return;
+
   }
 
 
-  const quantity =
-    Number(
-      quantityValue
-    );
-
-
-  if (
+  if(
     !Number.isFinite(
       quantity
     )
     ||
     quantity <= 0
-  ) {
+  ){
 
     alert(
       "请输入正确的采购数量。"
     );
 
     return;
+
   }
 
 
@@ -4068,20 +4039,23 @@ function addItemToOrder() {
     );
 
 
-  if (
+  if(
     !product ||
     product.is_active !== true ||
     !price ||
     price.is_active !== true ||
-    price.is_defined !== true
-  ) {
+    price.is_defined !== true ||
+    price.purchase_price === null ||
+    !price.currency
+  ){
 
     showNotice(
-      "该产品没有有效且已定义的采购价格。",
+      "该产品当前没有有效的采购价格。",
       "error"
     );
 
     return;
+
   }
 
 
@@ -4089,26 +4063,33 @@ function addItemToOrder() {
     getCartCurrency();
 
 
-  if (
+  if(
     cartCurrency
     &&
     cartCurrency !==
     price.currency
-  ) {
+  ){
 
     alert(
-      "当前采购单币种为 "
+      "一个采购订单只能使用一种币种。\n\n"
+      +
+      "当前采购单币种："
       +
       cartCurrency
       +
-      "，不能加入 "
+      "\n"
+      +
+      "所选产品币种："
       +
       price.currency
       +
-      " 产品。\n\n不同币种请分别建立采购订单。"
+      "\n\n"
+      +
+      "请为不同币种分别建立采购订单。"
     );
 
     return;
+
   }
 
 
@@ -4123,24 +4104,20 @@ function addItemToOrder() {
     );
 
 
-  if (existing) {
+  if(
+    existing
+  ){
 
     existing.quantity =
       roundQuantity(
-        existing.quantity +
+        Number(existing.quantity)
+        +
         quantity
-      );
-
-
-    existing.line_total =
-      roundMoney(
-        existing.unit_price *
-        existing.quantity
       );
 
   }
 
-  else {
+  else{
 
     orderItems.push({
 
@@ -4171,14 +4148,7 @@ function addItemToOrder() {
         price.currency,
 
       quantity:
-        quantity,
-
-      line_total:
-        roundMoney(
-          Number(
-            price.purchase_price
-          )
-          *
+        roundQuantity(
           quantity
         )
 
@@ -4199,31 +4169,68 @@ function addItemToOrder() {
 
 
 
-/* ==========================================================
+/* =========================================================
    当前采购单币种
-========================================================== */
+========================================================= */
 
-function getCartCurrency() {
+function getCartCurrency(){
 
-  if (
+  if(
     orderItems.length === 0
-  ) {
+  ){
 
     return null;
+
   }
 
 
-  return orderItems[0].currency;
+  return (
+    orderItems[0].currency ||
+    null
+  );
 
 }
 
 
 
-/* ==========================================================
-   渲染当前采购单
-========================================================== */
+/* =========================================================
+   当前采购单金额
+========================================================= */
 
-function renderCart() {
+function calculateOrderTotal(){
+
+  return roundMoney(
+
+    orderItems.reduce(
+      function(sum,item){
+
+        return (
+          sum
+          +
+          Number(
+            item.unit_price
+          )
+          *
+          Number(
+            item.quantity
+          )
+        );
+
+      },
+      0
+    )
+
+  );
+
+}
+
+
+
+/* =========================================================
+   渲染采购单
+========================================================= */
+
+function renderCart(){
 
   const tbody =
     document.getElementById(
@@ -4237,44 +4244,41 @@ function renderCart() {
     );
 
 
-  const submit =
-    document.getElementById(
-      "submitOrderButton"
-    );
-
-
   tbody.innerHTML =
     "";
 
 
-  if (
+  if(
     orderItems.length === 0
-  ) {
+  ){
 
     empty.style.display =
       "block";
 
+  }
 
-    submit.disabled =
-      true;
+  else{
 
+    empty.style.display =
+      "none";
 
-    document.getElementById(
-      "orderTotal"
-    ).textContent =
-      "0.00";
-
-
-    return;
   }
 
 
-  empty.style.display =
-    "none";
-
-
   orderItems.forEach(
-    function(item, index) {
+    function(item,index){
+
+      const lineTotal =
+        roundMoney(
+          Number(
+            item.unit_price
+          )
+          *
+          Number(
+            item.quantity
+          )
+        );
+
 
       const tr =
         document.createElement(
@@ -4297,46 +4301,51 @@ function renderCart() {
 
           </td>
 
-          <td>
-            ${
-              formatMoney(
-                item.unit_price
-              )
-            }
-            ${escapeHTML(item.currency)}
-          </td>
-
-          <td>
-            ${
-              formatQuantity(
-                item.quantity
-              )
-            }
-          </td>
-
-          <td>
-            ${
-              escapeHTML(
-                item.unit ||
-                "-"
-              )
-            }
-          </td>
 
           <td class="money">
-            ${
-              formatMoney(
-                item.line_total
-              )
-            }
+
+            ${formatMoney(item.unit_price)}
             ${escapeHTML(item.currency)}
+
           </td>
+
+
+          <td>
+
+            <input
+              type="number"
+              min="0.001"
+              step="0.001"
+              value="${escapeHTML(item.quantity)}"
+              style="
+                width:100px;
+                padding:7px 8px;
+                border:1px solid #d1d5db;
+                border-radius:7px;
+              "
+              onchange="changeOrderQuantity(${index},this.value)"
+            >
+
+          </td>
+
+
+          <td>
+            ${escapeHTML(item.unit || "-")}
+          </td>
+
+
+          <td class="money">
+
+            ${formatMoney(lineTotal)}
+            ${escapeHTML(item.currency)}
+
+          </td>
+
 
           <td>
 
             <button
               class="btn btn-red btn-small"
-              type="button"
               onclick="removeCartItem(${index})"
             >
               删除
@@ -4355,37 +4364,64 @@ function renderCart() {
   );
 
 
-  const total =
-    calculateOrderTotal();
-
-
-  const currency =
-    getCartCurrency() ||
-    "";
-
-
-  document.getElementById(
-    "orderTotal"
-  ).textContent =
-    formatMoney(total)
-    +
-    " "
-    +
-    currency;
-
-
-  submit.disabled =
-    false;
+  updateOrderFundSummary();
 
 }
 
 
 
-/* ==========================================================
-   删除当前采购单商品
-========================================================== */
+/* =========================================================
+   修改采购数量
+========================================================= */
 
-function removeCartItem(index) {
+function changeOrderQuantity(
+  index,
+  value
+){
+
+  const quantity =
+    Number(
+      value
+    );
+
+
+  if(
+    !Number.isFinite(
+      quantity
+    )
+    ||
+    quantity <= 0
+  ){
+
+    alert(
+      "采购数量必须大于0。"
+    );
+
+
+    renderCart();
+
+    return;
+
+  }
+
+
+  orderItems[index].quantity =
+    roundQuantity(
+      quantity
+    );
+
+
+  renderCart();
+
+}
+
+
+
+/* =========================================================
+   删除采购商品
+========================================================= */
+
+function removeCartItem(index){
 
   orderItems.splice(
     index,
@@ -4399,176 +4435,332 @@ function removeCartItem(index) {
 
 
 
-/* ==========================================================
-   总金额
-========================================================== */
+/* =========================================================
+   采购余额与订单实时关联
+========================================================= */
 
-function calculateOrderTotal() {
+function updateOrderFundSummary(){
 
-  return roundMoney(
+  const currency =
+    getCartCurrency()
+    ||
+    "CNY";
 
-    orderItems.reduce(
-      (
-        sum,
-        item
-      ) =>
-        sum +
-        Number(
-          item.line_total
-        ),
-      0
+
+  const total =
+    calculateOrderTotal();
+
+
+  const currentBalance =
+    getFundBalance(
+      currency
+    );
+
+
+  const afterBalance =
+    roundMoney(
+      currentBalance
+      -
+      total
+    );
+
+
+  setText(
+    "orderTotal",
+    formatMoney(
+      total
     )
-
+    +
+    (
+      orderItems.length > 0
+      ?
+      " "
+      +
+      currency
+      :
+      ""
+    )
   );
+
+
+  setText(
+    "orderFundCurrent",
+    formatMoney(
+      currentBalance
+    )
+    +
+    " "
+    +
+    currency
+  );
+
+
+  setText(
+    "orderFundTotal",
+    formatMoney(
+      total
+    )
+    +
+    " "
+    +
+    currency
+  );
+
+
+  setText(
+    "orderFundAfter",
+    formatMoney(
+      afterBalance
+    )
+    +
+    " "
+    +
+    currency
+  );
+
+
+  const afterElement =
+    document.getElementById(
+      "orderFundAfter"
+    );
+
+
+  const currentElement =
+    document.getElementById(
+      "orderFundCurrent"
+    );
+
+
+  const warning =
+    document.getElementById(
+      "balanceWarning"
+    );
+
+
+  const submitButton =
+    document.getElementById(
+      "submitOrderButton"
+    );
+
+
+  if(
+    orderItems.length > 0
+    &&
+    afterBalance < 0
+  ){
+
+    afterElement.className =
+      "order-fund-value fund-bad";
+
+
+    currentElement.className =
+      "order-fund-value fund-bad";
+
+
+    warning.style.display =
+      "block";
+
+
+    warning.textContent =
+      "⚠ 采购资金余额不足。当前余额 "
+      +
+      formatMoney(
+        currentBalance
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "，本采购单金额 "
+      +
+      formatMoney(
+        total
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "，还差 "
+      +
+      formatMoney(
+        Math.abs(
+          afterBalance
+        )
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "。请先充值。";
+
+
+    submitButton.disabled =
+      true;
+
+  }
+
+  else{
+
+    afterElement.className =
+      "order-fund-value fund-good";
+
+
+    currentElement.className =
+      "order-fund-value fund-good";
+
+
+    warning.style.display =
+      "none";
+
+
+    submitButton.disabled =
+      orderItems.length === 0;
+
+  }
 
 }
 
 
 
-/* ==========================================================
-   自动采购单号
-   PO + YYYYMMDD + 001
-========================================================== */
+/* =========================================================
+   预计采购订单号
+========================================================= */
 
-async function getNextPurchaseNo() {
+async function refreshPurchaseNoPreview(){
 
-  const dateValue =
+  const purchaseDate =
     document.getElementById(
       "purchaseDate"
-    ).value ||
+    ).value
+    ||
     getToday();
 
 
-  const compactDate =
-    dateValue.replaceAll(
+  const compact =
+    purchaseDate.replaceAll(
       "-",
       ""
     );
 
 
   const prefix =
-    "PO" +
-    compactDate;
+    "PO"
+    +
+    compact;
 
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("purchase_orders")
-      .select("purchase_no")
-      .like(
-        "purchase_no",
-        prefix + "%"
-      );
+  try{
 
 
-  if (error) {
-    throw error;
-  }
-
-
-  let max =
-    0;
-
-
-  (data || []).forEach(
-    function(row) {
-
-      const raw =
-        String(
-          row.purchase_no ||
-          ""
-        );
-
-
-      const suffix =
-        raw.substring(
-          prefix.length
-        );
-
-
-      if (
-        /^\d{3}$/.test(
-          suffix
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from(
+          "purchase_orders"
         )
-      ) {
+        .select(
+          "purchase_no"
+        )
+        .like(
+          "purchase_no",
+          prefix
+          +
+          "%"
+        );
 
-        const number =
-          parseInt(
-            suffix,
-            10
+
+    if(
+      error
+    ){
+
+      throw error;
+
+    }
+
+
+    let max =
+      0;
+
+
+    (
+      data ||
+      []
+    )
+    .forEach(
+      function(row){
+
+        const raw =
+          String(
+            row.purchase_no ||
+            ""
           );
 
 
-        if (number > max) {
+        const suffix =
+          raw.slice(
+            prefix.length
+          );
 
-          max =
-            number;
+
+        if(
+          /^\d{3}$/.test(
+            suffix
+          )
+        ){
+
+          const number =
+            Number(
+              suffix
+            );
+
+
+          if(
+            number > max
+          ){
+
+            max =
+              number;
+
+          }
 
         }
 
       }
-
-    }
-  );
-
-
-  const next =
-    max + 1;
-
-
-  if (
-    next > 999
-  ) {
-
-    throw new Error(
-      "当天采购订单已超过999张。"
     );
 
-  }
 
-
-  return (
-    prefix
-    +
-    String(next)
+    document.getElementById(
+      "purchaseNoPreview"
+    ).value =
+      prefix
+      +
+      String(
+        max + 1
+      )
       .padStart(
         3,
         "0"
-      )
-  );
-
-}
-
-
-
-/* ==========================================================
-   采购单号预览
-========================================================== */
-
-async function refreshPurchaseNoPreview() {
-
-  try {
-
-    const next =
-      await getNextPurchaseNo();
-
-
-    document.getElementById(
-      "purchaseNoPreview"
-    ).value =
-      next;
+      );
 
   }
 
-  catch (error) {
+  catch(error){
+
+    console.error(
+      "采购单号预览失败：",
+      error
+    );
+
 
     document.getElementById(
       "purchaseNoPreview"
     ).value =
-      "生成失败";
+      "数据库自动生成";
 
   }
 
@@ -4578,18 +4770,26 @@ async function refreshPurchaseNoPreview() {
 
 document.getElementById(
   "purchaseDate"
-).addEventListener(
+)
+.addEventListener(
   "change",
   refreshPurchaseNoPreview
 );
 
 
 
-/* ==========================================================
-   创建采购订单
-========================================================== */
+/* =========================================================
+   正式创建采购订单
 
-async function submitPurchaseOrder() {
+   核心：
+   前端不传价格。
+   前端不直接写 purchase_orders。
+   前端不直接扣余额。
+
+   全部交给数据库 create_purchase_order RPC。
+========================================================= */
+
+async function submitPurchaseOrder(){
 
   const supplierId =
     document.getElementById(
@@ -4611,13 +4811,110 @@ async function submitPurchaseOrder() {
     .trim();
 
 
-  if (!supplierId) {
+  if(
+    !supplierId
+  ){
 
     alert(
       "请选择供应商。"
     );
 
     return;
+
+  }
+
+
+  if(
+    !purchaseDate
+  ){
+
+    alert(
+      "请选择采购日期。"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    orderItems.length === 0
+  ){
+
+    alert(
+      "当前采购单还没有产品。"
+    );
+
+    return;
+
+  }
+
+
+  const currency =
+    getCartCurrency();
+
+
+  const total =
+    calculateOrderTotal();
+
+
+  const currentBalance =
+    getFundBalance(
+      currency
+    );
+
+
+  if(
+    total >
+    currentBalance
+  ){
+
+    alert(
+      "采购资金余额不足，不能创建采购订单。\n\n"
+      +
+      "当前余额："
+      +
+      formatMoney(
+        currentBalance
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n"
+      +
+      "采购金额："
+      +
+      formatMoney(
+        total
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n"
+      +
+      "资金缺口："
+      +
+      formatMoney(
+        total
+        -
+        currentBalance
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n\n"
+      +
+      "请先进行采购资金充值。"
+    );
+
+    return;
+
   }
 
 
@@ -4627,268 +4924,128 @@ async function submitPurchaseOrder() {
     );
 
 
-  if (
+  if(
     !supplier ||
     supplier.is_active !== true
-  ) {
+  ){
 
-    showNotice(
-      "该供应商已经无效，请重新选择。",
-      "error"
+    alert(
+      "当前供应商已经无效，请重新选择。"
     );
 
     await loadAllData();
 
     return;
-  }
 
-
-  if (!purchaseDate) {
-
-    alert(
-      "请选择采购日期。"
-    );
-
-    return;
-  }
-
-
-  if (
-    orderItems.length === 0
-  ) {
-
-    alert(
-      "采购订单中还没有商品。"
-    );
-
-    return;
   }
 
 
   const confirmed =
     confirm(
-      "确定创建采购订单吗？\n\n" +
-      "供应商：" +
+      "确定创建采购订单并扣减采购资金吗？\n\n"
+      +
+      "供应商："
+      +
       (
         supplier.supplier_name ||
         ""
       )
       +
-      "\n" +
-      "商品种类：" +
-      orderItems.length +
-      "\n" +
-      "总金额：" +
+      "\n"
+      +
+      "采购金额："
+      +
       formatMoney(
-        calculateOrderTotal()
+        total
       )
       +
       " "
       +
-      getCartCurrency()
+      currency
+      +
+      "\n"
+      +
+      "当前余额："
+      +
+      formatMoney(
+        currentBalance
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n"
+      +
+      "预计下单后余额："
+      +
+      formatMoney(
+        currentBalance
+        -
+        total
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n\n"
+      +
+      "数据库会重新核验产品采购价格和实际余额。"
     );
 
 
-  if (!confirmed) {
+  if(
+    !confirmed
+  ){
+
     return;
+
   }
 
 
-  showLoading(true);
-
-
-  const submitButton =
+  const button =
     document.getElementById(
       "submitOrderButton"
     );
 
 
-  submitButton.disabled =
+  button.disabled =
     true;
 
 
-  try {
+  button.textContent =
+    "正在创建并扣款……";
+
+
+  showLoading(
+    true
+  );
+
+
+  try{
 
 
     /*
-      再次检查采购价格，
-      避免页面停留期间价格发生变化。
+      只传产品ID和数量。
+      不传采购价格。
     */
 
-    const productIds =
+    const rpcItems =
       orderItems.map(
-        item =>
-          item.product_id
-      );
-
-
-    const {
-      data: latestPrices,
-      error: priceCheckError
-    } =
-      await supabaseClient
-        .from("purchase_prices")
-        .select(
-          "id, product_id, purchase_price, currency, is_defined, is_active"
-        )
-        .in(
-          "product_id",
-          productIds
-        )
-        .eq(
-          "is_active",
-          true
-        );
-
-
-    if (priceCheckError) {
-      throw priceCheckError;
-    }
-
-
-    for (
-      const cartItem
-      of
-      orderItems
-    ) {
-
-      const latest =
-        (latestPrices || [])
-          .find(
-            price =>
-              String(
-                price.product_id
-              )
-              ===
-              String(
-                cartItem.product_id
-              )
-          );
-
-
-      if (
-        !latest ||
-        String(latest.id) !==
-        String(cartItem.price_id) ||
-        latest.is_active !== true ||
-        latest.is_defined !== true ||
-        Number(latest.purchase_price) !==
-        Number(cartItem.unit_price) ||
-        latest.currency !==
-        cartItem.currency
-      ) {
-
-        throw new Error(
-          "产品 "
-          +
-          cartItem.product_code
-          +
-          " 的采购价格已经发生变化，请刷新后重新建立采购订单。"
-        );
-
-      }
-
-    }
-
-
-    const purchaseNo =
-      await getNextPurchaseNo();
-
-
-    const currency =
-      getCartCurrency();
-
-
-    const totalAmount =
-      calculateOrderTotal();
-
-
-    /*
-      1. 创建采购订单主表
-    */
-
-    const {
-      data: orderData,
-      error: orderError
-    } =
-      await supabaseClient
-        .from("purchase_orders")
-        .insert({
-
-          purchase_no:
-            purchaseNo,
-
-          supplier_id:
-            Number(
-              supplierId
-            ),
-
-          purchase_date:
-            purchaseDate,
-
-          status:
-            "pending",
-
-          total_amount:
-            totalAmount,
-
-          currency:
-            currency,
-
-          remarks:
-            remarks || null,
-
-          created_by:
-            currentUserId
-
-        })
-        .select()
-        .single();
-
-
-    if (orderError) {
-      throw orderError;
-    }
-
-
-    /*
-      2. 创建商品历史快照
-    */
-
-    const itemRows =
-      orderItems.map(
-        function(item) {
+        function(item){
 
           return {
 
-            purchase_order_id:
-              orderData.id,
-
             product_id:
-              item.product_id,
-
-            product_code_snapshot:
-              item.product_code,
-
-            product_name_snapshot:
-              item.product_name,
-
-            specification_snapshot:
-              item.specification ||
-              null,
-
-            unit_snapshot:
-              item.unit ||
-              null,
-
-            unit_price:
-              item.unit_price,
+              Number(
+                item.product_id
+              ),
 
             quantity:
-              item.quantity,
-
-            line_total:
-              item.line_total
+              Number(
+                item.quantity
+              )
 
           };
 
@@ -4897,59 +5054,44 @@ async function submitPurchaseOrder() {
 
 
     const {
-      error: itemsError
+      data,
+      error
     } =
       await supabaseClient
-        .from("purchase_order_items")
-        .insert(
-          itemRows
+        .rpc(
+          "create_purchase_order",
+          {
+
+            p_supplier_id:
+              Number(
+                supplierId
+              ),
+
+            p_purchase_date:
+              purchaseDate,
+
+            p_items:
+              rpcItems,
+
+            p_remarks:
+              remarks ||
+              null
+
+          }
         );
 
 
-    if (itemsError) {
+    if(
+      error
+    ){
 
-      await supabaseClient
-        .from("purchase_orders")
-        .update({
-
-          status:
-            "cancelled",
-
-          remarks:
-            (
-              remarks
-                ?
-                remarks +
-                "\n"
-                :
-                ""
-            )
-            +
-            "系统记录：采购订单商品明细写入失败，本订单自动取消。"
-
-        })
-        .eq(
-          "id",
-          orderData.id
-        );
-
-
-      throw new Error(
-        "订单主记录已经建立，但采购明细写入失败，系统已将该订单标记为 cancelled。错误：" +
-        itemsError.message
-      );
+      throw error;
 
     }
 
 
     orderItems =
       [];
-
-
-    document.getElementById(
-      "purchaseRemarks"
-    ).value =
-      "";
 
 
     document.getElementById(
@@ -4964,45 +5106,119 @@ async function submitPurchaseOrder() {
       "1";
 
 
-    renderCart();
-
-
-    await loadAllData();
+    document.getElementById(
+      "purchaseRemarks"
+    ).value =
+      "";
 
 
     showNotice(
-      "采购订单创建成功。采购单号：" +
-      purchaseNo +
-      "。可以在下方历史采购订单中查看或打印。",
+      "采购订单创建成功。采购单号："
+      +
+      (
+        data?.purchase_no ||
+        ""
+      )
+      +
+      "；扣款 "
+      +
+      formatMoney(
+        data?.total_amount ||
+        total
+      )
+      +
+      " "
+      +
+      (
+        data?.currency ||
+        currency
+      )
+      +
+      "；扣款后采购资金余额 "
+      +
+      formatMoney(
+        data?.balance_after ||
+        0
+      )
+      +
+      " "
+      +
+      (
+        data?.currency ||
+        currency
+      )
+      +
+      "。",
       "success"
     );
 
 
+    await loadAllData();
+
   }
 
-  catch (error) {
+  catch(error){
 
     console.error(
-      "创建采购订单失败：",
+      "采购订单创建失败：",
       error
     );
 
 
+    let errorMessage =
+      error.message ||
+      "采购订单创建失败。";
+
+
+    if(
+      errorMessage.includes(
+        "余额不足"
+      )
+      ||
+      errorMessage
+        .toLowerCase()
+        .includes(
+          "balance"
+        )
+    ){
+
+      errorMessage =
+        "采购资金余额不足，订单没有创建，也没有发生扣款。请先充值。";
+
+    }
+
+
     showNotice(
-      "创建采购订单失败：" +
-      error.message,
+      "采购订单创建失败："
+      +
+      errorMessage,
       "error"
     );
 
+
+    alert(
+      "采购订单创建失败：\n\n"
+      +
+      errorMessage
+    );
+
+
+    await loadAllData();
+
   }
 
-  finally {
+  finally{
 
-    showLoading(false);
+    showLoading(
+      false
+    );
 
 
-    submitButton.disabled =
-      orderItems.length === 0;
+    button.textContent =
+      "确认创建采购订单并扣减余额";
+
+
+    renderCart();
 
   }
 
@@ -5010,103 +5226,648 @@ async function submitPurchaseOrder() {
 
 
 
-/* ==========================================================
-   历史采购订单
-========================================================== */
+/* =========================================================
+   打开采购资金充值窗口
+========================================================= */
 
-function renderHistoryOrders() {
+function openRechargeModal(){
 
-  const keyword =
+  document.getElementById(
+    "fundRechargeAmount"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "fundRechargeDate"
+  ).value =
+    getToday();
+
+
+  document.getElementById(
+    "fundPaymentMethod"
+  ).value =
+    "银行转账";
+
+
+  document.getElementById(
+    "fundPaymentReference"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "fundRechargeNotes"
+  ).value =
+    "";
+
+
+  /*
+    如果当前采购单已有币种，
+    默认使用采购单币种。
+  */
+
+  const cartCurrency =
+    getCartCurrency();
+
+
+  if(
+    cartCurrency
+    &&
+    [
+      "CNY",
+      "EUR",
+      "USD",
+      "HUF"
+    ].includes(
+      cartCurrency
+    )
+  ){
+
     document.getElementById(
-      "historyOrderSearch"
+      "fundRechargeCurrency"
+    ).value =
+      cartCurrency;
+
+  }
+
+
+  document.getElementById(
+    "rechargeModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+
+/* =========================================================
+   关闭采购资金充值窗口
+========================================================= */
+
+function closeRechargeModal(){
+
+  document.getElementById(
+    "rechargeModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+
+/* =========================================================
+   正式采购资金充值
+========================================================= */
+
+async function submitFundRecharge(){
+
+  const amount =
+    Number(
+      document.getElementById(
+        "fundRechargeAmount"
+      ).value
+    );
+
+
+  const currency =
+    document.getElementById(
+      "fundRechargeCurrency"
     )
     .value
     .trim()
-    .toLowerCase();
+    .toUpperCase();
 
 
-  const statusFilter =
+  const transactionDate =
     document.getElementById(
-      "historyOrderStatus"
+      "fundRechargeDate"
     ).value;
 
 
-  const startDate =
+  const paymentMethod =
     document.getElementById(
-      "historyStartDate"
+      "fundPaymentMethod"
+    )
+    .value
+    .trim();
+
+
+  const reference =
+    document.getElementById(
+      "fundPaymentReference"
+    )
+    .value
+    .trim();
+
+
+  const notes =
+    document.getElementById(
+      "fundRechargeNotes"
+    )
+    .value
+    .trim();
+
+
+  if(
+    !Number.isFinite(
+      amount
+    )
+    ||
+    amount <= 0
+  ){
+
+    alert(
+      "请输入正确的充值金额。"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !currency
+  ){
+
+    alert(
+      "请选择币种。"
+    );
+
+    return;
+
+  }
+
+
+  const currentBalance =
+    getFundBalance(
+      currency
+    );
+
+
+  const confirmed =
+    confirm(
+      "确定向采购资金账户充值吗？\n\n"
+      +
+      "充值金额："
+      +
+      formatMoney(
+        amount
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n"
+      +
+      "充值前余额："
+      +
+      formatMoney(
+        currentBalance
+      )
+      +
+      " "
+      +
+      currency
+      +
+      "\n"
+      +
+      "预计充值后余额："
+      +
+      formatMoney(
+        currentBalance
+        +
+        amount
+      )
+      +
+      " "
+      +
+      currency
+    );
+
+
+  if(
+    !confirmed
+  ){
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "fundRechargeButton"
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "正在充值……";
+
+
+  showLoading(
+    true
+  );
+
+
+  try{
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .rpc(
+          "recharge_purchase_fund",
+          {
+
+            p_amount:
+              amount,
+
+            p_currency:
+              currency,
+
+            p_transaction_date:
+              transactionDate ||
+              getToday(),
+
+            p_payment_method:
+              paymentMethod ||
+              null,
+
+            p_payment_reference:
+              reference ||
+              null,
+
+            p_notes:
+              notes ||
+              null
+
+          }
+        );
+
+
+    if(
+      error
+    ){
+
+      throw error;
+
+    }
+
+
+    closeRechargeModal();
+
+
+    showNotice(
+      "采购资金充值成功。充值 "
+      +
+      formatMoney(
+        data?.amount ||
+        amount
+      )
+      +
+      " "
+      +
+      (
+        data?.currency ||
+        currency
+      )
+      +
+      "，充值后余额 "
+      +
+      formatMoney(
+        data?.balance_after ||
+        (
+          currentBalance
+          +
+          amount
+        )
+      )
+      +
+      " "
+      +
+      (
+        data?.currency ||
+        currency
+      )
+      +
+      "。",
+      "success"
+    );
+
+
+    await loadAllData();
+
+  }
+
+  catch(error){
+
+    console.error(
+      "采购资金充值失败：",
+      error
+    );
+
+
+    showNotice(
+      "采购资金充值失败："
+      +
+      error.message,
+      "error"
+    );
+
+  }
+
+  finally{
+
+    showLoading(
+      false
+    );
+
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "确认充值";
+
+  }
+
+}
+
+
+
+/* =========================================================
+   采购资金流水
+========================================================= */
+
+function renderFundLedger(){
+
+  const tbody =
+    document.getElementById(
+      "ledgerTableBody"
+    );
+
+
+  const empty =
+    document.getElementById(
+      "ledgerEmpty"
+    );
+
+
+  const filter =
+    document.getElementById(
+      "ledgerTypeFilter"
     ).value;
 
 
-  const endDate =
-    document.getElementById(
-      "historyEndDate"
-    ).value;
+  tbody.innerHTML =
+    "";
 
 
   const rows =
-    purchaseOrders.filter(
-      function(order) {
-
-        const supplier =
-          getSupplier(
-            order.supplier_id
-          );
-
-
-        const searchText =
-          [
-            order.purchase_no,
-            supplier?.supplier_code,
-            supplier?.supplier_name,
-            order.status,
-            order.currency
-          ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-
-
-        const keywordOK =
-          !keyword ||
-          searchText.includes(
-            keyword
-          );
-
-
-        const statusOK =
-          statusFilter === "all"
-          ||
-          order.status ===
-          statusFilter;
-
-
-        const startOK =
-          !startDate
-          ||
-          order.purchase_date >=
-          startDate;
-
-
-        const endOK =
-          !endDate
-          ||
-          order.purchase_date <=
-          endDate;
-
-
-        return (
-          keywordOK
-          &&
-          statusOK
-          &&
-          startOK
-          &&
-          endOK
-        );
-
-      }
+    fundLedger.filter(
+      item =>
+        filter === "all"
+        ||
+        item.transaction_type ===
+        filter
     );
 
+
+  if(
+    rows.length === 0
+  ){
+
+    empty.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  empty.style.display =
+    "none";
+
+
+  rows.forEach(
+    function(item){
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      const isRecharge =
+        item.transaction_type ===
+        "recharge";
+
+
+      const isPurchase =
+        item.transaction_type ===
+        "purchase_order";
+
+
+      let typeText =
+        item.transaction_type;
+
+
+      let badgeClass =
+        "badge-gray";
+
+
+      if(
+        isRecharge
+      ){
+
+        typeText =
+          "采购资金充值";
+
+
+        badgeClass =
+          "badge-green";
+
+      }
+
+
+      if(
+        isPurchase
+      ){
+
+        typeText =
+          "采购订单扣款";
+
+
+        badgeClass =
+          "badge-red";
+
+      }
+
+
+      if(
+        item.transaction_type ===
+        "refund"
+      ){
+
+        typeText =
+          "采购退款";
+
+
+        badgeClass =
+          "badge-blue";
+
+      }
+
+
+      const purchaseOrder =
+        item.purchase_order_id
+        ?
+        purchaseOrders.find(
+          order =>
+            String(order.id) ===
+            String(
+              item.purchase_order_id
+            )
+        )
+        :
+        null;
+
+
+      const amount =
+        Number(
+          item.amount ||
+          0
+        );
+
+
+      const amountText =
+        (
+          amount > 0
+          ?
+          "+"
+          :
+          ""
+        )
+        +
+        formatMoney(
+          amount
+        );
+
+
+      tr.innerHTML =
+        `
+
+          <td>
+            ${formatDateOnly(item.transaction_date)}
+          </td>
+
+
+          <td>
+
+            <span class="badge ${badgeClass}">
+              ${escapeHTML(typeText)}
+            </span>
+
+          </td>
+
+
+          <td
+            class="money"
+            style="
+              color:
+              ${
+                amount >= 0
+                ?
+                "#166534"
+                :
+                "#991b1b"
+              };
+            "
+          >
+
+            ${amountText}
+
+          </td>
+
+
+          <td>
+            ${escapeHTML(item.currency || "-")}
+          </td>
+
+
+          <td class="money">
+
+            ${formatMoney(item.balance_before)}
+
+          </td>
+
+
+          <td class="money">
+
+            ${formatMoney(item.balance_after)}
+
+          </td>
+
+
+          <td>
+
+            ${
+              purchaseOrder
+              ?
+              escapeHTML(
+                purchaseOrder.purchase_no
+              )
+              :
+              "-"
+            }
+
+          </td>
+
+
+          <td>
+            ${escapeHTML(item.payment_method || "-")}
+          </td>
+
+
+          <td>
+            ${escapeHTML(item.payment_reference || "-")}
+          </td>
+
+
+          <td>
+            ${escapeHTML(item.notes || "-")}
+          </td>
+
+        `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+}
+
+
+
+/* =========================================================
+   历史采购订单
+========================================================= */
+
+function renderHistoryOrders(){
 
   const tbody =
     document.getElementById(
@@ -5120,18 +5881,76 @@ function renderHistoryOrders() {
     );
 
 
+  const keyword =
+    document.getElementById(
+      "historyOrderSearch"
+    )
+    .value
+    .trim()
+    .toLowerCase();
+
+
+  const status =
+    document.getElementById(
+      "historyOrderStatus"
+    ).value;
+
+
   tbody.innerHTML =
     "";
 
 
-  if (
+  const rows =
+    purchaseOrders.filter(
+      function(order){
+
+        const supplier =
+          getSupplier(
+            order.supplier_id
+          );
+
+
+        const searchable =
+          [
+            order.purchase_no,
+            supplier?.supplier_code,
+            supplier?.supplier_name
+          ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+
+        return (
+          (
+            !keyword
+            ||
+            searchable.includes(
+              keyword
+            )
+          )
+          &&
+          (
+            status === "all"
+            ||
+            order.status ===
+            status
+          )
+        );
+
+      }
+    );
+
+
+  if(
     rows.length === 0
-  ) {
+  ){
 
     empty.style.display =
       "block";
 
     return;
+
   }
 
 
@@ -5140,7 +5959,7 @@ function renderHistoryOrders() {
 
 
   rows.forEach(
-    function(order) {
+    function(order){
 
       const supplier =
         getSupplier(
@@ -5157,96 +5976,56 @@ function renderHistoryOrders() {
       tr.innerHTML =
         `
 
-          <td>
-            <strong>
-              ${
-                escapeHTML(
-                  order.purchase_no ||
-                  "-"
-                )
-              }
-            </strong>
+          <td class="product-code">
+            ${escapeHTML(order.purchase_no || "-")}
           </td>
 
 
           <td>
-            ${
-              formatDateOnly(
-                order.purchase_date
-              )
-            }
+            ${formatDateOnly(order.purchase_date)}
           </td>
 
 
           <td>
-            ${
-              escapeHTML(
-                supplier?.supplier_name ||
-                "未知供应商"
-              )
-            }
+            ${escapeHTML(supplier?.supplier_name || "未知供应商")}
           </td>
 
 
           <td>
-            ${
-              renderOrderStatusBadge(
-                order.status
-              )
-            }
+            ${statusBadge(order.status)}
           </td>
 
 
           <td class="money">
-            ${
-              formatMoney(
-                order.total_amount
-              )
-            }
+            ${formatMoney(order.total_amount)}
           </td>
 
 
           <td>
-            ${
-              escapeHTML(
-                order.currency ||
-                "-"
-              )
-            }
+            ${escapeHTML(order.currency || "-")}
           </td>
 
 
           <td>
-            ${
-              formatDateTime(
-                order.created_at
-              )
-            }
+            ${formatDateTime(order.created_at)}
           </td>
 
 
           <td>
 
-            <div class="actions">
+            <button
+              class="btn btn-dark btn-small"
+              onclick="openOrderDetail('${order.id}')"
+            >
+              查看详情
+            </button>
 
-              <button
-                class="btn btn-dark btn-small"
-                type="button"
-                onclick="openOrderDetail('${order.id}')"
-              >
-                查看详情
-              </button>
-
-
-              <button
-                class="btn btn-orange btn-small"
-                type="button"
-                onclick="printOrder('${order.id}')"
-              >
-                打印
-              </button>
-
-            </div>
+            <button
+              class="btn btn-orange btn-small"
+              onclick="printOrder('${order.id}')"
+            >
+              打印
+            </button>
 
           </td>
 
@@ -5264,72 +6043,36 @@ function renderHistoryOrders() {
 
 
 
-/* ==========================================================
-   订单状态
-========================================================== */
+/* =========================================================
+   历史采购单明细
+========================================================= */
 
-function renderOrderStatusBadge(status) {
+function getOrderHistoryItems(
+  orderId
+){
 
-  const safeStatus =
-    escapeHTML(
-      status || "-"
-    );
-
-
-  if (
-    status === "completed"
-  ) {
-
-    return `
-      <span class="badge badge-active">
-        ${safeStatus}
-      </span>
-    `;
-
-  }
-
-
-  if (
-    status === "cancelled"
-  ) {
-
-    return `
-      <span class="badge badge-disabled">
-        ${safeStatus}
-      </span>
-    `;
-
-  }
-
-
-  if (
-    status === "confirmed"
-  ) {
-
-    return `
-      <span class="badge badge-confirmed">
-        ${safeStatus}
-      </span>
-    `;
-
-  }
-
-
-  return `
-    <span class="badge badge-undefined">
-      ${safeStatus}
-    </span>
-  `;
+  return purchaseOrderItemsHistory.filter(
+    item =>
+      String(
+        item.purchase_order_id
+      )
+      ===
+      String(
+        orderId
+      )
+  );
 
 }
 
 
 
-/* ==========================================================
-   打开历史订单详情
-========================================================== */
+/* =========================================================
+   查看采购订单详情
+========================================================= */
 
-function openOrderDetail(orderId) {
+function openOrderDetail(
+  orderId
+){
 
   const order =
     purchaseOrders.find(
@@ -5339,14 +6082,12 @@ function openOrderDetail(orderId) {
     );
 
 
-  if (!order) {
-
-    showNotice(
-      "没有找到采购订单。",
-      "error"
-    );
+  if(
+    !order
+  ){
 
     return;
+
   }
 
 
@@ -5360,87 +6101,63 @@ function openOrderDetail(orderId) {
     );
 
 
-  document.getElementById(
-    "detailPurchaseNo"
-  ).textContent =
-    order.purchase_no ||
-    "-";
-
-
-  document.getElementById(
-    "detailPurchaseDate"
-  ).textContent =
-    formatDateOnly(
-      order.purchase_date
+  const info =
+    document.getElementById(
+      "orderDetailInfo"
     );
 
 
-  document.getElementById(
-    "detailSupplier"
-  ).textContent =
-    (
-      supplier?.supplier_code
-        ?
-        supplier.supplier_code +
-        " · "
-        :
-        ""
-    )
-    +
-    (
-      supplier?.supplier_name ||
-      "未知供应商"
-    );
+  info.innerHTML =
+    `
 
+      <div
+        style="
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          gap:12px 20px;
+          margin-bottom:20px;
+        "
+      >
 
-  document.getElementById(
-    "detailOrderStatus"
-  ).textContent =
-    order.status ||
-    "-";
+        <div>
+          <strong>采购单号：</strong>
+          ${escapeHTML(order.purchase_no || "-")}
+        </div>
 
+        <div>
+          <strong>采购日期：</strong>
+          ${formatDateOnly(order.purchase_date)}
+        </div>
 
-  document.getElementById(
-    "detailOrderTotal"
-  ).textContent =
-    formatMoney(
-      order.total_amount
-    )
-    +
-    " "
-    +
-    (
-      order.currency ||
-      ""
-    );
+        <div>
+          <strong>供应商：</strong>
+          ${escapeHTML(supplier?.supplier_name || "未知供应商")}
+        </div>
 
+        <div>
+          <strong>状态：</strong>
+          ${escapeHTML(statusToChinese(order.status))}
+        </div>
 
-  document.getElementById(
-    "detailOrderCurrency"
-  ).textContent =
-    order.currency ||
-    "-";
+        <div>
+          <strong>总金额：</strong>
+          ${formatMoney(order.total_amount)}
+          ${escapeHTML(order.currency || "")}
+        </div>
 
+        <div>
+          <strong>创建时间：</strong>
+          ${formatDateTime(order.created_at)}
+        </div>
 
-  document.getElementById(
-    "detailOrderRemarks"
-  ).textContent =
-    order.remarks ||
-    "-";
+        <div style="grid-column:1/-1;">
+          <strong>备注：</strong>
+          ${escapeHTML(order.remarks || "无")}
+        </div>
 
+      </div>
 
-  document.getElementById(
-    "detailOrderCreatedAt"
-  ).textContent =
-    formatDateTime(
-      order.created_at
-    );
-
-
-  const items =
-    getOrderHistoryItems(
-      order.id
-    );
+    `;
 
 
   const tbody =
@@ -5453,27 +6170,36 @@ function openOrderDetail(orderId) {
     "";
 
 
-  if (
+  const items =
+    getOrderHistoryItems(
+      order.id
+    );
+
+
+  if(
     items.length === 0
-  ) {
+  ){
 
     tbody.innerHTML =
       `
         <tr>
-          <td colspan="7">
-            <div class="empty">
-              该采购订单没有商品明细
-            </div>
+
+          <td
+            colspan="7"
+            class="empty"
+          >
+            没有采购明细
           </td>
+
         </tr>
       `;
 
   }
 
-  else {
+  else{
 
     items.forEach(
-      function(item) {
+      function(item){
 
         const tr =
           document.createElement(
@@ -5485,81 +6211,37 @@ function openOrderDetail(orderId) {
           `
 
             <td>
-              ${
-                escapeHTML(
-                  item.product_code_snapshot ||
-                  "-"
-                )
-              }
+              ${escapeHTML(item.product_code_snapshot || "-")}
             </td>
-
 
             <td>
-              ${
-                escapeHTML(
-                  item.product_name_snapshot ||
-                  "-"
-                )
-              }
+              ${escapeHTML(item.product_name_snapshot || "-")}
             </td>
-
 
             <td>
-              ${
-                escapeHTML(
-                  item.specification_snapshot ||
-                  "-"
-                )
-              }
+              ${escapeHTML(item.specification_snapshot || "-")}
             </td>
-
 
             <td>
-              ${
-                escapeHTML(
-                  item.unit_snapshot ||
-                  "-"
-                )
-              }
+              ${escapeHTML(item.unit_snapshot || "-")}
             </td>
-
 
             <td class="money">
-              ${
-                formatMoney(
-                  item.unit_price
-                )
-              }
-              ${
-                escapeHTML(
-                  order.currency ||
-                  ""
-                )
-              }
-            </td>
 
+              ${formatMoney(item.unit_price)}
+              ${escapeHTML(order.currency || "")}
+
+            </td>
 
             <td>
-              ${
-                formatQuantity(
-                  item.quantity
-                )
-              }
+              ${formatQuantity(item.quantity)}
             </td>
 
-
             <td class="money">
-              ${
-                formatMoney(
-                  item.line_total
-                )
-              }
-              ${
-                escapeHTML(
-                  order.currency ||
-                  ""
-                )
-              }
+
+              ${formatMoney(item.line_total)}
+              ${escapeHTML(order.currency || "")}
+
             </td>
 
           `;
@@ -5585,32 +6267,11 @@ function openOrderDetail(orderId) {
 
 
 
-/* ==========================================================
-   历史订单明细
-========================================================== */
+/* =========================================================
+   关闭采购订单详情
+========================================================= */
 
-function getOrderHistoryItems(orderId) {
-
-  return purchaseOrderItemsHistory.filter(
-    item =>
-      String(
-        item.purchase_order_id
-      )
-      ===
-      String(
-        orderId
-      )
-  );
-
-}
-
-
-
-/* ==========================================================
-   关闭详情
-========================================================== */
-
-function closeOrderDetailModal() {
+function closeOrderDetailModal(){
 
   document.getElementById(
     "orderDetailModal"
@@ -5626,19 +6287,18 @@ function closeOrderDetailModal() {
 
 
 
-/* ==========================================================
-   详情弹窗打印按钮
-========================================================== */
+/* =========================================================
+   打印当前详情订单
+========================================================= */
 
-function printCurrentDetailOrder() {
+function printCurrentDetailOrder(){
 
-  if (!currentDetailOrderId) {
-
-    alert(
-      "没有可打印的采购订单。"
-    );
+  if(
+    !currentDetailOrderId
+  ){
 
     return;
+
   }
 
 
@@ -5650,11 +6310,13 @@ function printCurrentDetailOrder() {
 
 
 
-/* ==========================================================
+/* =========================================================
    打印采购订单
-========================================================== */
+========================================================= */
 
-function printOrder(orderId) {
+function printOrder(
+  orderId
+){
 
   const order =
     purchaseOrders.find(
@@ -5664,14 +6326,16 @@ function printOrder(orderId) {
     );
 
 
-  if (!order) {
+  if(
+    !order
+  ){
 
-    showNotice(
-      "没有找到需要打印的采购订单。",
-      "error"
+    alert(
+      "没有找到采购订单。"
     );
 
     return;
+
   }
 
 
@@ -5688,119 +6352,84 @@ function printOrder(orderId) {
 
 
   const rowsHTML =
-    items.length === 0
-      ?
-      `
-        <tr>
-          <td colspan="7" style="text-align:center;padding:25px;">
-            无采购商品明细
-          </td>
-        </tr>
-      `
-      :
-      items.map(
-        function(item, index) {
+    items.map(
+      function(item,index){
 
-          return `
-            <tr>
+        return `
 
-              <td>
-                ${index + 1}
-              </td>
+          <tr>
 
-              <td>
-                ${
-                  printEscape(
-                    item.product_code_snapshot ||
-                    "-"
-                  )
-                }
-              </td>
+            <td>
+              ${index + 1}
+            </td>
 
-              <td>
-                ${
-                  printEscape(
-                    item.product_name_snapshot ||
-                    "-"
-                  )
-                }
-              </td>
+            <td>
+              ${printEscape(item.product_code_snapshot || "-")}
+            </td>
 
-              <td>
-                ${
-                  printEscape(
-                    item.specification_snapshot ||
-                    "-"
-                  )
-                }
-              </td>
+            <td>
+              ${printEscape(item.product_name_snapshot || "-")}
+            </td>
 
-              <td>
-                ${
-                  printEscape(
-                    item.unit_snapshot ||
-                    "-"
-                  )
-                }
-              </td>
+            <td>
+              ${printEscape(item.specification_snapshot || "-")}
+            </td>
 
-              <td style="text-align:right;">
-                ${
-                  formatMoney(
-                    item.unit_price
-                  )
-                }
-              </td>
+            <td>
+              ${printEscape(item.unit_snapshot || "-")}
+            </td>
 
-              <td style="text-align:right;">
-                ${
-                  formatQuantity(
-                    item.quantity
-                  )
-                }
-              </td>
+            <td style="text-align:right;">
+              ${formatMoney(item.unit_price)}
+            </td>
 
-              <td style="text-align:right;">
-                ${
-                  formatMoney(
-                    item.line_total
-                  )
-                }
-              </td>
+            <td style="text-align:right;">
+              ${formatQuantity(item.quantity)}
+            </td>
 
-            </tr>
-          `;
+            <td style="text-align:right;">
+              ${formatMoney(item.line_total)}
+            </td>
 
-        }
-      )
-      .join("");
+          </tr>
+
+        `;
+
+      }
+    )
+    .join(
+      ""
+    );
 
 
   const printWindow =
     window.open(
       "",
       "_blank",
-      "width=1000,height=800"
+      "width=1050,height=800"
     );
 
 
-  if (!printWindow) {
+  if(
+    !printWindow
+  ){
 
     alert(
-      "浏览器阻止了打印窗口，请允许本站弹出窗口后重新点击打印。"
+      "浏览器阻止了打印窗口，请允许本站弹出窗口。"
     );
 
     return;
+
   }
-
-
-  printWindow.document.open();
 
 
   printWindow.document.write(
     `
+
 <!DOCTYPE html>
+
 <html lang="zh-CN">
+
 <head>
 
 <meta charset="UTF-8">
@@ -5811,377 +6440,263 @@ function printOrder(orderId) {
 
 <style>
 
-  @page {
-    size: A4;
-    margin: 14mm;
-  }
+@page{
+  size:A4;
+  margin:14mm;
+}
 
-  * {
-    box-sizing: border-box;
-  }
+body{
+  font-family:
+    Arial,
+    "Microsoft YaHei",
+    sans-serif;
 
-  body {
-    margin: 0;
-    color: #111;
-    font-family:
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      "Microsoft YaHei",
-      Arial,
-      sans-serif;
-    font-size: 12px;
-  }
+  color:#111;
+  font-size:12px;
+}
 
-  .page {
-    width: 100%;
-  }
+.company{
+  text-align:center;
+  font-size:23px;
+  font-weight:700;
+}
 
-  .company {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 5px;
-  }
+.title{
+  text-align:center;
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:4px;
+  margin:8px 0 22px;
+}
 
-  .title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    margin-bottom: 22px;
-  }
+.info{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:18px;
+}
 
-  .info-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 18px;
-  }
+.info td{
+  border:1px solid #777;
+  padding:7px;
+}
 
-  .info-table td {
-    border: 1px solid #777;
-    padding: 7px 8px;
-  }
+.info-label{
+  width:90px;
+  background:#f3f4f6;
+  font-weight:700;
+}
 
-  .info-label {
-    width: 90px;
-    background: #f2f2f2;
-    font-weight: 700;
-  }
+.items{
+  width:100%;
+  border-collapse:collapse;
+}
 
-  .items {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 8px;
-  }
+.items th,
+.items td{
+  border:1px solid #666;
+  padding:7px;
+}
 
-  .items th,
-  .items td {
-    border: 1px solid #666;
-    padding: 7px 6px;
-  }
+.items th{
+  background:#f3f4f6;
+}
 
-  .items th {
-    background: #f2f2f2;
-    font-weight: 700;
-    text-align: center;
-  }
+.total{
+  margin-top:16px;
+  text-align:right;
+  font-size:17px;
+  font-weight:700;
+}
 
-  .total-row {
-    margin-top: 15px;
-    display: flex;
-    justify-content: flex-end;
-    font-size: 16px;
-    font-weight: 700;
-  }
+.remark{
+  margin-top:18px;
+  border:1px solid #777;
+  padding:10px;
+  min-height:60px;
+}
 
-  .remarks {
-    border: 1px solid #777;
-    min-height: 70px;
-    margin-top: 18px;
-    padding: 9px;
-    line-height: 1.7;
-  }
+.signatures{
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
 
-  .remarks-title {
-    font-weight: 700;
-    margin-bottom: 5px;
-  }
+  gap:35px;
+  margin-top:60px;
+}
 
-  .footer {
-    margin-top: 35px;
-    display: grid;
-    grid-template-columns:
-      1fr 1fr 1fr;
-    gap: 30px;
-  }
-
-  .signature {
-    border-top: 1px solid #777;
-    padding-top: 7px;
-    text-align: center;
-  }
-
-  .print-time {
-    margin-top: 28px;
-    text-align: right;
-    font-size: 10px;
-    color: #777;
-  }
-
-  @media print {
-
-    body {
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
-  }
+.signature{
+  border-top:1px solid #777;
+  padding-top:7px;
+  text-align:center;
+}
 
 </style>
 
 </head>
 
+
 <body>
 
-<div class="page">
+
+<div class="company">
+硕丰科技
+</div>
 
 
-  <div class="company">
-    硕丰科技
-  </div>
+<div class="title">
+采购订单
+</div>
 
 
-  <div class="title">
-    采购订单
-  </div>
+<table class="info">
+
+<tr>
+
+<td class="info-label">
+采购单号
+</td>
+
+<td>
+${printEscape(order.purchase_no || "-")}
+</td>
+
+<td class="info-label">
+采购日期
+</td>
+
+<td>
+${printEscape(formatDateOnly(order.purchase_date))}
+</td>
+
+</tr>
 
 
-  <table class="info-table">
+<tr>
 
+<td class="info-label">
+供应商
+</td>
+
+<td>
+${printEscape(supplier?.supplier_name || "未知供应商")}
+</td>
+
+<td class="info-label">
+状态
+</td>
+
+<td>
+${printEscape(statusToChinese(order.status))}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="info-label">
+币种
+</td>
+
+<td>
+${printEscape(order.currency || "-")}
+</td>
+
+<td class="info-label">
+创建时间
+</td>
+
+<td>
+${printEscape(formatDateTime(order.created_at))}
+</td>
+
+</tr>
+
+</table>
+
+
+<table class="items">
+
+<thead>
+
+<tr>
+<th>序号</th>
+<th>产品代码</th>
+<th>产品名称</th>
+<th>规格</th>
+<th>单位</th>
+<th>采购单价</th>
+<th>数量</th>
+<th>金额</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+${
+  rowsHTML
+  ||
+  `
     <tr>
-
-      <td class="info-label">
-        采购单号
+      <td colspan="8" style="text-align:center;">
+        无采购商品明细
       </td>
-
-      <td>
-        ${
-          printEscape(
-            order.purchase_no ||
-            "-"
-          )
-        }
-      </td>
-
-      <td class="info-label">
-        采购日期
-      </td>
-
-      <td>
-        ${
-          printEscape(
-            formatDateOnly(
-              order.purchase_date
-            )
-          )
-        }
-      </td>
-
     </tr>
+  `
+}
+
+</tbody>
+
+</table>
 
 
-    <tr>
+<div class="total">
 
-      <td class="info-label">
-        供应商
-      </td>
-
-      <td>
-        ${
-          printEscape(
-            supplier?.supplier_name ||
-            "未知供应商"
-          )
-        }
-      </td>
-
-      <td class="info-label">
-        状态
-      </td>
-
-      <td>
-        ${
-          printEscape(
-            order.status ||
-            "-"
-          )
-        }
-      </td>
-
-    </tr>
-
-
-    <tr>
-
-      <td class="info-label">
-        币种
-      </td>
-
-      <td>
-        ${
-          printEscape(
-            order.currency ||
-            "-"
-          )
-        }
-      </td>
-
-      <td class="info-label">
-        创建时间
-      </td>
-
-      <td>
-        ${
-          printEscape(
-            formatDateTime(
-              order.created_at
-            )
-          )
-        }
-      </td>
-
-    </tr>
-
-  </table>
-
-
-  <table class="items">
-
-    <thead>
-
-      <tr>
-
-        <th style="width:40px;">
-          序号
-        </th>
-
-        <th>
-          产品代码
-        </th>
-
-        <th>
-          产品名称
-        </th>
-
-        <th>
-          规格
-        </th>
-
-        <th>
-          单位
-        </th>
-
-        <th>
-          采购单价
-        </th>
-
-        <th>
-          数量
-        </th>
-
-        <th>
-          金额
-        </th>
-
-      </tr>
-
-    </thead>
-
-
-    <tbody>
-
-      ${rowsHTML}
-
-    </tbody>
-
-  </table>
-
-
-  <div class="total-row">
-
-    总金额：
-    ${
-      formatMoney(
-        order.total_amount
-      )
-    }
-    ${
-      printEscape(
-        order.currency ||
-        ""
-      )
-    }
-
-  </div>
-
-
-  <div class="remarks">
-
-    <div class="remarks-title">
-      备注
-    </div>
-
-    ${
-      printEscape(
-        order.remarks ||
-        "无"
-      )
-    }
-
-  </div>
-
-
-  <div class="footer">
-
-    <div class="signature">
-      制单人
-    </div>
-
-    <div class="signature">
-      审核
-    </div>
-
-    <div class="signature">
-      供应商确认
-    </div>
-
-  </div>
-
-
-  <div class="print-time">
-
-    打印时间：
-    ${
-      printEscape(
-        new Date()
-          .toLocaleString(
-            "zh-CN"
-          )
-      )
-    }
-
-  </div>
-
+采购总金额：
+${formatMoney(order.total_amount)}
+${printEscape(order.currency || "")}
 
 </div>
 
+
+<div class="remark">
+
+<strong>
+采购备注：
+</strong>
+
+<br>
+
+${printEscape(order.remarks || "无")}
+
+</div>
+
+
+<div class="signatures">
+
+<div class="signature">
+制单人
+</div>
+
+<div class="signature">
+公司审核
+</div>
+
+<div class="signature">
+供应商确认
+</div>
+
+</div>
+
+
 <script>
 
-  window.onload = function() {
+window.onload =
+  function(){
 
     setTimeout(
-      function() {
+      function(){
 
         window.print();
 
@@ -6193,8 +6708,10 @@ function printOrder(orderId) {
 
 <\/script>
 
+
 </body>
 </html>
+
     `
   );
 
@@ -6205,38 +6722,196 @@ function printOrder(orderId) {
 
 
 
-/* ==========================================================
-   Modal 点击空白关闭
-========================================================== */
+/* =========================================================
+   状态中文
+========================================================= */
 
-document.getElementById(
-  "defineModal"
-).addEventListener(
-  "click",
-  function(event) {
+function statusToChinese(
+  status
+){
 
-    if (
-      event.target === this
-    ) {
+  const map = {
 
-      closeDefineModal();
+    pending:
+      "待确认",
 
-    }
+    confirmed:
+      "已确认",
+
+    processing:
+      "处理中",
+
+    received:
+      "已收货",
+
+    completed:
+      "已完成",
+
+    cancelled:
+      "已取消"
+
+  };
+
+
+  return (
+    map[
+      status
+    ]
+    ||
+    status
+    ||
+    "-"
+  );
+
+}
+
+
+
+/* =========================================================
+   状态Badge
+========================================================= */
+
+function statusBadge(
+  status
+){
+
+  const text =
+    statusToChinese(
+      status
+    );
+
+
+  let css =
+    "badge-gray";
+
+
+  if(
+    status ===
+    "pending"
+  ){
+
+    css =
+      "badge-orange";
+
+  }
+
+
+  if(
+    status ===
+    "confirmed"
+    ||
+    status ===
+    "processing"
+    ||
+    status ===
+    "received"
+  ){
+
+    css =
+      "badge-blue";
+
+  }
+
+
+  if(
+    status ===
+    "completed"
+  ){
+
+    css =
+      "badge-green";
+
+  }
+
+
+  if(
+    status ===
+    "cancelled"
+  ){
+
+    css =
+      "badge-red";
+
+  }
+
+
+  return `
+    <span class="badge ${css}">
+      ${escapeHTML(text)}
+    </span>
+  `;
+
+}
+
+
+
+/* =========================================================
+   Modal点击外部关闭
+========================================================= */
+
+[
+  [
+    "defineModal",
+    closeDefineModal
+  ],
+
+  [
+    "rechargeModal",
+    closeRechargeModal
+  ],
+
+  [
+    "orderDetailModal",
+    closeOrderDetailModal
+  ]
+
+]
+.forEach(
+  function(item){
+
+    const element =
+      document.getElementById(
+        item[0]
+      );
+
+
+    element.addEventListener(
+      "click",
+      function(event){
+
+        if(
+          event.target ===
+          this
+        ){
+
+          item[1]();
+
+        }
+
+      }
+    );
 
   }
 );
 
 
 
-document.getElementById(
-  "orderDetailModal"
-).addEventListener(
-  "click",
-  function(event) {
+/* =========================================================
+   ESC关闭弹窗
+========================================================= */
 
-    if (
-      event.target === this
-    ) {
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      closeDefineModal();
+
+      closeRechargeModal();
 
       closeOrderDetailModal();
 
@@ -6247,110 +6922,87 @@ document.getElementById(
 
 
 
-/* ==========================================================
-   工具
-========================================================== */
+/* =========================================================
+   工具函数
+========================================================= */
 
-function escapeHTML(value) {
+function setText(
+  id,
+  value
+){
 
-  if (
-    value === null ||
-    value === undefined
-  ) {
-
-    return "";
-  }
-
-
-  return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
+  const el =
+    document.getElementById(
+      id
     );
+
+
+  if(
+    el
+  ){
+
+    el.textContent =
+      value;
+
+  }
 
 }
 
 
 
-/*
-  打印页面转义
-*/
-function printEscape(value) {
+function formatMoney(
+  value
+){
 
-  return escapeHTML(
-    value
+  return Number(
+    value ||
+    0
   )
-  .replaceAll(
-    "\n",
-    "<br>"
+  .toLocaleString(
+    "zh-CN",
+    {
+
+      minimumFractionDigits:
+        2,
+
+      maximumFractionDigits:
+        2
+
+    }
   );
 
 }
 
 
 
-function formatMoney(value) {
+function formatQuantity(
+  value
+){
 
-  if (
-    value === null ||
-    value === undefined ||
-    value === ""
-  ) {
+  return Number(
+    value ||
+    0
+  )
+  .toLocaleString(
+    "zh-CN",
+    {
 
-    return "-";
-  }
+      minimumFractionDigits:
+        0,
 
+      maximumFractionDigits:
+        3
 
-  return Number(value)
-    .toLocaleString(
-      "zh-CN",
-      {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }
-    );
-
-}
-
-
-
-function formatQuantity(value) {
-
-  return Number(value)
-    .toLocaleString(
-      "zh-CN",
-      {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3
-      }
-    );
+    }
+  );
 
 }
 
 
 
-function roundMoney(value) {
+function roundMoney(
+  value
+){
 
   return Math.round(
     (
@@ -6368,7 +7020,9 @@ function roundMoney(value) {
 
 
 
-function roundQuantity(value) {
+function roundQuantity(
+  value
+){
 
   return Math.round(
     (
@@ -6386,7 +7040,7 @@ function roundQuantity(value) {
 
 
 
-function getToday() {
+function getToday(){
 
   const date =
     new Date();
@@ -6398,7 +7052,9 @@ function getToday() {
 
   const month =
     String(
-      date.getMonth() + 1
+      date.getMonth()
+      +
+      1
     )
     .padStart(
       2,
@@ -6417,10 +7073,14 @@ function getToday() {
 
 
   return (
-    year +
-    "-" +
-    month +
-    "-" +
+    year
+    +
+    "-"
+    +
+    month
+    +
+    "-"
+    +
     day
   );
 
@@ -6428,48 +7088,80 @@ function getToday() {
 
 
 
-function formatDateOnly(value) {
+function formatDateOnly(
+  value
+){
 
-  if (!value) {
+  if(
+    !value
+  ){
+
     return "-";
+
   }
 
 
-  return value;
+  return String(
+    value
+  )
+  .slice(
+    0,
+    10
+  );
 
 }
 
 
 
-function formatDateTime(value) {
+function formatDateTime(
+  value
+){
 
-  if (!value) {
+  if(
+    !value
+  ){
+
     return "-";
+
   }
 
 
   const date =
-    new Date(value);
+    new Date(
+      value
+    );
 
 
-  if (
-    isNaN(
+  if(
+    Number.isNaN(
       date.getTime()
     )
-  ) {
+  ){
 
     return value;
+
   }
 
 
   return date.toLocaleString(
     "zh-CN",
     {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit"
+
+      year:
+        "numeric",
+
+      month:
+        "2-digit",
+
+      day:
+        "2-digit",
+
+      hour:
+        "2-digit",
+
+      minute:
+        "2-digit"
+
     }
   );
 
@@ -6477,38 +7169,73 @@ function formatDateTime(value) {
 
 
 
-function showLoading(show) {
+function escapeHTML(
+  value
+){
 
-  const mask =
-    document.getElementById(
-      "loadingMask"
-    );
+  if(
+    value === null
+    ||
+    value === undefined
+  ){
 
-
-  if (show) {
-
-    mask.classList.add(
-      "show"
-    );
+    return "";
 
   }
 
-  else {
 
-    mask.classList.remove(
-      "show"
-    );
-
-  }
+  return String(
+    value
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 
 }
 
 
 
+function printEscape(
+  value
+){
+
+  return escapeHTML(
+    value
+  )
+  .replaceAll(
+    "\n",
+    "<br>"
+  );
+
+}
+
+
+
+/* =========================================================
+   提示
+========================================================= */
+
 function showNotice(
   message,
   type = "success"
-) {
+){
 
   const notice =
     document.getElementById(
@@ -6524,16 +7251,17 @@ function showNotice(
     "notice show "
     +
     (
-      type === "error"
-        ?
-        "notice-error"
-        :
-        "notice-success"
+      type ===
+      "error"
+      ?
+      "notice-error"
+      :
+      "notice-success"
     );
 
 
   setTimeout(
-    function() {
+    function(){
 
       notice.classList.remove(
         "show"
@@ -6547,7 +7275,31 @@ function showNotice(
 
 
 
-function goBack() {
+/* =========================================================
+   Loading
+========================================================= */
+
+function showLoading(
+  show
+){
+
+  document.getElementById(
+    "loadingMask"
+  )
+  .classList.toggle(
+    "show",
+    show
+  );
+
+}
+
+
+
+/* =========================================================
+   返回管理工作台
+========================================================= */
+
+function goBack(){
 
   window.location.href =
     "wholemanagement.html";
@@ -6556,18 +7308,21 @@ function goBack() {
 
 
 
-/* ==========================================================
-   10分钟自动退出
-========================================================== */
+/* =========================================================
+   10分钟无操作自动退出
+========================================================= */
 
 const IDLE_LIMIT =
-  10 *
-  60 *
+  10
+  *
+  60
+  *
   1000;
 
 
 const WARNING_TIME =
-  60 *
+  60
+  *
   1000;
 
 
@@ -6579,8 +7334,21 @@ let warningShown =
   false;
 
 
+let logoutInProgress =
+  false;
 
-function userActivity() {
+
+
+function userActivity(){
+
+  if(
+    logoutInProgress
+  ){
+
+    return;
+
+  }
+
 
   lastActivityTime =
     Date.now();
@@ -6596,8 +7364,14 @@ function userActivity() {
     );
 
 
-  warning.style.display =
-    "none";
+  if(
+    warning
+  ){
+
+    warning.style.display =
+      "none";
+
+  }
 
 }
 
@@ -6612,7 +7386,7 @@ function userActivity() {
   "click"
 ]
 .forEach(
-  function(eventName) {
+  function(eventName){
 
     document.addEventListener(
       eventName,
@@ -6626,7 +7400,16 @@ function userActivity() {
 
 
 setInterval(
-  function() {
+  function(){
+
+    if(
+      logoutInProgress
+    ){
+
+      return;
+
+    }
+
 
     const inactive =
       Date.now()
@@ -6634,16 +7417,21 @@ setInterval(
       lastActivityTime;
 
 
-    if (
+    if(
       inactive >=
-      IDLE_LIMIT -
+      IDLE_LIMIT
+      -
       WARNING_TIME
+
       &&
+
       inactive <
       IDLE_LIMIT
+
       &&
+
       !warningShown
-    ) {
+    ){
 
       document.getElementById(
         "timeoutWarning"
@@ -6657,10 +7445,10 @@ setInterval(
     }
 
 
-    if (
+    if(
       inactive >=
       IDLE_LIMIT
-    ) {
+    ){
 
       autoLogout();
 
@@ -6672,9 +7460,26 @@ setInterval(
 
 
 
-async function autoLogout() {
+/* =========================================================
+   自动退出
+========================================================= */
 
-  try {
+async function autoLogout(){
+
+  if(
+    logoutInProgress
+  ){
+
+    return;
+
+  }
+
+
+  logoutInProgress =
+    true;
+
+
+  try{
 
     await supabaseClient
       .auth
@@ -6682,9 +7487,10 @@ async function autoLogout() {
 
   }
 
-  catch (error) {
+  catch(error){
 
     console.error(
+      "自动退出失败：",
       error
     );
 
@@ -6699,9 +7505,37 @@ async function autoLogout() {
 
 
 
-async function logout() {
+/* =========================================================
+   手工退出
+========================================================= */
 
-  try {
+async function logout(){
+
+  if(
+    logoutInProgress
+  ){
+
+    return;
+
+  }
+
+
+  if(
+    !confirm(
+      "确定退出采购管理系统吗？"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  logoutInProgress =
+    true;
+
+
+  try{
 
     await supabaseClient
       .auth
@@ -6709,9 +7543,10 @@ async function logout() {
 
   }
 
-  catch (error) {
+  catch(error){
 
     console.error(
+      "退出失败：",
       error
     );
 
@@ -6727,6 +7562,6 @@ async function logout() {
 
 </script>
 
-
 </body>
+
 </html>
