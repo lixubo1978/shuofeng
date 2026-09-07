@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -105,7 +104,7 @@
 
     .container {
       width: 100%;
-      max-width: 1550px;
+      max-width: 1600px;
       margin: 0 auto;
       padding: 34px 24px 60px;
     }
@@ -160,6 +159,11 @@
       color: white;
     }
 
+    .btn-orange {
+      background: #ea580c;
+      color: white;
+    }
+
     .btn-dark {
       background: #111827;
       color: white;
@@ -186,7 +190,7 @@
     }
 
     /* =====================================================
-       规则说明
+       奖励规则
     ====================================================== */
 
     .rules-card {
@@ -328,8 +332,8 @@
 
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 15px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
       margin-bottom: 20px;
     }
 
@@ -351,7 +355,12 @@
       border-color: #bbf7d0;
     }
 
-    .summary-card.qualified-card {
+    .summary-card.issued-card {
+      background: #f0fdfa;
+      border-color: #99f6e4;
+    }
+
+    .summary-card.remaining-card {
       background: #fff7ed;
       border-color: #fed7aa;
     }
@@ -363,22 +372,28 @@
     }
 
     .summary-value {
-      font-size: 27px;
+      font-size: 25px;
       font-weight: 700;
       color: #111827;
     }
 
     .sales-card .summary-value {
-      font-size: 20px;
+      font-size: 19px;
       color: #1d4ed8;
     }
 
     .reward-card .summary-value {
-      font-size: 20px;
+      font-size: 19px;
       color: #15803d;
     }
 
-    .qualified-card .summary-value {
+    .issued-card .summary-value {
+      font-size: 19px;
+      color: #0f766e;
+    }
+
+    .remaining-card .summary-value {
+      font-size: 19px;
       color: #c2410c;
     }
 
@@ -390,7 +405,7 @@
     }
 
     /* =====================================================
-       搜索
+       工具栏
     ====================================================== */
 
     .toolbar {
@@ -427,6 +442,7 @@
 
     .filter-box {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
     }
 
@@ -456,7 +472,7 @@
 
     table {
       width: 100%;
-      min-width: 1350px;
+      min-width: 1500px;
       border-collapse: collapse;
     }
 
@@ -465,14 +481,14 @@
       color: #475569;
       font-size: 12px;
       font-weight: 700;
-      padding: 13px 14px;
+      padding: 13px 12px;
       border-bottom: 1px solid #e5e7eb;
       text-align: left;
       white-space: nowrap;
     }
 
     td {
-      padding: 14px;
+      padding: 14px 12px;
       font-size: 13px;
       border-bottom: 1px solid #eef2f7;
       vertical-align: middle;
@@ -504,6 +520,23 @@
       white-space: nowrap;
     }
 
+    .issued-money {
+      font-weight: 700;
+      color: #0f766e;
+      white-space: nowrap;
+    }
+
+    .remaining-money {
+      font-weight: 700;
+      color: #c2410c;
+      white-space: nowrap;
+    }
+
+    .zero-money {
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+
     .rate-badge {
       display: inline-block;
       min-width: 56px;
@@ -521,12 +554,13 @@
       color: #64748b;
     }
 
-    .tier-badge {
+    .tier-badge,
+    .payment-status {
       display: inline-block;
       padding: 5px 9px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       white-space: nowrap;
     }
 
@@ -553,6 +587,27 @@
     .tier-4 {
       background: #dcfce7;
       color: #166534;
+    }
+
+    .payment-unpaid {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .payment-partial {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .payment-paid {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     .empty-box {
@@ -596,7 +651,7 @@
     }
 
     /* =====================================================
-       详情 Modal
+       Modal
     ====================================================== */
 
     .modal-mask {
@@ -616,12 +671,16 @@
 
     .modal {
       width: 100%;
-      max-width: 800px;
+      max-width: 850px;
       max-height: 92vh;
       overflow-y: auto;
       background: white;
       border-radius: 14px;
       box-shadow: 0 25px 70px rgba(0,0,0,0.28);
+    }
+
+    .modal-large {
+      max-width: 1100px;
     }
 
     .modal-header {
@@ -655,6 +714,7 @@
       border-top: 1px solid #e5e7eb;
       display: flex;
       justify-content: flex-end;
+      gap: 10px;
     }
 
     .detail-grid {
@@ -697,7 +757,154 @@
     }
 
     /* =====================================================
-       Loading / 自动退出
+       发放窗口
+    ====================================================== */
+
+    .payment-agent-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .payment-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .payment-summary-item {
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: #f8fafc;
+    }
+
+    .payment-summary-item.total {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .payment-summary-item.issued {
+      background: #f0fdfa;
+      border-color: #99f6e4;
+    }
+
+    .payment-summary-item.remaining {
+      background: #fff7ed;
+      border-color: #fed7aa;
+    }
+
+    .payment-summary-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .payment-summary-value {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .payment-form {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+
+    .payment-form-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 16px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      background: white;
+    }
+
+    .form-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #2563eb;
+    }
+
+    .form-help {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .history-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #111827;
+    }
+
+    .history-table {
+      width: 100%;
+      min-width: 850px;
+      border-collapse: collapse;
+    }
+
+    .history-table th,
+    .history-table td {
+      padding: 11px 10px;
+    }
+
+    .history-empty {
+      display: none;
+      padding: 28px;
+      text-align: center;
+      color: #94a3b8;
+      border: 1px dashed #d1d5db;
+      border-radius: 9px;
+    }
+
+    /* =====================================================
+       Loading / 超时
     ====================================================== */
 
     .loading-mask {
@@ -724,20 +931,17 @@
       bottom: 28px;
       transform: translateX(-50%);
       z-index: 30000;
-
       background: #fff7ed;
       color: #9a3412;
       border: 1px solid #fdba74;
-
       padding: 12px 20px;
       border-radius: 9px;
       font-size: 13px;
       font-weight: 600;
-
       box-shadow: 0 6px 20px rgba(0,0,0,0.12);
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1250px) {
       .summary-grid {
         grid-template-columns: repeat(3, 1fr);
       }
@@ -761,16 +965,22 @@
       }
 
       .search-box {
-        max-width: none;
         width: 100%;
+        max-width: none;
       }
 
-      .detail-grid {
+      .detail-grid,
+      .form-grid {
         grid-template-columns: 1fr;
       }
 
-      .detail-item.full {
+      .detail-item.full,
+      .form-group.full {
         grid-column: auto;
+      }
+
+      .payment-summary {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -798,9 +1008,13 @@
 <body>
 
   <div id="loadingMask" class="loading-mask">
-    正在读取和计算年度奖励，请稍候……
+    正在读取年终奖励资料，请稍候……
   </div>
 
+
+  <!-- =====================================================
+       顶部
+  ====================================================== -->
 
   <header class="topbar">
 
@@ -860,8 +1074,8 @@
 
         <p>
           每一个记账周期固定为每年1月1日至12月31日。
-          系统根据代理商该自然年度已正式确认的销售订单自动累计销售额，
-          并按照年度销售总额自动确定奖励比例及奖励金额。
+          系统自动统计代理商年度正式销售额、计算奖励比例和应发奖励，
+          并永久保存每一笔实际奖励发放记录。
         </p>
 
       </div>
@@ -910,13 +1124,16 @@
 
           <div class="rules-subtitle">
             达到对应销售额以后，奖励比例按照整个年度销售总额计算，
-            不是分段阶梯计算。
+            不是阶梯分段计算。
           </div>
 
         </div>
 
 
-        <div id="rulePeriodBadge" class="period-badge">
+        <div
+          id="rulePeriodBadge"
+          class="period-badge"
+        >
           记账周期：-
         </div>
 
@@ -926,67 +1143,52 @@
       <div class="rules-grid">
 
         <div class="rule-item">
-
           <div class="rule-range">
             年度销售额 ＜ 100,000
           </div>
-
           <div class="rule-rate">
             0%
           </div>
-
         </div>
 
 
         <div class="rule-item">
-
           <div class="rule-range">
-            ≥ 100,000
+            ≥ 100,000 且 ＜ 150,000
           </div>
-
           <div class="rule-rate">
             2%
           </div>
-
         </div>
 
 
         <div class="rule-item">
-
           <div class="rule-range">
-            ≥ 150,000
+            ≥ 150,000 且 ＜ 200,000
           </div>
-
           <div class="rule-rate">
             2.5%
           </div>
-
         </div>
 
 
         <div class="rule-item">
-
           <div class="rule-range">
-            ≥ 200,000
+            ≥ 200,000 且 ＜ 300,000
           </div>
-
           <div class="rule-rate">
             3%
           </div>
-
         </div>
 
 
         <div class="rule-item highlight">
-
           <div class="rule-range">
             ≥ 300,000
           </div>
-
           <div class="rule-rate">
             4%
           </div>
-
         </div>
 
       </div>
@@ -995,7 +1197,7 @@
 
 
     <!-- ===================================================
-         年份
+         年度控制
     ==================================================== -->
 
     <section class="control-card">
@@ -1024,10 +1226,8 @@
 
 
       <div class="calculation-note">
-
-        销售额只统计状态为：<br>
-        已确认 / 处理中 / 已发货 / 已完成 的订单
-
+        正式销售额统计：<br>
+        已确认 / 处理中 / 已发货 / 已完成
       </div>
 
     </section>
@@ -1045,25 +1245,31 @@
           代理商总数
         </div>
 
-        <div id="agentCount" class="summary-value">
+        <div
+          id="agentCount"
+          class="summary-value"
+        >
           0
         </div>
 
       </div>
 
 
-      <div class="summary-card qualified-card">
+      <div class="summary-card">
 
         <div class="summary-label">
-          达到奖励标准代理商
+          达到奖励标准
         </div>
 
-        <div id="qualifiedCount" class="summary-value">
+        <div
+          id="qualifiedCount"
+          class="summary-value"
+        >
           0
         </div>
 
         <div class="summary-sub">
-          年度销售额达到100,000及以上。
+          年度销售额达到100,000及以上
         </div>
 
       </div>
@@ -1075,7 +1281,10 @@
           年度销售额合计
         </div>
 
-        <div id="totalSales" class="summary-value">
+        <div
+          id="totalSales"
+          class="summary-value"
+        >
           0.00 CNY
         </div>
 
@@ -1085,28 +1294,46 @@
       <div class="summary-card reward-card">
 
         <div class="summary-label">
-          年终奖励合计
+          应发奖励合计
         </div>
 
-        <div id="totalRewards" class="summary-value">
+        <div
+          id="totalRewards"
+          class="summary-value"
+        >
           0.00 CNY
         </div>
 
       </div>
 
 
-      <div class="summary-card">
+      <div class="summary-card issued-card">
 
         <div class="summary-label">
-          最近计算时间
+          已发放奖励合计
         </div>
 
         <div
-          id="lastCalculatedAt"
+          id="totalIssued"
           class="summary-value"
-          style="font-size:16px;"
         >
-          -
+          0.00 CNY
+        </div>
+
+      </div>
+
+
+      <div class="summary-card remaining-card">
+
+        <div class="summary-label">
+          待发放奖励合计
+        </div>
+
+        <div
+          id="totalRemaining"
+          class="summary-value"
+        >
+          0.00 CNY
         </div>
 
       </div>
@@ -1115,7 +1342,7 @@
 
 
     <!-- ===================================================
-         搜索
+         搜索筛选
     ==================================================== -->
 
     <div class="toolbar">
@@ -1169,13 +1396,37 @@
 
         </select>
 
+
+        <select
+          id="paymentFilter"
+          onchange="renderRewards()"
+        >
+
+          <option value="all">
+            全部发放状态
+          </option>
+
+          <option value="unpaid">
+            未发放
+          </option>
+
+          <option value="partial">
+            部分发放
+          </option>
+
+          <option value="paid">
+            已全部发放
+          </option>
+
+        </select>
+
       </div>
 
     </div>
 
 
     <!-- ===================================================
-         奖励列表
+         年度奖励列表
     ==================================================== -->
 
     <div class="table-card">
@@ -1196,15 +1447,19 @@
 
               <th>奖励年度</th>
 
-              <th>记账周期</th>
-
               <th>年度销售额</th>
 
               <th>奖励档位</th>
 
               <th>奖励比例</th>
 
-              <th>年终奖励金额</th>
+              <th>应发奖励</th>
+
+              <th>已发放</th>
+
+              <th>待发放</th>
+
+              <th>发放状态</th>
 
               <th>最近计算时间</th>
 
@@ -1226,7 +1481,7 @@
         id="emptyBox"
         class="empty-box"
       >
-        当前年度暂无奖励记录
+        当前没有符合筛选条件的年度奖励记录
       </div>
 
     </div>
@@ -1235,10 +1490,13 @@
 
 
   <!-- =====================================================
-       详情窗口
+       奖励详情窗口
   ====================================================== -->
 
-  <div id="detailModal" class="modal-mask">
+  <div
+    id="detailModal"
+    class="modal-mask"
+  >
 
     <div class="modal">
 
@@ -1346,22 +1604,6 @@
           <div class="detail-item">
 
             <div class="detail-label">
-              奖励档位
-            </div>
-
-            <div
-              id="detailTier"
-              class="detail-value"
-            >
-              -
-            </div>
-
-          </div>
-
-
-          <div class="detail-item">
-
-            <div class="detail-label">
               奖励比例
             </div>
 
@@ -1378,7 +1620,7 @@
           <div class="detail-item">
 
             <div class="detail-label">
-              年终奖励金额
+              应发奖励
             </div>
 
             <div
@@ -1394,11 +1636,11 @@
           <div class="detail-item">
 
             <div class="detail-label">
-              币种
+              已发放
             </div>
 
             <div
-              id="detailCurrency"
+              id="detailIssued"
               class="detail-value"
             >
               -
@@ -1408,6 +1650,38 @@
 
 
           <div class="detail-item">
+
+            <div class="detail-label">
+              待发放
+            </div>
+
+            <div
+              id="detailRemaining"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              发放状态
+            </div>
+
+            <div
+              id="detailPaymentStatus"
+              class="detail-value"
+            >
+              -
+            </div>
+
+          </div>
+
+
+          <div class="detail-item full">
 
             <div class="detail-label">
               最近计算时间
@@ -1425,7 +1699,10 @@
         </div>
 
 
-        <div id="detailFormula" class="formula-box">
+        <div
+          id="detailFormula"
+          class="formula-box"
+        >
           -
         </div>
 
@@ -1449,7 +1726,305 @@
   </div>
 
 
-  <div id="timeoutWarning" class="timeout-warning">
+  <!-- =====================================================
+       奖励发放 + 发放记录窗口
+  ====================================================== -->
+
+  <div
+    id="paymentModal"
+    class="modal-mask"
+  >
+
+    <div class="modal modal-large">
+
+      <div class="modal-header">
+
+        <h2>
+          年终奖励发放
+        </h2>
+
+        <button
+          class="modal-close"
+          type="button"
+          onclick="closePaymentModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <input
+          id="paymentRewardId"
+          type="hidden"
+        >
+
+        <input
+          id="paymentAgentId"
+          type="hidden"
+        >
+
+
+        <div
+          id="paymentAgentBox"
+          class="payment-agent-box"
+        >
+          -
+        </div>
+
+
+        <div class="payment-summary">
+
+          <div class="payment-summary-item total">
+
+            <div class="payment-summary-label">
+              应发奖励
+            </div>
+
+            <div
+              id="paymentTotalReward"
+              class="payment-summary-value"
+            >
+              0.00 CNY
+            </div>
+
+          </div>
+
+
+          <div class="payment-summary-item issued">
+
+            <div class="payment-summary-label">
+              已发放
+            </div>
+
+            <div
+              id="paymentIssuedAmount"
+              class="payment-summary-value"
+            >
+              0.00 CNY
+            </div>
+
+          </div>
+
+
+          <div class="payment-summary-item remaining">
+
+            <div class="payment-summary-label">
+              待发放
+            </div>
+
+            <div
+              id="paymentRemainingAmount"
+              class="payment-summary-value"
+            >
+              0.00 CNY
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             本次发放
+        ================================================ -->
+
+        <div
+          id="paymentForm"
+          class="payment-form"
+        >
+
+          <div class="payment-form-title">
+            执行本次奖励发放
+          </div>
+
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="paymentAmount">
+                本次发放金额 *
+              </label>
+
+              <input
+                id="paymentAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="请输入本次发放金额"
+              >
+
+              <div class="form-help">
+                默认自动填写全部待发放金额，也可以修改为较小金额进行分次发放。
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="paymentMethod">
+                发放方式
+              </label>
+
+              <select id="paymentMethod">
+
+                <option value="银行转账">
+                  银行转账
+                </option>
+
+                <option value="数字人民币">
+                  数字人民币
+                </option>
+
+                <option value="现金">
+                  现金
+                </option>
+
+                <option value="其他">
+                  其他
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label for="paymentReferenceNo">
+                银行流水号 / 交易参考号
+              </label>
+
+              <input
+                id="paymentReferenceNo"
+                type="text"
+                maxlength="200"
+                placeholder="例如：银行转账流水号"
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label for="paymentNotes">
+                备注
+              </label>
+
+              <textarea
+                id="paymentNotes"
+                placeholder="可填写本次奖励发放说明"
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <div
+            style="
+              display:flex;
+              justify-content:flex-end;
+              margin-top:16px;
+            "
+          >
+
+            <button
+              id="executePaymentButton"
+              class="btn btn-green"
+              type="button"
+              onclick="executeRewardPayment()"
+            >
+              确认发放
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ===============================================
+             发放流水
+        ================================================ -->
+
+        <h3 class="history-title">
+          奖励发放记录
+        </h3>
+
+
+        <div class="table-wrapper">
+
+          <table class="history-table">
+
+            <thead>
+
+              <tr>
+
+                <th>发放时间</th>
+
+                <th>发放金额</th>
+
+                <th>发放方式</th>
+
+                <th>流水号 / 参考号</th>
+
+                <th>执行人</th>
+
+                <th>备注</th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody
+              id="paymentHistoryBody"
+            ></tbody>
+
+          </table>
+
+        </div>
+
+
+        <div
+          id="paymentHistoryEmpty"
+          class="history-empty"
+        >
+          该年度奖励目前还没有发放记录
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          type="button"
+          onclick="closePaymentModal()"
+        >
+          关闭
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       超时提示
+  ====================================================== -->
+
+  <div
+    id="timeoutWarning"
+    class="timeout-warning"
+  >
     长时间未操作，系统即将自动退出。
   </div>
 
@@ -1491,12 +2066,20 @@
     [];
 
 
+  let disbursements =
+    [];
+
+
+  let profiles =
+    [];
+
+
   let accessVerified =
     false;
 
 
   /* =====================================================
-     管理人员验证
+     管理人员身份验证
   ===================================================== */
 
   async function verifyManagementAccess() {
@@ -1517,7 +2100,8 @@
 
 
       if (
-        sessionError ||
+        sessionError
+        ||
         !sessionData?.session?.user
       ) {
 
@@ -1545,6 +2129,10 @@
         null;
 
 
+      /*
+        最多读取3次，避免刚登录时偶发的会话延迟。
+      */
+
       for (
         let attempt = 1;
         attempt <= 3;
@@ -1568,7 +2156,8 @@
 
 
         if (
-          !error &&
+          !error
+          &&
           data
         ) {
 
@@ -1663,8 +2252,10 @@
         "currentUser"
       ).textContent =
         (
-          profile.display_name ||
-          user.email ||
+          profile.display_name
+          ||
+          user.email
+          ||
           "公司管理人员"
         )
         +
@@ -1703,7 +2294,8 @@
         "公司管理人员身份验证失败："
         +
         (
-          error.message ||
+          error.message
+          ||
           "未知错误"
         ),
         "error"
@@ -1733,7 +2325,6 @@
       if (allowed) {
 
         await loadAllData();
-
       }
     }
   );
@@ -1754,7 +2345,6 @@
         if (allowed) {
 
           await loadAllData();
-
         }
       }
     }
@@ -1762,7 +2352,7 @@
 
 
   /* =====================================================
-     年份
+     年度选择
   ===================================================== */
 
   function initializeYearSelect() {
@@ -1774,17 +2364,13 @@
 
 
     const currentYear =
-      new Date().getFullYear();
+      new Date()
+        .getFullYear();
 
 
     select.innerHTML =
       "";
 
-
-    /*
-      显示当前年份向前10年，
-      并预留下一年。
-    */
 
     for (
       let year =
@@ -1805,7 +2391,9 @@
 
 
       option.textContent =
-        year + "年度";
+        year
+        +
+        "年度";
 
 
       if (
@@ -1844,24 +2432,26 @@
       getSelectedYear();
 
 
-    const start =
-      `${year}-01-01`;
-
-
-    const end =
-      `${year}-12-31`;
-
-
     document.getElementById(
       "periodText"
     ).textContent =
-      `记账周期：${start} ～ ${end}`;
+      "记账周期："
+      +
+      year
+      +
+      "-01-01 ～ "
+      +
+      year
+      +
+      "-12-31";
 
 
     document.getElementById(
       "rulePeriodBadge"
     ).textContent =
-      `${year}年度：1月1日 ～ 12月31日`;
+      year
+      +
+      "年度：1月1日 ～ 12月31日";
   }
 
 
@@ -1875,12 +2465,13 @@
 
 
   /* =====================================================
-     读取数据
+     读取全部数据
   ===================================================== */
 
   async function loadAllData() {
 
     if (!accessVerified) {
+
       return;
     }
 
@@ -1894,20 +2485,25 @@
 
     try {
 
-      /*
-        同时读取代理商和当前年份奖励。
-      */
-
       const [
         agentsResult,
-        rewardsResult
+        rewardsResult,
+        disbursementsResult,
+        profilesResult
       ] =
         await Promise.all([
 
           supabaseClient
             .from("agents")
             .select(
-              "id, agent_code, agent_name, agent_region, balance_currency, is_active"
+              `
+                id,
+                agent_code,
+                agent_name,
+                agent_region,
+                balance_currency,
+                is_active
+              `
             )
             .order(
               "agent_code",
@@ -1915,6 +2511,7 @@
                 ascending: true
               }
             ),
+
 
           supabaseClient
             .from("annual_rewards")
@@ -1927,6 +2524,9 @@
                 reward_rate,
                 calculated_reward_amount,
                 reward_amount,
+                issued_amount,
+                remaining_amount,
+                payment_status,
                 currency,
                 calculation_start_date,
                 calculation_end_date,
@@ -1944,6 +2544,45 @@
               {
                 ascending: false
               }
+            ),
+
+
+          supabaseClient
+            .from(
+              "annual_reward_disbursements"
+            )
+            .select(
+              `
+                id,
+                annual_reward_id,
+                agent_id,
+                reward_year,
+                amount,
+                currency,
+                payment_method,
+                reference_no,
+                notes,
+                executed_by,
+                executed_at,
+                created_at
+              `
+            )
+            .eq(
+              "reward_year",
+              year
+            )
+            .order(
+              "executed_at",
+              {
+                ascending: false
+              }
+            ),
+
+
+          supabaseClient
+            .from("profiles")
+            .select(
+              "id, display_name"
             )
 
         ]);
@@ -1962,6 +2601,22 @@
       ) {
 
         throw rewardsResult.error;
+      }
+
+
+      if (
+        disbursementsResult.error
+      ) {
+
+        throw disbursementsResult.error;
+      }
+
+
+      if (
+        profilesResult.error
+      ) {
+
+        throw profilesResult.error;
       }
 
 
@@ -1985,6 +2640,26 @@
         [];
 
 
+      disbursements =
+        Array.isArray(
+          disbursementsResult.data
+        )
+        ?
+        disbursementsResult.data
+        :
+        [];
+
+
+      profiles =
+        Array.isArray(
+          profilesResult.data
+        )
+        ?
+        profilesResult.data
+        :
+        [];
+
+
       updateSummary();
 
       renderRewards();
@@ -2003,7 +2678,8 @@
         "读取年终奖励资料失败："
         +
         (
-          error.message ||
+          error.message
+          ||
           "未知错误"
         ),
         "error"
@@ -2019,7 +2695,7 @@
 
 
   /* =====================================================
-     重新计算全部代理商
+     重新计算全部代理商年度奖励
   ===================================================== */
 
   async function calculateAllRewards() {
@@ -2046,11 +2722,12 @@
         +
         "-12-31\n\n"
         +
-        "系统会重新读取该年度正式销售订单，并自动更新年度销售额、奖励比例和奖励金额。"
+        "已经发生的实际发放记录不会删除。"
       );
 
 
     if (!confirmed) {
+
       return;
     }
 
@@ -2089,6 +2766,7 @@
 
 
       if (error) {
+
         throw error;
       }
 
@@ -2096,10 +2774,11 @@
       showNotice(
         year
         +
-        "年度奖励计算完成。共重新计算 "
+        "年度奖励重新计算完成，共计算 "
         +
         Number(
-          data?.agents_calculated ||
+          data?.agents_calculated
+          ||
           0
         )
         +
@@ -2124,7 +2803,8 @@
         "计算年度奖励失败："
         +
         (
-          error.message ||
+          error.message
+          ||
           "未知错误"
         ),
         "error"
@@ -2157,21 +2837,24 @@
 
   function updateSummary() {
 
-    const agentCount =
-      agents.length;
-
-
     let qualifiedCount =
       0;
 
 
-    const salesByCurrency = {};
+    const salesByCurrency =
+      {};
 
-    const rewardsByCurrency = {};
+
+    const rewardsByCurrency =
+      {};
 
 
-    let latestCalculatedTime =
-      null;
+    const issuedByCurrency =
+      {};
+
+
+    const remainingByCurrency =
+      {};
 
 
     for (
@@ -2182,105 +2865,82 @@
 
       const sales =
         Number(
-          reward.annual_sales_amount ||
+          reward.annual_sales_amount
+          ||
           0
         );
 
 
-      const rewardAmount =
+      const totalReward =
+        getTotalRewardAmount(
+          reward
+        );
+
+
+      const issued =
         Number(
-          reward.calculated_reward_amount ??
-          reward.reward_amount ??
+          reward.issued_amount
+          ||
           0
+        );
+
+
+      const remaining =
+        getRemainingRewardAmount(
+          reward
         );
 
 
       const currency =
         String(
-          reward.currency ||
+          reward.currency
+          ||
           "CNY"
         ).toUpperCase();
 
 
       if (
-        sales >= 100000
+        sales >=
+        100000
       ) {
 
         qualifiedCount++;
       }
 
 
-      if (
-        !salesByCurrency[currency]
-      ) {
-
-        salesByCurrency[currency] =
-          0;
-      }
-
-
-      salesByCurrency[currency] +=
-        Number.isFinite(sales)
-        ?
+      addCurrencyAmount(
+        salesByCurrency,
+        currency,
         sales
-        :
-        0;
+      );
 
 
-      if (
-        !rewardsByCurrency[currency]
-      ) {
-
-        rewardsByCurrency[currency] =
-          0;
-      }
+      addCurrencyAmount(
+        rewardsByCurrency,
+        currency,
+        totalReward
+      );
 
 
-      rewardsByCurrency[currency] +=
-        Number.isFinite(
-          rewardAmount
-        )
-        ?
-        rewardAmount
-        :
-        0;
+      addCurrencyAmount(
+        issuedByCurrency,
+        currency,
+        issued
+      );
 
 
-      if (
-        reward.calculated_at
-      ) {
-
-        const time =
-          new Date(
-            reward.calculated_at
-          );
-
-
-        if (
-          !Number.isNaN(
-            time.getTime()
-          )
-        ) {
-
-          if (
-            !latestCalculatedTime
-            ||
-            time >
-              latestCalculatedTime
-          ) {
-
-            latestCalculatedTime =
-              time;
-          }
-        }
-      }
+      addCurrencyAmount(
+        remainingByCurrency,
+        currency,
+        remaining
+      );
     }
 
 
     document.getElementById(
       "agentCount"
     ).textContent =
-      agentCount;
+      agents.length;
 
 
     document.getElementById(
@@ -2306,15 +2966,130 @@
 
 
     document.getElementById(
-      "lastCalculatedAt"
-    ).textContent =
-      latestCalculatedTime
-      ?
-      formatDateTime(
-        latestCalculatedTime
+      "totalIssued"
+    ).innerHTML =
+      formatCurrencySummary(
+        issuedByCurrency
+      );
+
+
+    document.getElementById(
+      "totalRemaining"
+    ).innerHTML =
+      formatCurrencySummary(
+        remainingByCurrency
+      );
+  }
+
+
+  function addCurrencyAmount(
+    target,
+    currency,
+    amount
+  ) {
+
+    const value =
+      Number(
+        amount
+        ||
+        0
+      );
+
+
+    if (
+      !Number.isFinite(
+        value
       )
-      :
-      "-";
+    ) {
+
+      return;
+    }
+
+
+    if (
+      !target[currency]
+    ) {
+
+      target[currency] =
+        0;
+    }
+
+
+    target[currency] +=
+      value;
+  }
+
+
+  /* =====================================================
+     金额辅助
+  ===================================================== */
+
+  function getTotalRewardAmount(
+    reward
+  ) {
+
+    if (!reward) {
+
+      return 0;
+    }
+
+
+    return Number(
+      reward.calculated_reward_amount
+      ??
+      reward.reward_amount
+      ??
+      0
+    );
+  }
+
+
+  function getRemainingRewardAmount(
+    reward
+  ) {
+
+    if (!reward) {
+
+      return 0;
+    }
+
+
+    /*
+      正常情况下直接使用数据库 remaining_amount。
+      同时保留计算兜底。
+    */
+
+    if (
+      reward.remaining_amount !==
+        null
+      &&
+      reward.remaining_amount !==
+        undefined
+    ) {
+
+      return Math.max(
+        Number(
+          reward.remaining_amount
+          ||
+          0
+        ),
+        0
+      );
+    }
+
+
+    return Math.max(
+      getTotalRewardAmount(
+        reward
+      )
+      -
+      Number(
+        reward.issued_amount
+        ||
+        0
+      ),
+      0
+    );
   }
 
 
@@ -2328,13 +3103,15 @@
 
     const sales =
       Number(
-        salesAmount ||
+        salesAmount
+        ||
         0
       );
 
 
     if (
-      sales >= 300000
+      sales >=
+      300000
     ) {
 
       return {
@@ -2346,7 +3123,8 @@
 
 
     if (
-      sales >= 200000
+      sales >=
+      200000
     ) {
 
       return {
@@ -2358,7 +3136,8 @@
 
 
     if (
-      sales >= 150000
+      sales >=
+      150000
     ) {
 
       return {
@@ -2370,7 +3149,8 @@
 
 
     if (
-      sales >= 100000
+      sales >=
+      100000
     ) {
 
       return {
@@ -2393,9 +3173,38 @@
     reward
   ) {
 
-    const rate =
+    if (!reward) {
+
+      return getRewardTier(
+        0
+      );
+    }
+
+
+    /*
+      数据库 reward_rate 一般存 0.02 / 0.025 / 0.03 / 0.04。
+      如果数据库暂时没有 reward_rate，
+      则根据年度销售额重新判断。
+    */
+
+    if (
+      reward.reward_rate ===
+        null
+      ||
+      reward.reward_rate ===
+        undefined
+    ) {
+
+      return getRewardTier(
+        reward.annual_sales_amount
+      );
+    }
+
+
+    const percentage =
       Number(
-        reward.reward_rate ||
+        reward.reward_rate
+        ||
         0
       )
       *
@@ -2403,7 +3212,8 @@
 
 
     if (
-      rate >= 3.999
+      percentage >=
+      3.999
     ) {
 
       return {
@@ -2415,7 +3225,8 @@
 
 
     if (
-      rate >= 2.999
+      percentage >=
+      2.999
     ) {
 
       return {
@@ -2427,7 +3238,8 @@
 
 
     if (
-      rate >= 2.499
+      percentage >=
+      2.499
     ) {
 
       return {
@@ -2439,7 +3251,8 @@
 
 
     if (
-      rate >= 1.999
+      percentage >=
+      1.999
     ) {
 
       return {
@@ -2459,7 +3272,137 @@
 
 
   /* =====================================================
-     根据代理商找到对应奖励
+     发放状态
+  ===================================================== */
+
+  function getPaymentStatus(
+    reward
+  ) {
+
+    if (!reward) {
+
+      return "unpaid";
+    }
+
+
+    const total =
+      getTotalRewardAmount(
+        reward
+      );
+
+
+    const issued =
+      Number(
+        reward.issued_amount
+        ||
+        0
+      );
+
+
+    const remaining =
+      getRemainingRewardAmount(
+        reward
+      );
+
+
+    /*
+      没有奖励金额时，不需要真正发放。
+      页面显示“无需发放”。
+    */
+
+    if (
+      total <=
+      0
+    ) {
+
+      return "none";
+    }
+
+
+    if (
+      remaining <=
+      0
+      &&
+      issued >=
+      total
+    ) {
+
+      return "paid";
+    }
+
+
+    if (
+      issued >
+      0
+    ) {
+
+      return "partial";
+    }
+
+
+    return "unpaid";
+  }
+
+
+  function getPaymentStatusInfo(
+    reward
+  ) {
+
+    const status =
+      getPaymentStatus(
+        reward
+      );
+
+
+    if (
+      status ===
+      "paid"
+    ) {
+
+      return {
+        status,
+        label: "已全部发放",
+        className: "payment-paid"
+      };
+    }
+
+
+    if (
+      status ===
+      "partial"
+    ) {
+
+      return {
+        status,
+        label: "部分发放",
+        className: "payment-partial"
+      };
+    }
+
+
+    if (
+      status ===
+      "none"
+    ) {
+
+      return {
+        status,
+        label: "无需发放",
+        className: "tier-none"
+      };
+    }
+
+
+    return {
+      status: "unpaid",
+      label: "未发放",
+      className: "payment-unpaid"
+    };
+  }
+
+
+  /* =====================================================
+     根据代理商找到奖励
   ===================================================== */
 
   function getRewardForAgent(
@@ -2471,7 +3414,29 @@
         reward =>
           String(
             reward.agent_id
-          ) ===
+          )
+          ===
+          String(
+            agentId
+          )
+      )
+      ||
+      null
+    );
+  }
+
+
+  function getAgentById(
+    agentId
+  ) {
+
+    return (
+      agents.find(
+        agent =>
+          String(
+            agent.id
+          )
+          ===
           String(
             agentId
           )
@@ -2483,7 +3448,7 @@
 
 
   /* =====================================================
-     渲染奖励列表
+     渲染年度奖励列表
   ===================================================== */
 
   function renderRewards() {
@@ -2515,6 +3480,12 @@
       ).value;
 
 
+    const paymentFilter =
+      document.getElementById(
+        "paymentFilter"
+      ).value;
+
+
     const year =
       getSelectedYear();
 
@@ -2523,148 +3494,158 @@
       "";
 
 
-    /*
-      页面展示所有代理商。
-      没有计算过的代理商也显示，
-      销售额与奖励暂时为0。
-    */
-
     const rows =
       agents
-        .map(
-          function(agent) {
+      .map(
+        function(agent) {
 
-            const reward =
-              getRewardForAgent(
-                agent.id
-              );
-
-
-            const sales =
-              reward
-              ?
-              Number(
-                reward
-                  .annual_sales_amount ||
-                0
-              )
-              :
-              0;
-
-
-            const tier =
-              reward
-              ?
-              getTierFromReward(
-                reward
-              )
-              :
-              getRewardTier(
-                0
-              );
-
-
-            return {
-              agent,
-              reward,
-              sales,
-              tier
-            };
-          }
-        )
-        .filter(
-          function(row) {
-
-            const agent =
-              row.agent;
-
-
-            const searchable =
-              [
-                agent.agent_code,
-                agent.agent_name,
-                agent.agent_region
-              ]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase();
-
-
-            if (
-              keyword
-              &&
-              !searchable.includes(
-                keyword
-              )
-            ) {
-
-              return false;
-            }
-
-
-            if (
-              rewardFilter ===
-              "qualified"
-            ) {
-
-              return (
-                row.sales >=
-                100000
-              );
-            }
-
-
-            if (
-              rewardFilter ===
-              "none"
-            ) {
-
-              return (
-                row.sales <
-                100000
-              );
-            }
-
-
-            if (
-              [
-                "2",
-                "2.5",
-                "3",
-                "4"
-              ].includes(
-                rewardFilter
-              )
-            ) {
-
-              return (
-                Number(
-                  row.tier.rate
-                ) ===
-                Number(
-                  rewardFilter
-                )
-              );
-            }
-
-
-            return true;
-          }
-        )
-        .sort(
-          function(a, b) {
-
-            return (
-              Number(
-                b.sales
-              )
-              -
-              Number(
-                a.sales
-              )
+          const reward =
+            getRewardForAgent(
+              agent.id
             );
+
+
+          const sales =
+            reward
+            ?
+            Number(
+              reward.annual_sales_amount
+              ||
+              0
+            )
+            :
+            0;
+
+
+          const tier =
+            reward
+            ?
+            getTierFromReward(
+              reward
+            )
+            :
+            getRewardTier(
+              sales
+            );
+
+
+          const paymentStatus =
+            getPaymentStatus(
+              reward
+            );
+
+
+          return {
+            agent,
+            reward,
+            sales,
+            tier,
+            paymentStatus
+          };
+        }
+      )
+      .filter(
+        function(row) {
+
+          const searchable =
+            [
+              row.agent.agent_code,
+              row.agent.agent_name,
+              row.agent.agent_region
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+
+          if (
+            keyword
+            &&
+            !searchable.includes(
+              keyword
+            )
+          ) {
+
+            return false;
           }
-        );
+
+
+          if (
+            rewardFilter ===
+            "qualified"
+            &&
+            row.sales <
+            100000
+          ) {
+
+            return false;
+          }
+
+
+          if (
+            rewardFilter ===
+            "none"
+            &&
+            row.sales >=
+            100000
+          ) {
+
+            return false;
+          }
+
+
+          if (
+            [
+              "2",
+              "2.5",
+              "3",
+              "4"
+            ].includes(
+              rewardFilter
+            )
+            &&
+            Number(
+              row.tier.rate
+            )
+            !==
+            Number(
+              rewardFilter
+            )
+          ) {
+
+            return false;
+          }
+
+
+          if (
+            paymentFilter !==
+            "all"
+            &&
+            row.paymentStatus !==
+            paymentFilter
+          ) {
+
+            return false;
+          }
+
+
+          return true;
+        }
+      )
+      .sort(
+        function(a, b) {
+
+          return (
+            Number(
+              b.sales
+            )
+            -
+            Number(
+              a.sales
+            )
+          );
+        }
+      );
 
 
     if (
@@ -2689,53 +3670,57 @@
       rows
     ) {
 
-      const agent =
-        row.agent;
-
-
-      const reward =
-        row.reward;
-
-
-      const sales =
-        row.sales;
-
-
-      const tier =
-        row.tier;
+      const {
+        agent,
+        reward,
+        sales,
+        tier
+      } =
+        row;
 
 
       const currency =
         String(
-          reward?.currency ||
-          agent.balance_currency ||
+          reward?.currency
+          ||
+          agent.balance_currency
+          ||
           "CNY"
         ).toUpperCase();
 
 
-      const rewardAmount =
+      const totalReward =
+        getTotalRewardAmount(
+          reward
+        );
+
+
+      const issued =
         reward
         ?
         Number(
-          reward
-            .calculated_reward_amount
-          ??
-          reward.reward_amount
-          ??
+          reward.issued_amount
+          ||
           0
         )
         :
         0;
 
 
-      const periodStart =
-        reward?.calculation_start_date ||
-        `${year}-01-01`;
+      const remaining =
+        reward
+        ?
+        getRemainingRewardAmount(
+          reward
+        )
+        :
+        0;
 
 
-      const periodEnd =
-        reward?.calculation_end_date ||
-        `${year}-12-31`;
+      const statusInfo =
+        getPaymentStatusInfo(
+          reward
+        );
 
 
       const calculatedAt =
@@ -2746,6 +3731,51 @@
         )
         :
         "尚未计算";
+
+
+      let paymentButton =
+        "";
+
+
+      if (
+        reward
+        &&
+        totalReward >
+        0
+      ) {
+
+        if (
+          remaining >
+          0
+        ) {
+
+          paymentButton =
+            `
+              <button
+                class="btn btn-green btn-small"
+                type="button"
+                onclick="openPaymentModal(${Number(reward.id)})"
+              >
+                发放奖励
+              </button>
+            `;
+
+        }
+
+        else {
+
+          paymentButton =
+            `
+              <button
+                class="btn btn-light btn-small"
+                type="button"
+                onclick="openPaymentModal(${Number(reward.id)})"
+              >
+                发放记录
+              </button>
+            `;
+        }
+      }
 
 
       const tr =
@@ -2759,7 +3789,8 @@
           <td>
             <span class="agent-code">
               ${escapeHTML(
-                agent.agent_code ||
+                agent.agent_code
+                ||
                 "-"
               )}
             </span>
@@ -2768,7 +3799,8 @@
           <td>
             <span class="agent-name">
               ${escapeHTML(
-                agent.agent_name ||
+                agent.agent_name
+                ||
                 "-"
               )}
             </span>
@@ -2776,23 +3808,14 @@
 
           <td>
             ${escapeHTML(
-              agent.agent_region ||
+              agent.agent_region
+              ||
               "-"
             )}
           </td>
 
           <td>
             ${year}
-          </td>
-
-          <td>
-            ${escapeHTML(
-              periodStart
-            )}
-            ～
-            ${escapeHTML(
-              periodEnd
-            )}
           </td>
 
           <td>
@@ -2819,7 +3842,8 @@
           <td>
             <span
               class="rate-badge ${
-                tier.rate === 0
+                tier.rate ===
+                0
                 ?
                 "rate-zero"
                 :
@@ -2835,10 +3859,56 @@
           <td>
             <span class="reward-money">
               ${formatMoney(
-                rewardAmount
+                totalReward
               )}
               ${escapeHTML(
                 currency
+              )}
+            </span>
+          </td>
+
+          <td>
+            <span class="${
+              issued >
+              0
+              ?
+              "issued-money"
+              :
+              "zero-money"
+            }">
+              ${formatMoney(
+                issued
+              )}
+              ${escapeHTML(
+                currency
+              )}
+            </span>
+          </td>
+
+          <td>
+            <span class="${
+              remaining >
+              0
+              ?
+              "remaining-money"
+              :
+              "zero-money"
+            }">
+              ${formatMoney(
+                remaining
+              )}
+              ${escapeHTML(
+                currency
+              )}
+            </span>
+          </td>
+
+          <td>
+            <span
+              class="payment-status ${statusInfo.className}"
+            >
+              ${escapeHTML(
+                statusInfo.label
               )}
             </span>
           </td>
@@ -2851,13 +3921,19 @@
 
           <td>
 
-            <button
-              class="btn btn-dark btn-small"
-              type="button"
-              onclick="openRewardDetail(${Number(agent.id)})"
-            >
-              查看详情
-            </button>
+            <div class="row-actions">
+
+              <button
+                class="btn btn-dark btn-small"
+                type="button"
+                onclick="openRewardDetail(${Number(agent.id)})"
+              >
+                查看详情
+              </button>
+
+              ${paymentButton}
+
+            </div>
 
           </td>
         `;
@@ -2871,7 +3947,7 @@
 
 
   /* =====================================================
-     单个代理商详情
+     奖励详情
   ===================================================== */
 
   function openRewardDetail(
@@ -2879,10 +3955,8 @@
   ) {
 
     const agent =
-      agents.find(
-        item =>
-          String(item.id) ===
-          String(agentId)
+      getAgentById(
+        agentId
       );
 
 
@@ -2911,8 +3985,8 @@
       reward
       ?
       Number(
-        reward
-          .annual_sales_amount ||
+        reward.annual_sales_amount
+        ||
         0
       )
       :
@@ -2931,16 +4005,29 @@
       );
 
 
-    const rewardAmount =
+    const totalReward =
+      getTotalRewardAmount(
+        reward
+      );
+
+
+    const issued =
       reward
       ?
       Number(
-        reward
-          .calculated_reward_amount
-        ??
-        reward.reward_amount
-        ??
+        reward.issued_amount
+        ||
         0
+      )
+      :
+      0;
+
+
+    const remaining =
+      reward
+      ?
+      getRemainingRewardAmount(
+        reward
       )
       :
       0;
@@ -2948,45 +4035,63 @@
 
     const currency =
       String(
-        reward?.currency ||
-        agent.balance_currency ||
+        reward?.currency
+        ||
+        agent.balance_currency
+        ||
         "CNY"
       ).toUpperCase();
 
 
     const start =
-      reward?.calculation_start_date ||
+      reward?.calculation_start_date
+      ||
       `${year}-01-01`;
 
 
     const end =
-      reward?.calculation_end_date ||
+      reward?.calculation_end_date
+      ||
       `${year}-12-31`;
+
+
+    const statusInfo =
+      getPaymentStatusInfo(
+        reward
+      );
 
 
     setText(
       "detailAgentCode",
-      agent.agent_code ||
+      agent.agent_code
+      ||
       "-"
     );
 
 
     setText(
       "detailAgentName",
-      agent.agent_name ||
+      agent.agent_name
+      ||
       "-"
     );
 
 
     setText(
       "detailYear",
-      `${year}年度`
+      year
+      +
+      "年度"
     );
 
 
     setText(
       "detailPeriod",
-      `${start} ～ ${end}`
+      start
+      +
+      " ～ "
+      +
+      end
     );
 
 
@@ -3003,26 +4108,13 @@
 
 
     document.getElementById(
-      "detailTier"
-    ).innerHTML =
-      `
-        <span
-          class="tier-badge ${tier.className}"
-        >
-          ${escapeHTML(
-            tier.label
-          )}
-        </span>
-      `;
-
-
-    document.getElementById(
       "detailRate"
     ).innerHTML =
       `
         <span
           class="rate-badge ${
-            tier.rate === 0
+            tier.rate ===
+            0
             ?
             "rate-zero"
             :
@@ -3039,7 +4131,7 @@
     setText(
       "detailReward",
       formatMoney(
-        rewardAmount
+        totalReward
       )
       +
       " "
@@ -3049,9 +4141,41 @@
 
 
     setText(
-      "detailCurrency",
+      "detailIssued",
+      formatMoney(
+        issued
+      )
+      +
+      " "
+      +
       currency
     );
+
+
+    setText(
+      "detailRemaining",
+      formatMoney(
+        remaining
+      )
+      +
+      " "
+      +
+      currency
+    );
+
+
+    document.getElementById(
+      "detailPaymentStatus"
+    ).innerHTML =
+      `
+        <span
+          class="payment-status ${statusInfo.className}"
+        >
+          ${escapeHTML(
+            statusInfo.label
+          )}
+        </span>
+      `;
 
 
     setText(
@@ -3071,11 +4195,16 @@
 
 
     if (
-      tier.rate === 0
+      tier.rate ===
+      0
     ) {
 
       formulaText =
-        "该代理商本年度销售额为 "
+        "该代理商 "
+        +
+        year
+        +
+        " 年度销售额为 "
         +
         formatMoney(
           sales
@@ -3085,14 +4214,16 @@
         +
         currency
         +
-        "，未达到100,000，因此年终奖励比例为0%，本年度奖励金额为0。";
+        "，未达到100,000，因此本年度没有年终奖励。";
 
     }
 
     else {
 
       formulaText =
-        "本年度销售额 "
+        year
+        +
+        "年度销售额 "
         +
         formatMoney(
           sales
@@ -3102,16 +4233,36 @@
         +
         currency
         +
-        " × 奖励比例 "
+        " × "
         +
         formatPercent(
           tier.rate
         )
         +
-        " = "
+        " = 应发奖励 "
         +
         formatMoney(
-          rewardAmount
+          totalReward
+        )
+        +
+        " "
+        +
+        currency
+        +
+        "；目前已发放 "
+        +
+        formatMoney(
+          issued
+        )
+        +
+        " "
+        +
+        currency
+        +
+        "，待发放 "
+        +
+        formatMoney(
+          remaining
         )
         +
         " "
@@ -3128,28 +4279,785 @@
       formulaText;
 
 
-    document
-      .getElementById(
-        "detailModal"
-      )
-      .classList
-      .add("show");
+    document.getElementById(
+      "detailModal"
+    ).classList.add(
+      "show"
+    );
   }
 
 
   function closeDetailModal() {
 
-    document
-      .getElementById(
-        "detailModal"
-      )
-      .classList
-      .remove("show");
+    document.getElementById(
+      "detailModal"
+    ).classList.remove(
+      "show"
+    );
   }
 
 
   /* =====================================================
-     金额显示
+     打开奖励发放窗口
+  ===================================================== */
+
+  function openPaymentModal(
+    rewardId
+  ) {
+
+    const reward =
+      rewards.find(
+        item =>
+          String(
+            item.id
+          )
+          ===
+          String(
+            rewardId
+          )
+      );
+
+
+    if (!reward) {
+
+      showNotice(
+        "没有找到该年度奖励记录。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const agent =
+      getAgentById(
+        reward.agent_id
+      );
+
+
+    if (!agent) {
+
+      showNotice(
+        "没有找到对应代理商。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const totalReward =
+      getTotalRewardAmount(
+        reward
+      );
+
+
+    const issued =
+      Number(
+        reward.issued_amount
+        ||
+        0
+      );
+
+
+    const remaining =
+      getRemainingRewardAmount(
+        reward
+      );
+
+
+    const currency =
+      String(
+        reward.currency
+        ||
+        agent.balance_currency
+        ||
+        "CNY"
+      ).toUpperCase();
+
+
+    document.getElementById(
+      "paymentRewardId"
+    ).value =
+      reward.id;
+
+
+    document.getElementById(
+      "paymentAgentId"
+    ).value =
+      agent.id;
+
+
+    document.getElementById(
+      "paymentAgentBox"
+    ).innerHTML =
+      `
+        <strong>
+          ${escapeHTML(
+            agent.agent_name
+            ||
+            "-"
+          )}
+        </strong>
+
+        &nbsp;&nbsp;
+
+        代理商代码：
+        ${escapeHTML(
+          agent.agent_code
+          ||
+          "-"
+        )}
+
+        &nbsp;&nbsp;
+
+        奖励年度：
+        <strong>
+          ${escapeHTML(
+            reward.reward_year
+          )}
+        </strong>
+      `;
+
+
+    document.getElementById(
+      "paymentTotalReward"
+    ).textContent =
+      formatMoney(
+        totalReward
+      )
+      +
+      " "
+      +
+      currency;
+
+
+    document.getElementById(
+      "paymentIssuedAmount"
+    ).textContent =
+      formatMoney(
+        issued
+      )
+      +
+      " "
+      +
+      currency;
+
+
+    document.getElementById(
+      "paymentRemainingAmount"
+    ).textContent =
+      formatMoney(
+        remaining
+      )
+      +
+      " "
+      +
+      currency;
+
+
+    const paymentForm =
+      document.getElementById(
+        "paymentForm"
+      );
+
+
+    const paymentAmount =
+      document.getElementById(
+        "paymentAmount"
+      );
+
+
+    const executeButton =
+      document.getElementById(
+        "executePaymentButton"
+      );
+
+
+    document.getElementById(
+      "paymentMethod"
+    ).value =
+      "银行转账";
+
+
+    document.getElementById(
+      "paymentReferenceNo"
+    ).value =
+      "";
+
+
+    document.getElementById(
+      "paymentNotes"
+    ).value =
+      "";
+
+
+    if (
+      totalReward >
+      0
+      &&
+      remaining >
+      0
+    ) {
+
+      paymentForm.style.display =
+        "block";
+
+
+      paymentAmount.value =
+        remaining.toFixed(
+          2
+        );
+
+
+      paymentAmount.max =
+        remaining.toFixed(
+          2
+        );
+
+
+      executeButton.disabled =
+        false;
+
+    }
+
+    else {
+
+      paymentForm.style.display =
+        "none";
+
+
+      paymentAmount.value =
+        "";
+    }
+
+
+    renderPaymentHistory(
+      reward.id
+    );
+
+
+    document.getElementById(
+      "paymentModal"
+    ).classList.add(
+      "show"
+    );
+  }
+
+
+  function closePaymentModal() {
+
+    document.getElementById(
+      "paymentModal"
+    ).classList.remove(
+      "show"
+    );
+  }
+
+
+  /* =====================================================
+     发放历史
+  ===================================================== */
+
+  function renderPaymentHistory(
+    rewardId
+  ) {
+
+    const tbody =
+      document.getElementById(
+        "paymentHistoryBody"
+      );
+
+
+    const empty =
+      document.getElementById(
+        "paymentHistoryEmpty"
+      );
+
+
+    tbody.innerHTML =
+      "";
+
+
+    const rows =
+      disbursements
+      .filter(
+        item =>
+          String(
+            item.annual_reward_id
+          )
+          ===
+          String(
+            rewardId
+          )
+      )
+      .sort(
+        function(a, b) {
+
+          return (
+            new Date(
+              b.executed_at
+              ||
+              b.created_at
+            ).getTime()
+            -
+            new Date(
+              a.executed_at
+              ||
+              a.created_at
+            ).getTime()
+          );
+        }
+      );
+
+
+    if (
+      rows.length ===
+      0
+    ) {
+
+      empty.style.display =
+        "block";
+
+      return;
+    }
+
+
+    empty.style.display =
+      "none";
+
+
+    for (
+      const item
+      of
+      rows
+    ) {
+
+      const executor =
+        profiles.find(
+          profile =>
+            String(
+              profile.id
+            )
+            ===
+            String(
+              item.executed_by
+            )
+        );
+
+
+      const executorName =
+        executor?.display_name
+        ||
+        "公司管理人员";
+
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML =
+        `
+          <td>
+            ${escapeHTML(
+              formatDateTime(
+                item.executed_at
+                ||
+                item.created_at
+              )
+            )}
+          </td>
+
+          <td>
+            <span class="issued-money">
+              ${formatMoney(
+                item.amount
+              )}
+              ${escapeHTML(
+                String(
+                  item.currency
+                  ||
+                  "CNY"
+                ).toUpperCase()
+              )}
+            </span>
+          </td>
+
+          <td>
+            ${escapeHTML(
+              item.payment_method
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              item.reference_no
+              ||
+              "-"
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              executorName
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              item.notes
+              ||
+              "-"
+            )}
+          </td>
+        `;
+
+
+      tbody.appendChild(
+        tr
+      );
+    }
+  }
+
+
+  /* =====================================================
+     正式执行奖励发放
+  ===================================================== */
+
+  async function executeRewardPayment() {
+
+    const rewardId =
+      Number(
+        document.getElementById(
+          "paymentRewardId"
+        ).value
+      );
+
+
+    const amount =
+      Number(
+        document.getElementById(
+          "paymentAmount"
+        ).value
+      );
+
+
+    const paymentMethod =
+      document.getElementById(
+        "paymentMethod"
+      ).value
+      .trim();
+
+
+    const referenceNo =
+      document.getElementById(
+        "paymentReferenceNo"
+      ).value
+      .trim();
+
+
+    const notes =
+      document.getElementById(
+        "paymentNotes"
+      ).value
+      .trim();
+
+
+    const reward =
+      rewards.find(
+        item =>
+          Number(
+            item.id
+          )
+          ===
+          rewardId
+      );
+
+
+    if (!reward) {
+
+      showNotice(
+        "年度奖励记录不存在。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const agent =
+      getAgentById(
+        reward.agent_id
+      );
+
+
+    const remaining =
+      getRemainingRewardAmount(
+        reward
+      );
+
+
+    const currency =
+      String(
+        reward.currency
+        ||
+        agent?.balance_currency
+        ||
+        "CNY"
+      ).toUpperCase();
+
+
+    if (
+      !Number.isFinite(
+        amount
+      )
+      ||
+      amount <=
+      0
+    ) {
+
+      showNotice(
+        "请输入正确的发放金额。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (
+      amount >
+      remaining
+    ) {
+
+      showNotice(
+        "本次发放金额不能超过当前待发放金额 "
+        +
+        formatMoney(
+          remaining
+        )
+        +
+        " "
+        +
+        currency
+        +
+        "。",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const confirmed =
+      confirm(
+        "确定执行本次年终奖励发放吗？\n\n"
+        +
+        "代理商："
+        +
+        (
+          agent?.agent_name
+          ||
+          "-"
+        )
+        +
+        "\n"
+        +
+        "奖励年度："
+        +
+        reward.reward_year
+        +
+        "\n"
+        +
+        "本次发放："
+        +
+        formatMoney(
+          amount
+        )
+        +
+        " "
+        +
+        currency
+        +
+        "\n\n"
+        +
+        "确认后将生成永久发放记录。"
+      );
+
+
+    if (!confirmed) {
+
+      return;
+    }
+
+
+    const button =
+      document.getElementById(
+        "executePaymentButton"
+      );
+
+
+    button.disabled =
+      true;
+
+
+    button.textContent =
+      "正在发放……";
+
+
+    showLoading(true);
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .rpc(
+            "execute_annual_reward_disbursement",
+            {
+              p_annual_reward_id:
+                rewardId,
+
+              p_amount:
+                amount,
+
+              p_payment_method:
+                paymentMethod
+                ||
+                null,
+
+              p_reference_no:
+                referenceNo
+                ||
+                null,
+
+              p_notes:
+                notes
+                ||
+                null
+            }
+          );
+
+
+      if (error) {
+
+        throw error;
+      }
+
+
+      /*
+        先关闭旧窗口，
+        再重新读取数据库。
+      */
+
+      closePaymentModal();
+
+
+      await loadAllData();
+
+
+      showNotice(
+        "奖励发放成功。本次发放 "
+        +
+        formatMoney(
+          amount
+        )
+        +
+        " "
+        +
+        currency
+        +
+        "，剩余待发放 "
+        +
+        formatMoney(
+          Number(
+            data?.remaining_amount
+            ??
+            0
+          )
+        )
+        +
+        " "
+        +
+        currency
+        +
+        "。",
+        "success"
+      );
+
+
+      /*
+        重新打开同一年度奖励窗口，
+        这样发放金额和发放流水会立即更新。
+      */
+
+      const refreshedReward =
+        rewards.find(
+          item =>
+            Number(
+              item.id
+            )
+            ===
+            rewardId
+        );
+
+
+      if (
+        refreshedReward
+      ) {
+
+        openPaymentModal(
+          rewardId
+        );
+      }
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "奖励发放失败：",
+        error
+      );
+
+
+      showNotice(
+        "奖励发放失败："
+        +
+        (
+          error.message
+          ||
+          "未知错误"
+        ),
+        "error"
+      );
+
+    }
+
+    finally {
+
+      showLoading(false);
+
+
+      button.disabled =
+        false;
+
+
+      button.textContent =
+        "确认发放";
+    }
+  }
+
+
+  /* =====================================================
+     金额格式
   ===================================================== */
 
   function formatMoney(
@@ -3158,7 +5066,8 @@
 
     const number =
       Number(
-        value ||
+        value
+        ||
         0
       );
 
@@ -3189,7 +5098,8 @@
 
     const number =
       Number(
-        value ||
+        value
+        ||
         0
       );
 
@@ -3209,7 +5119,9 @@
 
 
     return (
-      number.toFixed(1)
+      number.toFixed(
+        1
+      )
       +
       "%"
     );
@@ -3222,13 +5134,18 @@
 
     const entries =
       Object.entries(
-        values || {}
+        values
+        ||
+        {}
       )
       .filter(
         ([, amount]) =>
           Math.abs(
-            Number(amount)
-          ) >
+            Number(
+              amount
+            )
+          )
+          >
           0.000001
       )
       .sort(
@@ -3261,12 +5178,14 @@
             currency
           )
       )
-      .join("<br>");
+      .join(
+        "<br>"
+      );
   }
 
 
   /* =====================================================
-     时间
+     时间格式
   ===================================================== */
 
   function formatDateTime(
@@ -3274,6 +5193,7 @@
   ) {
 
     if (!value) {
+
       return "-";
     }
 
@@ -3314,7 +5234,7 @@
 
 
   /* =====================================================
-     基础工具
+     HTML安全
   ===================================================== */
 
   function escapeHTML(
@@ -3322,7 +5242,9 @@
   ) {
 
     return String(
-      value ?? ""
+      value
+      ??
+      ""
     )
     .replace(
       /&/g,
@@ -3361,7 +5283,9 @@
     if (element) {
 
       element.textContent =
-        value ?? "-";
+        value
+        ??
+        "-";
     }
   }
 
@@ -3389,17 +5313,13 @@
       message;
 
 
-    let className =
-      "notice show ";
-
-
     if (
       type ===
       "error"
     ) {
 
-      className +=
-        "notice-error";
+      notice.className =
+        "notice show notice-error";
 
     }
 
@@ -3408,23 +5328,21 @@
       "info"
     ) {
 
-      className +=
-        "notice-info";
+      notice.className =
+        "notice show notice-info";
 
     }
 
     else {
 
-      className +=
-        "notice-success";
+      notice.className =
+        "notice show notice-success";
     }
 
 
-    notice.className =
-      className;
-
-
-    if (noticeTimer) {
+    if (
+      noticeTimer
+    ) {
 
       clearTimeout(
         noticeTimer
@@ -3458,18 +5376,26 @@
       "loadingMask"
     ).classList.toggle(
       "show",
-      Boolean(show)
+      Boolean(
+        show
+      )
     );
   }
 
 
   /* =====================================================
-     点击遮罩关闭详情
+     Modal遮罩
   ===================================================== */
 
   const detailModal =
     document.getElementById(
       "detailModal"
+    );
+
+
+  const paymentModal =
+    document.getElementById(
+      "paymentModal"
     );
 
 
@@ -3488,6 +5414,21 @@
   );
 
 
+  paymentModal.addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target ===
+        paymentModal
+      ) {
+
+        closePaymentModal();
+      }
+    }
+  );
+
+
   document.addEventListener(
     "keydown",
     function(event) {
@@ -3498,13 +5439,15 @@
       ) {
 
         closeDetailModal();
+
+        closePaymentModal();
       }
     }
   );
 
 
   /* =====================================================
-     返回
+     返回工作台
   ===================================================== */
 
   function goBack() {
@@ -3651,7 +5594,7 @@
     catch (error) {
 
       console.warn(
-        "自动退出signOut失败：",
+        "自动退出失败：",
         error
       );
 
@@ -3705,7 +5648,7 @@
 
         if (
           event ===
-            "SIGNED_OUT"
+          "SIGNED_OUT"
           &&
           !autoLogoutRunning
         ) {
