@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -51,91 +52,137 @@
       min-height: 100vh;
 
       display: flex;
-      align-items: center;
+
+      align-items: flex-start;
+
       justify-content: center;
+
+      padding-top: 0;
     }
 
 
+    /* =====================================================
+       登录主卡片
+       风格与 page11 对齐
+    ===================================================== */
+
     .login-container {
+
       width: 100%;
-      max-width: 420px;
+
+      max-width: 500px;
+
+      min-height: 100vh;
 
       background: #ffffff;
 
-      padding: 42px 36px;
-
-      border-radius: 14px;
+      padding:
+        54px 42px 40px;
 
       box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.08);
+        0 0 35px rgba(15, 23, 42, 0.06);
     }
 
 
+    /* =====================================================
+       Logo
+    ===================================================== */
+
     .logo {
+
       text-align: center;
-      margin-bottom: 10px;
+
+      margin-bottom: 36px;
     }
 
 
     .logo-title {
-      font-size: 25px;
-      font-weight: 700;
+
+      font-size: 28px;
+
+      font-weight: 800;
+
       color: #111827;
+
       letter-spacing: 1px;
     }
 
 
     .logo-subtitle {
-      margin-top: 5px;
-      font-size: 13px;
+
+      margin-top: 7px;
+
+      font-size: 15px;
+
       color: #6b7280;
     }
 
 
+    /* =====================================================
+       登录标题
+    ===================================================== */
+
     .login-title {
-      margin-top: 30px;
-      margin-bottom: 26px;
+
+      margin-top: 0;
+
+      margin-bottom: 36px;
 
       text-align: center;
 
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 24px;
+
+      font-weight: 700;
 
       color: #1f2937;
     }
 
 
+    /* =====================================================
+       表单
+    ===================================================== */
+
     .form-group {
-      margin-bottom: 20px;
+
+      margin-bottom: 22px;
     }
 
 
     label {
+
       display: block;
 
-      margin-bottom: 8px;
+      margin-bottom: 9px;
 
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 15px;
+
+      font-weight: 700;
 
       color: #374151;
     }
 
 
     input {
+
       width: 100%;
 
-      padding: 12px 13px;
+      height: 58px;
 
-      border: 1px solid #d1d5db;
+      padding:
+        0 16px;
 
-      border-radius: 8px;
+      border:
+        1px solid #d1d5db;
 
-      font-size: 15px;
+      border-radius: 9px;
+
+      font-size: 18px;
 
       outline: none;
 
       background: #ffffff;
+
+      color: #111827;
 
       transition:
         border-color 0.2s,
@@ -143,7 +190,14 @@
     }
 
 
+    input::placeholder {
+
+      color: #9ca3af;
+    }
+
+
     input:focus {
+
       border-color: #2563eb;
 
       box-shadow:
@@ -151,120 +205,235 @@
     }
 
 
-    .login-button {
-      width: 100%;
+    /* =====================================================
+       密码显示按钮
+    ===================================================== */
 
-      margin-top: 8px;
+    .password-wrapper {
 
-      padding: 13px;
+      position: relative;
+    }
+
+
+    .password-wrapper input {
+
+      padding-right: 72px;
+    }
+
+
+    .password-toggle {
+
+      position: absolute;
+
+      right: 14px;
+
+      top: 50%;
+
+      transform:
+        translateY(-50%);
 
       border: none;
 
-      border-radius: 8px;
+      background: transparent;
+
+      color: #4b5563;
+
+      font-size: 14px;
+
+      cursor: pointer;
+
+      padding:
+        6px 4px;
+    }
+
+
+    .password-toggle:hover {
+
+      color: #111827;
+    }
+
+
+    /* =====================================================
+       登录按钮
+    ===================================================== */
+
+    .login-button {
+
+      width: 100%;
+
+      margin-top: 14px;
+
+      height: 64px;
+
+      border: none;
+
+      border-radius: 9px;
 
       background: #0f172a;
 
       color: #ffffff;
 
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 18px;
+
+      font-weight: 700;
 
       cursor: pointer;
 
-      transition: 0.2s;
+      transition:
+        background 0.2s,
+        opacity 0.2s;
     }
 
 
     .login-button:hover {
+
       background: #1e293b;
     }
 
 
     .login-button:disabled {
+
       opacity: 0.6;
+
       cursor: not-allowed;
     }
 
 
+    /* =====================================================
+       返回首页
+    ===================================================== */
+
     .home-button {
+
       width: 100%;
 
-      margin-top: 12px;
+      margin-top: 14px;
 
-      padding: 12px;
+      height: 62px;
 
-      border: 1px solid #d1d5db;
+      border:
+        1px solid #d1d5db;
 
-      border-radius: 8px;
+      border-radius: 9px;
 
       background: #ffffff;
 
       color: #374151;
 
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 17px;
+
+      font-weight: 700;
 
       cursor: pointer;
 
-      transition: 0.2s;
+      transition:
+        background 0.2s,
+        border-color 0.2s;
     }
 
 
     .home-button:hover {
-      background: #f3f4f6;
+
+      background: #f9fafb;
 
       border-color: #9ca3af;
     }
 
 
-    .message {
-      min-height: 20px;
+    /* =====================================================
+       提示
+    ===================================================== */
 
-      margin-top: 16px;
+    .message {
+
+      min-height: 24px;
+
+      margin-top: 18px;
 
       text-align: center;
 
       font-size: 13px;
-      font-weight: 500;
+
+      font-weight: 600;
 
       line-height: 1.6;
     }
 
 
     .message.error {
+
       color: #dc2626;
     }
 
 
     .message.success {
+
       color: #059669;
     }
 
 
+    /* =====================================================
+       底部说明
+    ===================================================== */
+
     .security-note {
-      margin-top: 26px;
 
-      padding-top: 18px;
+      margin-top: 58px;
 
-      border-top: 1px solid #e5e7eb;
+      padding:
+        17px 16px;
 
-      text-align: center;
+      background: #f8fafc;
+
+      border-radius: 9px;
+
+      color: #6b7280;
+
+      text-align: left;
 
       font-size: 12px;
-      color: #9ca3af;
 
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
 
     @media (max-width: 520px) {
 
       body {
-        padding: 18px;
+
+        align-items: stretch;
+
       }
 
+
       .login-container {
-        padding: 34px 24px;
+
+        max-width: none;
+
+        padding:
+          42px 24px 32px;
+
+      }
+
+
+      .logo-title {
+
+        font-size: 26px;
+
+      }
+
+
+      .login-title {
+
+        font-size: 22px;
+
+      }
+
+
+      input {
+
+        font-size: 16px;
+
       }
 
     }
@@ -281,25 +450,46 @@
   <div class="login-container">
 
 
+    <!-- =====================================================
+         Logo
+    ====================================================== -->
+
     <div class="logo">
 
+
       <div class="logo-title">
+
         硕丰科技
+
       </div>
+
 
       <div class="logo-subtitle">
-        ShuoFeng Technology
+
+        企业管理系统
+
       </div>
 
+
     </div>
 
 
+
+    <!-- =====================================================
+         标题
+    ====================================================== -->
 
     <div class="login-title">
+
       管理人员登录
+
     </div>
 
 
+
+    <!-- =====================================================
+         登录表单
+    ====================================================== -->
 
     <form
       id="loginForm"
@@ -307,7 +497,9 @@
     >
 
 
-      <!-- 降低浏览器自动填充概率 -->
+      <!-- =================================================
+           降低浏览器自动填充概率
+      ================================================== -->
 
       <input
         type="text"
@@ -323,6 +515,7 @@
           opacity:0;
         "
       >
+
 
       <input
         type="password"
@@ -341,16 +534,26 @@
 
 
 
+      <!-- =================================================
+           用户名
+      ================================================== -->
+
       <div class="form-group">
 
+
         <label for="username">
-          用户名
+
+          登录邮箱
+
         </label>
+
 
         <input
           id="username"
           name="management_login_username"
           type="text"
+
+          placeholder="请输入管理人员登录邮箱"
 
           autocomplete="off"
           autocorrect="off"
@@ -361,49 +564,94 @@
           required
         >
 
+
       </div>
 
 
+
+      <!-- =================================================
+           密码
+      ================================================== -->
 
       <div class="form-group">
 
+
         <label for="password">
+
           密码
+
         </label>
 
-        <input
-          id="password"
-          name="management_login_password"
-          type="password"
 
-          autocomplete="new-password"
+        <div class="password-wrapper">
 
-          readonly
-          required
-        >
+
+          <input
+            id="password"
+            name="management_login_password"
+            type="password"
+
+            placeholder="请输入密码"
+
+            autocomplete="new-password"
+
+            readonly
+            required
+          >
+
+
+          <button
+            id="passwordToggle"
+            class="password-toggle"
+            type="button"
+            onclick="togglePassword()"
+          >
+            显示
+          </button>
+
+
+        </div>
+
 
       </div>
 
 
+
+      <!-- =================================================
+           登录
+      ================================================== -->
 
       <button
         id="loginButton"
         class="login-button"
         type="submit"
       >
-        登录
+
+        登录管理系统
+
       </button>
 
+
+
+      <!-- =================================================
+           返回首页
+      ================================================== -->
 
       <button
         class="home-button"
         type="button"
         onclick="goHome()"
       >
-        ← 返回主页
+
+        返回首页
+
       </button>
 
 
+
+      <!-- =================================================
+           提示
+      ================================================== -->
 
       <div
         id="message"
@@ -415,12 +663,24 @@
 
 
 
+    <!-- =====================================================
+         安全说明
+    ====================================================== -->
+
     <div class="security-note">
 
-      本入口仅限公司管理人员使用。
+      本页面仅供硕丰科技公司管理人员使用。
+
       <br>
-      只有有效的 admin / founder 账号可以进入管理系统。
+
+      只有有效的公司管理账号可以进入管理系统。
+
       <br>
+
+      系统仅允许 founder / admin 权限账号登录。
+
+      <br>
+
       本页面不保存登录用户名和密码。
 
     </div>
@@ -430,9 +690,13 @@
 
 
 
-  <!-- Supabase JS -->
+  <!-- =====================================================
+       Supabase
+  ====================================================== -->
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
 
 
   <script>
@@ -454,11 +718,20 @@
         SUPABASE_URL,
         SUPABASE_KEY,
         {
+
           auth: {
-            persistSession: true,
-            autoRefreshToken: true,
-            detectSessionInUrl: true
+
+            persistSession:
+              true,
+
+            autoRefreshToken:
+              true,
+
+            detectSessionInUrl:
+              true
+
           }
+
         }
       );
 
@@ -497,6 +770,52 @@
       );
 
 
+    const passwordToggle =
+      document.getElementById(
+        "passwordToggle"
+      );
+
+
+
+    /* =====================================================
+       显示 / 隐藏密码
+    ===================================================== */
+
+    function togglePassword() {
+
+
+      if (
+        passwordInput.type ===
+        "password"
+      ) {
+
+
+        passwordInput.type =
+          "text";
+
+
+        passwordToggle.textContent =
+          "隐藏";
+
+
+      }
+
+      else {
+
+
+        passwordInput.type =
+          "password";
+
+
+        passwordToggle.textContent =
+          "显示";
+
+
+      }
+
+    }
+
+
 
     /* =====================================================
        返回主页
@@ -504,7 +823,9 @@
 
     function goHome() {
 
+
       clearLoginFields();
+
 
       window.location.href =
         "index.html";
@@ -515,45 +836,54 @@
 
     /* =====================================================
        清除旧前端登录数据
-
-       不在这里清除 Supabase Session。
+       不在这里清除 Supabase Session
     ===================================================== */
 
     function clearOldLocalData() {
 
+
       const keys = [
+
         "managementLogin",
         "managementUser",
         "managementRole",
         "loginTime",
         "username",
         "password"
+
       ];
 
 
       keys.forEach(
         function(key) {
 
+
           try {
+
 
             localStorage.removeItem(
               key
             );
 
+
           }
 
           catch (error) {}
 
 
+
           try {
+
 
             sessionStorage.removeItem(
               key
             );
 
+
           }
 
           catch (error) {}
+
 
         }
       );
@@ -568,11 +898,21 @@
 
     function clearLoginFields() {
 
+
       usernameInput.value =
         "";
 
+
       passwordInput.value =
         "";
+
+
+      passwordInput.type =
+        "password";
+
+
+      passwordToggle.textContent =
+        "显示";
 
     }
 
@@ -590,7 +930,9 @@
 
         clearOldLocalData();
 
+
         clearLoginFields();
+
 
 
         setTimeout(
@@ -618,10 +960,13 @@
         );
 
 
+
         setTimeout(
           function() {
 
+
             clearLoginFields();
+
 
           },
           800
@@ -646,10 +991,13 @@
         clearOldLocalData();
 
 
+
         setTimeout(
           function() {
 
+
             clearLoginFields();
+
 
           },
           100
@@ -681,9 +1029,11 @@
 
 
       if (
-        !user ||
+        !user
+        ||
         !user.id
       ) {
+
 
         throw new Error(
           "无法读取当前登录用户。"
@@ -693,11 +1043,6 @@
 
 
 
-      /*
-        最多读取3次，
-        对刚刚创建的管理账号更稳妥。
-      */
-
       let profile =
         null;
 
@@ -706,6 +1051,11 @@
         null;
 
 
+
+      /*
+        最多读取3次，
+        对刚刚创建的管理账号更稳妥。
+      */
 
       for (
         let attempt = 1;
@@ -734,7 +1084,8 @@
 
 
         if (
-          !error &&
+          !error
+          &&
           data
         ) {
 
@@ -774,14 +1125,13 @@
 
         }
 
-
       }
 
 
 
-      /*
-        没有 profiles
-      */
+      /* =================================================
+         没有 profiles
+      ================================================== */
 
       if (
         !profile
@@ -802,12 +1152,13 @@
 
 
 
-      /*
-        账号被停用
-      */
+      /* =================================================
+         已经停用
+      ================================================== */
 
       if (
-        profile.is_active !== true
+        profile.is_active !==
+        true
       ) {
 
 
@@ -819,11 +1170,9 @@
 
 
 
-      /*
-        核心权限判断
-
-        只有 founder / admin 可以进入。
-      */
+      /* =================================================
+         核心管理权限
+      ================================================== */
 
       const allowed =
         profile.role ===
@@ -831,7 +1180,6 @@
         ||
         profile.role ===
         "admin";
-
 
 
       if (
@@ -842,11 +1190,13 @@
         console.warn(
           "非管理人员尝试从 page10 登录：",
           {
+
             userId:
               user.id,
 
             role:
               profile.role
+
           }
         );
 
@@ -856,7 +1206,6 @@
         );
 
       }
-
 
 
       return profile;
@@ -906,7 +1255,7 @@
 
 
           message.textContent =
-            "请输入用户名。";
+            "请输入登录邮箱。";
 
 
           message.className =
@@ -956,12 +1305,10 @@
         try {
 
 
-          /*
-            =================================================
-            第一级：
-            Supabase Auth 验证邮箱和密码
-            =================================================
-          */
+          /* =================================================
+             第一级：
+             Supabase Auth 验证邮箱和密码
+          ================================================== */
 
           const {
             data,
@@ -985,6 +1332,7 @@
             error
           ) {
 
+
             throw error;
 
           }
@@ -992,8 +1340,10 @@
 
 
           if (
-            !data ||
-            !data.user ||
+            !data
+            ||
+            !data.user
+            ||
             !data.session
           ) {
 
@@ -1006,12 +1356,10 @@
 
 
 
-          /*
-            =================================================
-            第二级：
-            profiles 权限检查
-            =================================================
-          */
+          /* =================================================
+             第二级：
+             profiles 权限检查
+          ================================================== */
 
           loginButton.textContent =
             "正在检查管理权限...";
@@ -1019,6 +1367,7 @@
 
 
           let profile;
+
 
 
           try {
@@ -1039,9 +1388,7 @@
 
             /*
               非管理账号虽然 Auth 已经登录成功，
-              这里必须立即注销。
-
-              这样 agent 不会留下有效 Session。
+              这里必须立即退出 Session。
             */
 
             try {
@@ -1076,7 +1423,7 @@
 
 
           /*
-            到这里说明同时满足：
+            到这里说明：
 
             1. 邮箱密码正确
             2. profiles 存在
@@ -1096,7 +1443,8 @@
             (
               profile.display_name
               ?
-              profile.display_name +
+              profile.display_name
+              +
               "，"
               :
               ""
@@ -1109,11 +1457,6 @@
             "message success";
 
 
-
-          /*
-            使用 replace，
-            防止通过浏览器返回直接回到登录后的页面状态。
-          */
 
           setTimeout(
             function() {
@@ -1139,14 +1482,23 @@
             "";
 
 
+          passwordInput.type =
+            "password";
+
+
+          passwordToggle.textContent =
+            "显示";
+
+
 
           let errorMessage =
-            "用户名或密码错误。";
+            "登录邮箱或密码错误。";
 
 
 
           if (
-            error &&
+            error
+            &&
             error.message
           ) {
 
@@ -1168,7 +1520,7 @@
 
 
               errorMessage =
-                "用户名或密码错误。";
+                "登录邮箱或密码错误。";
 
 
             }
@@ -1260,7 +1612,7 @@
 
 
           loginButton.textContent =
-            "登录";
+            "登录管理系统";
 
 
         }
@@ -1280,7 +1632,9 @@
 
       function(event) {
 
+
         event.preventDefault();
+
 
       }
     );
@@ -1291,7 +1645,9 @@
 
       function(event) {
 
+
         event.preventDefault();
+
 
       }
     );
@@ -1307,7 +1663,9 @@
 
       function() {
 
+
         clearLoginFields();
+
 
       }
     );
@@ -1318,10 +1676,13 @@
 
       function() {
 
+
         clearLoginFields();
+
 
       }
     );
+
 
   </script>
 
