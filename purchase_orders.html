@@ -29,6 +29,7 @@ html.auth-ready{
 
 body{
   margin:0;
+
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -230,6 +231,7 @@ body{
   background:#fff;
   border:1px solid #e5e7eb;
   border-radius:14px;
+
   box-shadow:
     0 2px 12px rgba(0,0,0,.04);
 
@@ -394,8 +396,11 @@ table{
   min-width:900px;
 }
 
+/*
+  增加查看图片列以后稍微增加宽度
+*/
 .cart-table{
-  min-width:750px;
+  min-width:850px;
 }
 
 .history-table{
@@ -778,6 +783,149 @@ tr:hover td{
   display:flex;
   justify-content:flex-end;
   gap:8px;
+}
+
+
+/* =========================
+   新增：采购产品图片查看
+========================= */
+
+.purchase-image-title{
+  margin-bottom:16px;
+  font-size:14px;
+  color:#475569;
+}
+
+.purchase-image-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(160px,1fr)
+    );
+
+  gap:14px;
+}
+
+.purchase-image-card{
+  overflow:hidden;
+
+  border:
+    1px solid #e5e7eb;
+
+  border-radius:10px;
+
+  background:#fff;
+}
+
+.purchase-image-thumb{
+  display:block;
+
+  width:100%;
+  height:150px;
+
+  object-fit:contain;
+
+  background:#f8fafc;
+
+  cursor:pointer;
+}
+
+.purchase-image-name{
+  padding:9px 10px;
+
+  font-size:11px;
+  color:#64748b;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.purchase-image-empty{
+  padding:45px 15px;
+
+  border:
+    1px dashed #cbd5e1;
+
+  border-radius:10px;
+
+  text-align:center;
+
+  color:#94a3b8;
+
+  background:#f8fafc;
+}
+
+
+/* =========================
+   新增：图片大图预览
+========================= */
+
+.image-preview-mask{
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  z-index:40000;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:30px;
+
+  background:
+    rgba(0,0,0,.82);
+}
+
+.image-preview-mask.show{
+  display:flex;
+}
+
+.image-preview-box{
+  position:relative;
+
+  max-width:95vw;
+  max-height:92vh;
+}
+
+.image-preview-box img{
+  display:block;
+
+  max-width:95vw;
+  max-height:88vh;
+
+  object-fit:contain;
+
+  border-radius:8px;
+
+  background:#fff;
+}
+
+.image-preview-close{
+  position:absolute;
+
+  top:-18px;
+  right:-18px;
+
+  width:38px;
+  height:38px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#fff;
+
+  color:#111827;
+
+  font-size:26px;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 4px 14px rgba(0,0,0,.3);
 }
 
 
@@ -1328,6 +1476,10 @@ tr:hover td{
           <thead>
             <tr>
               <th>产品</th>
+
+              <!-- 新增 -->
+              <th>查看图片</th>
+
               <th>单价</th>
               <th>数量</th>
               <th>单位</th>
@@ -1368,8 +1520,6 @@ tr:hover td{
 
       </div>
 
-
-      <!-- 余额关联 -->
 
       <div class="order-fund-box">
 
@@ -1710,7 +1860,6 @@ tr:hover td{
 
 <div class="modal">
 
-
 <div class="modal-header">
 
 <h3>
@@ -1726,7 +1875,6 @@ tr:hover td{
 
 </div>
 
-
 <div class="modal-body">
 
 <input
@@ -1734,9 +1882,7 @@ tr:hover td{
   type="hidden"
 >
 
-
 <div class="form-grid">
-
 
 <div class="form-group">
 
@@ -1752,7 +1898,6 @@ tr:hover td{
 
 </div>
 
-
 <div class="form-group">
 
 <label>
@@ -1766,7 +1911,6 @@ tr:hover td{
 >
 
 </div>
-
 
 <div class="form-group">
 
@@ -1782,7 +1926,6 @@ tr:hover td{
 >
 
 </div>
-
 
 <div class="form-group">
 
@@ -1816,7 +1959,6 @@ HUF
 
 </div>
 
-
 <div class="form-group full">
 
 <label>
@@ -1830,7 +1972,6 @@ HUF
 
 </div>
 
-
 <div class="form-group full">
 
 <label>
@@ -1843,11 +1984,9 @@ HUF
 
 </div>
 
-
 </div>
 
 </div>
-
 
 <div class="modal-footer">
 
@@ -1885,7 +2024,6 @@ HUF
 
 <div class="modal">
 
-
 <div class="modal-header">
 
 <h3>
@@ -1901,12 +2039,9 @@ HUF
 
 </div>
 
-
 <div class="modal-body">
 
-
 <div class="form-grid">
-
 
 <div class="form-group">
 
@@ -1922,7 +2057,6 @@ HUF
 >
 
 </div>
-
 
 <div class="form-group">
 
@@ -1952,7 +2086,6 @@ HUF 匈牙利福林
 
 </div>
 
-
 <div class="form-group">
 
 <label>
@@ -1965,7 +2098,6 @@ HUF 匈牙利福林
 >
 
 </div>
-
 
 <div class="form-group">
 
@@ -1995,7 +2127,6 @@ HUF 匈牙利福林
 
 </div>
 
-
 <div class="form-group full">
 
 <label>
@@ -2007,7 +2138,6 @@ HUF 匈牙利福林
 >
 
 </div>
-
 
 <div class="form-group full">
 
@@ -2021,11 +2151,9 @@ HUF 匈牙利福林
 
 </div>
 
-
 </div>
 
 </div>
-
 
 <div class="modal-footer">
 
@@ -2063,7 +2191,6 @@ HUF 匈牙利福林
 
 <div class="modal large">
 
-
 <div class="modal-header">
 
 <h3>
@@ -2078,7 +2205,6 @@ HUF 匈牙利福林
 </button>
 
 </div>
-
 
 <div class="modal-body">
 
@@ -2114,7 +2240,6 @@ HUF 匈牙利福林
 
 </div>
 
-
 <div class="modal-footer">
 
 <button
@@ -2134,6 +2259,104 @@ HUF 匈牙利福林
 </div>
 
 </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     新增：采购下单时查看产品图片
+===================================================== -->
+
+<div
+  id="purchaseImageModal"
+  class="modal-mask"
+>
+
+  <div class="modal large">
+
+    <div class="modal-header">
+
+      <h3>
+        产品样图
+      </h3>
+
+      <button
+        class="modal-close"
+        onclick="closePurchaseImageModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <div
+        id="purchaseImageProductTitle"
+        class="purchase-image-title"
+      >
+        -
+      </div>
+
+      <div
+        id="purchaseImageGrid"
+        class="purchase-image-grid"
+      >
+
+        <div class="purchase-image-empty">
+          正在读取产品样图……
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="btn btn-light"
+        onclick="closePurchaseImageModal()"
+      >
+        关闭
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     新增：图片大图预览
+===================================================== -->
+
+<div
+  id="purchaseImagePreview"
+  class="image-preview-mask"
+  onclick="handlePurchaseImagePreviewMask(event)"
+>
+
+  <div class="image-preview-box">
+
+    <button
+      class="image-preview-close"
+      onclick="closePurchaseImagePreview()"
+    >
+      ×
+    </button>
+
+    <img
+      id="purchaseImagePreviewImg"
+      src=""
+      alt="产品样图"
+    >
+
+  </div>
 
 </div>
 
@@ -2186,7 +2409,6 @@ let orderItems = [];
 let currentDetailOrderId = null;
 
 let accessVerified = false;
-
 
 
 /* =========================================================
@@ -2305,7 +2527,6 @@ async function verifyManagementAccess(){
 }
 
 
-
 /* =========================================================
    页面启动
 ========================================================= */
@@ -2338,7 +2559,6 @@ document.addEventListener(
 
   }
 );
-
 
 
 /* =========================================================
@@ -2535,7 +2755,6 @@ async function loadAllData(){
 }
 
 
-
 /* =========================================================
    获取对象
 ========================================================= */
@@ -2598,7 +2817,6 @@ function getFundBalance(currency){
 }
 
 
-
 /* =========================================================
    顶部余额
 ========================================================= */
@@ -2635,7 +2853,6 @@ function renderHeaderFundBalance(){
       .join("<br>");
 
 }
-
 
 
 /* =========================================================
@@ -2719,7 +2936,6 @@ function renderFundAccounts(){
 }
 
 
-
 /* =========================================================
    采购价格摘要
 ========================================================= */
@@ -2757,7 +2973,6 @@ function updatePriceSummary(){
     ).length;
 
 }
-
 
 
 /* =========================================================
@@ -3036,7 +3251,6 @@ function renderPurchasePrices(){
 }
 
 
-
 /* =========================================================
    定义价格窗口
 ========================================================= */
@@ -3130,8 +3344,8 @@ function closeDefineModal(){
 }
 
 
-/* ===== 第1段结束，第2段直接从这里继续 ===== */
-  /* =========================================================
+/* ===== 第1段结束，第2段直接接这里 ===== */
+/* =========================================================
    保存采购价格第一次定义
 ========================================================= */
 
@@ -3442,7 +3656,6 @@ async function savePurchasePriceDefinition(){
 }
 
 
-
 /* =========================================================
    当前采购价格设为无效
 ========================================================= */
@@ -3597,11 +3810,6 @@ async function disablePurchasePrice(
     }
 
 
-    /*
-      如果当前采购单已经使用这个旧价格，
-      直接清空当前采购单，避免继续使用过期价格。
-    */
-
     if(
       orderItems.some(
         item =>
@@ -3652,7 +3860,6 @@ async function disablePurchasePrice(
   }
 
 }
-
 
 
 /* =========================================================
@@ -3740,7 +3947,6 @@ function renderSupplierSelect(){
   }
 
 }
-
 
 
 /* =========================================================
@@ -3868,7 +4074,6 @@ function renderProductSelect(){
 }
 
 
-
 /* =========================================================
    显示当前选择产品价格
 ========================================================= */
@@ -3943,7 +4148,6 @@ function updateSelectedProductInfo(){
     addButton.disabled =
       true;
 
-
     return;
 
   }
@@ -3974,7 +4178,6 @@ function updateSelectedProductInfo(){
     false;
 
 }
-
 
 
 /* =========================================================
@@ -4168,7 +4371,6 @@ function addItemToOrder(){
 }
 
 
-
 /* =========================================================
    当前采购单币种
 ========================================================= */
@@ -4190,7 +4392,6 @@ function getCartCurrency(){
   );
 
 }
-
 
 
 /* =========================================================
@@ -4223,7 +4424,6 @@ function calculateOrderTotal(){
   );
 
 }
-
 
 
 /* =========================================================
@@ -4302,6 +4502,20 @@ function renderCart(){
           </td>
 
 
+          <!-- 新增：查看图片 -->
+          <td>
+
+            <button
+              class="btn btn-dark btn-small"
+              type="button"
+              onclick="openPurchaseImageModal('${item.product_id}')"
+            >
+              查看图片
+            </button>
+
+          </td>
+
+
           <td class="money">
 
             ${formatMoney(item.unit_price)}
@@ -4369,6 +4583,369 @@ function renderCart(){
 }
 
 
+/* =========================================================
+   新增：打开产品图片
+========================================================= */
+
+async function openPurchaseImageModal(
+  productId
+){
+
+  const product =
+    getProduct(
+      productId
+    );
+
+
+  if(
+    !product
+  ){
+
+    alert(
+      "没有找到产品资料。"
+    );
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "purchaseImageProductTitle"
+  ).textContent =
+    (
+      product.product_code ||
+      ""
+    )
+    +
+    " · "
+    +
+    (
+      product.product_name ||
+      ""
+    );
+
+
+  const grid =
+    document.getElementById(
+      "purchaseImageGrid"
+    );
+
+
+  grid.innerHTML =
+    `
+      <div class="purchase-image-empty">
+        正在读取产品样图……
+      </div>
+    `;
+
+
+  document.getElementById(
+    "purchaseImageModal"
+  ).classList.add(
+    "show"
+  );
+
+
+  try{
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from(
+          "product_images"
+        )
+        .select(
+          "id,storage_path,original_name,created_at"
+        )
+        .eq(
+          "product_id",
+          productId
+        )
+        .eq(
+          "is_active",
+          true
+        )
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
+
+
+    if(
+      error
+    ){
+
+      throw error;
+
+    }
+
+
+    const rows =
+      data || [];
+
+
+    if(
+      rows.length === 0
+    ){
+
+      grid.innerHTML =
+        `
+          <div class="purchase-image-empty">
+            该产品暂无产品样图
+          </div>
+        `;
+
+      return;
+
+    }
+
+
+    grid.innerHTML =
+      "";
+
+
+    for(
+      const image
+      of
+      rows
+    ){
+
+
+      const {
+        data:urlData,
+        error:urlError
+      } =
+        await supabaseClient
+          .storage
+          .from(
+            "product-images"
+          )
+          .createSignedUrl(
+            image.storage_path,
+            3600
+          );
+
+
+      if(
+        urlError
+      ){
+
+        console.error(
+          "生成产品图片地址失败：",
+          urlError
+        );
+
+        continue;
+
+      }
+
+
+      const signedUrl =
+        urlData?.signedUrl;
+
+
+      if(
+        !signedUrl
+      ){
+
+        continue;
+
+      }
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "purchase-image-card";
+
+
+      const img =
+        document.createElement(
+          "img"
+        );
+
+
+      img.className =
+        "purchase-image-thumb";
+
+
+      img.src =
+        signedUrl;
+
+
+      img.alt =
+        image.original_name ||
+        "产品样图";
+
+
+      img.addEventListener(
+        "click",
+        function(){
+
+          openPurchaseImagePreview(
+            signedUrl
+          );
+
+        }
+      );
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.className =
+        "purchase-image-name";
+
+
+      name.textContent =
+        image.original_name ||
+        "产品样图";
+
+
+      card.appendChild(
+        img
+      );
+
+
+      card.appendChild(
+        name
+      );
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+
+
+    if(
+      grid.children.length === 0
+    ){
+
+      grid.innerHTML =
+        `
+          <div class="purchase-image-empty">
+            产品样图读取失败
+          </div>
+        `;
+
+    }
+
+  }
+
+  catch(error){
+
+    console.error(
+      "读取产品样图失败：",
+      error
+    );
+
+
+    grid.innerHTML =
+      `
+        <div class="purchase-image-empty">
+          产品样图读取失败
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================================================
+   新增：关闭产品图片
+========================================================= */
+
+function closePurchaseImageModal(){
+
+  document.getElementById(
+    "purchaseImageModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =========================================================
+   新增：图片大图预览
+========================================================= */
+
+function openPurchaseImagePreview(
+  imageUrl
+){
+
+  if(
+    !imageUrl
+  ){
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "purchaseImagePreviewImg"
+  ).src =
+    imageUrl;
+
+
+  document.getElementById(
+    "purchaseImagePreview"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+function closePurchaseImagePreview(){
+
+  document.getElementById(
+    "purchaseImagePreview"
+  ).classList.remove(
+    "show"
+  );
+
+
+  document.getElementById(
+    "purchaseImagePreviewImg"
+  ).src =
+    "";
+
+}
+
+
+function handlePurchaseImagePreviewMask(
+  event
+){
+
+  if(
+    event.target ===
+    event.currentTarget
+  ){
+
+    closePurchaseImagePreview();
+
+  }
+
+}
+
 
 /* =========================================================
    修改采购数量
@@ -4416,7 +4993,6 @@ function changeOrderQuantity(
 }
 
 
-
 /* =========================================================
    删除采购商品
 ========================================================= */
@@ -4432,7 +5008,6 @@ function removeCartItem(index){
   renderCart();
 
 }
-
 
 
 /* =========================================================
@@ -4624,7 +5199,6 @@ function updateOrderFundSummary(){
 }
 
 
-
 /* =========================================================
    预计采购订单号
 ========================================================= */
@@ -4767,7 +5341,6 @@ async function refreshPurchaseNoPreview(){
 }
 
 
-
 document.getElementById(
   "purchaseDate"
 )
@@ -4777,16 +5350,8 @@ document.getElementById(
 );
 
 
-
 /* =========================================================
    正式创建采购订单
-
-   核心：
-   前端不传价格。
-   前端不直接写 purchase_orders。
-   前端不直接扣余额。
-
-   全部交给数据库 create_purchase_order RPC。
 ========================================================= */
 
 async function submitPurchaseOrder(){
@@ -5026,11 +5591,6 @@ async function submitPurchaseOrder(){
   try{
 
 
-    /*
-      只传产品ID和数量。
-      不传采购价格。
-    */
-
     const rpcItems =
       orderItems.map(
         function(item){
@@ -5225,7 +5785,6 @@ async function submitPurchaseOrder(){
 }
 
 
-
 /* =========================================================
    打开采购资金充值窗口
 ========================================================= */
@@ -5262,11 +5821,6 @@ function openRechargeModal(){
     "";
 
 
-  /*
-    如果当前采购单已有币种，
-    默认使用采购单币种。
-  */
-
   const cartCurrency =
     getCartCurrency();
 
@@ -5301,7 +5855,6 @@ function openRechargeModal(){
 }
 
 
-
 /* =========================================================
    关闭采购资金充值窗口
 ========================================================= */
@@ -5315,7 +5868,6 @@ function closeRechargeModal(){
   );
 
 }
-
 
 
 /* =========================================================
@@ -5605,7 +6157,6 @@ async function submitFundRecharge(){
 }
 
 
-
 /* =========================================================
    采购资金流水
 ========================================================= */
@@ -5694,7 +6245,6 @@ function renderFundLedger(){
         typeText =
           "采购资金充值";
 
-
         badgeClass =
           "badge-green";
 
@@ -5707,7 +6257,6 @@ function renderFundLedger(){
 
         typeText =
           "采购订单扣款";
-
 
         badgeClass =
           "badge-red";
@@ -5722,7 +6271,6 @@ function renderFundLedger(){
 
         typeText =
           "采购退款";
-
 
         badgeClass =
           "badge-blue";
@@ -5772,15 +6320,11 @@ function renderFundLedger(){
             ${formatDateOnly(item.transaction_date)}
           </td>
 
-
           <td>
-
             <span class="badge ${badgeClass}">
               ${escapeHTML(typeText)}
             </span>
-
           </td>
-
 
           <td
             class="money"
@@ -5795,33 +6339,22 @@ function renderFundLedger(){
               };
             "
           >
-
             ${amountText}
-
           </td>
-
 
           <td>
             ${escapeHTML(item.currency || "-")}
           </td>
 
-
           <td class="money">
-
             ${formatMoney(item.balance_before)}
-
           </td>
-
 
           <td class="money">
-
             ${formatMoney(item.balance_after)}
-
           </td>
-
 
           <td>
-
             ${
               purchaseOrder
               ?
@@ -5831,19 +6364,15 @@ function renderFundLedger(){
               :
               "-"
             }
-
           </td>
-
 
           <td>
             ${escapeHTML(item.payment_method || "-")}
           </td>
 
-
           <td>
             ${escapeHTML(item.payment_reference || "-")}
           </td>
-
 
           <td>
             ${escapeHTML(item.notes || "-")}
@@ -5860,7 +6389,6 @@ function renderFundLedger(){
   );
 
 }
-
 
 
 /* =========================================================
@@ -5980,36 +6508,29 @@ function renderHistoryOrders(){
             ${escapeHTML(order.purchase_no || "-")}
           </td>
 
-
           <td>
             ${formatDateOnly(order.purchase_date)}
           </td>
-
 
           <td>
             ${escapeHTML(supplier?.supplier_name || "未知供应商")}
           </td>
 
-
           <td>
             ${statusBadge(order.status)}
           </td>
-
 
           <td class="money">
             ${formatMoney(order.total_amount)}
           </td>
 
-
           <td>
             ${escapeHTML(order.currency || "-")}
           </td>
 
-
           <td>
             ${formatDateTime(order.created_at)}
           </td>
-
 
           <td>
 
@@ -6042,7 +6563,6 @@ function renderHistoryOrders(){
 }
 
 
-
 /* =========================================================
    历史采购单明细
 ========================================================= */
@@ -6063,7 +6583,6 @@ function getOrderHistoryItems(
   );
 
 }
-
 
 
 /* =========================================================
@@ -6266,7 +6785,6 @@ function openOrderDetail(
 }
 
 
-
 /* =========================================================
    关闭采购订单详情
 ========================================================= */
@@ -6284,7 +6802,6 @@ function closeOrderDetailModal(){
     null;
 
 }
-
 
 
 /* =========================================================
@@ -6309,9 +6826,9 @@ function printCurrentDetailOrder(){
 }
 
 
-
 /* =========================================================
    打印采购订单
+   注意：这里完全没有图片列
 ========================================================= */
 
 function printOrder(
@@ -6721,7 +7238,6 @@ window.onload =
 }
 
 
-
 /* =========================================================
    状态中文
 ========================================================= */
@@ -6764,7 +7280,6 @@ function statusToChinese(
   );
 
 }
-
 
 
 /* =========================================================
@@ -6844,7 +7359,6 @@ function statusBadge(
 }
 
 
-
 /* =========================================================
    Modal点击外部关闭
 ========================================================= */
@@ -6863,6 +7377,14 @@ function statusBadge(
   [
     "orderDetailModal",
     closeOrderDetailModal
+  ],
+
+  /*
+    新增
+  */
+  [
+    "purchaseImageModal",
+    closePurchaseImageModal
   ]
 
 ]
@@ -6895,7 +7417,6 @@ function statusBadge(
 );
 
 
-
 /* =========================================================
    ESC关闭弹窗
 ========================================================= */
@@ -6915,11 +7436,14 @@ document.addEventListener(
 
       closeOrderDetailModal();
 
+      closePurchaseImageModal();
+
+      closePurchaseImagePreview();
+
     }
 
   }
 );
-
 
 
 /* =========================================================
@@ -6949,7 +7473,6 @@ function setText(
 }
 
 
-
 function formatMoney(
   value
 ){
@@ -6972,7 +7495,6 @@ function formatMoney(
   );
 
 }
-
 
 
 function formatQuantity(
@@ -6999,7 +7521,6 @@ function formatQuantity(
 }
 
 
-
 function roundMoney(
   value
 ){
@@ -7019,7 +7540,6 @@ function roundMoney(
 }
 
 
-
 function roundQuantity(
   value
 ){
@@ -7037,7 +7557,6 @@ function roundQuantity(
   1000;
 
 }
-
 
 
 function getToday(){
@@ -7087,7 +7606,6 @@ function getToday(){
 }
 
 
-
 function formatDateOnly(
   value
 ){
@@ -7110,7 +7628,6 @@ function formatDateOnly(
   );
 
 }
-
 
 
 function formatDateTime(
@@ -7168,7 +7685,6 @@ function formatDateTime(
 }
 
 
-
 function escapeHTML(
   value
 ){
@@ -7211,7 +7727,6 @@ function escapeHTML(
 }
 
 
-
 function printEscape(
   value
 ){
@@ -7225,7 +7740,6 @@ function printEscape(
   );
 
 }
-
 
 
 /* =========================================================
@@ -7274,7 +7788,6 @@ function showNotice(
 }
 
 
-
 /* =========================================================
    Loading
 ========================================================= */
@@ -7294,7 +7807,6 @@ function showLoading(
 }
 
 
-
 /* =========================================================
    返回管理工作台
 ========================================================= */
@@ -7305,7 +7817,6 @@ function goBack(){
     "wholemanagement.html";
 
 }
-
 
 
 /* =========================================================
@@ -7336,7 +7847,6 @@ let warningShown =
 
 let logoutInProgress =
   false;
-
 
 
 function userActivity(){
@@ -7376,7 +7886,6 @@ function userActivity(){
 }
 
 
-
 [
   "mousedown",
   "mousemove",
@@ -7396,7 +7905,6 @@ function userActivity(){
 
   }
 );
-
 
 
 setInterval(
@@ -7459,7 +7967,6 @@ setInterval(
 );
 
 
-
 /* =========================================================
    自动退出
 ========================================================= */
@@ -7502,7 +8009,6 @@ async function autoLogout(){
   );
 
 }
-
 
 
 /* =========================================================
@@ -7565,3 +8071,6 @@ async function logout(){
 </body>
 
 </html>
+
+
+  
