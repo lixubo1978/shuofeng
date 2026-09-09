@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -31,23 +30,19 @@
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
   ></script>
 
-
   <style>
 
     * {
       box-sizing: border-box;
     }
 
-
     html {
       visibility: hidden;
     }
 
-
     html.auth-ready {
       visibility: visible;
     }
-
 
     body {
       margin: 0;
@@ -62,9 +57,7 @@
         sans-serif;
 
       background: #f4f6f8;
-
       color: #1f2937;
-
       min-height: 100vh;
     }
 
@@ -87,25 +80,21 @@
         0 2px 10px rgba(0,0,0,0.08);
     }
 
-
     .brand {
       display: flex;
       flex-direction: column;
       gap: 3px;
     }
 
-
     .brand-title {
       font-size: 20px;
       font-weight: 700;
     }
 
-
     .brand-subtitle {
       font-size: 12px;
       color: #cbd5e1;
     }
-
 
     .top-actions {
       display: flex;
@@ -113,12 +102,10 @@
       gap: 10px;
     }
 
-
     .user-info {
       font-size: 13px;
       color: #cbd5e1;
     }
-
 
     .top-btn {
       padding: 8px 14px;
@@ -136,7 +123,6 @@
 
       cursor: pointer;
     }
-
 
     .top-btn:hover {
       background:
@@ -158,7 +144,6 @@
         34px 24px 60px;
     }
 
-
     .page-header {
       display: flex;
 
@@ -171,7 +156,6 @@
       margin-bottom: 24px;
     }
 
-
     .page-title h1 {
       margin:
         0 0 8px;
@@ -180,7 +164,6 @@
 
       color: #111827;
     }
-
 
     .page-title p {
       margin: 0;
@@ -191,7 +174,6 @@
 
       line-height: 1.7;
     }
-
 
     .page-actions {
       display: flex;
@@ -221,12 +203,10 @@
       font-family: inherit;
     }
 
-
     .btn-primary {
       background: #2563eb;
       color: white;
     }
-
 
     .btn-light {
       background: white;
@@ -237,24 +217,20 @@
         1px solid #d1d5db;
     }
 
-
     .btn-dark {
       background: #111827;
       color: white;
     }
-
 
     .btn-edit {
       background: #7c3aed;
       color: white;
     }
 
-
     .btn-red {
       background: #dc2626;
       color: white;
     }
-
 
     .btn-small {
       padding:
@@ -263,11 +239,9 @@
       font-size: 12px;
     }
 
-
     .btn:hover {
       opacity: 0.9;
     }
-
 
     .btn:disabled {
       opacity: 0.55;
@@ -290,7 +264,6 @@
       margin-bottom: 20px;
     }
 
-
     .summary-card {
       background: white;
 
@@ -305,7 +278,6 @@
         0 2px 10px rgba(0,0,0,0.04);
     }
 
-
     .summary-label {
       color: #6b7280;
 
@@ -314,7 +286,6 @@
       margin-bottom: 8px;
     }
 
-
     .summary-value {
       font-size: 28px;
 
@@ -322,7 +293,6 @@
 
       color: #111827;
     }
-
 
     .summary-sub {
       font-size: 12px;
@@ -361,12 +331,10 @@
         0 2px 10px rgba(0,0,0,0.03);
     }
 
-
     .search-box {
       flex: 1;
       max-width: 700px;
     }
-
 
     .search-box input {
       width: 100%;
@@ -384,11 +352,9 @@
       outline: none;
     }
 
-
     .search-box input:focus {
       border-color: #2563eb;
     }
-
 
     .filter-box {
       display: flex;
@@ -397,7 +363,6 @@
 
       flex-wrap: wrap;
     }
-
 
     .filter-box select {
       padding:
@@ -431,17 +396,14 @@
       font-size: 14px;
     }
 
-
     .notice.show {
       display: block;
     }
-
 
     .notice-success {
       background: #dcfce7;
       color: #166534;
     }
-
 
     .notice-error {
       background: #fee2e2;
@@ -467,11 +429,9 @@
         0 2px 12px rgba(0,0,0,0.04);
     }
 
-
     .table-wrapper {
       overflow-x: auto;
     }
-
 
     table {
       width: 100%;
@@ -480,7 +440,6 @@
 
       border-collapse: collapse;
     }
-
 
     th {
       background: #f8fafc;
@@ -502,7 +461,6 @@
       white-space: nowrap;
     }
 
-
     td {
       padding: 14px;
 
@@ -513,7 +471,6 @@
 
       vertical-align: middle;
     }
-
 
     tr:hover td {
       background: #fafafa;
@@ -532,25 +489,16 @@
         #9ca3af !important;
     }
 
-
     tr.product-disabled:hover td {
       background:
         #e5e7eb !important;
     }
-
 
     tr.product-disabled .product-code,
     tr.product-disabled .product-name {
       color:
         #9ca3af !important;
     }
-
-
-    /*
-      无效产品依然允许：
-      查看详情
-      修改资料
-    */
 
     tr.product-disabled .btn-dark {
       background:
@@ -560,7 +508,6 @@
         #ffffff !important;
     }
 
-
     tr.product-disabled .btn-edit {
       background:
         #7c3aed !important;
@@ -569,13 +516,11 @@
         #ffffff !important;
     }
 
-
     .product-code {
       font-weight: 700;
 
       color: #475569;
     }
-
 
     .product-name {
       font-weight: 700;
@@ -603,18 +548,15 @@
       white-space: nowrap;
     }
 
-
     .status-active {
       background: #dcfce7;
       color: #166534;
     }
 
-
     .status-disabled {
       background: #fee2e2;
       color: #991b1b;
     }
-
 
     .permanent-disabled {
       display: inline-block;
@@ -635,7 +577,6 @@
       white-space: nowrap;
     }
 
-
     .row-actions {
       display: flex;
 
@@ -643,7 +584,6 @@
 
       flex-wrap: wrap;
     }
-
 
     .empty-box {
       padding:
@@ -680,11 +620,9 @@
       padding: 20px;
     }
 
-
     .modal-mask.show {
       display: flex;
     }
-
 
     .modal {
       width: 100%;
@@ -703,7 +641,6 @@
         0 25px 70px rgba(0,0,0,0.28);
     }
 
-
     .modal-header {
       padding:
         20px 24px;
@@ -718,7 +655,6 @@
       align-items: center;
     }
 
-
     .modal-header h2 {
       margin: 0;
 
@@ -726,7 +662,6 @@
 
       color: #111827;
     }
-
 
     .modal-close {
       border: none;
@@ -740,11 +675,9 @@
       cursor: pointer;
     }
 
-
     .modal-body {
       padding: 24px;
     }
-
 
     .modal-footer {
       padding:
@@ -774,7 +707,6 @@
       gap: 16px;
     }
 
-
     .form-group {
       display: flex;
 
@@ -783,12 +715,10 @@
       gap: 7px;
     }
 
-
     .form-group.full {
       grid-column:
         1 / -1;
     }
-
 
     .form-group label {
       font-size: 13px;
@@ -798,11 +728,9 @@
       color: #374151;
     }
 
-
     .required {
       color: #dc2626;
     }
-
 
     .form-group input,
     .form-group textarea {
@@ -823,19 +751,16 @@
       background: white;
     }
 
-
     .form-group input:focus,
     .form-group textarea:focus {
       border-color: #2563eb;
     }
-
 
     .form-group textarea {
       min-height: 100px;
 
       resize: vertical;
     }
-
 
     .readonly-field {
       background:
@@ -847,7 +772,6 @@
       cursor: not-allowed;
     }
 
-
     .form-help {
       color: #6b7280;
 
@@ -855,7 +779,6 @@
 
       line-height: 1.7;
     }
-
 
     .warning-help {
       background: #fff7ed;
@@ -890,7 +813,6 @@
         16px 24px;
     }
 
-
     .detail-item {
       border-bottom:
         1px solid #eef2f7;
@@ -898,12 +820,10 @@
       padding-bottom: 12px;
     }
 
-
     .detail-item.full {
       grid-column:
         1 / -1;
     }
-
 
     .detail-label {
       font-size: 12px;
@@ -913,7 +833,6 @@
       margin-bottom: 5px;
     }
 
-
     .detail-value {
       font-size: 14px;
 
@@ -922,6 +841,244 @@
       line-height: 1.7;
 
       word-break: break-word;
+    }
+
+
+    /* =====================================================
+       新增：产品样图区域
+       仅用于“修改产品信息”窗口
+    ===================================================== */
+
+    .product-image-section {
+      grid-column: 1 / -1;
+
+      margin-top: 4px;
+
+      padding: 18px;
+
+      border:
+        1px solid #e5e7eb;
+
+      border-radius: 10px;
+
+      background: #f8fafc;
+    }
+
+    .product-image-title {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 12px;
+
+      margin-bottom: 8px;
+    }
+
+    .product-image-title strong {
+      font-size: 14px;
+
+      color: #111827;
+    }
+
+    .product-image-optional {
+      font-size: 12px;
+
+      color: #64748b;
+
+      font-weight: 400;
+    }
+
+    .product-image-help {
+      margin-bottom: 14px;
+
+      font-size: 12px;
+
+      color: #64748b;
+
+      line-height: 1.7;
+    }
+
+    .product-image-upload-row {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 15px;
+    }
+
+    #editProductImageFile {
+      display: none;
+    }
+
+    .product-image-status {
+      font-size: 12px;
+
+      color: #64748b;
+    }
+
+    .product-image-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fill, minmax(145px, 1fr));
+
+      gap: 12px;
+    }
+
+    .product-image-card {
+      overflow: hidden;
+
+      background: #ffffff;
+
+      border:
+        1px solid #e5e7eb;
+
+      border-radius: 9px;
+    }
+
+    .product-image-thumb {
+      width: 100%;
+
+      height: 125px;
+
+      display: block;
+
+      object-fit: contain;
+
+      background: #f1f5f9;
+
+      cursor: pointer;
+    }
+
+    .product-image-info {
+      padding: 9px;
+    }
+
+    .product-image-name {
+      overflow: hidden;
+
+      margin-bottom: 7px;
+
+      color: #475569;
+
+      font-size: 11px;
+
+      white-space: nowrap;
+
+      text-overflow: ellipsis;
+    }
+
+    .product-image-actions {
+      display: flex;
+
+      gap: 6px;
+    }
+
+    .product-image-actions .btn {
+      flex: 1;
+    }
+
+    .product-image-empty {
+      padding:
+        22px 12px;
+
+      text-align: center;
+
+      border:
+        1px dashed #cbd5e1;
+
+      border-radius: 8px;
+
+      color: #94a3b8;
+
+      font-size: 13px;
+
+      background: white;
+    }
+
+
+    /* =====================================================
+       新增：图片大图预览
+    ===================================================== */
+
+    .image-preview-mask {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 40000;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 30px;
+
+      background:
+        rgba(0,0,0,0.82);
+    }
+
+    .image-preview-mask.show {
+      display: flex;
+    }
+
+    .image-preview-content {
+      position: relative;
+
+      max-width: 95vw;
+
+      max-height: 92vh;
+    }
+
+    .image-preview-content img {
+      display: block;
+
+      max-width: 95vw;
+
+      max-height: 88vh;
+
+      object-fit: contain;
+
+      border-radius: 8px;
+
+      background: white;
+    }
+
+    .image-preview-close {
+      position: absolute;
+
+      top: -18px;
+
+      right: -18px;
+
+      width: 38px;
+
+      height: 38px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: white;
+
+      color: #111827;
+
+      font-size: 26px;
+
+      line-height: 38px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 4px 14px rgba(0,0,0,0.3);
     }
 
 
@@ -951,7 +1108,6 @@
 
       color: #334155;
     }
-
 
     .loading-mask.show {
       display: flex;
@@ -1010,23 +1166,19 @@
 
     }
 
-
     @media (max-width: 850px) {
 
       .page-header {
         flex-direction: column;
       }
 
-
       .toolbar {
         flex-direction: column;
       }
 
-
       .search-box {
         max-width: none;
       }
-
 
       .detail-grid,
       .form-grid {
@@ -1034,14 +1186,16 @@
           1fr;
       }
 
-
       .detail-item.full,
       .form-group.full {
         grid-column: auto;
       }
 
-    }
+      .product-image-section {
+        grid-column: auto;
+      }
 
+    }
 
     @media (max-width: 600px) {
 
@@ -1050,21 +1204,23 @@
           16px 18px;
       }
 
-
       .user-info {
         display: none;
       }
-
 
       .container {
         padding:
           25px 15px 50px;
       }
 
-
       .summary-grid {
         grid-template-columns:
           1fr;
+      }
+
+      .product-image-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
     }
@@ -1095,7 +1251,6 @@
 
   <header class="topbar">
 
-
     <div class="brand">
 
       <div class="brand-title">
@@ -1110,7 +1265,6 @@
 
 
     <div class="top-actions">
-
 
       <div
         id="currentUser"
@@ -1137,9 +1291,7 @@
         退出登录
       </button>
 
-
     </div>
-
 
   </header>
 
@@ -1150,17 +1302,13 @@
 
   <main class="container">
 
-
     <div class="page-header">
 
-
       <div class="page-title">
-
 
         <h1>
           产品目录
         </h1>
-
 
         <p>
           产品目录是所有采购订单和销售订单的产品主数据源。
@@ -1168,12 +1316,10 @@
           产品一旦设为无效，将永久作为历史记录保留，不能恢复有效。
         </p>
 
-
       </div>
 
 
       <div class="page-actions">
-
 
         <button
           class="btn btn-light"
@@ -1183,7 +1329,6 @@
           刷新
         </button>
 
-
         <button
           class="btn btn-primary"
           type="button"
@@ -1192,14 +1337,10 @@
           ＋ 新增产品
         </button>
 
-
       </div>
-
 
     </div>
 
-
-    <!-- 提示 -->
 
     <div
       id="notice"
@@ -1212,7 +1353,6 @@
     ====================================================== -->
 
     <section class="summary-grid">
-
 
       <div class="summary-card">
 
@@ -1269,7 +1409,6 @@
 
       </div>
 
-
     </section>
 
 
@@ -1278,7 +1417,6 @@
     ====================================================== -->
 
     <div class="toolbar">
-
 
       <div class="search-box">
 
@@ -1315,7 +1453,6 @@
 
       </div>
 
-
     </div>
 
 
@@ -1325,33 +1462,22 @@
 
     <div class="table-card">
 
-
       <div class="table-wrapper">
 
-
         <table>
-
 
           <thead>
 
             <tr>
 
               <th>产品代码</th>
-
               <th>产品名称</th>
-
               <th>产品类别</th>
-
               <th>产品型号</th>
-
               <th>规格</th>
-
               <th>单位</th>
-
               <th>状态</th>
-
               <th>创建时间</th>
-
               <th>操作</th>
 
             </tr>
@@ -1363,9 +1489,7 @@
             id="productTableBody"
           ></tbody>
 
-
         </table>
-
 
       </div>
 
@@ -1378,15 +1502,14 @@
         暂无产品资料
       </div>
 
-
     </div>
-
 
   </main>
 
 
   <!-- =====================================================
        新增产品弹窗
+       原功能保持不变
   ====================================================== -->
 
   <div
@@ -1394,17 +1517,13 @@
     class="modal-mask"
   >
 
-
     <div class="modal">
 
-
       <div class="modal-header">
-
 
         <h2>
           新增产品
         </h2>
-
 
         <button
           class="modal-close"
@@ -1414,23 +1533,18 @@
           ×
         </button>
 
-
       </div>
 
 
       <div class="modal-body">
 
-
         <div class="form-grid">
 
-
           <div class="form-group">
-
 
             <label>
               产品代码
             </label>
-
 
             <input
               id="newProductCode"
@@ -1441,7 +1555,6 @@
               placeholder="系统自动生成"
             >
 
-
             <div
               id="productCodeHelp"
               class="form-help"
@@ -1449,18 +1562,15 @@
               系统自动生成，例如 P001、P002，不允许手工修改。
             </div>
 
-
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               产品名称
               <span class="required">*</span>
             </label>
-
 
             <input
               id="newProductName"
@@ -1468,17 +1578,14 @@
               placeholder="请输入产品名称"
             >
 
-
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               产品类别
             </label>
-
 
             <input
               id="newProductCategory"
@@ -1486,17 +1593,14 @@
               placeholder="例如：灭火装置 / 控制器 / 配件"
             >
 
-
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               产品型号
             </label>
-
 
             <input
               id="newProductModel"
@@ -1504,17 +1608,14 @@
               placeholder="例如：SF-ESS-01"
             >
 
-
           </div>
 
 
           <div class="form-group full">
 
-
             <label>
               产品规格
             </label>
-
 
             <input
               id="newProductSpecification"
@@ -1522,18 +1623,15 @@
               placeholder="请输入产品规格"
             >
 
-
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               单位
               <span class="required">*</span>
             </label>
-
 
             <input
               id="newProductUnit"
@@ -1541,17 +1639,14 @@
               placeholder="例如：台 / 套 / 只 / 箱"
             >
 
-
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               产品图片地址
             </label>
-
 
             <input
               id="newProductImageUrl"
@@ -1559,46 +1654,38 @@
               placeholder="可留空"
             >
 
-
           </div>
 
 
           <div class="form-group full">
 
-
             <label>
               产品描述
             </label>
-
 
             <textarea
               id="newProductDescription"
               placeholder="产品用途、性能、适用场景等"
             ></textarea>
 
-
           </div>
 
 
           <div class="form-group full">
 
-
             <label>
               备注
             </label>
-
 
             <textarea
               id="newProductNotes"
               placeholder="内部备注，可留空"
             ></textarea>
 
-
           </div>
 
 
           <div class="form-group full">
-
 
             <div class="form-help">
 
@@ -1610,18 +1697,14 @@
 
             </div>
 
-
           </div>
 
-
         </div>
-
 
       </div>
 
 
       <div class="modal-footer">
-
 
         <button
           class="btn btn-light"
@@ -1630,7 +1713,6 @@
         >
           取消
         </button>
-
 
         <button
           id="createProductButton"
@@ -1641,18 +1723,16 @@
           创建产品
         </button>
 
-
       </div>
 
-
     </div>
-
 
   </div>
 
 
   <!-- =====================================================
        修改产品弹窗
+       图片上传功能只增加在这里
   ====================================================== -->
 
   <div
@@ -1660,17 +1740,13 @@
     class="modal-mask"
   >
 
-
     <div class="modal">
 
-
       <div class="modal-header">
-
 
         <h2>
           修改产品信息
         </h2>
-
 
         <button
           class="modal-close"
@@ -1680,12 +1756,10 @@
           ×
         </button>
 
-
       </div>
 
 
       <div class="modal-body">
-
 
         <input
           id="editProductId"
@@ -1695,14 +1769,11 @@
 
         <div class="form-grid">
 
-
           <div class="form-group">
-
 
             <label>
               产品代码
             </label>
-
 
             <input
               id="editProductCode"
@@ -1711,153 +1782,196 @@
               readonly
             >
 
-
             <div class="form-help">
               产品代码为永久编号，不允许修改。
             </div>
-
 
           </div>
 
 
           <div class="form-group">
-
 
             <label>
               产品名称
               <span class="required">*</span>
             </label>
 
-
             <input
               id="editProductName"
               type="text"
             >
-
 
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               产品类别
             </label>
-
 
             <input
               id="editProductCategory"
               type="text"
             >
 
-
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               产品型号
             </label>
-
 
             <input
               id="editProductModel"
               type="text"
             >
 
-
           </div>
 
 
           <div class="form-group full">
 
-
             <label>
               产品规格
             </label>
-
 
             <input
               id="editProductSpecification"
               type="text"
             >
 
-
           </div>
 
 
           <div class="form-group">
-
 
             <label>
               单位
               <span class="required">*</span>
             </label>
 
-
             <input
               id="editProductUnit"
               type="text"
             >
-
 
           </div>
 
 
           <div class="form-group">
 
-
             <label>
               产品图片地址
             </label>
-
 
             <input
               id="editProductImageUrl"
               type="text"
             >
 
-
           </div>
 
 
           <div class="form-group full">
-
 
             <label>
               产品描述
             </label>
 
-
             <textarea
               id="editProductDescription"
             ></textarea>
-
 
           </div>
 
 
           <div class="form-group full">
-
 
             <label>
               备注
             </label>
 
-
             <textarea
               id="editProductNotes"
             ></textarea>
 
+          </div>
+
+
+          <!-- =================================================
+               新增：产品样图
+               非必填，不影响产品资料保存
+          ================================================== -->
+
+          <div class="product-image-section">
+
+            <div class="product-image-title">
+
+              <strong>
+                产品样图
+              </strong>
+
+              <span class="product-image-optional">
+                可选，不上传也可以正常保存
+              </span>
+
+            </div>
+
+
+            <div class="product-image-help">
+              支持 JPG、PNG、WebP 图片。选择图片后系统会自动压缩并转换为 WebP，
+              再保存到产品图片存储空间。可以上传多张样图，也可以单独删除。
+            </div>
+
+
+            <div class="product-image-upload-row">
+
+              <input
+                id="editProductImageFile"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onchange="handleProductImageSelected(event)"
+              >
+
+
+              <button
+                id="selectProductImageButton"
+                class="btn btn-light btn-small"
+                type="button"
+                onclick="selectProductImage()"
+              >
+                选择图片
+              </button>
+
+
+              <span
+                id="productImageUploadStatus"
+                class="product-image-status"
+              >
+                未选择图片
+              </span>
+
+            </div>
+
+
+            <div
+              id="productImageGrid"
+              class="product-image-grid"
+            >
+
+              <div class="product-image-empty">
+                暂无产品样图
+              </div>
+
+            </div>
 
           </div>
 
 
           <div class="form-group full">
-
 
             <div class="form-help">
 
@@ -1872,18 +1986,14 @@
 
             </div>
 
-
           </div>
 
-
         </div>
-
 
       </div>
 
 
       <div class="modal-footer">
-
 
         <button
           class="btn btn-light"
@@ -1892,7 +2002,6 @@
         >
           取消
         </button>
-
 
         <button
           id="saveProductButton"
@@ -1903,18 +2012,16 @@
           保存修改
         </button>
 
-
       </div>
 
-
     </div>
-
 
   </div>
 
 
   <!-- =====================================================
        查看详情弹窗
+       原功能保持不变
   ====================================================== -->
 
   <div
@@ -1922,17 +2029,13 @@
     class="modal-mask"
   >
 
-
     <div class="modal">
 
-
       <div class="modal-header">
-
 
         <h2>
           产品详细资料
         </h2>
-
 
         <button
           class="modal-close"
@@ -1942,15 +2045,12 @@
           ×
         </button>
 
-
       </div>
 
 
       <div class="modal-body">
 
-
         <div class="detail-grid">
-
 
           <div class="detail-item">
 
@@ -2159,7 +2259,6 @@
 
           </div>
 
-
         </div>
 
 
@@ -2178,12 +2277,10 @@
 
         </div>
 
-
       </div>
 
 
       <div class="modal-footer">
-
 
         <button
           class="btn btn-light"
@@ -2193,12 +2290,40 @@
           关闭
         </button>
 
-
       </div>
-
 
     </div>
 
+  </div>
+
+
+  <!-- =====================================================
+       新增：产品样图大图预览
+  ====================================================== -->
+
+  <div
+    id="productImagePreview"
+    class="image-preview-mask"
+    onclick="handleImagePreviewMaskClick(event)"
+  >
+
+    <div class="image-preview-content">
+
+      <button
+        class="image-preview-close"
+        type="button"
+        onclick="closeProductImagePreview()"
+      >
+        ×
+      </button>
+
+      <img
+        id="productImagePreviewImg"
+        src=""
+        alt="产品样图"
+      >
+
+    </div>
 
   </div>
 
@@ -2215,8 +2340,16 @@
   </div>
 
 
-  <script>
+  <!-- =====================================================
+       产品图片压缩上传模块
+       你已经建立的文件：
+       assets/js/image-upload.js
+  ====================================================== -->
 
+  <script src="assets/js/image-upload.js"></script>
+
+
+  <script>
 
     /* =====================================================
        Supabase
@@ -2237,12 +2370,28 @@
       );
 
 
+    /*
+      供 image-upload.js 使用。
+    */
+
+    window.sb =
+      supabaseClient;
+
+
     let products = [];
 
 
     let accessVerified =
       false;
 
+
+    /*
+      当前正在修改的产品 ID。
+      仅用于产品样图读取、上传、删除。
+    */
+
+    let currentEditProductId =
+      null;
 
 
     /* =====================================================
@@ -2251,9 +2400,7 @@
 
     async function verifyManagementAccess() {
 
-
       try {
-
 
         const {
           data: sessionData,
@@ -2269,11 +2416,9 @@
           !sessionData?.session?.user
         ) {
 
-
           window.location.replace(
             "page10.html"
           );
-
 
           return false;
         }
@@ -2308,7 +2453,6 @@
             profile.role !== "admin"
           )
         ) {
-
 
           await supabaseClient
             .auth
@@ -2355,11 +2499,9 @@
 
         return true;
 
-
       }
 
       catch (error) {
-
 
         console.error(
           "权限验证失败：",
@@ -2378,7 +2520,6 @@
     }
 
 
-
     /* =====================================================
        页面启动
     ===================================================== */
@@ -2387,13 +2528,11 @@
       "DOMContentLoaded",
       async function() {
 
-
         const allowed =
           await verifyManagementAccess();
 
 
         if (allowed) {
-
 
           await loadProducts();
 
@@ -2403,23 +2542,19 @@
     );
 
 
-
     window.addEventListener(
       "pageshow",
       async function(event) {
 
-
         if (
           event.persisted
         ) {
-
 
           const allowed =
             await verifyManagementAccess();
 
 
           if (allowed) {
-
 
             await loadProducts();
 
@@ -2431,18 +2566,15 @@
     );
 
 
-
     /* =====================================================
        读取产品
     ===================================================== */
 
     async function loadProducts() {
 
-
       if (
         !accessVerified
       ) {
-
 
         return;
       }
@@ -2454,7 +2586,6 @@
 
 
       try {
-
 
         const {
           data,
@@ -2480,7 +2611,6 @@
           error
         ) {
 
-
           throw error;
         }
 
@@ -2494,11 +2624,9 @@
 
         renderProducts();
 
-
       }
 
       catch (error) {
-
 
         console.error(
           "读取产品目录失败：",
@@ -2512,11 +2640,9 @@
           "error"
         );
 
-
       }
 
       finally {
-
 
         showLoading(
           false
@@ -2525,7 +2651,6 @@
       }
 
     }
-
 
 
     /* =====================================================
@@ -2537,7 +2662,6 @@
       rows
     ) {
 
-
       let maxCode =
         0;
 
@@ -2547,7 +2671,6 @@
         of
         rows || []
       ) {
-
 
         const raw =
           String(
@@ -2567,7 +2690,6 @@
         if (
           !match
         ) {
-
 
           continue;
         }
@@ -2589,7 +2711,6 @@
           maxCode
         ) {
 
-
           maxCode =
             number;
         }
@@ -2604,7 +2725,6 @@
       if (
         next > 999
       ) {
-
 
         return null;
       }
@@ -2625,9 +2745,7 @@
     }
 
 
-
     async function getNextProductCodeFromDatabase() {
-
 
       const {
         data,
@@ -2646,7 +2764,6 @@
         error
       ) {
 
-
         throw error;
       }
 
@@ -2658,13 +2775,11 @@
     }
 
 
-
     /* =====================================================
        打开新增产品窗口
     ===================================================== */
 
     async function openCreateProductModal() {
-
 
       document.getElementById(
         "newProductCode"
@@ -2742,7 +2857,6 @@
 
       try {
 
-
         const nextCode =
           await getNextProductCodeFromDatabase();
 
@@ -2750,7 +2864,6 @@
         if (
           !nextCode
         ) {
-
 
           document.getElementById(
             "newProductCode"
@@ -2791,11 +2904,9 @@
         button.disabled =
           false;
 
-
       }
 
       catch (error) {
-
 
         console.error(
           "生成产品代码失败：",
@@ -2826,9 +2937,7 @@
     }
 
 
-
     function closeCreateProductModal() {
-
 
       document
         .getElementById(
@@ -2842,13 +2951,11 @@
     }
 
 
-
     /* =====================================================
        创建产品
     ===================================================== */
 
     async function createProduct() {
-
 
       const productName =
         document.getElementById(
@@ -2918,7 +3025,6 @@
         !productName
       ) {
 
-
         alert(
           "请输入产品名称。"
         );
@@ -2936,7 +3042,6 @@
       if (
         !unit
       ) {
-
 
         alert(
           "请输入产品单位。"
@@ -2973,13 +3078,6 @@
 
       try {
 
-
-        /*
-          创建前再次读取数据库，
-          防止新增窗口打开较久以后
-          产品编号发生变化。
-        */
-
         const latestCode =
           await getNextProductCodeFromDatabase();
 
@@ -2987,7 +3085,6 @@
         if (
           !latestCode
         ) {
-
 
           throw new Error(
             "产品代码已经达到最大值 P999。"
@@ -3047,7 +3144,6 @@
           error
         ) {
 
-
           throw error;
         }
 
@@ -3065,11 +3161,9 @@
 
         await loadProducts();
 
-
       }
 
       catch (error) {
-
 
         console.error(
           "创建产品失败：",
@@ -3083,11 +3177,9 @@
           "error"
         );
 
-
       }
 
       finally {
-
 
         showLoading(
           false
@@ -3106,12 +3198,16 @@
     }
 
 
-
     /* =====================================================
+       第1段结束
+       第2段从“打开修改产品窗口”继续
+    ===================================================== */
+
+        /* =====================================================
        打开修改产品窗口
     ===================================================== */
 
-    function openEditProductModal(
+    async function openEditProductModal(
       id
     ) {
 
@@ -3142,6 +3238,10 @@
 
         return;
       }
+
+
+      currentEditProductId =
+        product.id;
 
 
       document.getElementById(
@@ -3213,6 +3313,18 @@
         "";
 
 
+      document.getElementById(
+        "editProductImageFile"
+      ).value =
+        "";
+
+
+      document.getElementById(
+        "productImageUploadStatus"
+      ).textContent =
+        "未选择图片";
+
+
       document
         .getElementById(
           "editProductModal"
@@ -3222,11 +3334,20 @@
           "show"
         );
 
+
+      await loadProductImages(
+        product.id
+      );
+
     }
 
 
 
     function closeEditProductModal() {
+
+
+      currentEditProductId =
+        null;
 
 
       document
@@ -3504,6 +3625,804 @@
 
 
     /* =====================================================
+       新增：选择产品样图
+    ===================================================== */
+
+    function selectProductImage() {
+
+
+      if (
+        !currentEditProductId
+      ) {
+
+
+        showNotice(
+          "请先打开需要修改的产品。",
+          "error"
+        );
+
+
+        return;
+      }
+
+
+      document.getElementById(
+        "editProductImageFile"
+      ).click();
+
+    }
+
+
+
+    /* =====================================================
+       新增：选择图片后自动上传
+    ===================================================== */
+
+    async function handleProductImageSelected(
+      event
+    ) {
+
+
+      const input =
+        event.target;
+
+
+      const file =
+        input.files?.[0];
+
+
+      if (
+        !file
+      ) {
+
+
+        document.getElementById(
+          "productImageUploadStatus"
+        ).textContent =
+          "未选择图片";
+
+
+        return;
+      }
+
+
+      if (
+        !currentEditProductId
+      ) {
+
+
+        showNotice(
+          "没有找到当前产品。",
+          "error"
+        );
+
+
+        input.value =
+          "";
+
+
+        return;
+      }
+
+
+      if (
+        !window.ProductImageService
+      ) {
+
+
+        showNotice(
+          "图片上传模块没有正常加载，请检查 assets/js/image-upload.js。",
+          "error"
+        );
+
+
+        input.value =
+          "";
+
+
+        return;
+      }
+
+
+      const uploadButton =
+        document.getElementById(
+          "selectProductImageButton"
+        );
+
+
+      const status =
+        document.getElementById(
+          "productImageUploadStatus"
+        );
+
+
+      uploadButton.disabled =
+        true;
+
+
+      status.textContent =
+        "正在压缩并上传图片……";
+
+
+      try {
+
+
+        const result =
+          await window
+            .ProductImageService
+            .upload(
+              currentEditProductId,
+              file
+            );
+
+
+        const {
+          data: userData,
+          error: userError
+        } =
+          await supabaseClient
+            .auth
+            .getUser();
+
+
+        if (
+          userError ||
+          !userData?.user
+        ) {
+
+
+          /*
+            Storage 已上传成功，
+            但用户信息读取失败时，
+            删除刚刚上传的文件，避免产生孤立文件。
+          */
+
+          try {
+
+
+            await window
+              .ProductImageService
+              .removeFromStorage(
+                result.storagePath
+              );
+
+
+          }
+
+          catch (
+            rollbackError
+          ) {
+
+
+            console.error(
+              "回滚已上传图片失败：",
+              rollbackError
+            );
+
+          }
+
+
+          throw new Error(
+            "登录状态异常，请重新登录。"
+          );
+
+        }
+
+
+        const {
+          error: insertError
+        } =
+          await supabaseClient
+            .from(
+              "product_images"
+            )
+            .insert({
+
+              product_id:
+                currentEditProductId,
+
+              storage_path:
+                result.storagePath,
+
+              original_name:
+                result.originalName ||
+                file.name ||
+                null,
+
+              mime_type:
+                result.mimeType ||
+                "image/webp",
+
+              file_size:
+                result.fileSize ||
+                null,
+
+              width:
+                result.width ||
+                null,
+
+              height:
+                result.height ||
+                null,
+
+              uploaded_by:
+                userData.user.id,
+
+              is_primary:
+                false,
+
+              is_active:
+                true
+
+            });
+
+
+        if (
+          insertError
+        ) {
+
+
+          /*
+            数据库写入失败时，
+            回滚 Storage 文件。
+          */
+
+          try {
+
+
+            await window
+              .ProductImageService
+              .removeFromStorage(
+                result.storagePath
+              );
+
+
+          }
+
+          catch (
+            rollbackError
+          ) {
+
+
+            console.error(
+              "回滚已上传图片失败：",
+              rollbackError
+            );
+
+          }
+
+
+          throw insertError;
+        }
+
+
+        status.textContent =
+          "图片上传成功";
+
+
+        showNotice(
+          "产品样图上传成功。",
+          "success"
+        );
+
+
+        await loadProductImages(
+          currentEditProductId
+        );
+
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "上传产品样图失败：",
+          error
+        );
+
+
+        status.textContent =
+          "上传失败";
+
+
+        showNotice(
+          "上传产品样图失败：" +
+          error.message,
+          "error"
+        );
+
+
+      }
+
+      finally {
+
+
+        uploadButton.disabled =
+          false;
+
+
+        input.value =
+          "";
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       新增：读取产品样图
+    ===================================================== */
+
+    async function loadProductImages(
+      productId
+    ) {
+
+
+      const grid =
+        document.getElementById(
+          "productImageGrid"
+        );
+
+
+      grid.innerHTML =
+        `
+          <div class="product-image-empty">
+            正在读取产品样图……
+          </div>
+        `;
+
+
+      try {
+
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from(
+              "product_images"
+            )
+            .select(
+              "id, product_id, storage_path, original_name, mime_type, file_size, width, height, is_primary, is_active, uploaded_by, created_at"
+            )
+            .eq(
+              "product_id",
+              productId
+            )
+            .eq(
+              "is_active",
+              true
+            )
+            .order(
+              "created_at",
+              {
+                ascending:
+                  false
+              }
+            );
+
+
+        if (
+          error
+        ) {
+
+
+          throw error;
+        }
+
+
+        const rows =
+          data || [];
+
+
+        if (
+          rows.length ===
+          0
+        ) {
+
+
+          grid.innerHTML =
+            `
+              <div class="product-image-empty">
+                暂无产品样图
+              </div>
+            `;
+
+
+          return;
+        }
+
+
+        grid.innerHTML =
+          "";
+
+
+        for (
+          const image
+          of
+          rows
+        ) {
+
+
+          let signedUrl =
+            "";
+
+
+          try {
+
+
+            signedUrl =
+              await window
+                .ProductImageService
+                .createSignedUrl(
+                  image.storage_path,
+                  3600
+                );
+
+
+          }
+
+          catch (
+            signedUrlError
+          ) {
+
+
+            console.error(
+              "生成图片访问地址失败：",
+              signedUrlError
+            );
+
+
+            signedUrl =
+              "";
+
+          }
+
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+
+          card.className =
+            "product-image-card";
+
+
+          const imageName =
+            image.original_name ||
+            "产品样图";
+
+
+          card.innerHTML =
+            `
+
+              ${
+                signedUrl
+                  ?
+                  `
+                    <img
+                      class="product-image-thumb"
+                      src="${escapeHTML(signedUrl)}"
+                      alt="${escapeHTML(imageName)}"
+                      onclick="openProductImagePreview('${escapeJSString(signedUrl)}')"
+                    >
+                  `
+                  :
+                  `
+                    <div
+                      class="product-image-empty"
+                      style="border:none; border-radius:0; min-height:125px; display:flex; align-items:center; justify-content:center;"
+                    >
+                      图片读取失败
+                    </div>
+                  `
+              }
+
+
+              <div class="product-image-info">
+
+                <div
+                  class="product-image-name"
+                  title="${escapeHTML(imageName)}"
+                >
+                  ${escapeHTML(imageName)}
+                </div>
+
+
+                <div class="product-image-actions">
+
+                  ${
+                    signedUrl
+                      ?
+                      `
+                        <button
+                          class="btn btn-light btn-small"
+                          type="button"
+                          onclick="openProductImagePreview('${escapeJSString(signedUrl)}')"
+                        >
+                          查看
+                        </button>
+                      `
+                      :
+                      ""
+                  }
+
+
+                  <button
+                    class="btn btn-red btn-small"
+                    type="button"
+                    onclick="deleteProductImage('${image.id}', '${escapeJSString(image.storage_path)}')"
+                  >
+                    删除
+                  </button>
+
+                </div>
+
+              </div>
+
+            `;
+
+
+          grid.appendChild(
+            card
+          );
+
+        }
+
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "读取产品样图失败：",
+          error
+        );
+
+
+        grid.innerHTML =
+          `
+            <div class="product-image-empty">
+              读取产品样图失败
+            </div>
+          `;
+
+
+        showNotice(
+          "读取产品样图失败：" +
+          error.message,
+          "error"
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       新增：删除产品样图
+    ===================================================== */
+
+    async function deleteProductImage(
+      imageId,
+      storagePath
+    ) {
+
+
+      if (
+        !imageId ||
+        !storagePath
+      ) {
+
+
+        showNotice(
+          "图片数据不完整，无法删除。",
+          "error"
+        );
+
+
+        return;
+      }
+
+
+      const confirmed =
+        confirm(
+          "确定删除这张产品样图吗？\n\n" +
+          "删除后图片文件和数据库记录都会被移除，无法恢复。"
+        );
+
+
+      if (
+        !confirmed
+      ) {
+
+
+        return;
+      }
+
+
+      showLoading(
+        true
+      );
+
+
+      try {
+
+
+        /*
+          先删除 Storage 实际文件。
+        */
+
+        await window
+          .ProductImageService
+          .removeFromStorage(
+            storagePath
+          );
+
+
+        /*
+          再删除 product_images 数据库记录。
+        */
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from(
+              "product_images"
+            )
+            .delete()
+            .eq(
+              "id",
+              imageId
+            );
+
+
+        if (
+          error
+        ) {
+
+
+          throw error;
+        }
+
+
+        showNotice(
+          "产品样图已删除。",
+          "success"
+        );
+
+
+        if (
+          currentEditProductId
+        ) {
+
+
+          await loadProductImages(
+            currentEditProductId
+          );
+
+        }
+
+
+      }
+
+      catch (error) {
+
+
+        console.error(
+          "删除产品样图失败：",
+          error
+        );
+
+
+        showNotice(
+          "删除产品样图失败：" +
+          error.message,
+          "error"
+        );
+
+
+      }
+
+      finally {
+
+
+        showLoading(
+          false
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       新增：产品样图大图预览
+    ===================================================== */
+
+    function openProductImagePreview(
+      imageUrl
+    ) {
+
+
+      if (
+        !imageUrl
+      ) {
+
+
+        return;
+      }
+
+
+      document.getElementById(
+        "productImagePreviewImg"
+      ).src =
+        imageUrl;
+
+
+      document
+        .getElementById(
+          "productImagePreview"
+        )
+        .classList
+        .add(
+          "show"
+        );
+
+    }
+
+
+
+    function closeProductImagePreview() {
+
+
+      document
+        .getElementById(
+          "productImagePreview"
+        )
+        .classList
+        .remove(
+          "show"
+        );
+
+
+      document.getElementById(
+        "productImagePreviewImg"
+      ).src =
+        "";
+
+    }
+
+
+
+    function handleImagePreviewMaskClick(
+      event
+    ) {
+
+
+      if (
+        event.target ===
+        event.currentTarget
+      ) {
+
+
+        closeProductImagePreview();
+
+      }
+
+    }
+
+
+
+    /* =====================================================
        产品永久设为无效
 
        重要：
@@ -3556,10 +4475,6 @@
         return;
       }
 
-
-      /*
-        已经无效，不做任何恢复操作
-      */
 
       if (
         product.is_active !== true
@@ -3900,15 +4815,6 @@
                 </span>
               `;
 
-
-          /*
-            有效产品：
-            显示“设为无效”
-
-            无效产品：
-            不显示恢复按钮
-            只显示“已永久停用”
-          */
 
           const disableArea =
             item.is_active
@@ -4379,6 +5285,49 @@
       .replaceAll(
         "'",
         "&#039;"
+      );
+
+    }
+
+
+
+    /*
+      用于把字符串安全放进 onclick 的单引号参数中。
+    */
+
+    function escapeJSString(
+      value
+    ) {
+
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+
+        return "";
+      }
+
+
+      return String(
+        value
+      )
+      .replaceAll(
+        "\\",
+        "\\\\"
+      )
+      .replaceAll(
+        "'",
+        "\\'"
+      )
+      .replaceAll(
+        "\r",
+        ""
+      )
+      .replaceAll(
+        "\n",
+        "\\n"
       );
 
     }
