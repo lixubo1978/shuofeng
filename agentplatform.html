@@ -449,7 +449,7 @@
     }
 
     .cart-table {
-      min-width: 900px;
+      min-width: 980px;
     }
 
     .order-table {
@@ -1027,6 +1027,156 @@
 
 
     /* =====================================================
+       新增：下单时查看产品样图
+    ===================================================== */
+
+    .agent-product-image-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(160px, 1fr)
+        );
+
+      gap: 14px;
+    }
+
+    .agent-product-image-card {
+      overflow: hidden;
+
+      border:
+        1px solid #e5e7eb;
+
+      border-radius: 10px;
+
+      background: white;
+    }
+
+    .agent-product-image-thumb {
+      display: block;
+
+      width: 100%;
+
+      height: 150px;
+
+      object-fit: contain;
+
+      background: #f8fafc;
+
+      cursor: pointer;
+    }
+
+    .agent-product-image-name {
+      padding:
+        9px 10px;
+
+      color: #64748b;
+
+      font-size: 11px;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+    .agent-product-image-empty {
+      padding:
+        45px 15px;
+
+      border:
+        1px dashed #cbd5e1;
+
+      border-radius: 10px;
+
+      text-align: center;
+
+      color: #94a3b8;
+
+      background: #f8fafc;
+    }
+
+
+    /* =====================================================
+       新增：图片大图预览
+    ===================================================== */
+
+    .agent-image-preview-mask {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 40000;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 30px;
+
+      background:
+        rgba(0,0,0,0.82);
+    }
+
+    .agent-image-preview-mask.show {
+      display: flex;
+    }
+
+    .agent-image-preview-box {
+      position: relative;
+
+      max-width: 95vw;
+
+      max-height: 92vh;
+    }
+
+    .agent-image-preview-box img {
+      display: block;
+
+      max-width: 95vw;
+
+      max-height: 88vh;
+
+      object-fit: contain;
+
+      border-radius: 8px;
+
+      background: white;
+    }
+
+    .agent-image-preview-close {
+      position: absolute;
+
+      top: -18px;
+
+      right: -18px;
+
+      width: 38px;
+
+      height: 38px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: white;
+
+      color: #111827;
+
+      font-size: 26px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 4px 14px rgba(0,0,0,0.3);
+    }
+
+
+    /* =====================================================
        Loading / 超时
     ===================================================== */
 
@@ -1361,10 +1511,17 @@
             <tr>
 
               <th>产品</th>
+
+              <th>查看图片</th>
+
               <th>销售单价</th>
+
               <th>数量</th>
+
               <th>单位</th>
+
               <th>金额</th>
+
               <th>操作</th>
 
             </tr>
@@ -2334,6 +2491,112 @@
 </div>
 
 
+<!-- =====================================================
+     新增：下单时查看产品样图
+====================================================== -->
+
+<div
+  id="agentProductImageModal"
+  class="modal-mask"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h3>
+        产品样图
+      </h3>
+
+      <button
+        class="modal-close"
+        type="button"
+        onclick="closeAgentProductImageModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <div
+        id="agentProductImageTitle"
+        style="
+          margin-bottom:16px;
+          font-size:14px;
+          color:#475569;
+          font-weight:700;
+        "
+      >
+        -
+      </div>
+
+
+      <div
+        id="agentProductImageGrid"
+        class="agent-product-image-grid"
+      >
+
+        <div class="agent-product-image-empty">
+          正在读取产品样图……
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="btn btn-light"
+        type="button"
+        onclick="closeAgentProductImageModal()"
+      >
+        关闭
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     新增：产品图片大图预览
+====================================================== -->
+
+<div
+  id="agentProductImagePreview"
+  class="agent-image-preview-mask"
+  onclick="handleAgentImagePreviewMask(event)"
+>
+
+  <div class="agent-image-preview-box">
+
+    <button
+      class="agent-image-preview-close"
+      type="button"
+      onclick="closeAgentProductImagePreview()"
+    >
+      ×
+    </button>
+
+
+    <img
+      id="agentProductImagePreviewImg"
+      src=""
+      alt="产品样图"
+    >
+
+  </div>
+
+</div>
+
+
 <div
   id="timeoutWarning"
   class="timeout-warning"
@@ -2567,6 +2830,7 @@ async function verifyAgentAccess() {
 
 /* ===== 第1段结束，第2段紧接下面 ===== */
 
+
   /* ==========================================================
    页面启动
 ========================================================== */
@@ -2779,20 +3043,6 @@ async function loadAllData() {
             true
           ),
 
-
-        /*
-          使用 select("*")
-          这样管理端保存到 orders 的：
-          shipping_address
-          expected_shipping_date
-          shipping_company
-          tracking_number
-          processed_at
-          invoice_status
-          invoice_number
-          invoiced_at
-          都会一起读取。
-        */
 
         supabaseClient
           .from("orders")
@@ -3436,6 +3686,20 @@ function renderCart() {
 
           </td>
 
+
+          <td>
+
+            <button
+              class="btn btn-dark btn-small"
+              type="button"
+              onclick="openAgentProductImageModal('${item.product_id}')"
+            >
+              查看图片
+            </button>
+
+          </td>
+
+
           <td class="money sale-price">
 
             ${formatMoney(item.unit_price)}
@@ -3501,6 +3765,366 @@ function renderCart() {
 
 }
 
+
+/* ==========================================================
+   新增：下单时查看产品样图
+========================================================== */
+
+async function openAgentProductImageModal(
+  productId
+) {
+
+  const product =
+    products.find(
+      item =>
+        String(item.id) ===
+        String(productId)
+    );
+
+
+  if (!product) {
+
+    alert(
+      "没有找到产品资料。"
+    );
+
+    return;
+  }
+
+
+  document.getElementById(
+    "agentProductImageTitle"
+  ).textContent =
+    (
+      product.product_code ||
+      ""
+    )
+    +
+    " · "
+    +
+    (
+      product.product_name ||
+      ""
+    );
+
+
+  const grid =
+    document.getElementById(
+      "agentProductImageGrid"
+    );
+
+
+  grid.innerHTML =
+    `
+      <div class="agent-product-image-empty">
+        正在读取产品样图……
+      </div>
+    `;
+
+
+  document
+    .getElementById(
+      "agentProductImageModal"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from(
+          "product_images"
+        )
+        .select(
+          "id, storage_path, original_name, created_at"
+        )
+        .eq(
+          "product_id",
+          productId
+        )
+        .eq(
+          "is_active",
+          true
+        )
+        .order(
+          "created_at",
+          {
+            ascending:
+              false
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    const rows =
+      data || [];
+
+
+    if (
+      rows.length ===
+      0
+    ) {
+
+      grid.innerHTML =
+        `
+          <div class="agent-product-image-empty">
+            该产品暂无产品样图
+          </div>
+        `;
+
+      return;
+    }
+
+
+    grid.innerHTML =
+      "";
+
+
+    for (
+      const image
+      of
+      rows
+    ) {
+
+      const {
+        data: urlData,
+        error: urlError
+      } =
+        await supabaseClient
+          .storage
+          .from(
+            "product-images"
+          )
+          .createSignedUrl(
+            image.storage_path,
+            3600
+          );
+
+
+      if (urlError) {
+
+        console.error(
+          "生成产品图片地址失败：",
+          urlError
+        );
+
+        continue;
+      }
+
+
+      const signedUrl =
+        urlData?.signedUrl;
+
+
+      if (!signedUrl) {
+        continue;
+      }
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "agent-product-image-card";
+
+
+      const img =
+        document.createElement(
+          "img"
+        );
+
+
+      img.className =
+        "agent-product-image-thumb";
+
+
+      img.src =
+        signedUrl;
+
+
+      img.alt =
+        image.original_name ||
+        "产品样图";
+
+
+      img.addEventListener(
+        "click",
+        function() {
+
+          openAgentProductImagePreview(
+            signedUrl
+          );
+
+        }
+      );
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.className =
+        "agent-product-image-name";
+
+
+      name.textContent =
+        image.original_name ||
+        "产品样图";
+
+
+      card.appendChild(
+        img
+      );
+
+
+      card.appendChild(
+        name
+      );
+
+
+      grid.appendChild(
+        card
+      );
+
+    }
+
+
+    if (
+      grid.children.length ===
+      0
+    ) {
+
+      grid.innerHTML =
+        `
+          <div class="agent-product-image-empty">
+            产品样图读取失败
+          </div>
+        `;
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "读取产品样图失败：",
+      error
+    );
+
+
+    grid.innerHTML =
+      `
+        <div class="agent-product-image-empty">
+          产品样图读取失败
+        </div>
+      `;
+
+  }
+
+}
+
+
+function closeAgentProductImageModal() {
+
+  document
+    .getElementById(
+      "agentProductImageModal"
+    )
+    .classList
+    .remove(
+      "show"
+    );
+
+}
+
+
+/* ==========================================================
+   产品样图大图预览
+========================================================== */
+
+function openAgentProductImagePreview(
+  imageUrl
+) {
+
+  if (!imageUrl) {
+    return;
+  }
+
+
+  document.getElementById(
+    "agentProductImagePreviewImg"
+  ).src =
+    imageUrl;
+
+
+  document
+    .getElementById(
+      "agentProductImagePreview"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+}
+
+
+function closeAgentProductImagePreview() {
+
+  document
+    .getElementById(
+      "agentProductImagePreview"
+    )
+    .classList
+    .remove(
+      "show"
+    );
+
+
+  document.getElementById(
+    "agentProductImagePreviewImg"
+  ).src =
+    "";
+
+}
+
+
+function handleAgentImagePreviewMask(
+  event
+) {
+
+  if (
+    event.target ===
+    event.currentTarget
+  ) {
+
+    closeAgentProductImagePreview();
+
+  }
+
+}
+
+
+/* ==========================================================
+   修改数量
+========================================================== */
 
 function changeCartQuantity(
   productId,
@@ -4160,11 +4784,6 @@ function openOrderDetail(
   );
 
 
-  /* ========================================================
-     新增：
-     管理端处理后的发货信息
-  ======================================================== */
-
   setText(
     "detailShippingAddress",
 
@@ -4238,11 +4857,6 @@ function openOrderDetail(
 
   );
 
-
-  /* ========================================================
-     新增：
-     开票结果
-  ======================================================== */
 
   setText(
     "detailInvoiceStatus",
@@ -4416,6 +5030,7 @@ function closeOrderDetailModal() {
 
 /* ==========================================================
    打印订单
+   保持原来的打印内容，不增加查看图片
 ========================================================== */
 
 function printCurrentOrder() {
@@ -5716,6 +6331,27 @@ document
   );
 
 
+document
+  .getElementById(
+    "agentProductImageModal"
+  )
+  .addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target ===
+        this
+      ) {
+
+        closeAgentProductImageModal();
+
+      }
+
+    }
+  );
+
+
 document.addEventListener(
   "keydown",
   function(event) {
@@ -5728,6 +6364,10 @@ document.addEventListener(
       closeOrderDetailModal();
 
       closePasswordModal();
+
+      closeAgentProductImageModal();
+
+      closeAgentProductImagePreview();
 
     }
 
