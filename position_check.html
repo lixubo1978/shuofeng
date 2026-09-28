@@ -9,15 +9,20 @@
 <section class="panel" aria-busy="true" id="results"><div class="panel-top"><div><h2>同季度 · 同单位人员名单</h2><p id="summary" class="small">请选择查询条件</p></div><div class="count" id="count">0<span>人</span></div></div><div class="table-wrap"><table><thead><tr><th scope="col">序号</th><th scope="col">人员</th><th scope="col">任职时间</th><th scope="col">任职单位</th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" class="empty">正在加载数据库…</div><div class="table-footer">名单包含所选人员本人；兼任多个单位时，按单位排列。</div></section>
 <div class="footnote"><span>ⓘ</span><span>季度记录以季度末为准。一次录入任职区间，自动生成区间内的季度末记录（不含起始日，包含结束日）。</span></div>
 </main>
-<dialog id="dialog" aria-labelledby="dialog-title"><div class="dialog-head"><div><h2 id="dialog-title">创建任职记录</h2><p class="small">填写一次，自动生成多个季度的记录。</p></div><button class="close" type="button" id="close" aria-label="关闭">×</button></div><form id="form"><div class="form-row"><label for="record-person">人员</label><select id="record-person"><option value="">＋ 新建人员</option></select></div><div id="new-person" class="two"><div class="form-row"><label for="name">姓名</label><input id="name" maxlength="60" required placeholder="输入人员姓名"></div><div class="form-row"><label for="note">区分说明 <span class="small">（选填）</span></label><input id="note" maxlength="100" placeholder="如工号，区分同名人员"></div></div><div class="form-row"><label for="unit">任职单位</label><input id="unit" maxlength="120" required placeholder="输入完整单位名称"></div><div class="two"><div><label for="start">开始日期</label><input id="start" type="date" min="1900-01-01" max="2200-12-31" required value="2005-12-31"></div><div><label for="end">结束日期</label><input id="end" type="date" min="1900-01-01" max="2200-12-31" required value="2006-12-31"></div></div><div class="preview" aria-live="polite"><strong id="preview-count">将生成4条季度记录</strong><div class="preview-dates" id="preview-dates"></div></div><div id="form-error" role="alert" class="notice error" hidden></div><div class="actions"><button id="cancel" type="button" class="secondary">取消</button><button class="primary" id="save" type="submit">创建记录</button></div></form></dialog>
+<dialog id="dialog" aria-labelledby="dialog-title"><div class="dialog-head"><div><h2 id="dialog-title">创建任职记录</h2><p class="small">填写一次，自动生成多个季度的记录。</p></div><button class="close" type="button" id="close" aria-label="关闭">×</button></div><form id="form"><div class="form-row"><label for="record-person">人员</label><select id="record-person"><option value="">＋ 新建人员</option></select></div><div id="new-person" class="two"><div class="form-row"><label for="name">姓名</label><input id="name" maxlength="60" required placeholder="输入人员姓名"></div><div class="form-row"><label for="note">区分说明 <span class="small">（选填）</span></label><input id="note" maxlength="100" placeholder="如工号，区分同名人员"></div></div><div class="form-row"><label for="unit">任职单位</label><select id="unit" required><option value="">请选择已创建的单位</option></select>
+<button type="button" id="add-unit" class="text-button">＋ 新建单位</button>
+<div id="unit-editor" hidden class="preview"><label for="new-unit-name">新单位名称</label>
+<input id="new-unit-name" maxlength="120" placeholder="输入完整单位名称，仅创建时填写">
+<div class="actions" style="margin-top:12px"><button type="button" id="cancel-unit" class="secondary">取消</button><button type="button" id="save-unit" class="primary">保存单位并选中</button></div>
+<p id="unit-message" class="small" role="status" style="margin-top:10px"></p></div></div><div class="two"><div><label for="start">开始日期</label><input id="start" type="date" min="1900-01-01" max="2200-12-31" required value="2005-12-31"></div><div><label for="end">结束日期</label><input id="end" type="date" min="1900-01-01" max="2200-12-31" required value="2006-12-31"></div></div><div class="preview" aria-live="polite"><strong id="preview-count">将生成4条季度记录</strong><div class="preview-dates" id="preview-dates"></div></div><div id="form-error" role="alert" class="notice error" hidden></div><div class="actions"><button id="cancel" type="button" class="secondary">取消</button><button class="primary" id="save" type="submit">创建记录</button></div></form></dialog>
 <script type="module">
 
 /* 在下面填写Supabase的Project URL和公开publishable key（也支持旧版anon key）。
    所有访客无需登录即可查询和创建记录。不要填写service_role或secret key。
    保存此文件内容为position_check.html，替换GitHub中的同名页面。
 */
-const SUPABASE_URL = 'https://icmifhjjhgjrhkunjbmu.supabase.co/rest/v1/';
-const SUPABASE_PUBLIC_KEY = 'sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4';
+const SUPABASE_URL = '在这里填写Supabase项目URL';
+const SUPABASE_PUBLIC_KEY = '在这里填写Supabase公开API_Key';
 
 async function rpc(name,args={}) {
   if(!SUPABASE_URL.startsWith('https://') || SUPABASE_PUBLIC_KEY.startsWith('在这里')) {
@@ -66,10 +71,36 @@ $('toggle').onclick=async()=>{demo=!demo;notice('');if(demo){options=demoOptions
 function preview(){try{const dates=quarters($('start').value,$('end').value);$('preview-count').textContent=`将生成 ${dates.length} 条季度记录`;$('preview-dates').textContent=dates.map(fmt).join('、');$('save').disabled=busy;return dates}catch(e){$('preview-count').textContent=e.message;$('preview-dates').textContent='只记录开始日期之后、结束日期以内的季度末。';$('save').disabled=true;return []}}
 $('start').onchange=preview;$('end').onchange=preview;
 $('record-person').onchange=()=>{const isNew=!$('record-person').value;$('new-person').hidden=!isNew;$('name').required=isNew;};
-$('create').onclick=async()=>{$('form-error').hidden=true;requestId=crypto.randomUUID();$('record-person').innerHTML='<option value="">＋ 新建人员</option>'+((savedOptions?.people)||[]).map(p=>`<option value="${esc(p.id)}">${esc(label(p))}</option>`).join('');if(!demo && $('person').value)$('record-person').value=$('person').value;$('record-person').onchange();preview();$('dialog').showModal();};
+function fillUnits(selected='') {
+  $('unit').innerHTML='<option value="">请选择已创建的单位</option>'+((savedOptions?.units)||[]).map(u=>`<option value="${esc(u.id)}">${esc(u.name)}</option>`).join('');
+  if((savedOptions?.units||[]).some(u=>u.id===selected))$('unit').value=selected;
+}
+$('add-unit').onclick=()=>{if(busy)return;$('unit-editor').hidden=false;$('unit-message').textContent='保存后将加入单位列表，以后可以直接选用。';$('new-unit-name').focus()};
+$('cancel-unit').onclick=()=>{if(!busy)$('unit-editor').hidden=true};
+$('new-unit-name').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('save-unit').click()}};
+$('save-unit').onclick=async()=>{
+  if(busy)return;
+  const name=$('new-unit-name').value.trim();
+  if(!name){$('unit-message').textContent='请输入单位名称。';$('new-unit-name').focus();return}
+  busy=true;$('save-unit').disabled=true;$('save').disabled=true;$('new-unit-name').disabled=true;$('save-unit').textContent='正在保存…';
+  try {
+    const u=await rpc('personnel_create_unit',{p_name:name});
+    if(!savedOptions)savedOptions={people:[],quarters:[],units:[]};
+    savedOptions.units=[...(savedOptions.units||[]).filter(x=>x.id!==u.id),u].sort((a,b)=>a.name.localeCompare(b.name,'zh-CN'));
+    fillUnits(u.id);requestId=crypto.randomUUID();$('unit-editor').hidden=true;$('new-unit-name').value='';
+    $('form-error').hidden=true;
+  } catch(e){$('unit-message').textContent=e.message}
+  finally {busy=false;$('save-unit').disabled=false;$('new-unit-name').disabled=false;$('save-unit').textContent='保存单位并选中';preview()}
+};
+$('create').onclick=async()=>{
+  $('create').disabled=true;
+  try {savedOptions=await get('/api/options');if(!Array.isArray(savedOptions.units))throw Error('请先执行“单位下拉”增量SQL，再刷新页面。');}
+  catch(e){notice(e.message,true);return}
+  finally{$('create').disabled=false}
+  $('unit-editor').hidden=true;fillUnits();$('form-error').hidden=true;requestId=crypto.randomUUID();$('record-person').innerHTML='<option value="">＋ 新建人员</option>'+((savedOptions?.people)||[]).map(p=>`<option value="${esc(p.id)}">${esc(label(p))}</option>`).join('');if(!demo && $('person').value)$('record-person').value=$('person').value;$('record-person').onchange();preview();$('dialog').showModal();};
 $('close').onclick=$('cancel').onclick=()=>{if(!busy)$('dialog').close()};$('dialog').addEventListener('cancel',e=>{if(busy)e.preventDefault()});
 $('form').addEventListener('input',()=>{if(!busy)requestId=crypto.randomUUID()});
-$('form').onsubmit=async e=>{e.preventDefault();if(busy||!preview().length)return;busy=true;$('save').disabled=true;$('save').textContent='正在保存…';$('form-error').hidden=true;const inputs=[...$('form').querySelectorAll('input,select')];inputs.forEach(x=>x.disabled=true);try{const r=await get('/api/records',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({personId:$('record-person').value,name:$('name').value,note:$('note').value,unit:$('unit').value,start:$('start').value,end:$('end').value,requestId})});demo=false;$('dialog').close();$('form').reset();await load(r.personId,r.quarter);notice(`创建成功，已保存 ${r.count} 条季度记录。`);}catch(e){$('form-error').hidden=false;$('form-error').textContent=e.message;}finally{busy=false;inputs.forEach(x=>x.disabled=false);$('save').textContent='创建记录';preview()}};
+$('form').onsubmit=async e=>{e.preventDefault();if(busy||!preview().length)return;if(!$('unit').value){$('form-error').hidden=false;$('form-error').textContent='请先选择或创建任职单位。';return}busy=true;$('save').disabled=true;$('save').textContent='正在保存…';$('form-error').hidden=true;const inputs=[...$('form').querySelectorAll('input,select')];inputs.forEach(x=>x.disabled=true);try{const r=await get('/api/records',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({personId:$('record-person').value,name:$('name').value,note:$('note').value,unitId:$('unit').value,start:$('start').value,end:$('end').value,requestId})});demo=false;$('dialog').close();$('form').reset();await load(r.personId,r.quarter);notice(`创建成功，已保存 ${r.count} 条季度记录。`);}catch(e){$('form-error').hidden=false;$('form-error').textContent=e.message;}finally{busy=false;inputs.forEach(x=>x.disabled=false);$('save').textContent='创建记录';preview()}};
 
 load();
 </script></body></html>
