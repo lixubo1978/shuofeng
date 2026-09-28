@@ -16,8 +16,8 @@
    所有访客无需登录即可查询和创建记录。不要填写service_role或secret key。
    保存此文件内容为position_check.html，替换GitHub中的同名页面。
 */
-const SUPABASE_URL = '在这里填写Supabase项目URL';
-const SUPABASE_PUBLIC_KEY = '在这里填写Supabase公开API_Key';
+const SUPABASE_URL = 'https://icmifhjjhgjrhkunjbmu.supabase.co/rest/v1/';
+const SUPABASE_PUBLIC_KEY = 'sb_publishable_PR-D5FTznDtffymRmANXqQ_a5qYXrI4';
 
 async function rpc(name,args={}) {
   if(!SUPABASE_URL.startsWith('https://') || SUPABASE_PUBLIC_KEY.startsWith('在这里')) {
