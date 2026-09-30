@@ -6781,7 +6781,12 @@ function printDeliveryNote(orderId) {
 </head>
 <body>
 <div class="sheet">
-  <div class="toolbar"><button type="button" onclick="window.print()">打印送货单</button></div>
+  <div class="toolbar">
+    <button id="saveDeliveryRemark" type="button" disabled>保存备注</button>
+    <button id="printDeliveryRemark" type="button" disabled>保存并打印送货单</button>
+    <button id="reloadDeliveryRemark" type="button">重新读取备注</button>
+    <p id="deliverySaveStatus" role="status" aria-live="polite">正在读取已保存的备注…</p>
+  </div>
   <h1>送货单</h1>
   <div class="meta">
     <span>订单编号：${escapeHtml(order.special_order_no || "-")}</span>
@@ -6811,9 +6816,9 @@ function printDeliveryNote(orderId) {
   </table>
   <div class="delivery-remark">
     <label for="deliveryRemark">备注</label>
-    <textarea id="deliveryRemark" rows="4" placeholder="可填写交货要求、装箱说明等特别信息"></textarea>
+    <textarea id="deliveryRemark" rows="4" disabled placeholder="可填写交货要求、装箱说明等特别信息"></textarea>
     <div id="deliveryRemarkPrint" class="remark-print"></div>
-    <p class="remark-hint">填写后点击上方“打印送货单”。备注仅用于本次送货单，关闭窗口后不保存。</p>
+    <p class="remark-hint">填写后点击“保存备注”或“保存并打印送货单”。保存成功后，下次打开会自动读取。</p>
   </div>
   <div class="signatures">
     <section>
@@ -6828,19 +6833,143 @@ function printDeliveryNote(orderId) {
     </section>
   </div>
 </div>
-<script>
-const remarkInput = document.getElementById("deliveryRemark");
-const remarkPrint = document.getElementById("deliveryRemarkPrint");
-function syncDeliveryRemark() {
-  remarkPrint.textContent = remarkInput.value;
-}
-remarkInput.addEventListener("input", syncDeliveryRemark);
-window.addEventListener("beforeprint", syncDeliveryRemark);
-syncDeliveryRemark();
-<\/script>
+
 </body>
 </html>`);
   printWindow.document.close();
+
+  const noteInput = printWindow.document.getElementById("deliveryRemark");
+  const notePrint = printWindow.document.getElementById("deliveryRemarkPrint");
+  const saveButton = printWindow.document.getElementById("saveDeliveryRemark");
+  const printButton = printWindow.document.getElementById("printDeliveryRemark");
+  const reloadButton = printWindow.document.getElementById("reloadDeliveryRemark");
+  const status = printWindow.document.getElementById("deliverySaveStatus");
+  let savedNote = "";
+  let databaseNote = null;
+  let loaded = false;
+  let busy = false;
+
+  function setBusy(value) {
+    busy = value;
+    noteInput.disabled = value || !loaded;
+    saveButton.disabled = value || !loaded;
+    printButton.disabled = value || !loaded;
+    reloadButton.disabled = value;
+  }
+
+  function syncNote() {
+    notePrint.textContent = noteInput.value;
+  }
+
+  function showError(error) {
+    const detail = error && error.message ? error.message : String(error);
+    status.textContent = "操作失败，备注未保存：" + detail
+      + "。请检查网络、登录状态、数据库字段及读写权限后重试。";
+    status.style.color = "#b91c1c";
+  }
+
+  async function loadNote() {
+    if (busy) return;
+    if (loaded && noteInput.value !== savedNote
+        && !printWindow.confirm("重新读取将替换当前未保存的备注，是否继续？")) return;
+    setBusy(true);
+    status.textContent = "正在读取已保存的备注…";
+    status.style.color = "#333";
+    try {
+      const { data, error } = await supabaseClient
+        .from("special_orders")
+        .select("id, delivery_note_remarks")
+        .eq("id", order.id)
+        .single();
+      if (error) throw error;
+      if (!data) throw new Error("未能读取该订单");
+      if (printWindow.closed) return;
+      databaseNote = data.delivery_note_remarks;
+      savedNote = data.delivery_note_remarks ?? "";
+      noteInput.value = savedNote;
+      loaded = true;
+      syncNote();
+      status.textContent = "已读取已保存的备注，可修改后保存。";
+    } catch (error) {
+      if (!printWindow.closed) {
+        status.textContent = "读取失败：" + (error.message || String(error))
+          + "。请确认数据库更新已执行且有读取权限，再点击重新读取备注。";
+        status.style.color = "#b91c1c";
+      }
+    } finally {
+      if (!printWindow.closed) setBusy(false);
+    }
+  }
+
+  async function saveNote(andPrint) {
+    if (busy || !loaded) return;
+    const value = noteInput.value;
+    setBusy(true);
+    status.textContent = "正在保存备注…";
+    status.style.color = "#333";
+    try {
+      // 使用当前登录用户，数据库原有 RLS 权限继续生效。
+      const { data: authData, error: authError } = await supabaseClient.auth.getUser();
+      if (authError) throw authError;
+      if (!authData?.user) throw new Error("登录已失效，请重新登录");
+      const { data: profile, error: profileError } = await supabaseClient
+        .from("profiles").select("role, is_active")
+        .eq("id", authData.user.id).single();
+      if (profileError) throw profileError;
+      if (!profile || profile.is_active !== true
+          || !["founder", "admin"].includes(profile.role)) {
+        throw new Error("当前账号没有操作权限");
+      }
+
+      // 同时匹配上次读取的备注，避免覆盖其他窗口或人员刚保存的内容。
+      let updateQuery = supabaseClient.from("special_orders")
+        .update({ delivery_note_remarks: value }).eq("id", order.id);
+      updateQuery = databaseNote == null
+        ? updateQuery.is("delivery_note_remarks", null)
+        : updateQuery.eq("delivery_note_remarks", databaseNote);
+      const { data, error } = await updateQuery.select("id, delivery_note_remarks");
+      if (error) throw error;
+      if (!data || data.length !== 1) {
+        throw new Error("保存未成功：备注可能已被他人修改、订单不存在或没有修改权限。请先复制保留当前内容，再重新读取核对");
+      }
+      if (data[0].delivery_note_remarks !== value) {
+        throw new Error("数据库返回的备注与填写内容不一致，请重新读取核对");
+      }
+      databaseNote = value;
+      savedNote = value;
+      const cachedOrder = specialOrders.find(item => String(item.id) === String(order.id));
+      if (cachedOrder) cachedOrder.delivery_note_remarks = value;
+      if (printWindow.closed) return;
+      syncNote();
+      status.textContent = "备注已保存。";
+      status.style.color = "#15803d";
+      if (andPrint) {
+        printWindow.focus();
+        printWindow.print();
+      }
+    } catch (error) {
+      if (!printWindow.closed) showError(error);
+    } finally {
+      if (!printWindow.closed) setBusy(false);
+    }
+  }
+
+  noteInput.addEventListener("input", function() {
+    syncNote();
+    status.textContent = noteInput.value === savedNote ? "备注与已保存内容一致。" : "备注已修改，尚未保存。";
+    status.style.color = noteInput.value === savedNote ? "#333" : "#92400e";
+  });
+  saveButton.addEventListener("click", function() { saveNote(false); });
+  printButton.addEventListener("click", function() { saveNote(true); });
+  reloadButton.addEventListener("click", loadNote);
+  printWindow.addEventListener("beforeprint", syncNote);
+  printWindow.addEventListener("beforeunload", function(event) {
+    if (busy || (loaded && noteInput.value !== savedNote)) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  });
+  loadNote();
 }
 
 
