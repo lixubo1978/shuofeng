@@ -23,7 +23,7 @@
     content="0"
   >
 
-  <title>特殊订单管理｜硕丰科技</title>
+  <title>零星订单管理｜硕丰科技</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -890,7 +890,7 @@
     }
 
     /* =====================================================
-       特殊订单下单时查看产品样图
+       零星订单下单时查看产品样图
     ====================================================== */
 
     .special-product-image-grid {
@@ -1151,7 +1151,7 @@
   <div class="brand">
 
     <div class="brand-title">
-      硕丰科技 · 特殊订单管理
+      硕丰科技 · 零星订单管理
     </div>
 
     <div class="brand-subtitle">
@@ -1207,11 +1207,11 @@
     <div>
 
       <h1>
-        特殊客户订单管理
+        零星客户订单管理
       </h1>
 
       <p>
-        特殊订单与代理商销售订单完全独立。
+        零星订单与代理商销售订单完全独立。
         产品来自正式产品目录，每一个产品的实际成交价格由公司管理人员手工填写。
       </p>
 
@@ -1221,7 +1221,7 @@
     <div class="special-tag">
 
       <div class="special-tag-title">
-        独立特殊订单系统
+        独立零星订单系统
       </div>
 
       <div class="special-tag-text">
@@ -1243,7 +1243,7 @@
   <section class="summary-grid">
 
     <div class="summary-card">
-      <div class="summary-label">特殊订单总数</div>
+      <div class="summary-label">零星订单总数</div>
       <div id="totalOrderCount" class="summary-value">0</div>
     </div>
 
@@ -1275,7 +1275,7 @@
     <div class="panel-header">
 
       <h2>
-        ① 新建特殊订单
+        ① 新建零星订单
       </h2>
 
       <p>
@@ -1300,7 +1300,7 @@
           <input
             id="customerName"
             type="text"
-            placeholder="请输入特殊客户名称"
+            placeholder="请输入零星客户名称"
           >
 
         </div>
@@ -1411,7 +1411,7 @@
 
           <textarea
             id="orderRemarks"
-            placeholder="特殊要求、交付说明、客户要求等"
+            placeholder="零星要求、交付说明、客户要求等"
           ></textarea>
 
         </div>
@@ -1537,7 +1537,7 @@
           <div class="order-total">
 
             <div class="order-total-label">
-              当前特殊订单总额
+              当前零星订单总额
             </div>
 
             <div
@@ -1566,7 +1566,7 @@
             type="button"
             onclick="createSpecialOrder()"
           >
-            确认创建特殊订单
+            确认创建零星订单
           </button>
 
         </div>
@@ -1587,7 +1587,7 @@
     <div class="panel-header">
 
       <h2>
-        ② 特殊订单历史
+        ② 零星订单历史
       </h2>
 
       <p>
@@ -1647,7 +1647,7 @@
 
             <tr>
 
-              <th>特殊订单号</th>
+              <th>零星订单号</th>
               <th>客户</th>
               <th>订单日期</th>
               <th>总金额</th>
@@ -1678,7 +1678,7 @@
         class="empty"
         style="display:none;"
       >
-        暂无特殊订单
+        暂无零星订单
       </div>
 
     </div>
@@ -1701,7 +1701,7 @@
     <div class="modal-header">
 
       <h3>
-        特殊订单详情
+        零星订单详情
       </h3>
 
       <button
@@ -1726,7 +1726,7 @@
       <div class="detail-grid">
 
         <div class="detail-item">
-          <div class="detail-label">特殊订单号</div>
+          <div class="detail-label">零星订单号</div>
           <div id="detailOrderNo" class="detail-value">-</div>
         </div>
 
@@ -1939,7 +1939,7 @@
     <div class="modal-header">
 
       <h3>
-        处理特殊订单
+        处理零星订单
       </h3>
 
       <button
@@ -2042,7 +2042,7 @@
 
             <textarea
               id="processShippingAddress"
-              placeholder="默认读取创建特殊订单时填写的地址，可重新修改"
+              placeholder="默认读取创建零星订单时填写的地址，可重新修改"
             ></textarea>
 
           </div>
@@ -2098,7 +2098,7 @@
     <div class="modal-header">
 
       <h3>
-        标记特殊订单已发货
+        标记零星订单已发货
       </h3>
 
       <button
@@ -2205,7 +2205,7 @@
     <div class="modal-header">
 
       <h3>
-        特殊订单开票
+        零星订单开票
       </h3>
 
       <button
@@ -2741,13 +2741,13 @@ document.addEventListener(
   catch (error) {
 
     console.error(
-      "读取特殊订单资料失败：",
+      "读取零星订单资料失败：",
       error
     );
 
 
     alert(
-      "读取特殊订单资料失败：\n\n"
+      "读取零星订单资料失败：\n\n"
       +
       (
         error.message
@@ -2758,7 +2758,7 @@ document.addEventListener(
 
 
     showNotice(
-      "读取特殊订单资料失败："
+      "读取零星订单资料失败："
       +
       (
         error.message
@@ -3334,7 +3334,7 @@ function removeCartItem(
 
 
 /* =====================================================
-   特殊订单下单时查看产品样图
+   零星订单下单时查看产品样图
 ===================================================== */
 
 async function openSpecialProductImageModal(
@@ -3678,7 +3678,7 @@ function handleSpecialImagePreviewMask(
 
 
 /* =====================================================
-   创建特殊订单
+   创建零星订单
 ===================================================== */
 
 async function createSpecialOrder() {
@@ -3769,7 +3769,7 @@ async function createSpecialOrder() {
   ) {
 
     alert(
-      "特殊订单至少需要一个产品。"
+      "零星订单至少需要一个产品。"
     );
 
     return;
@@ -3826,7 +3826,7 @@ async function createSpecialOrder() {
 
   if (
     !confirm(
-      "确认创建特殊订单？\n\n"
+      "确认创建零星订单？\n\n"
       +
       "客户："
       +
@@ -3947,7 +3947,7 @@ async function createSpecialOrder() {
 
 
     alert(
-      "特殊订单创建成功！\n\n"
+      "零星订单创建成功！\n\n"
       +
       "订单号："
       +
@@ -3982,7 +3982,7 @@ async function createSpecialOrder() {
 
 
     showNotice(
-      "特殊订单 "
+      "零星订单 "
       +
       (
         data?.special_order_no
@@ -4012,7 +4012,7 @@ async function createSpecialOrder() {
   catch (error) {
 
     console.error(
-      "创建特殊订单失败：",
+      "创建零星订单失败：",
       error
     );
 
@@ -4060,14 +4060,14 @@ async function createSpecialOrder() {
 
 
     alert(
-      "创建特殊订单失败：\n\n"
+      "创建零星订单失败：\n\n"
       +
       errorText
     );
 
 
     showNotice(
-      "创建特殊订单失败："
+      "创建零星订单失败："
       +
       errorText,
       "error"
@@ -4087,7 +4087,7 @@ async function createSpecialOrder() {
 
 
     button.textContent =
-      "确认创建特殊订单";
+      "确认创建零星订单";
 
   }
 
@@ -4792,7 +4792,7 @@ function openDetailModal(
   if (!order) {
 
     alert(
-      "没有找到该特殊订单。"
+      "没有找到该零星订单。"
     );
 
     return;
@@ -5250,7 +5250,7 @@ function openProcessModal(
   if (!order) {
 
     alert(
-      "没有找到该特殊订单。"
+      "没有找到该零星订单。"
     );
 
     return;
@@ -5519,7 +5519,7 @@ async function confirmSpecialOrder() {
 
 
     alert(
-      "特殊订单 "
+      "零星订单 "
       +
       (
         data?.special_order_no
@@ -5532,7 +5532,7 @@ async function confirmSpecialOrder() {
 
 
     showNotice(
-      "特殊订单已经处理完成。",
+      "零星订单已经处理完成。",
       "success"
     );
 
@@ -5541,13 +5541,13 @@ async function confirmSpecialOrder() {
   catch (error) {
 
     console.error(
-      "处理特殊订单失败：",
+      "处理零星订单失败：",
       error
     );
 
 
     alert(
-      "处理特殊订单失败：\n\n"
+      "处理零星订单失败：\n\n"
       +
       (
         error.message
@@ -5716,7 +5716,7 @@ async function completeCurrentOrder() {
 
   if (
     !confirm(
-      "确定把该特殊订单标记为“已完成”吗？"
+      "确定把该零星订单标记为“已完成”吗？"
     )
   ) {
 
@@ -5746,7 +5746,7 @@ async function cancelCurrentOrder() {
 
   if (
     !confirm(
-      "确定取消该特殊订单吗？\n\n取消后不能恢复。"
+      "确定取消该零星订单吗？\n\n取消后不能恢复。"
     )
   ) {
 
@@ -5831,7 +5831,7 @@ async function updateCurrentOrderStatus(
 
 
     alert(
-      "特殊订单状态已经更新为："
+      "零星订单状态已经更新为："
       +
       statusChinese(
         status
@@ -5919,7 +5919,7 @@ function openInvoiceModal(
   if (!order) {
 
     alert(
-      "没有找到该特殊订单。"
+      "没有找到该零星订单。"
     );
 
     return;
@@ -5932,7 +5932,7 @@ function openInvoiceModal(
   ) {
 
     alert(
-      "该特殊订单已经开票。"
+      "该零星订单已经开票。"
     );
 
     return;
@@ -6062,7 +6062,7 @@ async function issueInvoice() {
 
 
     alert(
-      "特殊订单 "
+      "零星订单 "
       +
       (
         data?.special_order_no
@@ -6078,13 +6078,13 @@ async function issueInvoice() {
   catch (error) {
 
     console.error(
-      "特殊订单开票失败：",
+      "零星订单开票失败：",
       error
     );
 
 
     alert(
-      "特殊订单开票失败：\n\n"
+      "零星订单开票失败：\n\n"
       +
       (
         error.message
@@ -6387,7 +6387,7 @@ body {
 
 
 <div class="title">
-特殊客户销售订单
+零星客户销售订单
 </div>
 
 
@@ -6396,7 +6396,7 @@ body {
 <tr>
 
 <td class="label">
-特殊订单号
+零星订单号
 </td>
 
 <td>
