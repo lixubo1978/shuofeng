@@ -1913,6 +1913,14 @@
       </button>
 
       <button
+        class="btn btn-orange"
+        type="button"
+        onclick="printCurrentDeliveryNote()"
+      >
+        送货单
+      </button>
+
+      <button
         class="btn btn-light"
         type="button"
         onclick="closeDetailModal()"
@@ -4706,6 +4714,14 @@ function renderHistory() {
               打印
             </button>
 
+            <button
+              class="btn btn-orange"
+              type="button"
+              onclick="printDeliveryNote(${Number(order.id)})"
+            >
+              送货单
+            </button>
+
           </div>
 
         </td>
@@ -6669,6 +6685,140 @@ function() {
 
   printWindow.document.close();
 
+}
+
+
+/* =====================================================
+   送货单（独立打印，不包含财务信息）
+===================================================== */
+
+function printCurrentDeliveryNote() {
+  if (currentDetailOrderId) {
+    printDeliveryNote(currentDetailOrderId);
+  }
+}
+
+function printDeliveryNote(orderId) {
+  const order = specialOrders.find(
+    item => String(item.id) === String(orderId)
+  );
+
+  if (!order) {
+    alert("没有找到需要打印送货单的订单。");
+    return;
+  }
+
+  const items = getOrderItems(order.id);
+  const rows = items.map((item, index) => `
+    <tr>
+      <td class="center">${index + 1}</td>
+      <td>${escapeHtml(item.product_code_snapshot || "-")}</td>
+      <td>${escapeHtml(item.product_name_snapshot || "-")}</td>
+      <td>${escapeHtml(item.specification_snapshot || "-")}</td>
+      <td class="number">${escapeHtml(formatQuantity(item.quantity))}</td>
+      <td class="center">${escapeHtml(item.unit_snapshot || "-")}</td>
+    </tr>
+  `).join("");
+
+  const printWindow = window.open("", "_blank", "width=1050,height=820");
+  if (!printWindow) {
+    alert("浏览器阻止了送货单窗口，请允许弹出窗口。");
+    return;
+  }
+
+  printWindow.document.write(`<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>送货单 - ${escapeHtml(order.special_order_no || "")}</title>
+<style>
+  @page { size: A4 portrait; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #111; background: #fff;
+    font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    font-size: 12px; line-height: 1.6; }
+  .sheet { max-width: 182mm; margin: 0 auto; }
+  h1 { margin: 0 0 5mm; text-align: center; font-size: 26px; letter-spacing: 6px; }
+  .meta { display: flex; justify-content: space-between; gap: 8mm;
+    margin-bottom: 5mm; flex-wrap: wrap; overflow-wrap: anywhere; }
+  .parties { display: grid; grid-template-columns: 1fr 1fr;
+    border: 1px solid #333; margin-bottom: 6mm; break-inside: avoid; }
+  .party { padding: 4mm; min-width: 0; overflow-wrap: anywhere; }
+  .party + .party { border-left: 1px solid #333; }
+  .party h2 { font-size: 14px; margin: 0 0 2mm; }
+  .party p { margin: 2mm 0; white-space: pre-wrap; }
+  .blank { display: inline-block; width: 35mm; height: 5mm;
+    border-bottom: 1px solid #333; vertical-align: bottom; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th, td { border: 1px solid #333; padding: 2.5mm 2mm;
+    overflow-wrap: anywhere; white-space: pre-wrap; }
+  th { font-weight: 700; text-align: center; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
+  .center { text-align: center; }
+  .number { text-align: right; }
+  .signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm;
+    margin-top: 12mm; break-inside: avoid; page-break-inside: avoid; }
+  .signatures h2 { font-size: 14px; margin: 0 0 6mm; }
+  .signatures p { margin: 5mm 0; }
+  .toolbar { text-align: center; margin: 0 0 6mm; }
+  .toolbar button { padding: 8px 24px; cursor: pointer; }
+  @media screen { body { padding: 20px; } }
+  @media print { .toolbar { display: none; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="toolbar"><button type="button" onclick="window.print()">打印送货单</button></div>
+  <h1>送货单</h1>
+  <div class="meta">
+    <span>订单编号：${escapeHtml(order.special_order_no || "-")}</span>
+    <span>送货日期：______年______月______日</span>
+  </div>
+  <div class="parties">
+    <section class="party">
+      <h2>甲方（收货方）</h2>
+      <p>单位名称：${escapeHtml(order.customer_name || "-")}</p>
+      <p>联系人：${escapeHtml(order.contact_person || "-")}</p>
+      <p>电话：${escapeHtml(order.phone || "-")}</p>
+    </section>
+    <section class="party">
+      <h2>乙方（交货方）</h2>
+      <p>单位名称：硕丰科技</p>
+      <p>联系人：李晓霞</p>
+      <p>电话：13921601640</p>
+    </section>
+  </div>
+  <table>
+    <colgroup>
+      <col style="width:7%"><col style="width:17%"><col style="width:25%">
+      <col style="width:29%"><col style="width:13%"><col style="width:9%">
+    </colgroup>
+    <thead><tr><th>序号</th><th>产品代码</th><th>产品名称</th><th>型号/规格</th><th>数量</th><th>单位</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="6" class="center">暂无货品明细</td></tr>'}</tbody>
+  </table>
+  <div class="signatures">
+    <section>
+      <h2>装箱/交货方签字</h2>
+      <p>签字：<span class="blank"></span></p>
+      <p>日期：______年______月______日</p>
+    </section>
+    <section>
+      <h2>收货方签字</h2>
+      <p>签字：<span class="blank"></span></p>
+      <p>日期：______年______月______日</p>
+    </section>
+  </div>
+</div>
+<script>
+window.onload = function() {
+  setTimeout(function() { window.print(); }, 200);
+};
+<\/script>
+</body>
+</html>`);
+  printWindow.document.close();
 }
 
 
