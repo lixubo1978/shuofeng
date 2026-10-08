@@ -889,6 +889,12 @@
       line-height: 1.7;
     }
 
+    /* 发票凭证上传区域 */
+    .invoice-upload-box {margin-top:16px;padding:15px;border:1px dashed #93c5fd;border-radius:9px;background:#eff6ff}
+    .invoice-upload-box input {width:100%;margin-top:8px}
+    .invoice-help {font-size:12px;color:#475569;line-height:1.7;margin-top:8px}
+    .invoice-preview {display:none;max-width:100%;max-height:230px;object-fit:contain;margin-top:12px;border-radius:6px}
+    .invoice-view-btn {background:#0f766e;color:#fff}
     /* =====================================================
        零星订单下单时查看产品样图
     ====================================================== */
@@ -1896,6 +1902,16 @@
       </button>
 
       <button
+        id="detailViewInvoiceButton"
+        class="btn invoice-view-btn"
+        type="button"
+        onclick="viewInvoice(currentDetailOrderId)"
+        style="display:none;"
+      >
+        查看发票凭证
+      </button>
+
+      <button
         id="detailInvoiceButton"
         class="btn btn-green"
         type="button"
@@ -2237,16 +2253,23 @@
       <div class="form-group">
 
         <label>
-          发票号
-          <span class="required">*</span>
+          发票号（选填）
         </label>
 
         <input
           id="invoiceNumber"
           type="text"
-          placeholder="请输入正式发票号"
+          placeholder="可留空"
         >
 
+      </div>
+
+      <div class="invoice-upload-box">
+        <label for="invoiceFile"><strong>上传发票凭证（必填）</strong></label>
+        <input id="invoiceFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onchange="onInvoiceFileChanged()">
+        <div class="invoice-help">支持发票原图、二维码截图或原始 PDF。图片自动转 WebP 并压缩；PDF 保留原件。请确认发票号码及二维码清晰可辨。</div>
+        <div id="invoiceFileInfo" class="invoice-help">尚未选择文件</div>
+        <img id="invoicePreview" class="invoice-preview" alt="待上传发票预览">
       </div>
 
     </div>
@@ -2411,6 +2434,7 @@ let products = [];
 let specialOrders = [];
 let specialOrderItems = [];
 let profiles = [];
+let invoiceDocuments = [];
 
 let cart = [];
 
@@ -2736,6 +2760,13 @@ document.addEventListener(
 
     profiles =
       profilesResult.data || [];
+
+    const invoiceDocsResult = await supabaseClient
+      .from("special_order_invoice_documents")
+      .select("id, special_order_id, invoice_number, storage_path, original_name, mime_type, created_at")
+      .order("created_at", {ascending:false});
+    if (invoiceDocsResult.error) throw invoiceDocsResult.error;
+    invoiceDocuments = invoiceDocsResult.data || [];
 
 
     renderProductSelect();
@@ -4572,6 +4603,11 @@ function renderHistory() {
         "";
 
 
+      const invoiceDoc = invoiceDocuments.find(d => String(d.special_order_id) === String(order.id));
+      const viewInvoiceButton = invoiceDoc ? `
+        <button class="btn invoice-view-btn" type="button" onclick="viewInvoice(${Number(order.id)})">查看发票</button>
+      ` : "";
+
       const tr =
         document.createElement(
           "tr"
@@ -4704,6 +4740,7 @@ function renderHistory() {
 
 
             ${invoiceButton}
+            ${viewInvoiceButton}
 
 
             <button
@@ -5189,6 +5226,10 @@ function openDetailModal(
     :
     "none";
 
+
+  document.getElementById("detailViewInvoiceButton").style.display =
+    invoiceDocuments.some(d => String(d.special_order_id) === String(order.id))
+      ? "inline-block" : "none";
 
   document.getElementById(
     "detailModal"
@@ -5967,6 +6008,10 @@ function openInvoiceModal(
     "";
 
 
+  document.getElementById("invoiceFile").value = "";
+  document.getElementById("invoiceFileInfo").textContent = "尚未选择文件";
+  document.getElementById("invoicePreview").style.display = "none";
+
   document.getElementById(
     "invoiceModal"
   ).classList.add(
@@ -5999,134 +6044,117 @@ function closeInvoiceModal() {
 }
 
 
-async function issueInvoice() {
-
-  const orderId =
-    Number(
-      document.getElementById(
-        "invoiceOrderId"
-      ).value
-    );
-
-
-  const invoiceNumber =
-    document.getElementById(
-      "invoiceNumber"
-    ).value.trim();
-
-
-  if (!invoiceNumber) {
-
-    alert(
-      "请输入发票号。"
-    );
-
-    return;
+/* 发票文件压缩和预览（二维码优先保证清晰度） */
+function onInvoiceFileChanged() {
+  const file = document.getElementById("invoiceFile").files[0];
+  const info = document.getElementById("invoiceFileInfo");
+  const preview = document.getElementById("invoicePreview");
+  preview.style.display = "none";
+  if (!file) { info.textContent = "尚未选择文件"; return; }
+  info.textContent = `已选择：${file.name}（${(file.size/1024/1024).toFixed(2)} MB）`;
+  if (file.type.startsWith("image/")) {
+    const url = URL.createObjectURL(file);
+    preview.onload = () => URL.revokeObjectURL(url);
+    preview.onerror = () => URL.revokeObjectURL(url);
+    preview.src = url;
+    preview.style.display = "block";
   }
+}
 
+async function prepareInvoiceUpload(file) {
+  const types = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+  if (!types.includes(file.type)) throw new Error("仅支持 JPG、PNG、WebP 或 PDF 发票文件。");
+  if (file.size > 15 * 1024 * 1024) throw new Error("原始文件不能超过15MB。");
+  if (file.type === "application/pdf") {
+    if (file.size > 8 * 1024 * 1024) throw new Error("PDF原件不能超过8MB，请先优化文件大小。");
+    return {blob:file, mime:"application/pdf", ext:"pdf"};
+  }
+  const img = await new Promise((resolve,reject) => {
+    const u = URL.createObjectURL(file), i = new Image();
+    i.onload = () => { URL.revokeObjectURL(u); resolve(i); };
+    i.onerror = () => { URL.revokeObjectURL(u); reject(new Error("图片无法读取")); };
+    i.src = u;
+  });
+  const canvas = document.createElement("canvas");
+  const ratio = Math.min(1, 2400 / Math.max(img.naturalWidth,img.naturalHeight));
+  canvas.width = Math.max(1,Math.round(img.naturalWidth*ratio));
+  canvas.height = Math.max(1,Math.round(img.naturalHeight*ratio));
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("浏览器不支持图片压缩");
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const toBlob = q => new Promise((resolve,reject) =>
+    canvas.toBlob(b => b ? resolve(b) : reject(new Error("图片转换失败")),"image/webp",q));
+  let blob = await toBlob(0.94);
+  if (blob.size > 8*1024*1024) blob = await toBlob(0.86);
+  if (blob.size > 8*1024*1024) throw new Error("图片压缩后仍超过8MB，请选择更清晰但尺寸较小的图片。");
+  return {blob,mime:"image/webp",ext:"webp"};
+}
 
-  const button =
-    document.getElementById(
-      "invoiceButton"
-    );
-
-
-  button.disabled =
-    true;
-
-
-  button.textContent =
-    "正在开票……";
-
-
-  showLoading(
-    true
-  );
-
-
+async function viewInvoice(orderId) {
+  const doc = invoiceDocuments.find(d => String(d.special_order_id) === String(orderId));
+  if (!doc) { alert("该订单暂无已上传的发票凭证。"); return; }
+  // 在点击事件中先开空白页，避免异步获取签名链接后被浏览器拦截
+  const tab = window.open("about:blank","_blank");
+  if (!tab) { alert("请允许浏览器打开新窗口以查看发票。"); return; }
   try {
+    tab.document.title = "正在读取发票";
+    tab.document.body.textContent = "正在安全读取发票，请稍候……";
+    const {data,error} = await supabaseClient.storage.from("special-order-invoices")
+      .createSignedUrl(doc.storage_path,300);
+    if (error) throw error;
+    tab.location.replace(data.signedUrl);
+  } catch(e) {
+    tab.close();
+    alert("查看发票失败：" + e.message);
+  }
+}
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.rpc(
-        "issue_special_order_invoice",
-        {
-
-          p_special_order_id:
-            orderId,
-
-          p_invoice_number:
-            invoiceNumber
-
-        }
-      );
-
-
-    if (error) {
-
-      throw error;
-
-    }
-
-
+async function issueInvoice() {
+  const orderId = Number(document.getElementById("invoiceOrderId").value);
+  const invoiceNumber = document.getElementById("invoiceNumber").value.trim();
+  const file = document.getElementById("invoiceFile").files[0];
+  if (!orderId) { alert("没有找到当前订单。"); return; }
+  if (!file) { alert("请先上传发票图片、二维码截图或PDF原件。"); return; }
+  const button = document.getElementById("invoiceButton");
+  button.disabled = true;
+  button.textContent = "正在处理发票……";
+  showLoading(true);
+  try {
+    const {data:authData,error:authError} = await supabaseClient.auth.getUser();
+    if (authError || !authData?.user) throw new Error("登录状态已失效");
+    const processed = await prepareInvoiceUpload(file);
+    const fileName = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + "-" + Math.random().toString(36).slice(2)) + "." + processed.ext;
+    const storagePath = `special-orders/${orderId}/${fileName}`;
+    button.textContent = "正在上传发票……";
+    const {error:uploadError} = await supabaseClient.storage
+      .from("special-order-invoices")
+      .upload(storagePath,processed.blob,{contentType:processed.mime,upsert:false,cacheControl:"3600"});
+    if (uploadError) throw uploadError;
+    // 数据库函数在同一事务中完成原有开票操作和凭证记录登记。
+    // 若事务失败，订单仍保持未开票；已上传文件可能成为待清理的孤立对象。
+    button.textContent = "正在确认开票……";
+    const {error:rpcError} = await supabaseClient.rpc("issue_special_order_invoice_with_image",{
+      p_special_order_id:orderId,
+      p_invoice_number:invoiceNumber || null,
+      p_storage_path:storagePath,
+      p_original_name:file.name,
+      p_mime_type:processed.mime,
+      p_file_size:processed.blob.size
+    });
+    if (rpcError) throw rpcError;
     closeInvoiceModal();
-
-
     await loadAllData();
-
-
-    alert(
-      "零星订单 "
-      +
-      (
-        data?.special_order_no
-        ||
-        ""
-      )
-      +
-      " 开票成功。"
-    );
-
+    alert("开票成功，发票凭证已保存。可在订单历史中点击“查看发票”。");
+  } catch(error) {
+    console.error("开票及上传失败：",error);
+    alert("开票未完成："+(error.message||String(error))+"。请核对订单状态后再重试。");
+  } finally {
+    showLoading(false);
+    button.disabled = false;
+    button.textContent = "确认开票";
   }
-
-  catch (error) {
-
-    console.error(
-      "零星订单开票失败：",
-      error
-    );
-
-
-    alert(
-      "零星订单开票失败：\n\n"
-      +
-      (
-        error.message
-        ||
-        "未知错误"
-      )
-    );
-
-  }
-
-  finally {
-
-    showLoading(
-      false
-    );
-
-
-    button.disabled =
-      false;
-
-
-    button.textContent =
-      "确认开票";
-
-  }
-
 }
 
 
