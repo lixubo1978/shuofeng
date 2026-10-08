@@ -438,6 +438,11 @@
 
     }
 
+
+    .remember-row { margin: -2px 0 12px; }
+    .remember-label { display:flex; align-items:center; gap:10px; margin:0; cursor:pointer; font-size:14px; font-weight:600; }
+    .remember-label input { width:20px; height:20px; padding:0; margin:0; accent-color:#2563eb; flex-shrink:0; }
+    .remember-help { margin:8px 0 0 30px; font-size:12px; line-height:1.6; color:#6b7280; }
   </style>
 
 </head>
@@ -493,45 +498,8 @@
 
     <form
       id="loginForm"
-      autocomplete="off"
+      autocomplete="on"
     >
-
-
-      <!-- =================================================
-           降低浏览器自动填充概率
-      ================================================== -->
-
-      <input
-        type="text"
-        autocomplete="username"
-        tabindex="-1"
-        aria-hidden="true"
-        style="
-          position:absolute;
-          left:-10000px;
-          top:-10000px;
-          width:1px;
-          height:1px;
-          opacity:0;
-        "
-      >
-
-
-      <input
-        type="password"
-        autocomplete="current-password"
-        tabindex="-1"
-        aria-hidden="true"
-        style="
-          position:absolute;
-          left:-10000px;
-          top:-10000px;
-          width:1px;
-          height:1px;
-          opacity:0;
-        "
-      >
-
 
 
       <!-- =================================================
@@ -550,17 +518,16 @@
 
         <input
           id="username"
-          name="management_login_username"
+          name="username"
           type="text"
 
           placeholder="请输入管理人员登录邮箱"
 
-          autocomplete="off"
+          autocomplete="username"
           autocorrect="off"
           autocapitalize="none"
           spellcheck="false"
 
-          readonly
           required
         >
 
@@ -588,12 +555,12 @@
 
           <input
             id="password"
-            name="management_login_password"
+            name="password"
             type="password"
 
             placeholder="请输入密码"
 
-            autocomplete="new-password"
+            autocomplete="current-password"
 
             readonly
             required
@@ -616,6 +583,15 @@
       </div>
 
 
+
+      <!-- 记住邮箱；密码交给浏览器密码管理器 -->
+      <div class="remember-row">
+        <label for="rememberLogin" class="remember-label">
+          <input id="rememberLogin" type="checkbox">
+          <span>☑ 记住登录邮箱和密码</span>
+        </label>
+        <div class="remember-help">邮箱由本站记住，密码由浏览器或手机密码管理器安全保存。</div>
+      </div>
 
       <!-- =================================================
            登录
@@ -681,7 +657,7 @@
 
       <br>
 
-      本页面不保存登录用户名和密码。
+      勾选后仅保存登录邮箱；密码由浏览器密码管理器管理，本站不保存明文密码。
 
     </div>
 
@@ -923,95 +899,33 @@
 
 
     /* =====================================================
-       页面打开
+       记住登录邮箱；密码由浏览器安全管理
     ===================================================== */
+    const rememberLogin = document.getElementById("rememberLogin");
+    const REMEMBER_EMAIL_KEY = "shuofeng_remember_management_email";
 
-    document.addEventListener(
-      "DOMContentLoaded",
+    function restoreRememberedEmail() {
+      try {
+        const saved = localStorage.getItem(REMEMBER_EMAIL_KEY);
+        rememberLogin.checked = Boolean(saved);
+        if (saved && !usernameInput.value) usernameInput.value = saved;
+      } catch (error) { console.warn("读取记住邮箱失败", error); }
+    }
 
-      function() {
-
-
-        clearOldLocalData();
-
-
-        clearLoginFields();
-
-
-
-        setTimeout(
-          function() {
-
-
-            usernameInput.removeAttribute(
-              "readonly"
-            );
-
-
-            passwordInput.removeAttribute(
-              "readonly"
-            );
-
-
-            clearLoginFields();
-
-
-            usernameInput.focus();
-
-
-          },
-          350
-        );
-
-
-
-        setTimeout(
-          function() {
-
-
-            clearLoginFields();
-
-
-          },
-          800
-        );
-
-
+    rememberLogin.addEventListener("change", function() {
+      if (!rememberLogin.checked) {
+        try { localStorage.removeItem(REMEMBER_EMAIL_KEY); } catch (error) {}
       }
-    );
+    });
 
+    document.addEventListener("DOMContentLoaded", function() {
+      clearOldLocalData();
+      restoreRememberedEmail();
+    });
 
-
-    /* =====================================================
-       浏览器后退到登录页面
-    ===================================================== */
-
-    window.addEventListener(
-      "pageshow",
-
-      function() {
-
-
-        clearOldLocalData();
-
-
-
-        setTimeout(
-          function() {
-
-
-            clearLoginFields();
-
-
-          },
-          100
-        );
-
-
-      }
-    );
-
-
+    window.addEventListener("pageshow", function() {
+      restoreRememberedEmail();
+    });
 
     /* =====================================================
        检查当前账号是否属于公司管理人员
@@ -1436,8 +1350,15 @@
           */
 
 
-          clearLoginFields();
-
+          try {
+            if (rememberLogin.checked) {
+              localStorage.setItem(REMEMBER_EMAIL_KEY, email);
+            } else {
+              localStorage.removeItem(REMEMBER_EMAIL_KEY);
+            }
+          } catch (storageError) {
+            console.warn("保存邮箱偏好失败", storageError);
+          }
 
           clearOldLocalData();
 
@@ -1656,36 +1577,6 @@
       }
     );
 
-
-
-    /* =====================================================
-       离开登录页时清空输入框
-    ===================================================== */
-
-    window.addEventListener(
-      "pagehide",
-
-      function() {
-
-
-        clearLoginFields();
-
-
-      }
-    );
-
-
-    window.addEventListener(
-      "beforeunload",
-
-      function() {
-
-
-        clearLoginFields();
-
-
-      }
-    );
 
 
   </script>
