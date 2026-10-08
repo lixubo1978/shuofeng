@@ -736,8 +736,12 @@
       );
 
 
-    const MANAGEMENT_PAGE =
-      "wholemanagement.html";
+    const MANAGEMENT_PAGE = (() => {
+      const next = new URLSearchParams(window.location.search).get("next");
+      // 仅允许本站已知的内部管理页面，禁止外部跳转
+      const allowed = new Set(["company_transactions.html"]);
+      return allowed.has(next) ? next : "wholemanagement.html";
+    })();
 
 
     const usernameInput =
